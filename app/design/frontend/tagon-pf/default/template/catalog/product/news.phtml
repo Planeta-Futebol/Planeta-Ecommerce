@@ -1,0 +1,74 @@
+<?php
+
+$visibility = array(
+  Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+  Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
+  );
+
+$_productCollection = Mage::getModel('catalog/product')->getCollection();
+$_productCollection->addAttributeToSelect('*')
+                   ->addFieldToFilter('visibility', $visibility) //showing just products visible in catalog or both search and catalog
+                   ->addFinalPrice()
+                   ->addAttributeToSort('created_at', 'desc') //in case we would like to sort products by price
+                   ->getSelect()
+                   // ->where('price_index.final_price < price_index.price')
+                   ->limit(4) //we can specify how many products we want to show on this page
+                   // ->order(new Zend_Db_Expr('RAND()')) //in case we would like to sort products randomly
+                   ;
+
+                   Mage::getModel('review/review')->appendSummary($_productCollection);
+
+                   $_helper = $this->helper('catalog/output');
+                   ?>
+
+<?php $_collectionSize = $_productCollection->count() ?>
+<?php $_columnCount = 4; ?>
+<div class="page-title">
+  <h2><a href="/loja/novidades"><?php echo $this->__('Novidades') ?></a></h2>
+</div>
+<div class="category-products">
+  <?php $i=0; foreach ($_productCollection as $_product): ?>
+  <?php if ($i++%$_columnCount==0): ?>
+    <ul class="products-grid">
+    <?php endif ?>
+    <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+          <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(299); ?>" width="100%" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+        <div class="item-bottom">
+          <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+
+          <?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
+          <?php
+            $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            if($groupId > 1) :
+          ?>
+          <div class='preco_sugerido'>
+            Preço sugerido para venda:
+            <span><?php echo Mage::helper('core')->currency($_product->getMsrp(),true,false); ?></span>
+          </div>
+          <?php endif; ?>
+          <div class="actions">
+            <?php if($_product->isSaleable()): ?>
+              <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $_product->getProductUrl() ?>')"><span><span>
+                <?php echo $this->__('Add to Cart') ?> <img src="<?php echo $this->getSkinUrl('/images/cart-white.png'); ?>"/></span></span></button>
+              <?php else: ?>
+                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+              <?php endif; ?>
+            </div>
+          </div>
+
+        </li>
+        <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+        </ul>
+      <?php endif ?>
+    <?php endforeach ?>
+    <script type="text/javascript">
+      $$('.price-box .old-price .price-label, .price-box .special-price .price-label').each(function(elm){
+        elm.remove();
+      });
+      jQuery('span[id*="product-price-parcelado"]').each(function (i) {
+        var ids = jQuery('[id="' + this.id + '"]');
+        if (ids.length > 1) jQuery('[id="' + this.id + '"]:gt(1)').remove();
+      });
+      decorateGeneric($$('ul.products-grid'), ['odd','even','first','last']);
+    </script>
+  </div>

@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+        <fuza_bling_tabs translate="label" module="fuza_bling">
+            <label>Bling NFe</label>
+            <sort_order>101</sort_order>
+        </fuza_bling_tabs>
+    </tabs>
+    <sections>
+        <fuza_bling translate="label" module="fuza_bling">
+            <label>Configurações</label>
+            <tab>fuza_bling_tabs</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>  
+                <geral translate="label">
+                    <label>Geral</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable_bling translate="label">
+                            <label>Habilitar</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Liga a integração com Bling.]]></comment>
+                        </enable_bling>
+<!--
+                        <ncm_nfe_avulsa translate="label">
+                            <label>NCM</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Informe o <strong>NCM</strong> do produto que identificará que o pedido com este produto irá alocar um número de NFe para utilização avulsa.]]></comment>
+                        </ncm_nfe_avulsa>
+-->
+                        <apikey translate="label">
+                            <label>API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Chave da API para acesso ao Bling.</tooltip>
+                        </apikey>
+                        <url_recebe_pedido translate="label">
+                            <label>URL Bling Recebe Pedido</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>URL do Webservice do Bling que recebe a cópia dos pedidos.</tooltip>
+                        </url_recebe_pedido>
+                        <url_gera_pedido translate="label">
+                            <label>URL Bling Gera NFe</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>URL do Webservice do Bling que gera as Notas Fiscais.</tooltip>
+                        </url_gera_pedido>
+						<email_aviso translate="label">
+							<label>Avisos: Enviar Emails Para</label>
+							<frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Informe o endereço de email de quem receberá emails de avisos.<br>Para mais de um endereço de email utilize <strong>vírgula</strong> para separá-los.]]></comment>
+                        </email_aviso>
+                        <ultimo_aviso translate="label comment">
+							<label>Data do último email enviado:</label>
+                            <comment/>
+                            <frontend_type>label</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+							<comment>Um email foi enviado nesta data.</comment>
+                        </ultimo_aviso>
+                    </fields>
+                </geral>
+            </groups>
+        </fuza_bling>
+    </sections>
+</config>

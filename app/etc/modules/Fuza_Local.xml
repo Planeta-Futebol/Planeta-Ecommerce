@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Fuza_Local>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Fuza_Local>
+    </modules>
+</config> 

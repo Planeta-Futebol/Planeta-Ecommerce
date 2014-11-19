@@ -1,0 +1,113 @@
+<?php
+/***************************************************************************
+	@extension	: Bestseller Product.
+	@copyright	: Copyright (c) 2014 Capacity Web Solutions.
+	( http://www.capacitywebsolutions.com )
+	@author		: Capacity Web Solutions Pvt. Ltd.
+	@support	: magento@capacitywebsolutions.com
+***************************************************************************/
+?>
+<style>
+.productList { float:left; width:720px; }
+.productList .product { background:#fff; border:1px solid #ccc; padding:5px;  float:left; margin:10px 8px 10px 0; text-align:center; }
+.productList .product .cl { padding:0 0 0 0px; text-align:center;}
+.productList .product .prodDetails {text-align:center; padding:0 0 0 0px;  }
+.productList .product .addCompare { text-align:center;  clear:both; }
+.productList .product .addWishlist {clear:both; text-align:center; }
+</style>
+<?php
+	$result = $this->getBestsellerProduct();
+	$collection = Mage::getResourceModel('catalog/product_collection');
+	$collection->addFieldToFilter('entity_id',array('in'=>$result))->load();
+	$foundIds = array_intersect($result,array_keys($collection->toArray()));
+	$result = array_values($foundIds);
+	$upperLimit = ($this->getLimit()) ? $this->getLimit() : 1;
+	$itemPerRow = ($this->getItemsPerRow()) ? $this->getItemsPerRow() : 1 ;
+	$model = Mage::getModel('catalog/product');
+	$enabled = Mage::getStoreConfig('bestseller/general/enabled');
+	$products_price = Mage::getStoreConfig('bestseller/general/products_price');
+	$review = Mage::getStoreConfig('bestseller/general/review');
+	$out_of_stoke = Mage::getStoreConfig('bestseller/general/out_of_stoke');
+  $_helper = $this->helper('catalog/output');
+?>
+<?php $_columnCount = 4; ?>
+<?php if($enabled == 1): ?>
+
+<div class="page-title">
+  <h2><a href="/loja/mais-vendidos"><?php if(count($result) > 0) { echo $this->getHeader(); } ?></a></h2>
+</div>
+
+
+<div class="category-products">
+
+  <ul class="products-grid">
+    <?php
+      $i=0; $x = 1;
+      for($cnt = 0; $cnt<count($result); $cnt++) {
+        $_product = $model->load($result[$cnt]);  //getting product object for particular product id
+
+        $visibility = $_product->getData('visibility');
+        $status =  $_product->getData('status');
+        $is_salable = $_product->getData('is_salable');
+        if($status == 1 && $visibility == 4) {
+          if($x <= $upperLimit) {
+           if($i>($itemPerRow-1))
+           // echo '<tr valign="top">';
+    ?>
+    <?php $_product = Mage::getModel('catalog/product')->load($_product->getId()); ?>
+    <li class="item<?php if(($x-1)%$_columnCount==0): ?> first<?php elseif($x%$_columnCount==0): ?> last<?php endif; ?>">
+      <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(299); ?>" width="100%" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+      <div class="item-bottom">
+        <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+
+        <?php
+          echo $this->getPriceHtml($_product, true);
+        ?>
+        <?php
+          $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+          if($groupId > 1) :
+        ?>
+        <div class='preco_sugerido'>
+          Preço sugerido para venda:
+          <span><?php echo Mage::helper('core')->currency($_product->getMsrp(),true,false); ?></span>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+          <?php if($_product->isSaleable()): ?>
+            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $_product->getProductUrl() ?>')"><span><span>
+              <?php echo $this->__('Add to Cart') ?> <img src="<?php echo $this->getSkinUrl('/images/cart-white.png'); ?>"/></span></span></button>
+            <?php else: ?>
+              <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+            <?php endif; ?>
+          </div>
+        </div>
+
+      </li>
+    <?php
+        $i++;
+        // if($i>($itemPerRow-1)) {
+        //   $i=0;
+        //   echo "</tr>";
+        //   echo '<tr><td colspan="3" class="hline"><img src="'. $this->getSkinUrl('images/spacer.gif') .'" alt="" /></td></tr>';
+        // }
+        // if($i==($itemPerRow)) {
+        //   echo '<td class="vline"><img src="'. $this->getSkinUrl('images/spacer.gif') .'" alt=""/></td>';
+        // }
+        }
+       $x++;
+          }
+          }
+         ?>
+  </ul>
+  <script type="text/javascript">
+    $$('.price-box .old-price .price-label, .price-box .special-price .price-label').each(function(elm){
+      elm.remove();
+    });
+    jQuery('span[id*="product-price-parcelado"]').each(function (i) {
+      var ids = jQuery('[id="' + this.id + '"]');
+      if (ids.length > 1) jQuery('[id="' + this.id + '"]:gt(1)').remove();
+    });
+    decorateGeneric($$('ul.products-grid'), ['odd','even','first','last']);
+  </script>
+</div>
+ <?php endif; ?>

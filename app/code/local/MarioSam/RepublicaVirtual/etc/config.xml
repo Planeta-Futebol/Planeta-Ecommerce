@@ -1,0 +1,18 @@
+<config>
+	<modules>
+		<MarioSam_RepublicaVirtual>
+		<version>0.0.1</version>
+		</MarioSam_RepublicaVirtual>
+	</modules>
+	<frontend>
+		<routers>
+			<republicavirtual>
+				<use>standard</use>
+				<args>
+				<module>MarioSam_RepublicaVirtual</module>
+				<frontName>republicavirtual</frontName>
+				</args>
+			</republicavirtual>
+		</routers>
+	</frontend>
+</config>

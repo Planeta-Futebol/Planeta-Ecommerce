@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ShopInDev
+ *
+ * @category    ShopInDev
+ * @package     ShopInDev_SuperPageSpeed
+ * @copyright   Copyright (c) 2014 ShopInDev
+ * @license     http://opensource.org/licenses/GPL-3.0 GNU General Public License (GPL)
+ */
+-->
+<config>
+    <sections>
+        <system>
+            <groups>
+                <superpagespeed translate="label">
+                    <label>Super Page Speed Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>350</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[<strong>ENABLE / DISABLE:</strong> To enable or disable the module, please go to <em>System</em> > <em>Cache Management</em>.<br/>Bellow you can customize the module settings for your store.<br/><br/>]]></comment>
+                    <fields>
+
+                        <use_multilocation translate="label,comment">
+                            <label>Uses Multiple Locations?</label>
+                            <comment><![CDATA[If your store uses multiple languages or multiple currencies, set <em>YES</em> on this option. Otherwise, set <em>NO</em> to increase cache performance.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_multilocation>
+
+                        <use_multitheme translate="label,comment">
+                            <label>Uses Multiple Themes?</label>
+                            <comment><![CDATA[If your store uses multiple templates, including different versions for smartphones and tablets, set <em>YES</em> on this option. Otherwise, set <em>NO</em> to increase cache performance.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_multitheme>
+
+                        <dynamic_blocks translate="label,comment">
+                            <label>Dynamic Blocks</label>
+                            <comment><![CDATA[One per line. Define dynamic blocks that needs be processed on each request, without making cache. Use this option to cancel cache from special blocks from others modules. Reduce dynamic blocks to increase performance. Leave blank to disable dynamic blocks.]]></comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dynamic_blocks>
+
+                        <block_urls translate="label,comment">
+                            <label>Block URLs</label>
+                            <comment><![CDATA[One per line. Insert strings/patterns in this option cancel page speed optimization when pages needs be fully loaded. Use this to cancel cache on special page from others modules.]]></comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </block_urls>
+
+                        <session_types translate="label,comment">
+                            <label>Session Types</label>
+                            <comment><![CDATA[One per line. Define dynamic session types that needs be processed on each request. Use this option to show session messages from others modules. Reduce session types to increase performance.]]></comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </session_types>
+
+                        <session_params translate="label,comment">
+                            <label>Session Params</label>
+                            <comment><![CDATA[One per line. Define dynamic catalog session params that needs be processed on each request before cache request.]]></comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </session_params>
+
+                        <diff_visits translate="label,comment">
+                            <label>Diff Visits?</label>
+                            <comment><![CDATA[Enable this option to generate different cache for logged in users and not logged users. When enabled, the module produces different cache form each customer groups too. NOTE: Related to full page, not dynamic blocks.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </diff_visits>
+
+                        <minify_html translate="label,comment">
+                            <label>Minify HTML?</label>
+                            <comment><![CDATA[Enable this option to minify HTML and save bandwidth - RECOMMENDED]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </minify_html>
+
+                        <cache_ajax translate="label,comment">
+                            <label>Cache Ajax Requests?</label>
+                            <comment><![CDATA[Enable cache for ajax requests - RECOMMENDED]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cache_ajax>
+
+                        <cache_lifetime translate="label,comment">
+                            <label>Cache Lifetime</label>
+                            <comment><![CDATA[In minutes. 60 == 1 hour]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cache_lifetime>
+
+                        <show_debug translate="label,comment">
+                            <label>Debug</label>
+                            <comment><![CDATA[Enable debug blocks on request for developers. NOTE: You should set <em>Allowed IPs</em> on <em>Advanced</em> > <em>Developer</em> before enable this option.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_debug>
+
+                    </fields>
+                </superpagespeed>
+            </groups>
+        </system>
+    </sections>
+</config>

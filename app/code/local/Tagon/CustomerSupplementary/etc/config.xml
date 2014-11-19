@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+      <Tagon_CustomerSupplementary>
+        <version>0.1.0</version>
+      </Tagon_CustomerSupplementary>
+    </modules>
+    <global>
+
+    <models>
+      <tagon_customer_supplementary>
+        <class>Tagon_CustomerSupplementary_Model</class>
+      </tagon_customer_supplementary>
+    </models>
+		<resources>
+			<tagon_customer_supplementary_setup>
+				<setup>
+					<module>Tagon_CustomerSupplementary</module>
+          <class>Mage_Customer_Model_Resource_Setup</class>
+				</setup>
+        <connection>
+          <use>core_setup</use>
+        </connection>
+			</tagon_customer_supplementary_setup>
+		</resources>
+    </global>
+</config>

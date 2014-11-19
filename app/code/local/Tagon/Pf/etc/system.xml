@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+
+    <tabs>
+        <tagon translate="label">
+            <label>Tagon</label>
+            <sort_order>300</sort_order>
+        </tagon>
+    </tabs>
+
+	<sections>
+        <tagonpf>
+        	<label>Theme Electronics Online</label>
+        	<tab>tagon</tab>
+        	<class>tagon-section</class>
+        	<frontend_type>text</frontend_type>
+        	<sort_order>100</sort_order>
+        	<show_in_default>1</show_in_default>
+        	<show_in_website>1</show_in_website>
+        	<show_in_store>1</show_in_store>
+        	<groups>
+        	    <generalinformation translate="label">
+        	    	<label>General Information</label>
+        	        <comment><![CDATA[&#10003; Tagon Theme Electronics Online successfully installed]]></comment>
+        	        <expanded>1</expanded>
+        	        <sort_order>10</sort_order>
+        	        <show_in_default>1</show_in_default>
+        	        <show_in_website>1</show_in_website>
+        	        <show_in_store>1</show_in_store>
+        	    </generalinformation>
+        	    <manual translate="label">
+        	    	<label>Manual</label>
+        	        <comment><![CDATA[<p><b><a href="http://www.tagon.com/wiki/manuals/" target="_blank">Read manual &rarr;</a></b></p><p>On <a href="http://www.tagon.com" target="_blank">www.tagon.com</a> you find all manuals for themes and extensions from Tagon.</p>]]></comment>
+        	        <expanded>1</expanded>
+        	        <sort_order>20</sort_order>
+        	        <show_in_default>1</show_in_default>
+        	        <show_in_website>1</show_in_website>
+        	        <show_in_store>1</show_in_store>
+        	    </manual>
+        	</groups>
+        </tagonpf>
+    </sections>
+
+</config>

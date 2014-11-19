@@ -1,0 +1,230 @@
+<?php
+/**
+ * ITORIS
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the ITORIS's Magento Extensions License Agreement
+ * which is available through the world-wide-web at this URL:
+ * http://www.itoris.com/magento-extensions-license.html
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@itoris.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extensions to newer
+ * versions in the future. If you wish to customize the extension for your
+ * needs please refer to the license agreement or contact sales@itoris.com for more information.
+ *
+ * @category   ITORIS
+ * @package    ITORIS_PRODUCTPREVIEWS
+ * @copyright  Copyright (c) 2013 ITORIS INC. (http://www.itoris.com)
+ * @license    http://www.itoris.com/magento-extensions-license.html  Commercial License
+ */
+
+
+?>
+<?php  /* @var $this Itoris_ProductPreviews_Block_ProductPreviews*/ ?>
+<?php if ($this->isExtensionEnabled()):?>
+    <script type="text/javascript" src="<?php echo Mage::getBaseUrl('js') ?>itoris/productpreviews/frontend/productpreviews.js"></script>
+    <script type="text/javascript" src="<?php echo Mage::getBaseUrl('js') ?>itoris/productpreviews/frontend/quickbuy.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo Mage::getDesign()->getSkinUrl('itoris/productpreviews/css/main.css', array()) ?>"/>
+
+    <div id="itoris_previews">
+        <div id="itoris_previews_block"  class="itoris_productpreviews_window_block" style="display: none;">
+            <div class="itoris_pp_left_arrow"></div>
+            <div class="itoris_pp_right_arrow"></div>
+            <div class="itoris_productpreviews_details"><?php echo $this->__('Visualizar produto') ?></div>
+            <div class="itoris_productpreviews_loader" style="display: none;"></div>
+
+            <div class="itoris_productpreviews_block_for_slider" style="display: none;">
+                <div class="itoris_productpreviews_product">
+                    <div class="itoris_pp_product_config">
+                        <div class="itoris_pp_product_container_scroll">
+                            <div class="itoris_pp_product_container">
+                                <div class="itoris_productpreviews_image">
+                                    <div class="itoris_productpreviews_main_image_box">
+                                        <img class="itoris_productpreviews_main_image" src="" width="300px"/>
+                                    </div>
+                                    <div class="itoris_productpreviews_image_small_box"></div>
+                                </div>
+                                <div class="itoris_productpreviews_product_details_container">
+                                    <div class="itoris_productpreviews_header_box">
+                                        <div class="itoris_productpreviews_close_window" style="display:none;"></div>
+                                        <div class="itoris_productpreviews_product_name"></div>
+                                        <span class="itoris_productpreviews_product_added_text" style="display: none;"><?php echo $this->__('Produto foi adicionado ao carrinho de compras') ?></span>
+                                        <a href="" class="itoris_productpreviews_wishlist" style="display: <?php echo $this->helper('wishlist')->isAllow() ? 'inline' : 'none'; ?>">
+                                                <span class="itoris_productpreviews_wishlist_text"><?php echo $this->__('Add to Wishlist')?></span>
+                                        </a>
+                                    </div>
+
+                                    <div class="itoris_productpreviews_content">
+                                        <div class="itoris_productpreviews_rating_reviews_box" style="display: none;">
+                                            <a href="" class="itoris_productpreviews_reviews_link">
+                                                <span class="itoris_productpreviews_reviews"></span>
+                                            </a>
+                                            <div class="itoris_productpreviews_rating rating-box" style="display: none;">
+                                                <div class="rating"></div>
+                                            </div>
+                                        </div>
+                                        <div class="itoris_productpreviews_price_option" style="display: none;"></div>
+                                        <div class="itoris_pp_product_price_container">
+                                            <div class="itoris_productpreviews_price_product" style="display: none;"></div>
+                                            <div class="itoris_productpreviews_price" style="display: none;"></div>
+                                            <div class="itoris_productpreviews_regular_price" style="display: none;"></div>
+                                            <ul class="itoris_productpreviews_tier_price tier-prices product-pricing" style="display: none;"></ul>
+                                        </div>
+                                        <div class="itoris_productpreviews_option" style="display: none;"></div>
+                                        <div class="itoris_pp_options_container">
+                                            <div class="itoris_productpreviews_qty_input" style="display: none;"></div>
+                                            <div class="itoris_productpreviews_add_to_cart_box">
+                                                <div class="itoris_productpreviews_add_to_cart_box_whith_loader">
+                                                    <div class="qb-loader-back" style="display: none;"></div>
+                                                    <div class="itoris_productpreviews_button itoris_productpreviews_add_to_cart_button">
+                                                        <span><?php echo $this->__('Comprar') ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="itoris_productpreviews_out_of_stock" style="display: none;"><?php echo $this->__('Out of Stock')?></div>
+                                            <div class="itoris_productpreviews_button_configure" style="display: none;">
+                                                <div class="itoris_productpreviews_button">
+                                                    <span><?php echo $this->__('Configure') ?></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="itoris_productpreviews_description_box"><span class="itoris_productpreviews_description" style="display: none;"></span></div>
+                                <div class="itoris_productpreviews_loader_tab_box" style="display: none; width: 290px;">
+                                    <div class="itoris_productpreviews_loader_tab_text"><?php echo $this->__('Carregando informações adicionais, por favor aguarde...');?></div>
+                                    <div class="itoris_productpreviews_loader_tab"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="itoris_pp_product_buttons" style="display: none;">
+                        <a href="" class="itoris_productpreviews_more_details" style="display: none;">
+                            <div class="itoris_productpreviews_button_footer">
+                                <span><?php echo $this->__('More Details') ?></span>
+                            </div>
+                        </a>
+                        <div class="itoris_productpreviews_wishlist_compare" style="display: none;">
+                            <a href="" class="itoris_productpreviews_compare">
+                                <div class="itoris_productpreviews_button_footer">
+                                    <span class="itoris_productpreviews_compare_text"><?php echo $this->__('Add to Compare')?></span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="itoris_productpreviews_button_cancel" style="display: none;">
+                            <div class="itoris_productpreviews_button">
+                                <div class="itoris_productpreviews_button_left"></div>
+                                <div class="itoris_productpreviews_button_right"></div>
+                                <span><?php echo $this->__('Cancel') ?></span>
+                            </div>
+                        </div>
+                        <div class="itoris_productpreviews_button_footer_configure" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+    $translate = array(
+        'review' => $this->__('Review(s)'),
+        'price'  => $this->__('Regular price'),
+        'saleOff' => $this->__('% OFF'),
+        'priceAsConfigured' => $this->__('Price as configured:')
+    );
+    $currentUrl = Mage::helper('core/url')->getCurrentUrl();
+    $request = Mage::app()->getRequest();
+    $currentUrl = substr($currentUrl, strlen($request->getScheme() . '://' . $request->getHttpHost()));
+    $productSuffix = Mage::app()->getStore()->getConfig('catalog/seo/product_url_suffix');
+    $currentData = array(
+        'store_id'	=> Mage::app()->getStore()->getId(),
+        'sid'		=> session_id(),
+        'base_path' => Mage::app()->getRequest()->getBasePath(),
+        'product_suffix' => $productSuffix ? $productSuffix : '',
+        'can_load_tabs'  => strlen(trim(Mage::helper('itoris_productpreviews')->getSettings()->getAdditionalInformation()))
+            || (Mage::helper('itoris_productpreviews')->getSettings()->getTabsFromTabsSlider() && Mage::helper('itoris_productpreviews')->isModuleEnabled('Itoris_Producttabsslider')),
+    );
+
+    ?>
+    <?php
+    $translates = array(
+        'items'                      => $this->__('Items'),
+        'to'                         => $this->__('to'),
+        'of'                         => $this->__('of'),
+        'total'                      => $this->__('total'),
+        'page'                       => $this->__('Page'),
+        'addToList'                  => $this->__('Add to the List'),
+        'priceFrom'                  => $this->__('From'),
+        'priceTo'                    => $this->__('To'),
+        'asLowAs'                    => $this->__('As low as'),
+        'noProducts'                 => $this->__('No products found'),
+        'containsOptions'            => $this->__('contains options'),
+        'qty'                        => $this->__('Qty'),
+        'expandAll'                  => $this->__('Expand all'),
+        'collapseAll'                => $this->__('Collapse all'),
+        'containsAssociatedProducts' => $this->__('contains associated products'),
+        'associatedProducts'         => $this->__('Associated Products'),
+        'options'                    => $this->__('Options'),
+        'customOptions'              => $this->__('Custom Options'),
+        'chooseOption'               => $this->__('Choose an Option...'),
+        'productAddedToCart'         => $this->__('Products have been added to the cart'),
+        'requiredField'              => $this->__('required fields'),
+        'none'                       => $this->__('none'),
+        'removeProduct'              => $this->__('Do you really want to remove this product from the list?'),
+        'loading'                    => $this->__('Loading... Please wait'),
+        'viewDetails'                => $this->__('view the product details'),
+        'validateFail'               => $this->__('Fill all required fields'),
+        'outOfStock'                 => $this->__('out of stock'),
+        'inclTax'                    => $this->__('incl. tax'),
+        'exclTax'                    => $this->__('excl. tax'),
+        'products_not_added_to_cart' => $this->__('Some products have not been added to the cart'),
+        'allowedFileExtensions'      => $this->__('Allowed file extensions to upload'),
+        'maxImageWidth'              => $this->__('Maximum image width'),
+        'maxImageHeight'             => $this->__('Maximum image height'),
+        'dateFieldIsNotComplete'     => $this->__('Some date field is not complete'),
+        'dateFieldIsNotValid'        => $this->__('Some date is not valid'),
+    );
+    /** @var $taxHelper Mage_Tax_Helper_Data */
+    $taxHelper = Mage::helper('tax');
+    $currencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+    $currencyRate = Mage::app()->getStore()->getBaseCurrency()->getRate(Mage::app()->getStore()->getCurrentCurrency());
+    $config = array(
+        'display_price_incl_tax' => $taxHelper->displayPriceIncludingTax(),
+        'display_price_excl_tax' => $taxHelper->displayPriceExcludingTax(),
+        'display_both_price'     => $taxHelper->displayBothPrices(),
+        'addToCartUrl'           => Mage::getUrl('productpreviews/cart/add'),
+        'currency_rate'          => $currencyRate ? $currencyRate : 1,
+        'currency'               => Mage::app()->getLocale()->currency($currencyCode)->getSymbol(),
+        'checkoutLinkUrl'        => $this->getUrl('checkout/cart'),
+        'store_id'               => Mage::app()->getStore()->getId(),
+        'sid'					 => session_id(),
+        'base_path'              => Mage::app()->getRequest()->getBasePath(),
+        'form_key'               => Mage::getSingleton('core/session')->getFormKey()
+    );
+    /** @var $defaultStore Mage_Core_Model_Store */
+    $defaultStore = Mage::app()->getDefaultStoreView();
+    $urls = array(
+        'cart'    => $this->getUrl('checkout/cart'),
+        'loadProducts' => Mage::app()->getDefaultStoreView()->getBaseUrl('web') . 'iproduct_previews/index.php'
+    );
+    $settings = array(
+        'fitScreen'        => (int)Mage::helper('itoris_productpreviews')->getSettings()->getImageFitScreen(),
+        'imageDescription' => Mage::helper('itoris_productpreviews')->getSettings()->getImageDescriptionAlignment(),
+    );
+    ?>
+    <script type="text/javascript">
+        window.it_catalog_keys = <?php echo $this->getCurrentCategoryProductsUrlKeysJson() ?>;
+        itorisProductPreviewsQuickbuy = new Itoris.QuickBuyPreview(<?php echo Zend_Json::encode($urls) ?>, <?php echo Zend_Json::encode($translates)?>, <?php echo Zend_Json::encode($config)?>);
+        itorisProductPreviews = new Itoris.ProductPreviews('<?php echo Mage::app()->getDefaultStoreView()->getBaseUrl('web') . 'iproduct_previews/index.php' ?>', <?php echo Zend_Json::encode($translate)?>, <?php echo Zend_Json::encode($this->getSymbolCurrency())?>, '<?php echo $currentUrl ?>', <?php echo Zend_Json::encode($currentData)?>, '<?php echo Mage::getUrl('productpreviews/tabs/index') ?>', '<?php echo  Mage::helper('core/url')->getEncodedUrl() ?>', <?php echo Zend_Json::encode($settings)?>);
+        function submitTagForm(){
+            var addTagFormJs = new VarienForm('addTagForm');
+            if(addTagFormJs.validator.validate()) {
+                addTagFormJs.form.submit();
+            }
+        }
+    </script>
+<?php endif;?>

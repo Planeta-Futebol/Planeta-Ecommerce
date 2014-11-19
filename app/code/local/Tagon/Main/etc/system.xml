@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+
+    <tabs>
+        <tagon translate="label">
+            <label>Tagon</label>
+            <sort_order>300</sort_order>
+        </tagon>
+    </tabs>
+
+	<sections>
+		<tagonstore>
+			<label>Tagon Extensions Store</label>
+			<tab>tagon</tab>
+			<class>tagonall-section</class>
+			<frontend_type>text</frontend_type>
+			<sort_order>10</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+			    <extensions translate="label">
+			    	<label>Tagon Extensions Store</label>
+			        <comment><![CDATA[<p><b><a href="http://www.tagon.com" target="_blank">Tagon Extensions Store &rarr;</a></b></p><p>On <a href="http://www.tagon.com" target="_blank">www.tagon.com</a> you find professional Magento themes and useful extensions.</p>]]></comment>
+			        <expanded>1</expanded>
+			        <sort_order>10</sort_order>
+			        <show_in_default>1</show_in_default>
+			        <show_in_website>1</show_in_website>
+			        <show_in_store>1</show_in_store>
+			    </extensions>
+			</groups>
+        </tagonstore>
+    </sections>
+
+</config>

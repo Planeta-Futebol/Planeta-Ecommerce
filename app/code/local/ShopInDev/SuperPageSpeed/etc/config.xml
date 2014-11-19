@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ShopInDev
+ *
+ * @category    ShopInDev
+ * @package     ShopInDev_SuperPageSpeed
+ * @copyright   Copyright (c) 2014 ShopInDev
+ * @license     http://opensource.org/licenses/GPL-3.0 GNU General Public License (GPL)
+ */
+-->
+<config>
+	<modules>
+		<ShopInDev_SuperPageSpeed>
+			<version>1.2.9</version>
+		</ShopInDev_SuperPageSpeed>
+	</modules>
+
+	<global>
+		<helpers>
+			<superpagespeed>
+				<class>ShopInDev_SuperPageSpeed_Helper</class>
+			</superpagespeed>
+		</helpers>
+		<models>
+			<superpagespeed>
+				 <class>ShopInDev_SuperPageSpeed_Model</class>
+			</superpagespeed>
+		</models>
+		<blocks>
+            <superpagespeed>
+                <class>ShopInDev_SuperPageSpeed_Block</class>
+            </superpagespeed>
+            <core>
+                <rewrite>
+                    <messages>ShopInDev_SuperPageSpeed_Block_Core_Messages</messages>
+                </rewrite>
+            </core>
+        </blocks>
+		<cache>
+			<types>
+				 <superpagespeed module="superpagespeed" translate="label description">
+					<label>Super Page Speed - FPC</label>
+					<description>Full page cache for page speed optimization.</description>
+					<tags>SUPER_PAGE_SPEED</tags>
+				 </superpagespeed>
+			</types>
+		</cache>
+		<events>
+			<catalog_product_save_after>
+				<observers>
+					<superpagespeed_clean_catalog_product_save_after>
+						<type>singleton</type>
+						<class>superpagespeed/clean</class>
+						<method>catalogProductSaveAfter</method>
+					</superpagespeed_clean_catalog_product_save_after>
+				</observers>
+			</catalog_product_save_after>
+			<catalog_category_save_after>
+				<observers>
+					<superpagespeed_clean_catalog_category_save_after>
+						<type>singleton</type>
+						<class>superpagespeed/clean</class>
+						<method>catalogCategorySaveAfter</method>
+					</superpagespeed_clean_catalog_category_save_after>
+				</observers>
+			</catalog_category_save_after>
+			<cms_page_save_after>
+				<observers>
+					<superpagespeed_clean_cms_page_save_after>
+						<type>singleton</type>
+						<class>superpagespeed/clean</class>
+						<method>cmsPageSaveAfter</method>
+					</superpagespeed_clean_cms_page_save_after>
+				</observers>
+			</cms_page_save_after>
+			<cataloginventory_stock_item_save_after>
+				<observers>
+					<superpagespeed_clean_cataloginventory_stock_item_save_after>
+						<type>singleton</type>
+						<class>superpagespeed/clean</class>
+						<method>catalogInventoryStockItemSaveAfter</method>
+					</superpagespeed_clean_cataloginventory_stock_item_save_after>
+				</observers>
+			</cataloginventory_stock_item_save_after>
+			<checkout_onepage_controller_success_action>
+				<observers>
+					<superpagespeed_clean_checkout_onepage_controller_success_action>
+						<type>singleton</type>
+						<class>superpagespeed/clean</class>
+						<method>checkoutControllerSuccessAction</method>
+					</superpagespeed_clean_checkout_onepage_controller_success_action>
+				</observers>
+			</checkout_onepage_controller_success_action>
+			<checkout_multishipping_controller_success_action>
+				<observers>
+					<superpagespeed_clean_checkout_multishipping_controller_success_action>
+						<type>singleton</type>
+						<class>superpagespeed/clean</class>
+						<method>checkoutControllerSuccessAction</method>
+					</superpagespeed_clean_checkout_multishipping_controller_success_action>
+				</observers>
+			</checkout_multishipping_controller_success_action>
+		</events>
+	</global>
+
+	<frontend>
+		<events>
+			<controller_action_predispatch>
+				<observers>
+					<superpagespeed_cache_process>
+						<type>singleton</type>
+						<class>superpagespeed/cache</class>
+						<method>processRequest</method>
+					</superpagespeed_cache_process>
+				</observers>
+			</controller_action_predispatch>
+			<core_block_abstract_to_html_after>
+				<observers>
+					<superpagespeed_cache_generate>
+						<type>singleton</type>
+						<class>superpagespeed/cache</class>
+						<method>generateDynamicBlocks</method>
+					</superpagespeed_cache_generate>
+				</observers>
+			</core_block_abstract_to_html_after>
+			<core_block_messages_to_grouped_html_after>
+				<observers>
+					<superpagespeed_cache_generate>
+						<type>singleton</type>
+						<class>superpagespeed/cache</class>
+						<method>generateDynamicBlocks</method>
+					</superpagespeed_cache_generate>
+				</observers>
+			</core_block_messages_to_grouped_html_after>
+			<http_response_send_before>
+				<observers>
+					<superpagespeed_cache_capture>
+						<type>singleton</type>
+						<class>superpagespeed/cache</class>
+						<method>captureResponse</method>
+					</superpagespeed_cache_capture>
+				</observers>
+			</http_response_send_before>
+		</events>
+	</frontend>
+
+	<adminhtml>
+		<translate>
+			<modules>
+				<ShopInDev_SuperPageSpeed>
+					<files>
+						<default>ShopInDev_SuperPageSpeed.csv</default>
+					</files>
+				</ShopInDev_SuperPageSpeed>
+			</modules>
+		</translate>
+	</adminhtml>
+
+	<crontab>
+        <jobs>
+            <superpagespeed_cache_clean_cron>
+                <schedule>
+                	<cron_expr>*/5 * * * * </cron_expr>
+                </schedule>
+                <run>
+                    <model>superpagespeed/clean::cleanAllInvalidCache</model>
+                </run>
+            </superpagespeed_cache_clean_cron>
+        </jobs>
+    </crontab>
+
+	<default>
+		<system>
+			<superpagespeed>
+				<use_multilocation>1</use_multilocation>
+				<use_multitheme>1</use_multitheme>
+				<dynamic_blocks><![CDATA[global_messages
+global_notices
+messages
+welcome
+top.links
+catalog.product.related
+catalog.compare.sidebar
+cart_sidebar
+wishlist_sidebar
+product.recently.viewed
+right.reports.product.viewed
+right.reports.product.compared
+right.poll
+top.login
+top.cart
+mini-cart
+minicart
+minicart_head]]></dynamic_blocks>
+				<block_urls><![CDATA[/customer
+/sales
+/wishlist
+/newsletter
+/catalog/product_compare
+/checkout
+/onepagecheckout
+/onestepcheckout
+/shipping
+/paygate
+/paypal
+/paypaluk
+/authorizenet
+/moneybookers
+/install
+/api
+/oauth
+/captcha
+/centinel
+/downloadable
+/xmlconnect
+/cielo/pay
+/ajaxcart
+/pagseguro
+/pseguro
+/boleto
+/allpago]]></block_urls>
+				<session_types><![CDATA[core/session
+customer/session
+catalog/session
+checkout/session]]></session_types>
+				<session_params><![CDATA[limit_page
+sort_order
+sort_direction
+display_mode
+manapro_filterajax_request]]></session_params>
+				<diff_visits>0</diff_visits>
+				<minify_html>1</minify_html>
+				<cache_ajax>1</cache_ajax>
+				<cache_lifetime>10080</cache_lifetime>
+				<show_debug>0</show_debug>
+			</superpagespeed>
+		</system>
+	</default>
+
+</config>

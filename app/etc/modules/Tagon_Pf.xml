@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Tagon_Pf>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Tagon_Pf>
+    </modules>
+</config>

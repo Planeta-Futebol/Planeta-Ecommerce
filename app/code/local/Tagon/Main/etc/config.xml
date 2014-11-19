@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config>
+
+	<modules>
+		<Tagon_Main>
+			<version>0.1.0</version>
+		</Tagon_Main>
+	</modules>
+
+	 <global>
+        <helpers>
+            <main>
+                <class>Tagon_Main_Helper</class>
+            </main>
+        </helpers>
+     </global>
+
+    <adminhtml>
+    	<layout>
+            <updates>
+                <tagonall module="PAGAYO_MAIN">
+                    <file>tagon_main.xml</file>
+                </tagonall>
+            </updates>
+        </layout>
+         <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <tagonstore>
+                                            <title>Tagon Extensions Store</title>
+                                        </tagonstore>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                   </children>
+               </admin>
+           </resources>
+        </acl>
+    </adminhtml>
+
+</config>

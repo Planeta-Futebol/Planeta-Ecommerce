@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Fuza_Bling>
+            <version>0.1.0</version>
+        </Fuza_Bling>
+    </modules>
+    <global>
+        <helpers>
+            <fuza_bling>
+                <class>Fuza_Bling_Helper</class>
+            </fuza_bling>
+            <bling>
+                <class>Fuza_Bling_Helper</class>
+            </bling>
+        </helpers>
+		<models>
+			<fuza_bling>
+				<class>Fuza_Bling_Model</class>
+				<resourceModel>bling_resource</resourceModel>
+			</fuza_bling>
+			<bling_resource>
+				<class>Fuza_Bling_Model_Resource</class>
+				<entities>
+					<blingnf>
+						<table>bling_nf</table>
+					</blingnf>
+				</entities>
+			</bling_resource>
+		</models>
+		<resources>
+			<fuza_bling_setup>
+				<setup>
+					<module>Fuza_Bling</module>					
+				</setup>
+			</fuza_bling_setup>
+            <fuza_bling_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </fuza_bling_read>
+		</resources>
+        <blocks>
+            <fuza_bling>
+                <class>Fuza_Bling_Block</class>
+            </fuza_bling>
+        </blocks>
+		<events>
+			<sales_order_shipment_save_after>
+				<observers>
+					<fuza_bling_observer>
+						<type>singleton</type>
+						<class>fuza_bling/observer</class>
+						<method>alocaNf</method>
+					</fuza_bling_observer>
+				</observers>
+			</sales_order_shipment_save_after>
+		</events>
+		<template>
+			<email>
+				<bling_aviso translate="label" module="fuza_bling">
+					<label>Avisos de Bling NFe</label>
+					<file>bling_avisos.html</file>
+					<type>html</type>
+				</bling_aviso>
+			</email>
+		</template>		
+    </global>
+	<admin>
+		<routers>
+			<fuza_bling>
+				<use>admin</use>
+				<args>
+					<module>Fuza_Bling</module>
+					<frontName>bling</frontName>
+				</args>
+			</fuza_bling>
+		</routers>
+	</admin>
+    <adminhtml>
+	    <menu>
+	        <sales>
+	            <children>
+	                <fuza_bling translate="title" module="fuza_bling">
+	                    <title>Bling NFe</title>
+	                    <sort_order>999</sort_order>
+	                    <action>bling/adminhtml_bling</action>
+	                </fuza_bling>
+	            </children>
+	        </sales>
+	    </menu>
+	    <acl>
+	    	<resources>
+	            <all>
+	                <title>Allow Everything</title>
+	            </all>
+	            <admin>
+	                <children>
+	                    <system>
+	                        <children>
+	                            <config>
+	                                <children>
+	                                    <fuza_bling>
+	                                        <title>Bling NFe</title>
+	                                    </fuza_bling>
+	                                </children>
+	                            </config>
+	                        </children>
+	                    </system>
+						<bling translate="title" module="fuza_bling">
+							<title>Bling NFe</title>
+	            			<sort_order>0</sort_order>
+	                        <children>
+	                            <bling>
+	                                <title>Bling NFe</title>
+	                            </bling>
+	                        </children>
+					   </bling>
+	                </children>
+	            </admin>
+	        </resources>
+	    </acl>
+        <layout>
+            <updates>
+                <fuza_bling>
+                    <file>fuza/bling.xml</file>
+                </fuza_bling>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <fuza_bling>
+            <geral>
+	            <url_recebe_pedido>http://www.bling.com.br/recepcao.nfe.php</url_recebe_pedido>
+	            <url_gera_pedido>http://www.bling.com.br/recepcao.nfe.emissao.php</url_gera_pedido>
+                <ultimo_aviso>NUNCA ENVIADO</ultimo_aviso>
+            </geral>
+        </fuza_bling>
+    </default>
+	<crontab>
+        <jobs>
+            <bling_nf_send>
+                <schedule><cron_expr>0 1,3,5,7,9,11,13,15,17,19,21,23 * * *</cron_expr></schedule>
+                <run><model>fuza_bling/observer::sendNf</model></run>
+            </bling_nf_send>
+			<bling_nf_gera>
+                <schedule><cron_expr>0 0,2,4,6,8,10,12,14,16,18,20,22 * * *</cron_expr></schedule>
+                <run><model>fuza_bling/observer::geraNf</model></run>
+            </bling_nf_gera>
+        </jobs>
+    </crontab>
+</config>

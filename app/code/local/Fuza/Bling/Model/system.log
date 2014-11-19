@@ -1,0 +1,5 @@
+2013-11-26T21:00:06+00:00 ERR (3): Warning: strpos() [<a href='function.strpos'>function.strpos</a>]: Empty delimiter  in /home/getwi819/public_html/outpost.com.br/lib/Zend/Controller/Request/Http.php on line 504
+2013-11-26T21:00:06+00:00 ERR (3): Warning: strpos() [<a href='function.strpos'>function.strpos</a>]: Empty delimiter  in /home/getwi819/public_html/outpost.com.br/lib/Zend/Controller/Request/Http.php on line 510
+2013-11-26T21:00:06+00:00 ERR (3): Warning: session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cookie - headers already sent  in /home/getwi819/public_html/outpost.com.br/app/code/core/Mage/Core/Model/Session/Abstract/Varien.php on line 123
+2013-11-26T21:00:06+00:00 ERR (3): Warning: session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent  in /home/getwi819/public_html/outpost.com.br/app/code/core/Mage/Core/Model/Session/Abstract/Varien.php on line 123
+2013-11-26T21:02:36+00:00 ERR (3): Notice: Undefined offset: 3  in /home/getwi819/public_html/outpost.com.br/app/code/local/Fuza/Bling/Model/Observer.php on line 114

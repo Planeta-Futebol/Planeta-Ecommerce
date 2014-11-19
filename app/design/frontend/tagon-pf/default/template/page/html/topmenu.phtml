@@ -1,0 +1,104 @@
+<?php
+/**
+ * Top menu for store
+ *
+ * @see Mage_Page_Block_Html_Topmenu
+ */
+?>
+
+<?php
+  function getAttributesUsed($attributeCode){
+    $resource = Mage::getSingleton('core/resource');
+    $readConnection = $resource->getConnection('core_read');
+    $idsAttribute = array();
+
+    $eav_attribute_options = $resource->getTableName('eav/attribute_option_value');
+
+    $attributeModel = Mage::getSingleton('eav/config')
+        ->getAttribute('catalog_product', $attributeCode);
+
+    $select = $readConnection
+            ->select()
+            ->from($attributeModel->getBackend()->getTable(), 'value')
+            ->where('attribute_id=?', $attributeModel->getId())
+            ->distinct();
+
+
+    $usedAttributeValues = $readConnection
+            ->fetchCol($select);
+
+    foreach ($usedAttributeValues as $id) {
+      if($id){ array_push($idsAttribute, intval($id)); }
+    }
+
+    $select2 = $readConnection
+            ->select()
+            ->from($eav_attribute_options, 'value')
+            ->where('option_id IN (?)', $idsAttribute);
+
+    $usedAttributeArray = Mage::getSingleton('core/resource')
+            ->getConnection('default_read')
+            ->fetchCol($select2);
+
+    return $usedAttributeArray;
+  }
+?>
+
+<?php
+  $tipo_produtos = getAttributesUsed('tipo_produto');
+  $times = getAttributesUsed('time');
+  $vestuarios = getAttributesUsed('vestuario');
+  $colecoes = getAttributesUsed('colecoes');
+?>
+
+<div class="nav-container">
+  <ul id="nav">
+    <li class="level0 nav-1 first last level-top parent">
+      <a href="#" class="level-top no-link"><span>Times</span></a>
+      <ul class="level0">
+        <?php foreach ($times as $value): ?>
+          <?php if ($value) : ?><li><a href="/loja/produtos/escolha-o-time/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+        <?php endforeach ?>
+      </ul>
+    </li>
+    <li class="level0 nav-2 level-top parent">
+      <a href="#" class="level-top no-link"><span>Produtos</span></a>
+      <ul class="level0">
+        <?php foreach ($tipo_produtos as $value): ?>
+          <?php if ($value) : ?><li><a href="/loja/produtos/tipo-de-produto/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+        <?php endforeach ?>
+      </ul>
+    </li>
+    <li class="level0 nav-2 level-top parent">
+      <a href="#" class="level-top no-link"><span>Vestuario</span></a>
+      <ul class="level0">
+        <?php foreach ($vestuarios as $value): ?>
+          <?php if ($value) : ?><li><a href="/loja/produtos/vestuário/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+        <?php endforeach ?>
+      </ul>
+    </li>
+    <li class="level0 nav-3 level-top parent">
+      <a href="#" class="level-top no-link"><span>Coleções</span></a>
+      <ul class="level0">
+        <?php foreach ($colecoes as $value): ?>
+          <?php if ($value) : ?><li><a href="/loja/produtos/cole%C3%A7%C3%B5es/<?php echo strtolower($value); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+        <?php endforeach ?>
+      </ul>
+    </li>
+    <li class="level0 nav-4 level-top parent">
+      <a href="/loja/novidades" class="level-top"><span>Novidades</span></a>
+    </li>
+    <li class="level0 nav-5 level-top parent">
+      <a href="/loja/promocoes" class="level-top"><span>Promoções</span></a>
+    </li>
+    <li class="level0 nav-6 level-top parent">
+      <a href="/loja/mais-vendidos" class="level-top"><span>Mais Vendidos</span></a>
+    </li>
+  </ul>
+</div>
+
+<script type="text/javascript">
+  jQuery('a.no-link').click(function(){
+    return false;
+  });
+</script>

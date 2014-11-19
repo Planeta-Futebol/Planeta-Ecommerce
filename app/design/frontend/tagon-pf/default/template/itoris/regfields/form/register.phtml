@@ -1,0 +1,132 @@
+<?php
+/**
+ * ITORIS
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the ITORIS's Magento Extensions License Agreement
+ * which is available through the world-wide-web at this URL:
+ * http://www.itoris.com/magento-extensions-license.html
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@itoris.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extensions to newer
+ * versions in the future. If you wish to customize the extension for your
+ * needs please refer to the license agreement or contact sales@itoris.com for more information.
+ *
+ * @category   ITORIS
+ * @package    ITORIS_REGFIELDS
+ * @copyright  Copyright (c) 2012 ITORIS INC. (http://www.itoris.com)
+ * @license    http://www.itoris.com/magento-extensions-license.html  Commercial License
+ */
+?>
+<?php
+	$sections = $this->getFormConfig();
+	/** @var $fieldHelper Itoris_RegFields_Helper_Field */
+	$fieldHelper = Mage::helper('itoris_regfields/field');
+?>
+<div class="account-create">
+    <div class="page-title">
+        <h1><?php echo $this->__('Create an Account') ?></h1>
+    </div>
+    <?php echo $this->getChildHtml('form_fields_before')?>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" enctype="multipart/form-data" id="form-validate">
+		<input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
+		<input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
+        <?php foreach ($sections as $section): ?>
+			<div class="fieldset">
+				<h2 class="legend"><?php echo $section['label'] ?></h2>
+				<ul class="form-list">
+					<?php for ($i = 1; $i <= $section['rows']; $i++): ?>
+						<li class="fields">
+						<?php for ($j = 1; $j <= $section['cols']; $j++): ?>
+							<?php
+								$num = ($i - 1) * $section['cols'] + $j;
+								echo $fieldHelper->checkAndGetFieldHtml($section, $num);
+							?>
+						<?php endfor; ?>
+						</li>
+					<?php endfor; ?>
+				</ul>
+			</div>
+		<?php endforeach; ?>
+        <div class="buttons-set">
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button type="button" onclick="ItorisHelper.validateForm('form-validate')" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+        </div>
+    </form>
+</div>
+<?php echo $fieldHelper->getCalendarConfig() ?>
+<script type="text/javascript">
+	//<![CDATA[
+
+  var $group = jQuery('#group_id');
+  $group.val(1);
+
+  if($group.val() == 1){
+    jQuery('.buttons-set').prev().hide();
+  }
+
+  if(jQuery(".tipo_cadastro:checked").val() == 'fisica') {
+    jQuery('#cnpj_box').parent().hide();
+    jQuery('#cpf_box').parent().fadeIn('fast');
+  }
+
+  jQuery(".tipo_cadastro").change(function() {
+    var $val = jQuery(this).val();
+    if($val == 'fisica'){
+      jQuery('#cnpj_box').parent().hide();
+      jQuery('#cpf_box').parent().fadeIn('fast');
+    } else {
+      jQuery('#cpf_box').parent().hide();
+      jQuery('#cnpj_box').parent().fadeIn('fast');
+    }
+  });
+
+  jQuery("#group_id").change(function() {
+    var $val = jQuery(this).val();
+    if($val == 1){
+      jQuery('.buttons-set').prev().hide();
+    } else {
+      jQuery('.buttons-set').prev().fadeIn('fast');
+    }
+  });
+
+	var dataForm = new VarienForm('form-validate', true);
+	<?php if($fieldHelper->canUseRegionUpdater()): ?>
+		var regFormRegion = new RegionUpdater('country_id', 'region', 'region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>, undefined, 'postcode');
+		<?php if (!$fieldHelper->isCountryRequireState()): ?>
+			regFormRegion.update();
+		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($fieldHelper->isAddressCreated()): ?>
+		var countriesWithOptionalZip = <?php echo Mage::helper('directory')->getCountriesWithOptionalZip(true) ?>;
+		if ($('country_id')) {
+			Event.observe($('country_id'), 'click', function() {
+				ItorisHelper.updateZip();
+			});
+			ItorisHelper.updateZip();
+		}
+	<?php endif; ?>
+	<?php if($fieldHelper->canUseRegionUpdater(true)): ?>
+		var regFormRegionS = new RegionUpdater('s_country_id', 's_region', 's_region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>, undefined, 's_postcode');
+		<?php if (!$fieldHelper->isCountryRequireState('s_')): ?>
+			regFormRegionS.update();
+		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($fieldHelper->isAddressCreated(true)): ?>
+		var countriesWithOptionalZip = <?php echo Mage::helper('directory')->getCountriesWithOptionalZip(true) ?>;
+		if ($('s_country_id')) {
+			Event.observe($('s_country_id'), 'click', function() {
+				ItorisHelper._updateZip('s_');
+			});
+			ItorisHelper._updateZip('s_');
+		}
+	<?php endif; ?>
+	//]]>
+</script>

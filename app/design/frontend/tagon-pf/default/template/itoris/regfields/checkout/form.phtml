@@ -1,0 +1,130 @@
+<?php
+/**
+ * ITORIS
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the ITORIS's Magento Extensions License Agreement
+ * which is available through the world-wide-web at this URL:
+ * http://www.itoris.com/magento-extensions-license.html
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@itoris.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extensions to newer
+ * versions in the future. If you wish to customize the extension for your
+ * needs please refer to the license agreement or contact sales@itoris.com for more information.
+ *
+ * @category   ITORIS
+ * @package    ITORIS_REGFIELDS
+ * @copyright  Copyright (c) 2012 ITORIS INC. (http://www.itoris.com)
+ * @license    http://www.itoris.com/magento-extensions-license.html  Commercial License
+ */
+?>
+<?php
+$sections = $this->getFormConfig();
+/** @var $fieldHelper Itoris_RegFields_Helper_Field */
+$fieldHelper = Mage::helper('itoris_regfields/field');
+?>
+<div class="account-create" id="account-create-form">
+	<div class="page-title">
+		<h1><?php echo $this->__('Create an Account') ?></h1>
+	</div>
+	<?php echo $this->getChildHtml('form_fields_before')?>
+	<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+	<form action="<?php echo Mage::getUrl('customer/account/createPost') ?>" method="post" enctype="multipart/form-data" id="itoris-regform-validate">
+		<input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
+		<input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
+		<input type="hidden" name="redirect_after" value="checkout" />
+		<?php foreach ($sections as $section): ?>
+		<div class="fieldset">
+			<h2 class="legend"><?php echo $section['label'] ?></h2>
+			<ul class="form-list">
+				<?php for ($i = 1; $i <= $section['rows']; $i++): ?>
+				<li class="fields">
+					<?php for ($j = 1; $j <= $section['cols']; $j++): ?>
+					<?php
+					$num = ($i - 1) * $section['cols'] + $j;
+					echo $fieldHelper->checkAndGetFieldHtml($section, $num);
+					?>
+					<?php endfor; ?>
+				</li>
+				<?php endfor; ?>
+			</ul>
+		</div>
+		<?php endforeach; ?>
+		<div class="buttons-set">
+			<p class="required"><?php echo $this->__('* Required Fields') ?></p>
+			<button type="button" id="submit-itoris-regform" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+		</div>
+	</form>
+</div>
+<?php echo $fieldHelper->getCalendarConfig() ?>
+<script type="text/javascript">
+	//<![CDATA[
+	var dataForm = new VarienForm('form-validate', true);
+	<?php if($fieldHelper->canUseRegionUpdater()): ?>
+		var regFormRegion = new RegionUpdater('country_id', 'region', 'region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>, undefined, 'zip');
+		<?php if (!$fieldHelper->isCountryRequireState()): ?>
+			regFormRegion.update();
+		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($fieldHelper->isAddressCreated()): ?>
+		var countriesWithOptionalZip = <?php echo Mage::helper('directory')->getCountriesWithOptionalZip(true) ?>;
+		if ($('country_id')) {
+			Event.observe($('country_id'), 'click', function() {
+				ItorisHelper.updateZip();
+			});
+			ItorisHelper.updateZip();
+		}
+	<?php endif; ?>
+	<?php if($fieldHelper->canUseRegionUpdater(true)): ?>
+		var regFormRegionS = new RegionUpdater('s_country_id', 's_region', 's_region_id', <?php echo Mage::helper('directory')->getRegionJson() ?>, undefined, 's_postcode');
+		<?php if (!$fieldHelper->isCountryRequireState('s_')): ?>
+			regFormRegionS.update();
+		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($fieldHelper->isAddressCreated(true)): ?>
+		var countriesWithOptionalZip = <?php echo Mage::helper('directory')->getCountriesWithOptionalZip(true) ?>;
+		if ($('s_country_id')) {
+			Event.observe($('s_country_id'), 'click', function() {
+				ItorisHelper._updateZip('s_');
+			});
+			ItorisHelper._updateZip('s_');
+		}
+	<?php endif; ?>
+
+	if ($('onepage-guest-register-button')) {
+		Event.observe($('onepage-guest-register-button'), 'click', function(event) {
+			if ($('login:guest') && $('login:guest').checked) {
+				$('co-billing-form').show();
+				$('account-create-form').hide();
+			} else if ($('login:register') && ($('login:register').checked || $('login:register').type == 'hidden')) {
+				$('co-billing-form').hide();
+				$('account-create-form').show();
+			}
+		});
+	}
+	Event.observe($('submit-itoris-regform'), 'click', function() {
+		ItorisHelper.validateForm('itoris-regform-validate');
+	});
+	<?php if ($this->getOpenStep()): ?>
+		Event.observe(document, 'dom:loaded', function() {
+			if (accordion) {
+				accordion.openSection('opc-<?php echo $this->getOpenStep() ?>');
+			}
+			$('co-billing-form').hide();
+			$('account-create-form').show();
+		});
+	<?php else: ?>
+		Event.observe(document, 'dom:loaded', function() {
+			if ($('co-billing-form').visible()) {
+				$('co-billing-form').hide();
+				$('account-create-form').show();
+			}
+		});
+	<?php endif; ?>
+	//]]>
+</script>
