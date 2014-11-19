@@ -1,9 +1,17 @@
-<!--@subject Welcome, {{var name}} @-->
+{* Bloco de comentário
+
+Variáveis disponíves neste template:
+  - $userName           Nome do usuário
+  - $applicationName    Nome do aplicativo
+  - $status             Status do novo Token
+
+Utilize: {{var var_name}}
+*}<!--@subject Welcome, {{var name}} @-->
 <!--@vars
 {"htmlescape var=$userName":"User name",
 "var $applicationName":"Application name",
 "var $status":"Token new status"}
 @-->
 
-Ol√°, {{htmlescape var=$userName}}<br /><br />
-Sua autoriza√ß√£o para <b>{{htmlescape var=$applicationName}}</b> foi alterada para <b>{{htmlescape var=$status}}</b> pela equipe de Administra√ß√£o.<br /><br />
+Ol&aacute;, {{htmlescape var=$userName}}<br /><br />
+Sua autoriza&ccedil;&atilde;o para <b>{{htmlescape var=$applicationName}}</b> foi alterada para <b>{{htmlescape var=$status}}</b> pelo Admin.<br /><br />

@@ -1,4 +1,7 @@
-<!--@subject Payment Transaction Failed Reminder @-->
+{* Bloco de coment�rio
+
+Utilize: {{var var_name}}
+*}<!--@subject Falha no pagamento @-->
 <!--@vars
 {"var reason":"Transaction Failed Reason",
 "var checkoutType":"Checkout Type",
@@ -16,18 +19,18 @@
 <table>
     <thead>
         <tr>
-            <th>Operação de pagamento não realizada.</th>
+            <th>Opera&ccedil;&atilde;o de Pagamento Falhou.</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>
                 <p>
-                    <b>Motivo</b><br />
+                    <b>Raz&atilde;o</b><br />
                     {{var reason}}
                 </p>
                 <p>
-                    <b>Tipo de checkout</b><br />
+                    <b>Tipo de Checkout</b><br />
                     {{var checkoutType}}
                 </p>
                 <p>
@@ -35,7 +38,7 @@
                     <a href="mailto:{{var customerEmail}}">{{var customer}}</a> &lt;{{var customerEmail}}&gt;
                 </p>
                 <p>
-                    <b>Itens</b><br />
+                    <b>Produtos</b><br />
                     {{var items}}
                 </p>
                 <p>
@@ -43,23 +46,23 @@
                     {{var total}}
                 </p>
                 <p>
-                    <b>Endereço de faturamento:</b><br />
+                    <b>Endere&ccedil;o de Cobran&ccedil;a:</b><br />
                     {{var billingAddress.format('html')}}
                 </p>
                 <p>
-                    <b>Endereço de Envio:</b><br />
+                    <b>Endere&ccedil;o de Entrega:</b><br />
                     {{var shippingAddress.format('html')}}
                 </p>
                 <p>
-                    <b>Tipo de Frete:</b><br />
+                    <b>Forma de Entrega:</b><br />
                     {{var shippingMethod}}
                 </p>
                 <p>
-                    <b>Método de Pagamento:</b><br />
+                    <b>Forma de Pagamento:</b><br />
                     {{var paymentMethod}}
                 </p>
                 <p>
-                    <b>Data & Hora:</b><br />
+                    <b>Data e Hora:</b><br />
                     {{var dateAndTime}}
                 </p>
             </td>
