@@ -52,7 +52,7 @@ ol.checkout-agreements {
     .red.onestepcheckout-button:hover                          { background-color: #872300; }
     .magenta.onestepcheckout-button, .magenta.onestepcheckout-button:visited      { background-color: #a9014b; }
     .magenta.onestepcheckout-button:hover                          { background-color: #630030; }
-    .orange.onestepcheckout-button, .orange.onestepcheckout-button:visited        { background-color: #ff5c00; }
+    .orange.onestepcheckout-button, .orange.onestepcheckout-button:visited        { background-color: #9c3; }
     .orange.onestepcheckout-button:hover                           { background-color: #d45500; }
     .yellow.onestepcheckout-button, .yellow.onestepcheckout-button:visited        { background-color: #ffb515; }
     .yellow.onestepcheckout-button:hover                           { background-color: #fc9200; }

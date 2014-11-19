@@ -1,6 +1,12 @@
 
 
 /* Login popup class */
+
+function tratar_resposta(html){
+  var obj = '{"'+html.split('{"')[1];
+  return obj.evalJSON()
+}
+
 var OneStepCheckoutLoginPopup = Class.create({
     initialize: function(options) {
         this.options = options;
@@ -50,7 +56,7 @@ var OneStepCheckoutLoginPopup = Class.create({
                 method: 'post',
                 parameters: parameters,
                 onSuccess: function(transport) {
-                    var result = transport.responseText.evalJSON();
+                    var result = tratar_resposta(transport.responseText);
                     if(result.success) {
                         window.location = window.location;
                     } else {
@@ -77,7 +83,7 @@ var OneStepCheckoutLoginPopup = Class.create({
                 method: 'post',
                 parameters: { email: email },
                 onSuccess: function(transport) {
-                    var result = transport.responseText.evalJSON();
+                    var result = tratar_resposta(transport.responseText);
 
                     if(result.success) {
                         /* Show success message */
@@ -319,7 +325,7 @@ function get_save_methods_function(url, update_payments)
             method: 'post',
             onSuccess: function(transport)    {
             if(transport.status == 200)    {
-                var data = transport.responseText.evalJSON();
+                var data = tratar_resposta(transport.responseText);
 
                 totals.update(data.summary);
 
@@ -462,9 +468,9 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
         new Ajax.Request(url, {
             method: 'post',
             onSuccess: function(transport)    {
+              console.log('onSuccess')
             if(transport.status == 200)    {
-
-                var data = transport.responseText.evalJSON();
+                var data = tratar_resposta(transport.responseText);
 
                 // Update shipment methods
                 if(shipment_methods_found)  {
@@ -481,6 +487,7 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
             }
         },
         onComplete: function(transport){
+          console.log('onComplete')
             if(transport.status == 200)    {
                 if(shipment_methods_found)  {
                     $$('dl.shipment-methods input').invoke('observe', 'click', get_separate_save_methods_function(set_methods_url, update_payments));
@@ -571,7 +578,8 @@ function get_separate_save_methods_function(url, update_payments)
             method: 'post',
             onSuccess: function(transport)    {
             if(transport.status == 200)    {
-                var data = transport.responseText.evalJSON();
+                var data = tratar_resposta(transport.responseText);
+
                 var form = $('onestepcheckout-form');
 
                 totals.update(data.summary);
@@ -611,7 +619,7 @@ function paymentrefresh(url) {
         method: 'get',
         onSuccess: function(transport){
             if(transport.status == 200)    {
-                    var data = transport.responseText.evalJSON();
+                    var data = tratar_resposta(transport.responseText);
                     payment_methods.replace(data.payment_method);
 
                     $$('div.payment-methods input[name="payment\[method\]"]', 'div.payment-methods input[name="payment\[useProfile\]"]').invoke('observe', 'click', get_separate_save_methods_function(url));
