@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300|Expletus+Sans:400,600' rel='stylesheet' type='text/css'>
-<link href="https://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,300|Expletus+Sans:400,600' rel='stylesheet' type='text/css' />
+<link href="https://fonts.googleapis.com/css?family=Crete+Round" rel="stylesheet" type="text/css" />
 <link rel="icon" href="http://media.planetafutebol.com.br/media/favicon/default/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="http://media.planetafutebol.com.br/media/favicon/default/favicon.ico" type="image/x-icon" />
 <title>Play</title>
@@ -388,7 +388,7 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
             <table align="center" border="0" cellpadding="0" cellspacing="0" class="full-mobile a">
               <tr>
                 <td align="center" class="h1" background="images/color-80.png" mc:edit="title1" style='padding:10px 20px; color:#fff'>
-                  <singleline label="title1">Conheça os três tipos de franquia</singleline>
+                  <singleline label="title1">Conheça abaixo os três tipos de franquia</singleline>
                 </td>
               </tr>
             </table>
@@ -545,7 +545,7 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
                         <ul>
                           <li>Amplo espaço </li>
                           <li>Alto potencial de lucros</li>
-                          <li>baixo custo fixo</li>
+                          <li>Baixo custo fixo</li>
                         </ul>
                       </td>
                     </tr>
@@ -595,7 +595,7 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
                     </tr>
                     <tr>
                       <td align="center" class="h3 medium uppercase pad20" mc:edit="title" style='padding-top: 5px;'>
-                        <singleline label="title">FACA PARTE DESTE TIME VENCEDOR</singleline>
+                        <singleline label="title">FAÇA PARTE DESTE TIME VENCEDOR</singleline>
                       </td>
                     </tr>
                     <tr><td height="25"></td></tr>
@@ -603,26 +603,26 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
                       <td align="center" class="content pad20" mc:edit="content">
                         <table width="70%">
                           <tr>
-                            <td><input type="text" placeholder="Nome" name="name" required/></td>
+                            <td><input type="text" placeholder="Nome" name="name" required /></td>
                           </tr>
                           <tr>
-                            <td><input type="text" placeholder="Sobrenome" name="last_name" required/></td>
+                            <td><input type="text" placeholder="Sobrenome" name="last_name" required /></td>
                           </tr>
                           <tr>
-                            <td><input type="email" placeholder="E-mail" name="email" class="email" required/></td>
+                            <td><input type="email" placeholder="E-mail" name="email" class="email" required /></td>
                           </tr>
                           <tr>
-                            <td><input type="text" placeholder="Cidade" name="city" required/></td>
+                            <td><input type="text" placeholder="Cidade" name="city" required /></td>
                           </tr>
                           <tr>
-                            <td><input type="text" placeholder="Estado" name="state" required/></td>
+                            <td><input type="text" placeholder="Estado" name="state" required /></td>
                           </tr>
                           <tr>
-                            <td ><input type="text" style='width:20%;' placeholder="DDD" name="DDD" required/>
-                            <input type="text" placeholder="Celular" style='width:70%; float: right; margin-right: -23px;' name="celular" id="cellphone" required/></td>
+                            <td ><input type="text" style='width:20%;' placeholder="DDD" name="DDD" required />
+                            <input type="text" placeholder="Celular" style='width:70%; float: right; margin-right: -23px;' name="celular" id="cellphone" required /></td>
                           </tr>
                           <tr>
-                            <td><input type="text" placeholder="Operadora" name="operator"  required/></td>
+                            <td><input type="text" placeholder="Operadora" name="operator"  required /></td>
                           </tr>
                           <tr>
                             <td><textarea placeholder="Mensagem" name="message" ></textarea></td>
@@ -763,7 +763,7 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
             <table align="center" border="0" cellpadding="0" cellspacing="0" class="full-mobile a">
               <tr>
                 <td align="center" class="h1" background="images/color-80.png" mc:edit="title1" style='padding:10px 20px; color:#fff'>
-                  <singleline label="title1">Veja a opinião de quem trabalha com a Planeta Futebol</singleline>
+                  <singleline label="title1">Veja abaixo a opinião de quem trabalha com a Planeta Futebol</singleline>
                 </td>
               </tr>
             </table>
@@ -780,7 +780,7 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
                   <table align="left" width="340" border="0" cellpadding="0" cellspacing="0" class="col2 mid">
                     <tr>
                       <td align="center" height="42" class="h3 medium valign clear-bg radius5px-top" mc:edit="title1">
-                        <singleline label="title1">Loja Movel</singleline>
+                        <singleline label="title1">Loja Móvel</singleline>
                       </td>
                     </tr>
                     <tr>
@@ -1097,7 +1097,7 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
             event.preventDefault();
             var mensagem = 'Contato de Franquia';
             $('form').serializeArray().map(function (campo) {
-              mensagem = mensagem + "<br>" + campo.name + ": " + campo.value
+              mensagem = mensagem + "<br />" + campo.name + ": " + campo.value
             })
             startSending();
             $.ajax({
@@ -1109,7 +1109,7 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
                   from_email: 'noreply@planetafutebol.com.br',
                   to: [
                       {
-                        email: 'contato@planetafutebol.com.br',
+                        email: 'comercial@planetafutebol.com.br',
                         type: 'to'
                       }
                     ],
