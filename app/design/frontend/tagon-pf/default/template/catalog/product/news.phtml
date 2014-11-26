@@ -12,7 +12,7 @@ $_productCollection->addAttributeToSelect('*')
                    ->addAttributeToSort('created_at', 'desc') //in case we would like to sort products by price
                    ->getSelect()
                    // ->where('price_index.final_price < price_index.price')
-                   ->limit(4) //we can specify how many products we want to show on this page
+                   ->limit(8) //we can specify how many products we want to show on this page
                    // ->order(new Zend_Db_Expr('RAND()')) //in case we would like to sort products randomly
                    ;
 
