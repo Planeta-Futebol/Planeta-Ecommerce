@@ -55,7 +55,9 @@ a {color: #0094e1;text-decoration: none;outline: none;}
 .button a,.btn a,.projects a,.color-bg a { color:#fff; }
 a:hover { text-decoration: underline !important; }
 .header a:hover,.button a,.btn a { text-decoration:none !important;}
-.tel {color: #fff; font-size:30px; font-family: sans-serif;}
+.tel {color: #fff; font-size:24px; font-family: sans-serif; white-space: nowrap;}
+.tel img {height: 25px; display: inline; vertical-align: top;}
+.telLabel {color: #fff; font-size:24px; font-family: 'Crete Round',Tahoma,Arial; white-space: nowrap;}
 
 /*background*/
 body, .BGtable { background-color: #0094e1; }
@@ -74,7 +76,7 @@ body, .BGtable { background-color: #0094e1; }
 .dark-bg { background-color:#333; }
 .headerbanner .h1,.banner2 .h1 { background-image:url(images/color-80.png); background-repeat:repeat; }
 /*font*/
-.content, .content p {font-family: 'Crete Round',Tahoma,Arial;font-size: 14px;line-height: 24px;font-weight: 900;color: #666;-webkit-font-smoothing: antialiased;}
+.content, .content p {font-family: 'Crete Round',Tahoma,Arial; font-size: 14px;line-height: 24px;font-weight: 900;color: #666;-webkit-font-smoothing: antialiased;}
 .bottom .content,.bottom .content p { font-size:13px; line-height:20px; color:#ccc; }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {font-weight: 400; color: #000;font-family: 'Crete Round',Tahoma,Arial;}
@@ -145,7 +147,7 @@ h6, .h6 {font-size: 11px;line-height: 18px; }
 .banner2 .img-inline { width:70px; max-width:70px; height:auto; }
 .bottom .icon { width:40px; max-width:40px; height:auto; border-radius: 3px;}
 
-form input, form textarea {padding: 10px; width:100%; margin-top: 5px; font-size: 14px; border: 0;}
+form input, form textarea {padding: 10px; width:100%; margin-top: 5px; font-size: 14px; border: 0; font-family: 'Crete Round',Tahoma,Arial;}
 
 /*media query for video*/
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -891,28 +893,48 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
                   <!--col2 right-->
                   <table align="right" width="240" border="0" cellpadding="0" cellspacing="0" class="col2">
                     <tr>
-                      <td align="left" class="h5" style='color:white;'>
+                      <td align="left" class="h5" style='color:white;' colspan="2">
                         <singleline>Discar DDD mesmo ligando de SP</singleline>
                       </td>
                     </tr>
                     <tr>
+                      <td align="left" class="telLabel">Fixo</td>
                       <td align="left">
-                        <singleline class="tel" style='font-weight:900;'>11 4036 7956</singleline>
+                        <singleline class="tel">11 4036 7956</singleline>
                       </td>
                     </tr>
                     <tr>
+                      <td align="left" class="telLabel">Vivo</td>
                       <td align="left">
-                        <singleline class="tel" style='font-weight:100;'>11 3743 8663</singleline>
+                        <singleline class="tel">11 94323 2345 <img src="images/whatsapp.png" alt="whatsapp"/></singleline>
                       </td>
                     </tr>
                     <tr>
-                      <td align="left" class="h4" mc:edit="title">
+                      <td align="left" class="telLabel">Claro</td>
+                      <td align="left">
+                        <singleline class="tel">11 99268 3161</singleline>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" class="telLabel">Tim</td>
+                      <td align="left">
+                        <singleline class="tel">11 98704 6494</singleline>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" class="telLabel">Oi</td>
+                      <td align="left">
+                        <singleline class="tel">11 95257 1743</singleline>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" class="h4" mc:edit="title" colspan="2">
                         <singleline label="title">Follow us</singleline>
                       </td>
                     </tr>
-                    <tr><td height="13"><img src="images/spacer.gif" width="1" height="1" /></td></tr>
+                    <tr><td height="13" colspan="2"><img src="images/spacer.gif" width="1" height="1" /></td></tr>
                     <tr>
-                      <td>
+                      <td colspan="2">
                         <!--cocial icon-->
                         <table align="left" border="0" cellpadding="0" cellspacing="0">
                           <tr>
