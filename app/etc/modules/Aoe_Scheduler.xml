@@ -1,1 +1,9 @@
-../../../.modman/Aoe_Scheduler/app/etc/modules/Aoe_Scheduler.xml
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Aoe_Scheduler>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Aoe_Scheduler>
+    </modules>
+</config>
