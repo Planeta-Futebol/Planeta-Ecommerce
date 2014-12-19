@@ -130,7 +130,7 @@ class Fuza_Bling_Model_Observer{
 						$nat_operacao = "Venda para SP";
 					} else {
 						if ($group == "F")
-							$nat_operacao = "Venda de Mercadorias para Fora de SP - Isento (PF e PJ sem IE)";
+							$nat_operacao = "Venda de Mercadorias para Fora de SP - Isento";
 						else {
 							if (strlen(trim($customer->getIe())) > 0) {
 								$nortes = array("AC", "AP", "AM", "PA", "RO", "RR", "TO", "AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE", "ES");
