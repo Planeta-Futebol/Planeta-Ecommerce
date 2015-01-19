@@ -74,7 +74,7 @@ if($objNf->count() > 0 ){
 			$nota = $nota->asArray();
 			$nota = $nota['notafiscal'];
 
-			print_r($nota);
+			//print_r($nota);
 
 			/*
 			echo $nota['situacao'];
@@ -86,7 +86,7 @@ if($objNf->count() > 0 ){
 				echo "NFe: ".$documentNumber.", status: ".$nota['situacao']."<br>";
 
 				$_nf->setStatusGateway(2);
-				$_nf->setNfKey($nota['chaveAcesso']);
+				$_nf->setNfKey($nota['chaveacesso']);
 				$_nf->setNfDanfe($nota['xml']);
 				//$_nf->setStatusMessage('Nota Fiscal Enviada - Autorizado o uso da NF-e');
 				$_nf->setStatusMessage($nota['situacao']);
