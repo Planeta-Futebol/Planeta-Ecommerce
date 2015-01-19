@@ -74,9 +74,9 @@ if($objNf->count() > 0 ){
 			$nota = $nota->asArray();
 			$nota = $nota['notafiscal'];
 
-			/*
 			print_r($nota);
 
+			/*
 			echo $nota['situacao'];
 			echo $nota['chaveacesso'];
 			echo $nota['xml'];
