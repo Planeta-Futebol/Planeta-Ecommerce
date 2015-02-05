@@ -1,0 +1,309 @@
+{2014/11/20 02:37:38} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '63',
+  'SenderEmail' => 'demo@demo.com.br',
+)) - begin 
+{2014/11/20 02:37:39} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '63',
+  'SenderEmail' => 'demo@demo.com.br',
+)) - end {1}C32A81B0ADADA4C444CF9F8F14DE5DA8 
+{2014/11/21 17:33:05} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '64',
+  'SenderEmail' => 'renato_rios_@hotmail.com',
+)) - begin 
+{2014/11/21 17:33:05} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '64',
+  'SenderEmail' => 'renato_rios_@hotmail.com',
+)) - end {1}DEFA162C66663D6444695FB7DB0B77AF 
+{2014/11/21 17:33:34} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=4C166A-5CDF3FDF3FED-2CC417FFBB04-71AF41) - begin 
+{2014/11/21 17:33:34} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=4C166A-5CDF3FDF3FED-2CC417FFBB04-71AF41) - end Transaction: array (
+  'code' => '7CD5A187-735C-45F5-A2FE-BABBB83C020E',
+  'email' => 'renato_rios_@hotmail.com',
+  'date' => '2014-11-21T15:32:55.000-02:00',
+  'reference' => '64',
+  'status' => '1',
+  'itemsCount' => 13,
+)) 
+{2014/11/25 15:31:04} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '65',
+  'SenderEmail' => 'renato_riossp@hotmail.com',
+)) - begin 
+{2014/11/25 15:31:04} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '65',
+  'SenderEmail' => 'renato_riossp@hotmail.com',
+)) - end {1}7ED851013E3E36B334414F9D61C8BDA9 
+{2014/11/26 19:02:32} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=687938-EB5B1E5B1E67-FBB4BA5FB8B3-A9BA3E) - begin 
+{2014/11/26 19:02:33} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=687938-EB5B1E5B1E67-FBB4BA5FB8B3-A9BA3E) - end Transaction: array (
+  'code' => '0561EDC0-0D39-4651-9A96-8AD4A4E89F00',
+  'email' => 'alexandre@planetafutebol.com.br',
+  'date' => '2014-11-12T16:54:13.000-02:00',
+  'reference' => '43',
+  'status' => '4',
+  'itemsCount' => 6,
+)) 
+{2014/11/28 14:01:43} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '66',
+  'SenderEmail' => 'nunes-cortes@live.com',
+)) - begin 
+{2014/11/28 14:01:44} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '66',
+  'SenderEmail' => 'nunes-cortes@live.com',
+)) - end {1}B2A09BADBABA0D0FF436DFB87F8CC4C2 
+{2014/11/28 14:58:11} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '66',
+  'SenderEmail' => 'nunes-cortes@live.com',
+)) - begin 
+{2014/11/28 14:58:11} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '66',
+  'SenderEmail' => 'nunes-cortes@live.com',
+)) - end {1}6241F391BABA780224787F8CD59B598B 
+{2014/11/28 14:58:58} [Info] PagSeguroTransactionSearchService.searchAbandoned(initialDate=2014-10-29T14:58, finalDate=2014-11-28T12:58) - begin 
+{2014/11/28 14:58:59} [Info] PagSeguroTransactionSearchService.searchAbandoned(initialDate=2014-10-29T14:58, finalDate=2014-11-28T12:58) - end PagSeguroTransactionSearchResult: array (
+  'Date' => '2014-11-28T12:58:32.000-02:00',
+  'CurrentPage' => '1',
+  'TotalPages' => '2',
+  'Transactions in this page' => '20',
+) 
+{2014/11/28 14:59:02} [Info] PagSeguroTransactionSearchService.SearchByCode(D865EB19-9B2D-4C0D-94E0-65E52390CB41) - begin 
+{2014/11/28 14:59:02} [Error] PagSeguroTransactionSearchService.SearchByCode(transactionCode=D865EB19-9B2D-4C0D-94E0-65E52390CB41) - error [HTTP 400] - BAD_REQUEST 0 [13021] - the requested operation does not support the requested transaction because it's status is: INITIATED 
+{2014/11/28 15:28:31} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '67',
+  'SenderEmail' => 'nunes-cortes@live.com',
+)) - begin 
+{2014/11/28 15:28:32} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '67',
+  'SenderEmail' => 'nunes-cortes@live.com',
+)) - end {1}2BD22AAC696959BDD4163F8105931DFF 
+{2014/11/28 15:36:11} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=283ADA-D23064306498-B884111FBC83-454364) - begin 
+{2014/11/28 15:36:11} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=283ADA-D23064306498-B884111FBC83-454364) - end Transaction: array (
+  'code' => '8D150DBA-7E8B-4B7A-BE2A-3677B9436131',
+  'email' => 'nunes-cortes@live.com',
+  'date' => '2014-11-28T13:28:07.000-02:00',
+  'reference' => '67',
+  'status' => '1',
+  'itemsCount' => 17,
+)) 
+{2014/12/01 10:26:15} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '68',
+  'SenderEmail' => 'lalarip@live.com',
+)) - begin 
+{2014/12/01 10:26:16} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '68',
+  'SenderEmail' => 'lalarip@live.com',
+)) - end {1}6E40CD7A7F7F604DD4DD3F9F4C6A3DF2 
+{2014/12/01 16:02:34} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '68',
+  'SenderEmail' => 'lalarip@live.com',
+)) - begin 
+{2014/12/01 16:02:34} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '68',
+  'SenderEmail' => 'lalarip@live.com',
+)) - end {1}543D9DFBBEBE585004822F9B50975D71 
+{2014/12/01 17:53:09} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=8C6507-8D39FB39FB88-25544CFFAC9D-0DBD6C) - begin 
+{2014/12/01 17:53:09} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=8C6507-8D39FB39FB88-25544CFFAC9D-0DBD6C) - end Transaction: array (
+  'code' => '3CD6C855-3342-4673-B526-CC48664B3AFF',
+  'email' => 'alexandre@planetafutebol.com.br',
+  'date' => '2014-11-17T15:43:42.000-02:00',
+  'reference' => '61',
+  'status' => '4',
+  'itemsCount' => 6,
+)) 
+{2014/12/02 19:49:13} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '64',
+  'SenderEmail' => 'renato_rios_@hotmail.com',
+)) - begin 
+{2014/12/02 19:49:14} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '64',
+  'SenderEmail' => 'renato_rios_@hotmail.com',
+)) - end {1}2AF9C9387A7AE09BB47F4F87A3092CB8 
+{2014/12/02 19:49:26} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=58D977-A6DEE9DEE9EF-6BB4CDBFBEBE-D2C878) - begin 
+{2014/12/02 19:49:27} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=58D977-A6DEE9DEE9EF-6BB4CDBFBEBE-D2C878) - end Transaction: array (
+  'code' => '2DA949A9-5076-44A2-9585-6AF7AB8716C0',
+  'email' => 'renato_rios_@hotmail.com',
+  'date' => '2014-12-02T17:48:40.000-02:00',
+  'reference' => '64',
+  'status' => '1',
+  'itemsCount' => 13,
+)) 
+{2014/12/03 01:33:40} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '69',
+  'SenderEmail' => 'antoniavieira@globo.com',
+)) - begin 
+{2014/12/03 01:33:41} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '69',
+  'SenderEmail' => 'antoniavieira@globo.com',
+)) - end {1}82BF0B046E6EA4FEE4D76FAC84D3CEE0 
+{2014/12/03 01:36:07} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=BB9B8B-31A3C0A3C068-477436DFAD23-1D52D3) - begin 
+{2014/12/03 01:36:07} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=BB9B8B-31A3C0A3C068-477436DFAD23-1D52D3) - end Transaction: array (
+  'code' => 'EE3C634C-1313-4224-B8BE-EC1F33CA264A',
+  'email' => 'antoniavieira@globo.com',
+  'date' => '2014-12-02T23:33:07.000-02:00',
+  'reference' => '69',
+  'status' => '7',
+  'itemsCount' => 3,
+)) 
+{2014/12/03 19:05:26} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '70',
+  'SenderEmail' => 'alexandre@planetafutebol.com.br',
+)) - begin 
+{2014/12/03 19:05:26} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '70',
+  'SenderEmail' => 'alexandre@planetafutebol.com.br',
+)) - end {1}6812ADD28181CBBBB4563FAEAE2F5F27 
+{2014/12/04 05:52:50} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=14E0F5-D0D8FED8FEA0-C334221F9097-2305DE) - begin 
+{2014/12/04 05:52:50} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=14E0F5-D0D8FED8FEA0-C334221F9097-2305DE) - end Transaction: array (
+  'code' => '8D150DBA-7E8B-4B7A-BE2A-3677B9436131',
+  'email' => 'nunes-cortes@live.com',
+  'date' => '2014-11-28T13:28:07.000-02:00',
+  'reference' => '67',
+  'status' => '3',
+  'itemsCount' => 17,
+)) 
+{2014/12/07 09:48:15} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=9DFC2D-3136A636A6BB-B3348F7F9D49-054628) - begin 
+{2014/12/07 09:48:16} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=9DFC2D-3136A636A6BB-B3348F7F9D49-054628) - end Transaction: array (
+  'code' => '7CD5A187-735C-45F5-A2FE-BABBB83C020E',
+  'email' => 'renato_rios_@hotmail.com',
+  'date' => '2014-11-21T15:32:55.000-02:00',
+  'reference' => '64',
+  'status' => '7',
+  'itemsCount' => 13,
+)) 
+{2014/12/09 18:13:26} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '71',
+  'SenderEmail' => 'renato_riossp@hotmail.com',
+)) - begin 
+{2014/12/09 18:13:46} [Error] Exception: CURL can't connect: Connection timed out after 20001 milliseconds 
+{2014/12/09 18:14:28} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '71',
+  'SenderEmail' => 'renato_riossp@hotmail.com',
+)) - begin 
+{2014/12/09 18:14:28} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '71',
+  'SenderEmail' => 'renato_riossp@hotmail.com',
+)) - end {1}BD3042E4E4E4267EE45DAFBB7C025EAF 
+{2014/12/10 04:08:31} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '73',
+  'SenderEmail' => 'v.vpublicidade@hotmail.com',
+)) - begin 
+{2014/12/10 04:08:32} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '73',
+  'SenderEmail' => 'v.vpublicidade@hotmail.com',
+)) - end {1}9B94BC3A0E0E48DBB45A0FBC4083D06F 
+{2014/12/10 04:23:23} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '74',
+  'SenderEmail' => 'v.vpublicidade@hotmail.com',
+)) - begin 
+{2014/12/10 04:23:24} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '74',
+  'SenderEmail' => 'v.vpublicidade@hotmail.com',
+)) - end {1}36DA14276666744554113F814809E52D 
+{2014/12/10 04:32:15} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=BE63CE-BF43534353A8-8AA48B1F8E97-F41EDC) - begin 
+{2014/12/10 04:32:15} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=BE63CE-BF43534353A8-8AA48B1F8E97-F41EDC) - end Transaction: array (
+  'code' => '0F422252-8A1E-4129-B7FD-4FCDEAEF273F',
+  'email' => 'v.vpublicidade@hotmail.com',
+  'date' => '2014-12-10T02:22:37.000-02:00',
+  'reference' => '74',
+  'status' => '2',
+  'itemsCount' => 47,
+)) 
+{2014/12/10 05:33:48} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=AFDC52-0D45624562F8-06640DBF81B0-349BBC) - begin 
+{2014/12/10 05:33:49} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=AFDC52-0D45624562F8-06640DBF81B0-349BBC) - end Transaction: array (
+  'code' => '0F422252-8A1E-4129-B7FD-4FCDEAEF273F',
+  'email' => 'v.vpublicidade@hotmail.com',
+  'date' => '2014-12-10T02:22:37.000-02:00',
+  'reference' => '74',
+  'status' => '2',
+  'itemsCount' => 47,
+)) 
+{2014/12/10 21:47:19} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=EBF0AB-647CC47CC496-4774777F9FFE-6D6EEF) - begin 
+{2014/12/10 21:47:20} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=EBF0AB-647CC47CC496-4774777F9FFE-6D6EEF) - end Transaction: array (
+  'code' => '0F422252-8A1E-4129-B7FD-4FCDEAEF273F',
+  'email' => 'v.vpublicidade@hotmail.com',
+  'date' => '2014-12-10T02:22:37.000-02:00',
+  'reference' => '74',
+  'status' => '7',
+  'itemsCount' => 47,
+)) 
+{2014/12/11 12:18:42} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '76',
+  'SenderEmail' => 'gerlanepereira34@gmail.com',
+)) - begin 
+{2014/12/11 12:18:43} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '76',
+  'SenderEmail' => 'gerlanepereira34@gmail.com',
+)) - end {1}B2DE6DFB5B5BF9B884358FA31AD2AB68 
+{2014/12/11 12:23:52} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '76',
+  'SenderEmail' => 'gerlanepereira34@gmail.com',
+)) - begin 
+{2014/12/11 12:23:53} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '76',
+  'SenderEmail' => 'gerlanepereira34@gmail.com',
+)) - end {1}6F91C1878D8D368554500F9828450DB3 
+{2014/12/11 12:27:01} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=4BA364-0E194419444F-AAA49E6FA372-7E950A) - begin 
+{2014/12/11 12:27:01} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=4BA364-0E194419444F-AAA49E6FA372-7E950A) - end Transaction: array (
+  'code' => '6F7954FC-FEFA-414A-A14B-1C512E657369',
+  'email' => 'gerlanepereira34@gmail.com',
+  'date' => '2014-12-11T10:17:54.000-02:00',
+  'reference' => '76',
+  'status' => '1',
+  'itemsCount' => 11,
+)) 
+{2014/12/12 13:23:26} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '78',
+  'SenderEmail' => 'alessandraao370@gmail.com',
+)) - begin 
+{2014/12/12 13:23:26} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '78',
+  'SenderEmail' => 'alessandraao370@gmail.com',
+)) - end {1}49FEBEE29A9AB913345F4F9E454A0E14 
+{2014/12/13 12:32:11} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=AFDF94-F0FC73FC7311-2CC4E6DF8155-24E074) - begin 
+{2014/12/13 12:32:12} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=AFDF94-F0FC73FC7311-2CC4E6DF8155-24E074) - end Transaction: array (
+  'code' => '6F7954FC-FEFA-414A-A14B-1C512E657369',
+  'email' => 'gerlanepereira34@gmail.com',
+  'date' => '2014-12-11T10:17:54.000-02:00',
+  'reference' => '76',
+  'status' => '7',
+  'itemsCount' => 11,
+)) 
+{2014/12/15 15:22:44} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '79',
+  'SenderEmail' => 'renato_rios_@hotmail.com',
+)) - begin 
+{2014/12/15 15:22:44} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '79',
+  'SenderEmail' => 'renato_rios_@hotmail.com',
+)) - end {1}8232C9AB7676986664A95F8C8564678F 
+{2014/12/16 10:28:21} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=4EDD2C-7865C865C8BD-1DD4165FB28C-36E62C) - begin 
+{2014/12/16 10:28:21} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=4EDD2C-7865C865C8BD-1DD4165FB28C-36E62C) - end Transaction: array (
+  'code' => '2DA949A9-5076-44A2-9585-6AF7AB8716C0',
+  'email' => 'renato_rios_@hotmail.com',
+  'date' => '2014-12-02T17:48:40.000-02:00',
+  'reference' => '64',
+  'status' => '7',
+  'itemsCount' => 13,
+)) 
+{2014/12/18 09:05:15} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=E603CD-75BF73BF73F9-DDD48E0FA735-97A36A) - begin 
+{2014/12/18 09:05:16} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=E603CD-75BF73BF73F9-DDD48E0FA735-97A36A) - end Transaction: array (
+  'code' => '8D150DBA-7E8B-4B7A-BE2A-3677B9436131',
+  'email' => 'nunes-cortes@live.com',
+  'date' => '2014-11-28T13:28:07.000-02:00',
+  'reference' => '67',
+  'status' => '4',
+  'itemsCount' => 17,
+)) 
+{2015/01/15 17:31:46} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '97',
+  'SenderEmail' => 'acosta@oabsp.org.br',
+)) - begin 
+{2015/01/15 17:31:47} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '97',
+  'SenderEmail' => 'acosta@oabsp.org.br',
+)) - end {1}F1936C766565169EE4ED8FA5A9A36903 
+{2015/01/15 17:35:17} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '97',
+  'SenderEmail' => 'acosta@oabsp.org.br',
+)) - begin 
+{2015/01/15 17:35:18} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '97',
+  'SenderEmail' => 'acosta@oabsp.org.br',
+)) - end {1}28C9B5515E5ECE4664FA4F8FE5B02C8D 
