@@ -5150,8 +5150,7 @@ padding: 0 16px;
 .footer2 > div.nav{
   float: left;
   display: inline-block;
-  padding: 20px;
-  width: 874px;
+  padding: 20px 0 20px 20px
 }
 
 .footer2 > div.nav > .box1, .footer2 > div.nav > .box2, .footer2 > div.nav > .box3 {
@@ -5159,12 +5158,12 @@ padding: 0 16px;
 }
 
 .footer2 > div.nav > .box1, .footer2 > div.nav > .box2{
-  width: 320px;
+  width: 200px;
 }
 
 .footer2 > div.nav > .box3{
   text-align: center;
-  width: 220px;
+  width: 200px;
 }
 
 .footer2 > div.nav > .box3 > ul{
@@ -5185,8 +5184,7 @@ padding: 0 16px;
 }
 
 .footer2 > div.nav > .box1 > ul > li, .footer2 > div.nav > .box2 > ul > li{
-  float: left;
-  width:50%;
+  display: block;
 }
 
 .footer2 .headline{
@@ -5422,27 +5420,59 @@ div.scroller div.content {
   font-size: 33px;
 }
 
-.socialnetwork{
-  width: 320px;
+.box4{
+  width: 285px;
   float: left;
-  color: #fff;
+  display: block;
+  margin-top: 20px;
 }
-.socialnetwork ul {
+
+.box5{
+  width: 310px;
+  float: right;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.box5 ul.socialnetwork {
   display: block;
 }
 
-.socialnetwork ul li{
-  height: 74px;
-  line-height: 86px;
+.box5 ul.socialnetwork li{
+  height: 65px;
+  line-height: 75px;
+  width: 65px;
   text-align: center;
-  margin: 0;
+  margin-left: 10px;
+  display: inline-block;
+  float: left;
 }
 
-.socialnetwork ul li a{ display: block; color: #fff; }
-.socialnetwork ul li.facebook{ background: #39589a }
-.socialnetwork ul li.twitter{ background: #1d83c1 }
-.socialnetwork ul li.youtube{ background: #d70112 }
-.socialnetwork ul li.instagram{ background: #306088 }
+.box5 ul.socialnetwork li:first-child{
+  margin: 0px;
+}
+
+.box5 ul.socialnetwork li a{ display: block; color: #fff; }
+.box5 ul.socialnetwork li.facebook{ background: #39589a }
+.box5 ul.socialnetwork li.twitter{ background: #1d83c1 }
+.box5 ul.socialnetwork li.youtube{ background: #d70112 }
+.box5 ul.socialnetwork li.instagram{ background: #306088 }
+
+
+.box5 ul.payment-methods > li {
+  display: inline-block;
+  float: left;
+  margin-left: 3px;
+}
+
+.box5 ul.payment-methods > li:first-child{
+  margin: 0px;
+}
+
+.box5 ul.payment-methods > li > img{
+  width: 55px;
+}
+
 
 #totals{
   border: 1px solid;

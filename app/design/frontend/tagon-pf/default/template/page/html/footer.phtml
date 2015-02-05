@@ -33,46 +33,34 @@
 <?php $footersocial = Mage::getModel('cms/block')->load('pf-footer-social'); ?>
 
 <?php
-  $tipo_produtos = Mage::getModel( 'eav/config' )->getAttribute('catalog_product', 'tipo_produto')->getSource()->getAllOptions(true, true);
-  $times = Mage::getModel( 'eav/config' )->getAttribute('catalog_product', 'time')->getSource()->getAllOptions(true, true);
+  $vestuario = Mage::getModel( 'eav/config' )->getAttribute('catalog_product', 'vestuario')->getSource()->getAllOptions(true, true);
+  $colecoes = Mage::getModel( 'eav/config' )->getAttribute('catalog_product', 'colecoes')->getSource()->getAllOptions(true, true);
 ?>
 
 <div class="footer-container">
   <div class="footer">
-
-    <?php //FOOTER 1 ?>
-    <div class="footer1-container">
-      <div class="footer1">
-
-        <h2>formas de pagamento</h2>
-        <ul>
-          <li><img src="<?php echo $this->getSkinUrl('/images/payment-visa.png'); ?>"/></li>
-          <li><img src="<?php echo $this->getSkinUrl('/images/payment-mastercard.png'); ?>"/></li>
-          <li><img src="<?php echo $this->getSkinUrl('/images/payment-amex.png'); ?>"/></li>
-          <li><img src="<?php echo $this->getSkinUrl('/images/payment-cash.png'); ?>"/></li>
-          <li><img src="<?php echo $this->getSkinUrl('/images/payment-check.png'); ?>"/></li>
-          <li><img src="<?php echo $this->getSkinUrl('/images/payment-discover.png'); ?>"/></li>
-        </ul>
-      </div>
-    </div>
 
     <?php //FOOTER 2 ?>
     <div class="footer2-container">
       <div class="footer2">
         <div class="nav">
           <div class="box1">
-            <div class="headline">Times</div>
+            <div class="headline">Vestuário</div>
             <ul>
-              <?php foreach ($times as $category): ?>
-                <?php if ($category['label']) : ?><li><a href="/produtos/escolha-o-time/<?php echo strtolower($category['label']); ?>"><?php echo $category['label']; ?></a></li><?php endif; ?>
+              <?php foreach ($vestuario as $category): ?>
+                <?php if ($category['label']) : ?>
+                  <li><a href="/produtos/escolha-o-time/<?php echo strtolower($category['label']); ?>"><?php echo $category['label']; ?></a></li>
+                <?php endif; ?>
               <?php endforeach ?>
             </ul>
           </div>
           <div class="box2">
-            <div class="headline">Categorias</div>
+            <div class="headline">Coleções</div>
             <ul>
-              <?php foreach ($tipo_produtos as $category): ?>
-                <?php if ($category['label']) : ?><li><a href="/produtos/tipo-de-produto/<?php echo strtolower($category['label']); ?>"><?php echo $category['label']; ?></a></li><?php endif; ?>
+              <?php foreach ($colecoes as $category): ?>
+                <?php if ($category['label']) : ?>
+                  <li><a href="/produtos/tipo-de-produto/<?php echo strtolower($category['label']); ?>"><?php echo $category['label']; ?></a></li>
+                <?php endif; ?>
               <?php endforeach ?>
             </ul>
           </div>
@@ -80,13 +68,24 @@
             <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('green-links')->toHtml() ?>
           </div>
         </div>
-
-        <div class="socialnetwork">
-          <ul>
+        <div class="box4">
+          <div class="fb-like-box" data-href="https://www.facebook.com/pages/Planeta-Futebol/787215551306824" data-width="285" data-colorscheme="dark" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+        </div>
+        <div class="box5">
+          <div class="headline">Redes Sociais</div>
+          <ul class="socialnetwork">
             <li class="facebook"><a href="https://www.facebook.com/pages/Planeta-Futebol/787215551306824" target="_blank"><i class="fa social fa-facebook"></i></a></li>
             <li class="twitter"><a href="https://twitter.com/PfutebolSAC" target="_blank"><i class="fa social fa-twitter"></i></a></li>
             <li class="instagram"><a href="http://instagram.com/pfutebol" target="_blank"><i class="fa social fa-instagram"></i></a></li>
             <li class="youtube"><i class="fa social fa-youtube"></i></li>
+          </ul>
+          <div class="headline">Formas de Pagamento</div>
+          <ul class="payment-methods">
+            <li><img src="<?php echo $this->getSkinUrl('/images/payment-visa.png'); ?>"/></li>
+            <li><img src="<?php echo $this->getSkinUrl('/images/payment-mastercard.png'); ?>"/></li>
+            <li><img src="<?php echo $this->getSkinUrl('/images/payment-amex.png'); ?>"/></li>
+            <li><img src="<?php echo $this->getSkinUrl('/images/payment-cash.png'); ?>"/></li>
+            <li><img src="<?php echo $this->getSkinUrl('/images/payment-check.png'); ?>"/></li>
           </ul>
         </div>
         <div class="clearer"></div>
@@ -107,13 +106,13 @@
       </div>
     </div>
     <script type="text/javascript">
-      jQuery(function() {
-        var height = jQuery('.footer2').height() / 4;
-        jQuery('.socialnetwork > ul > li').css({
-          height: height+'px',
-          'line-height': height+20+'px'
-        });
-      });
+      // jQuery(function() {
+      //   var height = jQuery('.footer2').height() / 4;
+      //   jQuery('.socialnetwork > ul > li').css({
+      //     height: height+'px',
+      //     'line-height': height+20+'px'
+      //   });
+      // });
     </script>
   </div>
 </div>
@@ -125,4 +124,13 @@
   a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0027/1721.js?"+Math.floor(new Date().getTime()/3600000);
   a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
 </script>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
