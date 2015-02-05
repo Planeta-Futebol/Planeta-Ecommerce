@@ -249,7 +249,8 @@ class Fuza_Bling_Model_Observer{
 					$content .= '</parcelas>'.PHP_EOL;
 
 					//TOTAIS
-					$content .= '<vlr_frete>'.number_format( $order->getShippingAmount(), 2, '.', '' ).'</vlr_frete>'.PHP_EOL;
+					//$content .= '<vlr_frete>'.number_format( $order->getShippingAmount(), 2, '.', '' ).'</vlr_frete>'.PHP_EOL;
+					$content .= '<vlr_frete>0</vlr_frete>'.PHP_EOL;
 					$content .= '<vlr_seguro>0</vlr_seguro>'.PHP_EOL;
 					$content .= '<vlr_despesas>0</vlr_despesas>'.PHP_EOL;
 
