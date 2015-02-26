@@ -8,7 +8,8 @@
 ## Usage:
 
 1. Copy lib/mercadopago.php to your project desired folder.
-2. Copy lib/cacert.pem to the same folder (for SSL access to MercadoPago APIs).
+
+### ...with your credentials:
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
     * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
@@ -21,6 +22,14 @@
 require_once ('mercadopago.php');
 
 $mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
+```
+
+### ...with your long live access token:
+
+```php
+require_once ('mercadopago.php');
+
+$mp = new MP ("LL_ACCESS_TOKEN");
 ```
 
 ### Get your Access Token:
@@ -138,3 +147,29 @@ $result = $mp->refund_payment($_GET["ID"]);
 print_r ($result);
 ```
 <a href="http://developers.mercadopago.com/documentacion/devolucion-y-cancelacion">About Cancel & Refund </a>
+
+### Generic resources methods
+
+You can access any other resource from the MercadoPago API using the generic methods:
+
+```php
+// Get a resource, with optional URL params. Also you can disable authentication for public APIs
+$mp->get ("/resource/uri", [params], [authenticate=true]);
+
+// Create a resource with "data" and optional URL params.
+$mp->post ("/resource/uri", data, [params]);
+
+// Update a resource with "data" and optional URL params.
+$mp->put ("/resource/uri", data, [params]);
+
+// Delete a resource with optional URL params.
+$mp->delete ("/resource/uri", [params]);
+```
+
+ For example, if you want to get the Sites list (no params and no authentication):
+
+```php
+$sites = $mp->get ("/sites", null, false);
+
+print_r ($sites);
+```

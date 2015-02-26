@@ -2,7 +2,7 @@
  * @license MIT
  * @fileOverview Favico animations
  * @author Miroslav Magda, http://blog.ejci.net
- * @version 0.3.5
+ * @version 0.3.6
  */
 
 /**
@@ -22,7 +22,8 @@
  */
 (function() {
 
-	var Favico = (function(opt) {'use strict';
+	var Favico = (function(opt) {
+		'use strict';
 		opt = (opt) ? opt : {};
 		var _def = {
 			bgColor : '#d00',
@@ -87,36 +88,33 @@
 				}
 			}
 			_opt.type = (type['' + _opt.type]) ? _opt.type : _def.type;
-			try {
-				_orig = link.getIcon();
-				//create temp canvas
-				_canvas = document.createElement('canvas');
-				//create temp image
-				_img = document.createElement('img');
-				if (_orig.hasAttribute('href')) {
-					_img.setAttribute('src', _orig.getAttribute('href'));
-					//get width/height
-					_img.onload = function() {
-						_h = (_img.height > 0) ? _img.height : 32;
-						_w = (_img.width > 0) ? _img.width : 32;
-						_canvas.height = _h;
-						_canvas.width = _w;
-						_context = _canvas.getContext('2d');
-						icon.ready();
-					};
-				} else {
-					_img.setAttribute('src', '');
-					_h = 32;
-					_w = 32;
-					_img.height = _h;
-					_img.width = _w;
+
+			_orig = link.getIcon();
+			//create temp canvas
+			_canvas = document.createElement('canvas');
+			//create temp image
+			_img = document.createElement('img');
+			if (_orig.hasAttribute('href')) {
+				_img.setAttribute('src', _orig.getAttribute('href'));
+				//get width/height
+				_img.onload = function() {
+					_h = (_img.height > 0) ? _img.height : 32;
+					_w = (_img.width > 0) ? _img.width : 32;
 					_canvas.height = _h;
 					_canvas.width = _w;
 					_context = _canvas.getContext('2d');
 					icon.ready();
-				}
-			} catch(e) {
-				throw 'Error initializing favico. Message: ' + e.message;
+				};
+			} else {
+				_img.setAttribute('src', '');
+				_h = 32;
+				_w = 32;
+				_img.height = _h;
+				_img.width = _w;
+				_canvas.height = _h;
+				_canvas.width = _w;
+				_context = _canvas.getContext('2d');
+				icon.ready();
 			}
 
 		};
@@ -142,6 +140,7 @@
 			}
 			_queue = [];
 			_lastBadge = false;
+			_running = false;
 			_context.clearRect(0, 0, _w, _h);
 			_context.drawImage(_img, 0, 0, _w, _h);
 			//_stop=true;
@@ -465,7 +464,9 @@
 				}
 				return false;
 			};
-			if (_opt.elementId) {
+			if (_opt.element) {
+				elm = _opt.element;
+			} else if (_opt.elementId) {
 				//if img element identified by elementId
 				elm = document.getElementById(_opt.elementId);
 				elm.setAttribute('href', elm.getAttribute('src'));
@@ -488,7 +489,9 @@
 		};
 		link.setIcon = function(canvas) {
 			var url = canvas.toDataURL('image/png');
-			if (_opt.elementId) {
+			if (_opt.element) {
+				_opt.element.setAttribute('src', url);
+			} else if (_opt.elementId) {
 				//if is attached to element (image)
 				document.getElementById(_opt.elementId).setAttribute('src', url);
 			} else {

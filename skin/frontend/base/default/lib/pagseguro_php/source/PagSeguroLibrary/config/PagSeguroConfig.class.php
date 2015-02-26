@@ -90,6 +90,22 @@ class PagSeguroConfig
         self::$data['environment'] = $value;
     }
 
+    public static function getApplicationCredentials()
+    {
+        if (isset(self::$data['credentials']) &&
+            isset(self::$data['credentials']['appId'][self::$data['environment']]) &&
+            isset(self::$data['credentials']['appKey'][self::$data['environment']])
+        ) {
+            
+            return new PagSeguroApplicationCredentials(
+                self::$data['credentials']['appId'][self::$data['environment']],
+                self::$data['credentials']['appKey'][self::$data['environment']]
+            );
+        } else {
+            throw new Exception("Applications credentials not set.");
+        }
+    }
+
     public static function getAccountCredentials()
     {
         if (isset(self::$data['credentials']) &&

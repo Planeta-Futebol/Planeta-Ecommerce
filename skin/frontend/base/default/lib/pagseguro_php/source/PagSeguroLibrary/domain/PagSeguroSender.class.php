@@ -39,6 +39,9 @@ class PagSeguroSender
     /*** Sender documents */
     private $documents;
 
+    /*** Sender IP */
+    private $ip;
+
     /***
      * Initializes a new instance of the Sender class
      *
@@ -63,6 +66,9 @@ class PagSeguroSender
             }
             if (isset($data['documents']) && is_array($data['documents'])) {
                 $this->setDocuments($data['documents']);
+            }
+            if (isset($data['ip'])) {
+                $this->getIP();
             }
         }
     }
@@ -171,5 +177,32 @@ class PagSeguroSender
                 $this->documents[] = $document;
             }
         }
+    }
+
+    /***
+     * Add an ip for Sender object
+     */
+    public function getIP()
+    {
+        if ( function_exists( 'apache_request_headers' ) ) {
+            $headers = apache_request_headers();
+        } else {
+            $headers = $_SERVER;
+        }
+ 
+        if ( array_key_exists( 'X-Forwarded-For', $headers ) 
+            && filter_var( $headers['X-Forwarded-For'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+            $ip = $headers['X-Forwarded-For'];
+ 
+        } elseif ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $headers ) 
+            && filter_var( $headers['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 )) {
+ 
+            $ip = $headers['HTTP_X_FORWARDED_FOR'];
+ 
+        } else {  
+            $ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP );
+        }
+
+        $this->ip = $ip;
     }
 }

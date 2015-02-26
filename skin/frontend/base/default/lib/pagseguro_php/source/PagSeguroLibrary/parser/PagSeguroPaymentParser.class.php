@@ -73,6 +73,10 @@ class PagSeguroPaymentParser extends PagSeguroServiceParser
                     }
                 }
             }
+
+             if ($payment->getSender()->getIP() != null) {
+                $data['ip'] = $payment->getSender()->getIP();
+            }
         }
 
         // currency
@@ -154,7 +158,6 @@ class PagSeguroPaymentParser extends PagSeguroServiceParser
                 }
             }
         }
-
         // maxAge
         if ($payment->getMaxAge() != null) {
             $data['maxAge'] = $payment->getMaxAge();
@@ -212,12 +215,39 @@ class PagSeguroPaymentParser extends PagSeguroServiceParser
 
     /***
      * @param $str_xml
-     * @return PagSeguroPaymentParserData
+     * @return PagSeguroPaymentParserData Success
      */
     public static function readSuccessXml($str_xml)
     {
         $parser = new PagSeguroXmlParser($str_xml);
         $data = $parser->getResult('checkout');
+        $PaymentParserData = new PagSeguroPaymentParserData();
+        $PaymentParserData->setCode($data['code']);
+        $PaymentParserData->setRegistrationDate($data['date']);
+        return $PaymentParserData;
+    }
+
+    /***
+     * @param $str_xml
+     * @return parsed credit card brand
+     */
+     public static function readCCBRandXml($str_xml)
+    {
+        $parser = new PagSeguroXmlParser($str_xml);
+        $PaymentParserData = new PagSeguroPaymentParserData();
+        $PaymentParserData->setCode($data['code']);
+        $PaymentParserData->setRegistrationDate($data['date']);
+        return $PaymentParserData;
+    }
+
+    /***
+     * @param $str_xml
+     * @return parsed transaction
+     */
+    public static function readTransactionXml($str_xml)
+    {
+        $parser = new PagSeguroXmlParser($str_xml);
+        $data = $parser->getResult('transaction');
         $PaymentParserData = new PagSeguroPaymentParserData();
         $PaymentParserData->setCode($data['code']);
         $PaymentParserData->setRegistrationDate($data['date']);
