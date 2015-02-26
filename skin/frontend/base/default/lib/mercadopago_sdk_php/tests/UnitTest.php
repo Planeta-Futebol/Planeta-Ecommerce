@@ -1,7 +1,7 @@
 <?php
 
 // You need configure absolute_path here
-require_once('../lib/mercadopago.php');
+require_once(dirname(__FILE__).'/../lib/mercadopago.php');
 
 class UnitTest extends PHPUnit_Framework_TestCase {
 
@@ -17,6 +17,14 @@ class UnitTest extends PHPUnit_Framework_TestCase {
 
     public function UnitTest() {
         $this->mp = new MP("CLIENT_ID", "CLIENT_SECRET");
+    }
+
+    /* Call preference added through button flow */
+
+    public function testLongLiveAccessToken() {
+        $mp = new MP("LONG_LIVE_ACCESS_TOKEN");
+
+        $this->assertTrue($mp->get_access_token() == "LONG_LIVE_ACCESS_TOKEN");
     }
 
     /* Call preference added through button flow */

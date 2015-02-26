@@ -49,10 +49,10 @@ class LogPagSeguro
 
         self::$active = PagSeguroConfig::logIsActive();
         if (self::$active) {
-            $fileLocation = PagSeguroConfig::getLogFileLocation();
+            $logFile = PagSeguroConfig::getLogFileLocation();
 
-            if (file_exists($fileLocation) && is_file($fileLocation)) {
-                self::$fileLocation = $fileLocation;
+            if (!empty($logFile)) {
+                self::createFile($logFile);
             } else {
                 self::createFile();
             }
@@ -64,22 +64,24 @@ class LogPagSeguro
      * @throws Exception
      * @return boolean
      */
-    public static function createFile()
+    public static function createFile($logFile = false)
     {
         if (!self::$active) {
             return false;
         }
         $defaultPath = PagSeguroLibrary::getPath();
         $defaultName = 'PagSeguro.log';
-        self::$fileLocation = $defaultPath . DIRECTORY_SEPARATOR . $defaultName;
+        self::$fileLocation = $logFile
+            ? $logFile
+            : $defaultPath . DIRECTORY_SEPARATOR . $defaultName;
 
         try {
             $f = fopen(self::$fileLocation, "a");
-            
+
             if (!$f) {
                 throw new Exception('Unable to open the input file');
             }
-            
+
             fclose($f);
             return true;
         } catch (Exception $e) {
@@ -142,11 +144,11 @@ class LogPagSeguro
         try {
 
             $file = fopen(self::$fileLocation, "a");
-            
+
             if (!$file) {
                 throw new Exception('Unable to open the input file');
             }
-            
+
             $date_message = "{" . @date("Y/m/d H:i:s", time()) . "}";
 
             switch ($type) {

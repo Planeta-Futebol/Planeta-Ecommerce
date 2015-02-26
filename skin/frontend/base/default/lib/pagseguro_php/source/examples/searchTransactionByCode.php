@@ -1,7 +1,7 @@
 <?php
 /*
  ************************************************************************
- Copyright [2011] [PagSeguro Internet Ltda.]
+ Copyright [2014] [PagSeguro Internet Ltda.]
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -25,19 +25,25 @@ class SearchTransactionByCode
     public static function main()
     {
 
-        $transaction_code = '59A13D84-52DA-4AB8-B365-1E7D893052B0';
+        $transaction_code = 'FC138A0E-C734-44A8-A9B7-6A79E1E33292';
 
         try {
 
             /*
              * #### Credentials #####
-             * Replace the parameters below with your credentials (e-mail and token)
+             * Replace the parameters below with your credentials
              * You can also get your credentials from a config file. See an example:
              * $credentials = PagSeguroConfig::getAccountCredentials();
              */
+            // seller authentication
             $credentials = new PagSeguroAccountCredentials("vendedor@lojamodelo.com.br",
-               "E231B2C9BCC8474DA2E260B6C8CF60D3");
-            
+                "E231B2C9BCC8474DA2E260B6C8CF60D3");
+
+            // application authentication
+            //$credentials = PagSeguroConfig::getApplicationCredentials();
+
+            //$credentials->setAuthorizationCode("E231B2C9BCC8474DA2E260B6C8CF60D3");
+
             $transaction = PagSeguroTransactionSearchService::searchByCode($credentials, $transaction_code);
 
             self::printTransaction($transaction);
@@ -56,14 +62,14 @@ class SearchTransactionByCode
         echo "<h3>Status: " . $transaction->getStatus()->getTypeFromValue() . '</h3>';
         echo "<h4>Reference: " . $transaction->getReference() . "</h4>";
 
-        if ($transaction->getSender()) {
-            echo "<h4>Sender data:</h4>";
-            echo "Name: " . $transaction->getSender()->getName() . '<br>';
-            echo "Email: " . $transaction->getSender()->getEmail() . '<br>';
-            if ($transaction->getSender()->getPhone()) {
-                echo "Phone: " . $transaction->getSender()->getPhone()->getAreaCode() . " - " .
-                    $transaction->getSender()->getPhone()->getNumber();
-            }
+        echo "grossAmount: " . $transaction->getGrossAmount() . '<br>';
+        echo "discountAmount: " . $transaction->getDiscountAmount() . '<br>';
+        echo "installmentCount: " . $transaction->getInstallmentCount() . '<br>';
+
+        if ($transaction->getCreditorFees()) {
+            echo "<h4>CreditorFees:</h4>";
+            echo "intermediationRateAmount: " . $transaction->getCreditorFees()->getIntermediationRateAmount() . '<br>';
+            echo "intermediationFeeAmount: " . $transaction->getCreditorFees()->getIntermediationFeeAmount() . '<br>';
         }
 
         if ($transaction->getItems()) {
@@ -77,6 +83,16 @@ class SearchTransactionByCode
                     echo "Amount: " . $item->getAmount() . '<br>'; // prints the item unit value, e.g. 3050.68
                     echo "<hr>";
                 }
+            }
+        }
+
+        if ($transaction->getSender()) {
+            echo "<h4>Sender data:</h4>";
+            echo "Name: " . $transaction->getSender()->getName() . '<br>';
+            echo "Email: " . $transaction->getSender()->getEmail() . '<br>';
+            if ($transaction->getSender()->getPhone()) {
+                echo "Phone: " . $transaction->getSender()->getPhone()->getAreaCode() . " - " .
+                    $transaction->getSender()->getPhone()->getNumber();
             }
         }
 
@@ -95,7 +111,6 @@ class SearchTransactionByCode
             echo "Shipping type: " . $transaction->getShipping()->getType()->getTypeFromValue() . '<br>';
             echo "Shipping cost: " . $transaction->getShipping()->getCost() . '<br>';
         }
-
     }
 }
 

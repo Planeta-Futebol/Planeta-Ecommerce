@@ -24,7 +24,7 @@
 class PagSeguroLibrary
 {
 
-    const VERSION = "2.2.4";
+    const VERSION = "2.4.0";
     public static $resources;
     public static $config;
     public static $log;
@@ -69,7 +69,7 @@ class PagSeguroLibrary
                 $dependencies = false;
                 throw new Exception('PagSeguroLibrary: DOM XML extension is required.');
             }
-            
+
         } catch (Exception $e) {
             return $dependencies;
         }
@@ -102,7 +102,7 @@ class PagSeguroLibrary
     {
         return self::$php_version = phpversion();
     }
-    
+
     final public static function setPHPVersion($version)
     {
         self::$php_version = $version;

@@ -57,6 +57,17 @@ Caso tenha dúvidas ou precise de suporte, acesse nosso [fórum].
 
 Changelog
 ---------
+2.4.0
+ - Integração com serviço de consulta de transações/autorizações por código de referência.
+ - Integração com serviço de modelo de aplicações.
+ - Integração com serviço de solicitação de estorno.
+ - Ajustes em geral.
+ - Obs.: As funcionalidades descritas acima ainda não estão disponíveis comercialmente para todos os vendedores. Em caso de dúvidas acesse nosso [fórum].
+
+2.3.0
+ - Adicionado classes e métodos para utilização do [Checkout Transparente].
+ - As consultas por código de notificação e por código da transação passam a utilizar a nova versão das APIs.
+
 2.2.4
  - Adicionado método setEnvironment na classe PagSeguroConfig
  - Melhorias na documentação/comentários do código
@@ -64,7 +75,7 @@ Changelog
 
 2.2.3
  - Ajustes no código
- 
+
 2.2.2
  - Adicionando environment *sandbox*
 
@@ -96,7 +107,7 @@ Changelog
  - Adicionado: Funcionalidade de envio de url de notificação via requisição de checkout.
  - Adicionado: Novas funcionalidades para tratamento de dados no helper.
  - Correção: Tratamento de duplo espaço no sender name da requisição de checkout.
- 
+
 2.1.4
 
  - Adicionado: Classe para manipulação de moedas permitidas nas transações com o PagSeguro.
@@ -134,10 +145,10 @@ Notas
  - Para que ocorra normalmente a geração de logs, certifique-se que o diretório e o arquivo de log tenham permissões de leitura e escrita.
 
 
-[Dúvidas?]
+Dúvidas?
 ----------
 
-Em caso de dúvidas mande um e-mail para desenvolvedores@pagseguro.com.br
+Em caso de dúvidas acesse nosso [fórum].
 
 
 Contribuições
@@ -145,14 +156,17 @@ Contribuições
 
 Achou e corrigiu um bug ou tem alguma feature em mente e deseja contribuir?
 
-* Faça um fork.
-* Adicione sua feature ou correção de bug.
+* Faça um fork do projeto.
+* Faça checkout no branch desenvolvimento.
+* Adicione sua feature ou ajuste.
 * Envie um pull request no [GitHub].
+* Obs.: Nao serão aceitos PR no repositório master.
 
 
   [requisições de pagamentos]: https://pagseguro.uol.com.br/v2/guia-de-integracao/api-de-pagamentos.html
-  [notificações]: https://pagseguro.uol.com.br/v2/guia-de-integracao/api-de-notificacoes.html
-  [transações por código]: https://pagseguro.uol.com.br/v2/guia-de-integracao/consulta-de-transacoes-por-codigo.html
+  [notificações]: https://pagseguro.uol.com.br/v3/guia-de-integracao/api-de-notificacoes.html
+  [Checkout Transparente]: https://pagseguro.uol.com.br/receba-pagamentos.jhtml#checkout-transparent
+  [transações por código]: https://pagseguro.uol.com.br/v3/guia-de-integracao/consulta-de-transacoes-por-codigo.html
   [transações por intervalo de datas]: https://pagseguro.uol.com.br/v2/guia-de-integracao/consulta-de-transacoes-por-intervalo-de-datas.html
   [transações abandonadas]: https://pagseguro.uol.com.br/v2/guia-de-integracao/consulta-de-transacoes-abandonadas.html
   [fórum]: http://forum.pagseguro.uol.com.br/

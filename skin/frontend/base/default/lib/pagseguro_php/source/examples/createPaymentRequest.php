@@ -88,17 +88,25 @@ class CreatePaymentRequest
 
             /*
              * #### Credentials #####
-             * Replace the parameters below with your credentials (e-mail and token)
+             * Replace the parameters below with your credentials
              * You can also get your credentials from a config file. See an example:
              * $credentials = PagSeguroConfig::getAccountCredentials();
-             */
+            //  */
+
+            // seller authentication
             $credentials = new PagSeguroAccountCredentials("vendedor@lojamodelo.com.br",
                 "E231B2C9BCC8474DA2E260B6C8CF60D3");
+
+            // application authentication
+            //$credentials = PagSeguroConfig::getApplicationCredentials();
+
+            //$credentials->setAuthorizationCode("E231B2C9BCC8474DA2E260B6C8CF60D3");
 
             // Register this payment request in PagSeguro to obtain the payment URL to redirect your customer.
             $url = $paymentRequest->register($credentials);
 
             self::printPaymentUrl($url);
+
         } catch (PagSeguroServiceException $e) {
             die($e->getMessage());
         }
