@@ -23,10 +23,28 @@
     <customer_account>
         <reference name="customer_account_navigation">
             <!--Changed By Adam 28/07/2014-->
-            <action method="addLink" translate="label" module="affiliateplus" ifconfig="affiliateplus/general/enable">
+            <!-- <action method="addLink" translate="label" module="affiliateplus" ifconfig="affiliateplus/general/enable">
                 <name>affiliateplus</name>
                 <path>affiliateplus</path>
                 <label>Affiliates</label>
+            </action> -->
+            <action method="addLink" translate="label" module="affiliateplus">
+                <name>refers</name>
+                <path>affiliateplus/refer/index</path>
+                <label><![CDATA[Refer Friends]]>
+                </label>
+                <disabled helper="affiliateplusreferfriend/disableReferFriend" />
+                <order>47</order>
+            </action>
+            <action method="addLink" translate="label" module="affiliateplusstatistic">
+                <name>report</name>
+                <path>affiliateplusstatisticfrontend/statistic/index</path>
+                <label><![CDATA[Reports]]></label>
+                <disabled helper="affiliateplusstatistic/disableMenu" />
+                <order>185</order>
+            </action>
+            <action method="addLink" translate="label" module="affiliatepluscoupon">
+              <name>banners</name><path>affiliatepluscoupon/index/index</path><label><![CDATA[Coupons]]></label><disabled helper="affiliatepluscoupon/couponIsDisable" /><order>45</order>
             </action>
         </reference>
     </customer_account>
@@ -39,89 +57,30 @@
         </reference>
 
         <reference name="left">
-          <block type="affiliateplus/account_navigation" after="addbootstrap" name="account_navigator" template="affiliateplus/navigation.phtml">
-                <action method="setNavigationTitle">
-                    <title helper="affiliateplus/account/getNavigationLabel" />
-                </action>
+            <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
                 <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
-                <!-- <action method="addLink" translate="label" module="affiliateplus">
-                    <name>balance</name>
-                    <path>affiliateplus/index/paymentForm</path>
-                    <label helper="affiliateplus/account/getBalanceLabel" />
-                    <disabled helper="affiliateplus/account/accountNotLogin" />
-                    <order>6</order>
-                </action> -->
-                <!-- <action method="addLink" translate="label" module="affiliateplus">
-                    <name>home</name>
-                    <path>affiliateplus</path>
-                    <label>Affiliate Home</label>
-                    <disabled>0</disabled>
-                    <order>10</order>
-                </action> -->
+                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
+                <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
+                <action method="addLink" translate="label" module="sales"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
+                <action method="addLink" translate="label" module="tag"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action>
+
                 <action method="addLink" translate="label" module="affiliateplus">
-                    <name>login</name>
-                    <path>affiliateplus/account/login</path>
-                    <label>Login</label>
-                    <disabled helper="affiliateplus/account/customerLoggedIn" />
-                    <order>20</order>
-                </action>
-                <action method="addLink" translate="label" module="affiliateplus">
-                    <name>register</name>
-                    <path>affiliateplus/account/register</path>
-                    <label>Signup</label>
-                    <disabled helper="affiliateplus/account/isRegistered" />
-                    <order>30</order>
-                </action>
-                <!-- <action method="addLink" translate="label" module="affiliateplus">
-                    <name>banners</name>
-                    <path>affiliateplus/banner/list</path>
-                    <label><![CDATA[Banners & Links]]>
+                    <name>refers</name>
+                    <path>affiliateplus/refer/index</path>
+                    <label><![CDATA[Refer Friends]]>
                     </label>
-                    <disabled helper="affiliateplus/account/accountNotLogin" />
-                    <order>40</order>
-                </action> -->
-                <!-- <action method="addLink" translate="label" module="affiliateplus">
-                    <name>materials</name>
-                    <path>affiliateplus/index/materials</path>
-                    <label>Referring Materials</label>
-                    <disabled helper="affiliateplus/config/disableMaterials" />
-                    <order>43</order>
-                </action> -->
-                <action method="addLink" translate="label" module="affiliateplus">
-                    <name>sales</name>
-                    <path>affiliateplus/index/listTransaction</path>
-                    <label>Commissions</label>
-                    <disabled helper="affiliateplus/account/accountNotLogin" />
-                    <order>110</order>
+                    <disabled helper="affiliateplusreferfriend/disableReferFriend" />
+                    <order>47</order>
                 </action>
-                <action method="addLink" translate="label" module="affiliateplus">
-                    <name>payments</name>
-                    <path>affiliateplus/index/payments</path>
-                    <!-- <label>Withdrawals</label> -->
-                    <label helper="affiliateplus/account/getWithdrawalLabel" />
-                    <disabled helper="affiliateplus/account/hideWithdrawalMenu" />
-                    <order>120</order>
+                <action method="addLink" translate="label" module="affiliateplusstatistic">
+                    <name>report</name>
+                    <path>affiliateplusstatisticfrontend/statistic/index</path>
+                    <label><![CDATA[Reports]]></label>
+                    <disabled helper="affiliateplusstatistic/disableMenu" />
+                    <order>185</order>
                 </action>
-                <!-- <action method="addLink" translate="label" module="affiliateplus">
-                    <name>referrers</name>
-                    <path>affiliateplus/index/referrers</path>
-                    <label>Traffics</label>
-                    <disabled helper="affiliateplus/account/accountNotLogin" />
-                    <order>180</order>
-                </action> -->
-                <!-- <action method="addLink" translate="label" module="affiliateplus">
-                    <name>edit</name>
-                    <path>affiliateplus/account/edit</path>
-                    <label>Settings</label>
-                    <disabled helper="affiliateplus/account/accountNotLogin" />
-                    <order>190</order>
-                </action> -->
-                <action method="addLink" translate="label" module="affiliateplus">
-                    <name>logout</name>
-                    <path>affiliateplus/account/logout</path>
-                    <label>Logout</label>
-                    <disabled helper="affiliateplus/account/accountNotLogin" />
-                    <order>200</order>
+                <action method="addLink" translate="label" module="affiliatepluscoupon">
+                  <name>banners</name><path>affiliatepluscoupon/index/index</path><label><![CDATA[Coupons]]></label><disabled helper="affiliatepluscoupon/couponIsDisable" /><order>45</order>
                 </action>
             </block>
             <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml">

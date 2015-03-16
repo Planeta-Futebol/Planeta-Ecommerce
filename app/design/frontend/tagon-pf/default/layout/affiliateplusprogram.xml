@@ -8,18 +8,17 @@
         </reference>
     </default>
 	
-    <affiliateplus_default>
+   <!--  <affiliateplus_default>
         <reference name="account_navigator">
             <action method="addLink" translate="label" module="affiliateplusprogram">
                 <name>program</name>
                 <path>affiliateplusprogram/index/index</path>
                 <label>My Programs</label>  
-                <!--hainh-->              
                 <disabled helper="affiliateplusprogram/isModuleDisabled"  />
                 <order>15</order>
             </action>
         </reference>
-    </affiliateplus_default>
+    </affiliateplus_default> -->
     
     <affiliateplusprogram_index_index>
         <reference name="head">
