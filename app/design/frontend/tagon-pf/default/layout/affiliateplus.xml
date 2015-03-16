@@ -63,6 +63,14 @@
                 <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
                 <action method="addLink" translate="label" module="sales"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
                 <action method="addLink" translate="label" module="tag"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action>
+                
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>standard</name>
+                    <path>affiliateplus/index/listTransaction</path>
+                    <label><![CDATA[Comissions]]></label>
+                    <!-- <disabled helper="affiliateplusreferfriend/disableReferFriend" /> -->
+                    <order>48</order>
+                </action>
 
                 <action method="addLink" translate="label" module="affiliateplus">
                     <name>refers</name>
