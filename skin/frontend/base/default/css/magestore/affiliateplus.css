@@ -240,9 +240,9 @@ ul.affiliate-commission-tab li a{
 }
 .form-control {
     display: block;
-    width: 100%;
-    height: 34px;
-    padding: 6px 12px;
+    /*width: 100%;*/
+    height: 18px;
+    padding: 6px;
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;
