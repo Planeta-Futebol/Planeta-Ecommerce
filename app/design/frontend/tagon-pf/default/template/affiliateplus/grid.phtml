@@ -101,7 +101,7 @@
 
 <?php// echo $this->getPagerHtml() ?>
 <div class="table-responsive">
-    <table data-toggle="table" class="table table-bordered table-hover no-margin" id="<?php echo $this->getNameInLayout() ?>">
+    <table data-toggle="table" class="data-table" id="<?php echo $this->getNameInLayout() ?>">
         <colgroup>
             <?php foreach ($columns as $id => $column): ?>
                 <col class="<?php echo $id ?>" style="<?php if (isset($column['align'])): ?>align:<?php echo $column['align'] ?>;<?php endif ?><?php if (isset($column['width'])): ?>width:<?php echo $column['width'] ?><?php endif ?>" />
