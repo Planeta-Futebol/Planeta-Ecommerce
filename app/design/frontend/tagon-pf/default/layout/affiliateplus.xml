@@ -29,6 +29,13 @@
                 <label>Affiliates</label>
             </action> -->
             <action method="addLink" translate="label" module="affiliateplus">
+                    <name>standard</name>
+                    <path>affiliateplus/index/listTransaction</path>
+                    <label><![CDATA[Comissions]]></label>
+                    <!-- <disabled helper="affiliateplusreferfriend/disableReferFriend" /> -->
+                    <order>48</order>
+                </action>
+            <action method="addLink" translate="label" module="affiliateplus">
                 <name>refers</name>
                 <path>affiliateplus/refer/index</path>
                 <label><![CDATA[Refer Friends]]>
