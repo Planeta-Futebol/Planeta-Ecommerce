@@ -1,7 +1,7 @@
 <?php
 /*
  ************************************************************************
- Copyright [2011] [PagSeguro Internet Ltda.]
+ Copyright [2014] [PagSeguro Internet Ltda.]
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ class SearchTransactionsAbandoned
     public static function main()
     {
 
-        $initialDate = '2014-03-10T08:50';
-        $finalDate = '2014-03-29T10:30';
+        $initialDate = '2014-11-01T14:55';
+        $finalDate = '2014-11-30T09:55';
 
         $pageNumber = 1;
         $maxPageResults = 20;
@@ -35,12 +35,18 @@ class SearchTransactionsAbandoned
 
             /*
              * #### Credentials #####
-             * Substitute the parameters below with your credentials (e-mail and token)
+             * Substitute the parameters below with your credentials
              * You can also get your credentials from a config file. See an example:
              * $credentials = PagSeguroConfig::getAccountCredentials();
              */
+            // seller authentication
             $credentials = new PagSeguroAccountCredentials("vendedor@lojamodelo.com.br",
-               "E231B2C9BCC8474DA2E260B6C8CF60D3");
+                "E231B2C9BCC8474DA2E260B6C8CF60D3");
+
+            // application authentication
+            //$credentials = PagSeguroConfig::getApplicationCredentials();
+
+            //$credentials->setAuthorizationCode("E231B2C9BCC8474DA2E260B6C8CF60D3");
 
             $result = PagSeguroTransactionSearchService::searchAbandoned(
                 $credentials,

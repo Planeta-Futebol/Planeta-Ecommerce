@@ -66,6 +66,7 @@ class PagSeguroAutoloader
             $file = PagSeguroLibrary::getPath() . DIRECTORY_SEPARATOR .
                 $dir . DIRECTORY_SEPARATOR . $class . '.class.php';
             if (file_exists($file) && is_file($file)) {
+
                 require_once $file;
             }
         }
