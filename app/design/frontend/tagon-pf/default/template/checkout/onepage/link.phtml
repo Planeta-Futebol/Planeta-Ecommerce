@@ -28,7 +28,7 @@
 <?php
   $group = Mage::getSingleton('customer/session')->getCustomerGroupId();
   $subtotal = Mage::helper('checkout')->getQuote()->getSubtotal();
-  $minimum_order = 500;
+  $minimum_order = Mage::app()->getStore()->getConfig('sales/minimum_order_franchisee/amount');
 ?>
 
 <?php if ($this->isPossibleOnepageCheckout() && $group > 1 && $subtotal >= $minimum_order || $group == 0 || $group == 1):?>
