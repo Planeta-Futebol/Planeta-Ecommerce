@@ -243,6 +243,34 @@
                         </multi_address_error_message>
                     </fields>
                 </minimum_order>
+
+                <minimum_order_franchisee translate="label">
+                    <label>Valor Minimo de Compra para Franqueado</label>
+                    <sort_order>55</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <amount translate="label comment">
+                            <label>Minimum Amount</label>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Subtotal after discount.</comment>
+                        </amount>
+                        <error_message translate="label comment">
+                            <label>Error to Show in Shopping Cart</label>
+                            <sort_order>20</sort_order>
+                            <frontend_type>textarea</frontend_type>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>This message will be shown in shopping cart when subtotal after discount less than minimum amount.</comment>
+                        </error_message>
+                    </fields>
+                </minimum_order_franchisee>
+
                 <dashboard translate="label,comment">
                     <label>Dashboard</label>
                     <sort_order>60</sort_order>

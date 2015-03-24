@@ -1,0 +1,21 @@
+<div class="block block-account" id="nav-aff" >
+    <div class="block-title">
+        <strong><?php echo $this->getNavigationTitle(); ?></strong>
+    </div>
+    <div class="block-content">
+        <ul>
+            <?php $_links = $this->getLinks(); ?>
+            <?php foreach ($_links as $_link): ?>
+                <?php if ($_link->getDisabled()) continue; ?>
+                <?php if ($this->isActive($_link)): ?>
+                    <li class="current"><a><?php echo $_link->getLabel() ?></a></li>
+                        <?php else: ?>
+                    <li><a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+        <script type="text/javascript">
+            decorateGeneric($('affiliateplus-navigation-<?php echo $this->getNameInLayout() ?>').childElements(), ['last']);
+        </script>
+    </div>
+</div>
