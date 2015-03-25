@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<layout>
+	<adminhtml_tagon_groupscatalog_migration_index>
+		<reference name="content">
+			<block type="tagon_groupscatalog/adminhtml_system_tools_migration" name="groupscatalog.migration" template="tagon/groupscatalog/system/tools/migration.phtml"/>
+		</reference>
+	</adminhtml_tagon_groupscatalog_migration_index>
+</layout>
