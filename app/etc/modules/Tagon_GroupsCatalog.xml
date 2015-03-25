@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<config>
+	<modules>
+		<Tagon_GroupsCatalog>
+			<active>true</active>
+			<codePool>local</codePool>
+			<depends>
+				<Mage_Core />
+				<Mage_Catalog />
+				<Mage_Index />
+				<Mage_CatalogSearch/>
+				<Mage_Wishlist/>
+				<Mage_Customer/>
+			</depends>
+		</Tagon_GroupsCatalog>
+	</modules>
+</config>
