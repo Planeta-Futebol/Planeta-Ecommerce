@@ -5,10 +5,6 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
   public function __construct() {
     parent::__construct();
 
-    if(array_key_exists('c', $_GET)) {
-      $cate = Mage::getModel('catalog/category')->load($_GET["c"]);
-    }
-
     $userid = Mage::getSingleton('customer/session')->getCustomer()->getId();
     $querydata = Mage::getModel('stock/product')->getCollection()
         ->addFieldToFilter('userid', array('eq' => $userid))
@@ -26,43 +22,23 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
 
     $collection = Mage::getModel('catalog/product')->getCollection();
     $collection->addAttributeToSelect('*');
-    //print_r($collection); die;
-
-    if(array_key_exists('c', $_GET)) {
-      $collection->addCategoryFilter($cate);
-    }
 
     $collection->addAttributeToFilter('entity_id', array('in' => $rowdata));
     $this->setCollection($collection);
   }
 
-// protected function _prepareLayout() {
-//        parent::_prepareLayout();
-//        $toolbar = $this->getToolbarBlock();
-//        $collection = $this->getCollection();
-//
-//        if ($orders = $this->getAvailableOrders()) {
-//           $toolbar->setAvailableOrders($orders);
-//        }
-//        if ($sort = $this->getSortBy()) {
-//            $toolbar->setDefaultOrder($sort);
-//        }
-//        if ($dir = $this->getDefaultDirection()) {
-//            $toolbar->setDefaultDirection($dir);
-//        }
-//        $toolbar->setCollection($collection);
-// 
-//        $this->setChild('toolbar', $toolbar);
-//        $this->getCollection()->load();
-//    $partner=$this->getProfileDetail();
-//    if($partner->getShoptitle()!='')
-//      $this->getLayout()->getBlock('head')->setTitle($partner->getShoptitle());
-//    else
-//      $this->getLayout()->getBlock('head')->setTitle($partner->getProfileurl());
-//    $this->getLayout()->getBlock('head')->setKeywords($partner->getMetaKeyword());		
-//    $this->getLayout()->getBlock('head')->setDescription($partner->getMetaDescription());
-//        return $this;
-//    }
+  protected function _prepareLayout() {
+    parent::_prepareLayout();
+    $pager = $this->getLayout()->createBlock('page/html_pager', 'custom.pager');
+
+    //$pager->setAvailableLimit(array(5=>5,10=>10,20=>20,'all'=>'all'));
+    $pager->setAvailableLimit(array(1=>1,2=>2,3=>3,'all'=>'all'));
+    $pager->setCollection($this->getCollection());
+
+    $this->setChild('pager', $pager);
+    $this->getCollection()->load();
+    return $this;
+  }
 
   public function getDefaultDirection() {
     return 'asc';
@@ -80,16 +56,6 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
     $block = $this->getLayout()->createBlock('stock/toolbar', microtime());
     return $block;
   }
-
-  /*public function getToolbarBlock() {
-     if ($blockName = $this->getToolbarBlockName()) {
-          if ($block = $this->getLayout()->getBlock($blockName)) {
-              return $block;
-          }
-      }
-      $block = $this->getLayout()->createBlock($this->_defaultToolbarBlock, microtime());
-      return $block;
-  }*/
 
   public function getMode() {
       return $this->getChild('toolbar')->getCurrentMode();
