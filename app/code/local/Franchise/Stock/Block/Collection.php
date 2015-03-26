@@ -65,6 +65,10 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
       return $this->getChildHtml('toolbar');
   }
 
+  public function getPagerHtml() {
+    return $this->getChildHtml('pager');
+  }
+
   public function getColumnCount() {
      return 4;
   }

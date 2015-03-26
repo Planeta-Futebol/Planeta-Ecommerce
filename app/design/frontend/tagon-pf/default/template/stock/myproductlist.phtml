@@ -1,75 +1,87 @@
 <?php
-  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-  $role = Mage::getSingleton('customer/group')->load($roleId)->getData('customer_group_code');
-  $role = strtolower($role);
-
   $helper= Mage::helper('stock');
-  if($role=='franchise'){
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+  if($roleId > 1) {
+    $_productCollection=$this->getCollection();
+    $_helper = $this->helper('catalog/output');
 ?>
   <div class="fieldset">
     <h2 class="legend"><?php echo $helper->__('Product List') ?></h2>
-    <div class="productlist">
-      <p style="display: none;">
-        <form method="post" enctype="multipart/form-data">
-          <input type="text" name="searchfr" id="searchfr"/>
-          <input type="submit" name="submit" id="submit"/>
+    <div class="productlist frproductlist">
+      <?php if(!$_productCollection->count()): ?>
+        <p class="note-msg">
+          <?php echo $this->__('Não há produtos relacionados a essa busca.') ?>
+        </p>
+      <?php else: ?>
+      <div class= "frpagewrap">
+      <form method="post" id="frsearch" enctype="multipart/form-data" action="<?php echo $this->getUrl('*/*/serching'); ?>">
+          <label>Buscar: </label>
+          <input type="text" name="searchfr" id="searchfr" required="required"/>
+          <input type="submit" name="submit" id="submit" value="OK"/>
         </form>
-      </p>
-      <table>
-        <thead>
-          <th>
-            <td>Product Name</td>
-            <td>Quantity</td>
-            <td>Purchased at</td>
-            <td>Price</td>
-            <td>Action</td>
-          </th>
-        </thead>
-        <tbody>
-        <?php
-          $userid = Mage::getSingleton('customer/session')->getCustomer()->getId();
-          $querydata = Mage::getModel('stock/product')->getCollection()
-              ->addFieldToFilter('userid', array('eq' => $userid))
-              ->addFieldToFilter('status', array('neq' => 2))
-              ->setOrder('stockproductid');
-          $rowdata=array();
+        <div class="pager-top">
+          <?php echo $this->getPagerHtml();?>
+        </div>
+      </div>
+       <ol class="maintree">
+          <li class="singlerow headtree">
+            <ul>
+              <li class="fli">Produto</li>
+              <li>Quant.</li>
+              <li>Compra</li>
+              <li>Potencial de venda</li>
+              <li class="lli">Lançar</li>
+            </ul>
+          </li>
+          <?php
+            $tproductprice = 0;
+            $tsalesprice = 0;
+            $quant1 = 0;
 
-          foreach ($querydata as  $value) {
-            $qty = (int)Mage::getModel('cataloginventory/stock_item')
-             ->loadByProduct($value->getStockproductid())->getQty();
-
-            if($qty){
-              $rowdata[] = $value->getStockproductid();
+            foreach($_productCollection as $_product) {
+              $productMediaConfig = Mage::getModel('catalog/product_media_config');
+              $productprice = $_product->getPrice();
+              $tproductprice += $productprice;
+              $salesprice = $_product->getSpecialPrice();
+              $tsalesprice += $salesprice;
+          ?>
+          <li class="singlerow">
+            <ul class="subli">
+              <li class="fli"><?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?></li>
+              <li>
+                <?php
+                  $stockItem = Mage::getModel('cataloginventory/stock_item')
+                    ->loadByProduct($_product);
+                  echo (int) $stockItem->getData('qty'); 
+                ?>
+              </li>
+              <li><?php echo Mage::helper('core')->currency($productprice); ?></li>
+              <li><?php echo Mage::helper('core')->currency($salesprice); ?></li>
+              <li class="lli"><a>Lançar</a></li>
+            </ul>
+          </li>
+          <?php
             }
-          }
-
-          $collection = Mage::getModel('catalog/product')->getCollection();
-          $collection->addAttributeToSelect('*');
-
-          if(array_key_exists('c', $_GET)){
-            $collection->addCategoryFilter($cate);
-          }
-
-          $collection->addAttributeToFilter('entity_id', array('in' => $rowdata));
-
-          foreach($collection as $products) {
-            $productMediaConfig = Mage::getModel('catalog/product_media_config');
-        ?>
-          <tr>
-            <td><?php echo $products->getName(); ?></td>
-            <td><?php echo $products->getPrice(); ?></td>
-            <td><?php echo Mage::helper('core')->currency($products->getFinalPrice(),true,false); ?></td>
-            <td><?php echo Mage::helper('core')->currency($products->getPrice(),true,false); ?></td>
-          </tr>
-        <?php
-          }
-        ?>
-        </tbody>
-      </table>
+          ?>
+          <li class="singlerow totalrow">
+            <ul class="subli">
+              <li class="fli">Total</li>
+              <li>__</li>
+              <li><?php echo $tproductprice;?></li>
+              <li><?php echo $tspecialprice;?></li>
+              <li class="lli"> </li>
+            </ul>
+          </li>
+        </ol>
+        <div class="pager-bottom">
+          <?php echo $this->getPagerHtml(); ?>
+        </div>
+      <?php endif;?>
     </div>
   </div>
 <?php
   }else{
-    echo $helper->__("<h2 class='wk_new_msg'>To become a Franchise contact admin...</h2>");
+    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
   }
 ?>
