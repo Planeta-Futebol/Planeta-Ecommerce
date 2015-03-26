@@ -18,14 +18,25 @@
           <frontName>stock</frontName>
         </args>
       </stock>
-      </routers>
-      <layout>
-        <updates>
-          <stock>
-            <file>stock.xml</file>
-          </stock>
-        </updates>
-      </layout>
+    </routers>
+    <layout>
+      <updates>
+        <stock>
+          <file>stock.xml</file>
+        </stock>
+      </updates>
+    </layout>
+    <events>
+      <checkout_onepage_controller_success_action>
+        <observers>
+          <stock_order_success>
+            <type>singleton</type>
+            <class>stock/FranchiseProducts</class>
+            <method>orderSaveEvent</method>
+          </stock_order_success>
+        </observers>
+      </checkout_onepage_controller_success_action>
+    </events>
   </frontend>
   <adminhtml>
     <acl>
@@ -86,12 +97,6 @@
           <product>
             <table>stock_product</table>
           </product>
-      <!--<saleperpartner>
-            <table>stock_saleperpartner</table>
-          </saleperpartner>
-          <saleslist>
-            <table>stock_saleslist</table>
-          </saleslist>-->
         </entities>
       </stock_mysql4>
     </models>
@@ -116,6 +121,11 @@
       </stock_read>
     </resources>
     <blocks>
+      <adminhtml>
+        <rewrite>
+          <customer_edit_tabs>Franchise_Stock_Block_Adminhtml_Customer_Edit_Tabs</customer_edit_tabs>
+        </rewrite>
+      </adminhtml>
       <stock>
         <class>Franchise_Stock_Block</class>
       </stock>
