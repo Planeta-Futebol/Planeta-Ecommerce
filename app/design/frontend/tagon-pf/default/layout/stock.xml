@@ -3,7 +3,7 @@
   <customer_account>
     <reference name="head">
       <action method="addCss">
-        <stylesheet>stock/css/style.css</stylesheet>
+        <stylesheet>stock/css/stock.css</stylesheet>
       </action>
     </reference>
     <reference name="left">
@@ -13,12 +13,12 @@
   <stock_account_productlist>
     <reference name="head">
       <action method="addCss">
-        <stylesheet>stock/css/style.css</stylesheet>
+        <stylesheet>stock/css/stock.css</stylesheet>
       </action>
     </reference>
     <update handle="customer_account" />
     <reference name="content">
-        <block type="stock/stock" name="stock_myproductslist" template="stock/myproductlist.phtml" />
+        <block type="stock/collection" name="stock_myproductslist" template="stock/myproductlist.phtml" />
     </reference>
   </stock_account_productlist>
 </layout>
