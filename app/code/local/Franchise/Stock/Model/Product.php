@@ -51,7 +51,9 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
           if($existssku == trim($itemsku,"")) {
             $arrofexistssku[] = $itemsku;
             $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($frprodload);
-            $stockItem->setData('qty', 50);
+            $oldqty = $stockItem->getData('qty');
+            $totalqty = $oldqty + $qty;
+            $stockItem->setData('qty', $totalqty);
             $stockItem->save();
             $frprodload->save();
           }
