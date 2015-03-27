@@ -1314,6 +1314,11 @@ function ItemInstallments_CheckoutTelencephalon(event, element){
 	//console.log(element_name);
 	//console.log(element_value);
 	//console.log(payment_method);
+	//console.log(element_value.indexOf('juros'));
+
+	if( element_value.indexOf('juros') == -1 ){
+		return;
+	}
 
 	URL_FEE = URLSAVE + 'payment_method/' + payment_method + '/';
 
@@ -1334,7 +1339,7 @@ function ItemInstallments_CheckoutTelencephalon(event, element){
 
 			}else if ( $('opc-address-form-billing') ) {
 
-					IWD.OPC.savePayment();
+				IWD.OPC.savePayment();
 
 			}else{
 
@@ -1728,11 +1733,11 @@ function Phone_Event(event) {
 			element.addClassName("validate-telefone-br");
 		}
 
-		var validator = new Validation(form_id);
+		//var validator = new Validation(form_id);
 
-		if (validator.validate()) {
+		//if (validator.validate()) {
 		    //return false;
-		}
+		//}
 
 	}
 

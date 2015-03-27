@@ -1,5 +1,128 @@
 ## RELEASE NOTES
 
+### Version 1.11.6 - March 27, 2015
+
+More critical bug backports from `2.x` branch, as well as fixes for browserify
+
+**Bugs**
+- **Menu/Dropdown** - Fix dropdown headers disappearing inside menus
+- **Dropdown** - Fix unescaped character in css property causing css validation errors
+- **Form** - Fix `grouped required` fields display issues **Thanks @palmsey**
+- **All UI** - Fix `index.js` npm build to work with browserify in individual component repos **Thanks @sdimit**
+- **LESS Repo** - Add missing `semantic.less` file to less repo for importing components
+
+### Version 1.11.5 - March 23, 2015
+
+This version backports several bugs that were being packed in `2.0` to `1.x`.
+2.0 will be coming in the next 1-2 weeks.
+
+**Bugs**
+- **Build Tools** - Adjusting site.variables will now rebuild all UI, instead of just site.less
+- **Build Tools** - LESS will now throw errors correctly in `watch`
+- **Card** - Fixes dimmer background shorthand property causes transparent dimmer in minified version
+- **Dimmer** - Fixed `variation` setting not working correctly
+- **Dropdown** - `onChange` no longer fires when reselecting same value
+- **Dropdown** - Fix bug where element will not blur on tab key when search selection and no selection made
+- **Dropdown** - Dropdown init on `select` now returns `ui dropdown` created for chaining
+- **Dropdown** - Dropdown `focus` color has been adjusted to match forms more closely
+- **Dropdown** - Fixes IE10 scrollbar width in menu (calc was being precompiled in LESS) **Thanks @gabormeszoly**
+
+### Version 1.11.3-4 - March 6, 2015
+
+**Enhancements**
+- **Grid** - Added opt-in `stretched` variation for `equal height` instead of forcing `flex` on all `equal height columns` which may cause layout issues due to changes in rendering with `flexbox`.
+
+**Fixes**
+- **Build Tools** - Fix issues with minified CSS `@import` not being on top of minified semantic ui concatenated release due to [bug in clean-css](https://github.com/jakubpawlowicz/clean-css/issues/476)
+- **Grid** - Fixes `stackable` `equal height/width` grid to remove `flex` on mobile when stacking
+- **Grid** - Fixed `right/left/center aligned` to adjust `align-items` in flex containers like `equal height/width`
+
+### Version 1.11.2 - March 6, 2015
+
+**Enhancements**
+- **Accordion** - Accordion can now specify a trigger element instead of `title`, added an [example in docs](http://www.semantic-ui.com/modules/accordion.html#changing-trigger)
+- **Accordion** - Accordion can now hide while opening animation is still occuring
+- **Grid** - Equal width grids will now make column content stretch to full height, not just the column itself (requires flexbox). See examples [in the grid docs](http://www.semantic-ui.com/collections/grid.html#equal-height)
+- **Header** - Labels inside headers have been slightly increased in size
+- **Search** - Search now uses internally [fuzzy search](https://github.com/bevacqua/fuzzysearch) as its new full text search algorithm.
+
+**Important Fixes**
+- **Build Tools** - Fix issues with minified component CSS `@import` not always being on top of files due to [bug in clean-css](https://github.com/jakubpawlowicz/clean-css/issues/476)
+
+**Bugs**
+- **Accordion** - Removed mistaken extra `1px` top border on nested `styled accordion`
+- **Modal** - Fixes modal `buttons` on mobile devices to not have extra bottom padding.
+- **Card/Dimmer** - Fix dimmer z-index being too high when inside a `ui card`. Added variable for specifying default dimmer color inside card.
+- **Site** - `h1-h5` now have no top margin when `first-child` and no bottom margin when `last-child`
+- **Dropdown** - Fix issue in `setup reference` (added in `1.11.1`) where chaining would not return `ui dropdown` immediately after initialization
+
+### Version 1.11.1 - March 5, 2015
+
+**Enhancements**
+- **Dropdown** - Calling behaviors on a dropdown `select` will now automatically route them to the appropriate parent `ui dropdown`
+
+**Bugs**
+
+- **Grid** - Fix issue in `centered grid` not centering `column` inside `row`
+- **Dropdown** - Added select styles for elements before they are initialized instead of FOIC (Flash of invisible content)
+
+### Version 1.11.0 - March 3, 2015
+
+**New Components**
+- **Visibiliity** - Attach callbacks to elements visibility conditions like `top visible` `bottom visible`, `passing`. Useful for things like: image lazy loading, infinite scroll content, and recording tracking metrics.
+
+[See the examples](http://www.semantic-ui.com/behaviors/visibility.html#/examples) online for a demonstration.
+
+**Enhancements**
+- **Form** - `<select>` now receive error formatting on `form error` **Thanks @davialexandre**
+- **Transition** - Added more reasonable default durations for each animation
+- **Loader** - `inline loader` now has a `centered` variation
+- **Modal** - Modal no longer hides and reshows dimmer when opening a modal with another modal open with `exclusive: true`
+- **Popup** - Added `exclusive` parameter to automatically close other popups on open
+- **Transition** - Added `toggle` behavior and docs for `show` and `hide`
+- **Transition** - transition now has `stop`, `stop all`, and `clear queue` for removing transitions, (undocumented method `stop`, and `start` renamed to `enable` and `disable`)
+- **Dimmer** - Add `opacity` setting to override css value. Add to docs several undocumented settings, like `useCSS`, and `variation`.
+- **Icon** - added `@src` variable to make it adjustable with themes that dont support all types like `woff2`
+
+**Bugs**
+- **Dropdown** - Fixes issue where dropdown would not open after restoring previus value on failed `search dropdown` search
+- **Grid** - Fixes specificity of grid `column` colors to not affect other elements with columns
+- **Icon** - Fix `clockwise rotated icon` causing `clockwise` icon to appear
+- **Popup** - Fix issue with `popup` not re-opening until another element gains focus on a mobile touchscreen
+- **Modal** - Fixed issue with modal not appearing when calling `show` during another modal `hide`
+- **Popup** - Popup will now fire `onHidden` when an element is hidden by opening a different popup
+- **Popup** - Fix popup not namespacing `window` events and unbinding on `destroy` **Thanks @revov**
+- **Table** - Fixes table on `mobile` sizes can surpass parent container width
+- **Transition** - Fixes `swing out` animations not working correctly
+- **Transition** - Fixed display state other than `block` not determined when using `show` and `hide` without an animation
+- **Transition** - Fix bug in `remove looping` causing next animation to use same duration
+- **Segment** - Fix first/last margins on `ui segments`
+- **Search** - Fix special characters not searching correctly with local search
+- **Search** - Fix a bug with `onSelect` returning `null` when `minCharacters: 0`
+- **Search** - Fix a bug with `onSelect returning `null` when results retrieved from cached API query
+- **Sticky** - Fixed sticky position when page loads and content is below sticky content.
+- **Sticky** - Fix bottom attached position not adjusting for bottom padding on container element
+- **Menu** - Fix vertical pointing menu, sub menu arrow color
+- **Item ** - `img` inside of `ui item content` now do not receive size formatting by default
+- **Form** - Added `input[type="search"]` styles to `ui form`
+
+**Docs**
+- **Transition** - Adds examples of `hide, `show`, `toggle`, `stop`, `stop all`, and `clear queue`
+- **Item** - Significant rewrite of `ui item` documentation
+
+### Version 1.10.4 - February 28, 2015
+
+- **API** - Remove console error message when no API url is specified but element is a `form` (defaults to `form` action)
+- **API** - `api` check for [serialize object](https://github.com/macek/jquery-serialize-object) optional dependency no longer produces error when `serializeForm: true` and dependency is not found.
+
+### Version 1.10.3 - February 27, 2015
+
+**Bugs**
+- **Build Tools** - All UI components now have component name in comment banners and release version
+- **Menu** - Fixes dropdown menu item not having a hover state inside inverted menu
+- **Search** - Fixes bug in category search causing item selection to sometimes produce a javascript error.
+- **Button** - Fixes `<button>` inside `vertical buttons` not taking full container width
+
 ### Version 1.10.1-2 - February 24, 2015
 
 No changes, fixes stale pm component builds

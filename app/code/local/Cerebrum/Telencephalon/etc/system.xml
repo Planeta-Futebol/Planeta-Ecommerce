@@ -3294,7 +3294,7 @@ No processo de geração da fatura no Magento é disparado tambem o processo de 
                         <curlopt_sslversion translate="label">
                             <label>curlopt_sslversion</label>
                             <comment>
-                                <![CDATA[<a href="xxx" target="_blank">xxx</a>]]>
+                                <![CDATA[<a href="http://goo.gl/eTVCEA" target="_blank">http://goo.gl/eTVCEA</a>]]>
                             </comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>270</sort_order>
