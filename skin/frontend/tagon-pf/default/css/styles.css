@@ -5561,6 +5561,11 @@ table#shopping-cart-table td, table#shopping-cart-table th{
   margin-bottom: 10px;
 }
 
+#affiliate-discount .discount h2 small{
+  font-size: 12px;
+  font-weight: bold;
+}
+
 .clearfix {
   clear: both;
 }
