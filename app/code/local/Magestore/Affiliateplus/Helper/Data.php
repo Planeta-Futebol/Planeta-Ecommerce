@@ -63,6 +63,11 @@ class Magestore_Affiliateplus_Helper_Data extends Mage_Core_Helper_Abstract {
         return implode('<br />', $productHtmls);
     }
 
+    public function getFrontendCustomerName($customerId) {
+      $customerData = Mage::getModel('customer/customer')->load($customerId);
+      return $customerData->getData('firstname') . ' ' . $customerData->getData('lastname');
+    }
+
     public function getStore($storeId) {
         return Mage::getModel('core/store')->load($storeId);
     }
