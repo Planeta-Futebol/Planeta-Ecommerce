@@ -60,11 +60,11 @@ class Magestore_Affiliateplus_Block_Sales_Standard extends Mage_Core_Block_Templ
             'searchable'    => true,
         ));
 
-        $grid->addColumn('order_item_names', array(
-            'header' => $this->__('Products Name'),
-            'index' => 'order_item_names',
+        $grid->addColumn('customer', array(
+            'header' => 'Nome do Cliente',
+            'index' => 'customer_id',
             'align' => 'left',
-            'render' => 'getFrontendProductHtmls',
+            'render' => 'getFrontendCustomerName',
             'searchable'    => true,
         ));
 
@@ -115,6 +115,10 @@ class Magestore_Affiliateplus_Block_Sales_Standard extends Mage_Core_Block_Templ
 
     public function getFrontendProductHtmls($row) {
         return Mage::helper('affiliateplus')->getFrontendProductHtmls($row->getData('order_item_ids'));
+    }
+
+    public function getFrontendCustomerName($row) {
+        return Mage::helper('affiliateplus')->getFrontendCustomerName($row->getData('customer_id'));
     }
 
     public function getCommissionPlus($row) {
