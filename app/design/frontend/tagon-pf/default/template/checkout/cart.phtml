@@ -35,7 +35,8 @@
 <?php
   $group = Mage::getSingleton('customer/session')->getCustomerGroupId();
   $subtotal = Mage::helper('checkout')->getQuote()->getSubtotal();
-  $minimum_order = 500;
+  $minimum_order = Mage::app()->getStore()->getConfig('sales/minimum_order_franchisee/amount');
+  $error_message = Mage::app()->getStore()->getConfig('sales/minimum_order_franchisee/error_message');
 ?>
 
 <div class="cart">
@@ -52,7 +53,7 @@
         <?php endif; ?>
 
         <?php if ($group > 1 && $subtotal < $minimum_order): ?>
-          <span style="color: red">O Valor minimo de compra para franqueado é de R$ 500,00 por favor adicionei mais itens ao carrinho.</span><br /><br />
+          <span style="color: red"><?php echo $error_message; ?></span><br /><br />
         <?php endif; ?>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>

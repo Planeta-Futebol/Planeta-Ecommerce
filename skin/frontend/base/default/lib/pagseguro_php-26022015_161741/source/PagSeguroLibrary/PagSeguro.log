@@ -307,3 +307,11 @@
   'Reference' => '97',
   'SenderEmail' => 'acosta@oabsp.org.br',
 )) - end {1}28C9B5515E5ECE4664FA4F8FE5B02C8D 
+{2015/03/10 19:16:20} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '62',
+  'SenderEmail' => 'teste@demo.com.br',
+)) - begin 
+{2015/03/10 19:16:24} [Error] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '62',
+  'SenderEmail' => 'teste@demo.com.br',
+)) - error [HTTP 400] - BAD_REQUEST 0 [11164] - senderCPF invalid value: 38192389128 

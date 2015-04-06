@@ -5554,3 +5554,18 @@ table#shopping-cart-table td, table#shopping-cart-table th{
 .preco_sugerido span{
   font-size: 19px;
 }
+
+#affiliate-discount{
+  border: 1px solid;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#affiliate-discount .discount h2 small{
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.clearfix {
+  clear: both;
+}

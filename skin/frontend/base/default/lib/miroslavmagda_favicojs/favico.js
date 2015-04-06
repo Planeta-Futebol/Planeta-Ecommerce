@@ -2,7 +2,7 @@
  * @license MIT
  * @fileOverview Favico animations
  * @author Miroslav Magda, http://blog.ejci.net
- * @version 0.3.6
+ * @version 0.3.7
  */
 
 /**
@@ -18,6 +18,7 @@
  *    position : 'down',
  *    type : 'circle',
  *    animation : 'slide',
+ *    dataUrl: function(url){}
  * });
  */
 (function() {
@@ -33,7 +34,8 @@
 			type : 'circle',
 			position : 'down', // down, up, left, leftup (upleft)
 			animation : 'slide',
-			elementId : false
+			elementId : false,
+			dataUrl : false
 		};
 		var _opt, _orig, _h, _w, _canvas, _context, _img, _ready, _lastBadge, _running, _readyCb, _stop, _browser, _animTimeout, _drawTimeout;
 
@@ -453,7 +455,6 @@
 		 */
 		link.getIcon = function() {
 			var elm = false;
-			var url = '';
 			//get link element
 			var getLink = function() {
 				var link = document.getElementsByTagName('head')[0].getElementsByTagName('link');
@@ -479,16 +480,15 @@
 					document.getElementsByTagName('head')[0].appendChild(elm);
 				}
 			}
-			//check if image and link url is on same domain. if not raise error
-			url = (_opt.elementId) ? elm.src : elm.href;
-			if (url.substr(0, 5) !== 'data:' && url.indexOf(document.location.hostname) === -1) {
-				throw new Error('Error setting favicon. Favicon image is on different domain (Icon: ' + url + ', Domain: ' + document.location.hostname + ')');
-			}
 			elm.setAttribute('type', 'image/png');
 			return elm;
 		};
 		link.setIcon = function(canvas) {
 			var url = canvas.toDataURL('image/png');
+			if (_opt.dataUrl) {
+				//if using custom exporter
+				_opt.dataUrl(url);
+			}
 			if (_opt.element) {
 				_opt.element.setAttribute('src', url);
 			} else if (_opt.elementId) {
