@@ -7,16 +7,16 @@
 ?>
 <div class="block block-account">
   <div class="block-title">
-    <strong><span><?php echo $helper->__('Franchise') ?></span></strong>
+    <strong><span><?php echo $helper->__('Franquia') ?></span></strong>
   </div>
   <div class="block-content">
     <ul class="wk_cont_ul">
       <li <?php echo strpos($magentoCurrentUrl,'myproductslist')? "class=current":"";?>>
       <?php if(strpos($magentoCurrentUrl,'myproductslist')){ ?>
-        <strong><?php echo $helper->__('My Products List') ?></strong>
+        <strong><?php echo $helper->__('Meu Estoque') ?></strong>
       <?php } else { ?>
         <a href="<?php echo $this->getUrl('stock/stockaccount/myproductslist'); ?>">
-          <?php echo $helper->__('My Products List') ?>
+          <?php echo $helper->__('Meu Estoque') ?>
         </a>
       <?php } ?>
       </li>

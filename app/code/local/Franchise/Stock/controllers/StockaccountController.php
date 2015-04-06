@@ -25,7 +25,7 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->getLayout()
       ->getBlock('head')
       ->setTitle( Mage::helper('stock')
-        ->__('My Product List'));
+        ->__('Meu Estoque'));
 
     $this->renderLayout();
   }
