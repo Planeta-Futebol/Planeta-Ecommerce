@@ -289,15 +289,15 @@ ul.affiliate-commission-tab li a{
     text-transform: uppercase;
     background: url('../magestore/images/custom.png') no-repeat;
 } 
-#discount-affiliateplus-form .discount{
+/*#discount-affiliateplus-form .discount{
     padding: 0;
     border: 1px solid #d0cbc1;
     margin: 0 0 18px;
     float: left;
     width: 100%;
     box-sizing: border-box;
-}
-#discount-affiliateplus-form .discount-form{
+}*/
+/*#discount-affiliateplus-form .discount-form{
     padding: 12px 15px;
     float: left;
 }
@@ -305,7 +305,7 @@ ul.affiliate-commission-tab li a{
 #checkout-step-payment .affiliateplus_credit{
     float: left;
     width: 100%;
-}
+}*/
 #checkout-step-payment #affiliateplus_credit{
     float: left;
     margin-top: 4px;  

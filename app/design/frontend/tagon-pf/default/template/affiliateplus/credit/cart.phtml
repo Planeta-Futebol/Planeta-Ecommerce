@@ -5,46 +5,50 @@
 ?>
 <?php
     $store_id = Mage::app()->getStore()->getStoreId();
+    $subtotal = Mage::helper('checkout')->getQuote()->getSubtotal();
+    $maxUsage = ($subtotal * 0.3);
 ?>
 <?php $_code = 'affiliateplus' ?>
-<form id="discount-affiliateplus-form" action="<?php echo $this->getUrl('affiliateplus/checkout/creditPost') ?>" method="post">
-    <div class="discount">
-        <div class="lable-title">
-        <h2 class="legend"><?php echo $this->__('Affiliate Store Credit') ?></h2>
-        </div>
-        <div class="discount-form">
-            <dl id="<?php echo $_code ?>_container">
-                <dt class="<?php echo $_code ?>_credit">
-                <input type="checkbox" name="<?php echo $_code ?>_credit" id="<?php echo $_code ?>_credit"<?php if ($this->getUseAffiliateCredit()): ?> checked="checked"<?php endif ?> value="1" onclick="showAffiliateCreditInput(this)" />
-                <label for="<?php echo $_code ?>_credit" style="font-weight: bold; color: #666;"><?php echo $this->__('Check out with affiliate account balance (%s)', $this->getFormatedBalance()) ?></label>
-                </dt>
-                <dd id="<?php echo $_code ?>_credit_input" class="<?php echo $_code ?>_credit"<?php if (!$this->getUseAffiliateCredit()): ?> style="margin-top: 5px;display: none;"<?php endif ?>>
-                    <div>
-                        <label>
-                            <?php echo $this->__('Enter an amount in your balance to spend on this order') ?>
-                        </label>
-                        <div class="input-box">
-                            <input style="width: 100%;" class="input-text" type="text" value="<?php echo $this->getAffiliateCredit() ?>" title="<?php echo $this->__('Affiliate Store Credit') ?>" name="credit_amount" />
-                        </div>
-                    </div>
-                    <br />
-                    <div>
-                        <div class="buttons-set">
-                             <button type="submit" class="button button-config">
-                                <span>
-                                    <span><?php echo $this->__('Apply') ?></span>
-                                </span>
-                            </button>                                                            
-                        </div>
-                        <p></p>
-                    </div>
-                </dd>
-                <dt></dt>                
-            </dl>
-        </div>
+<div id="affiliate-discount">
+  <form id="discount-affiliateplus-form" action="<?php echo $this->getUrl('affiliateplus/checkout/creditPost') ?>" method="post">
+      <div class="discount">
+          <h2><?php echo $this->__('Affiliate Store Credit') ?> <small>(Total: <?php echo $this->getFormatedBalance() ?>)</small></h2>
+          <div class="discount-form">
+              <dl id="<?php echo $_code ?>_container">
+                  <dt class="<?php echo $_code ?>_credit">
+                  <input type="checkbox" name="<?php echo $_code ?>_credit" id="<?php echo $_code ?>_credit"<?php if ($this->getUseAffiliateCredit()): ?> checked="checked"<?php endif ?> value="1" onclick="showAffiliateCreditInput(this)" />
+                  <label for="<?php echo $_code ?>_credit" style="font-weight: bold; color: #666;">Utilizar crédito disponível. Até 30% do valor da compra (<?php echo $maxUsage ?>)</label>
+                  <div class="clearfix"></div>
+                  </dt>
+                  <dd id="<?php echo $_code ?>_credit_input" class="<?php echo $_code ?>_credit"<?php if (!$this->getUseAffiliateCredit()): ?> style="margin-top: 5px;display: none;"<?php endif ?>>
+                      <div>
+                          <label>
+                              Insira o valor de crédito que deseja utilizar. ex: 10.00
+                          </label>
+                          <div class="input-box">
+                              <input style="width: 96%;" class="input-text" id="input-discount-affiliate" type="text" value="<?php echo $this->getAffiliateCredit() ?>" title="<?php echo $this->__('Affiliate Store Credit') ?>" name="credit_amount" />
+                          </div>
+                      </div>
+                      <br />
+                      <div>
+                        <span id="affiliate-discount-error" style="color: red; display: none">O Valor máximo a ser utilizado é de <strong><?php echo $maxUsage; ?></strong></span>
+                          <div class="buttons-set">
+                               <button type="submit" class="button button-config" id="affiliate-button-apply">
+                                  <span>
+                                      <span><?php echo $this->__('Apply') ?></span>
+                                  </span>
+                              </button>                                                            
+                          </div>
+                          <p></p>
+                      </div>
+                  </dd>
+                  <dt></dt>                
+              </dl>
+          </div>
 
-    </div>
-</form>
+      </div>
+  </form>
+</div>
 <script type="text/javascript">
 //<![CDATA[
     function showAffiliateCreditInput(el) {
@@ -55,6 +59,19 @@
         }
     }
     var affiliateplusForm = new VarienForm('discount-affiliateplus-form');
+
+    jQuery('#input-discount-affiliate').keyup(function(){
+      var value = jQuery(this).val();
+
+      if(value > <?php echo $maxUsage; ?>) {
+        jQuery('#affiliate-button-apply').attr('disabled', true).hide();
+        jQuery('#affiliate-discount-error').show();
+      } else {
+        jQuery('#affiliate-button-apply').removeAttr('disabled').show();
+        jQuery('#affiliate-discount-error').hide();
+      }
+    });
+
 //]]>
 </script>
 <style>
