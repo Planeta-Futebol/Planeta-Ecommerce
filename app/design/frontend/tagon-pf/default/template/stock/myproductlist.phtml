@@ -7,7 +7,9 @@
     $_helper = $this->helper('catalog/output');
 ?>
   <div class="fieldset">
-    <h2 class="legend"><?php echo $helper->__('Product List') ?></h2>
+    <div class="page-title">
+      <h1><?php echo $helper->__('Meu Estoque') ?></h1>
+    </div>
     <div class="productlist frproductlist">
       <?php if(!$_productCollection->count()): ?>
         <p class="note-msg">
