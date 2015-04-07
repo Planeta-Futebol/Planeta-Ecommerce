@@ -1,0 +1,26 @@
+<?php
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+  $magentoCurrentUrl = Mage::helper('core/url')->getCurrentUrl();
+  $helper=Mage::helper('stock');
+
+  if($roleId>1) {
+?>
+<div class="block block-account">
+  <div class="block-title">
+    <strong><span><?php echo $helper->__('Franquia') ?></span></strong>
+  </div>
+  <div class="block-content">
+    <ul class="wk_cont_ul">
+      <li <?php echo strpos($magentoCurrentUrl,'myproductslist')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'myproductslist')){ ?>
+        <strong><?php echo $helper->__('Meu Estoque') ?></strong>
+      <?php } else { ?>
+        <a href="<?php echo $this->getUrl('stock/stockaccount/myproductslist'); ?>">
+          <?php echo $helper->__('Meu Estoque') ?>
+        </a>
+      <?php } ?>
+      </li>
+    </ul>
+  </div>
+</div>
+<?php } ?>

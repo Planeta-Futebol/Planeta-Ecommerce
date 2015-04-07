@@ -1,0 +1,89 @@
+<?php
+  $helper= Mage::helper('stock');
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+  if($roleId > 1) {
+    $_productCollection=$this->getCollection();
+    $_helper = $this->helper('catalog/output');
+?>
+  <div class="fieldset">
+    <div class="page-title">
+      <h1><?php echo $helper->__('Meu Estoque') ?></h1>
+    </div>
+    <div class="productlist frproductlist">
+      <?php if(!$_productCollection->count()): ?>
+        <p class="note-msg">
+          <?php echo $this->__('Não há produtos relacionados a essa busca.') ?>
+        </p>
+      <?php else: ?>
+      <div class= "frpagewrap">
+      <form method="post" id="frsearch" enctype="multipart/form-data" action="<?php echo $this->getUrl('*/*/serching'); ?>">
+          <label>Buscar: </label>
+          <input type="text" name="searchfr" id="searchfr" required="required"/>
+          <input type="submit" name="submit" id="submit" value="OK"/>
+        </form>
+        <div class="pager-top">
+          <?php echo $this->getPagerHtml();?>
+        </div>
+      </div>
+       <ol class="maintree">
+          <li class="singlerow headtree">
+            <ul>
+              <li class="fli">Produto</li>
+              <li>Quant.</li>
+              <li>Compra</li>
+              <li>Potencial de venda</li>
+              <li class="lli">Lançar</li>
+            </ul>
+          </li>
+          <?php
+            $tproductprice = 0;
+            $tsalesprice = 0;
+            $quant1 = 0;
+
+            foreach($_productCollection as $_product) {
+              $productMediaConfig = Mage::getModel('catalog/product_media_config');
+              $productprice = $_product->getPrice();
+              $tproductprice += $productprice;
+              $salesprice = $_product->getSpecialPrice();
+              $tsalesprice += $salesprice;
+          ?>
+          <li class="singlerow">
+            <ul class="subli">
+              <li class="fli"><?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?></li>
+              <li>
+                <?php
+                  $stockItem = Mage::getModel('cataloginventory/stock_item')
+                    ->loadByProduct($_product);
+                  echo (int) $stockItem->getData('qty'); 
+                ?>
+              </li>
+              <li><?php echo Mage::helper('core')->currency($productprice); ?></li>
+              <li><?php echo Mage::helper('core')->currency($salesprice); ?></li>
+              <li class="lli"><a>Lançar</a></li>
+            </ul>
+          </li>
+          <?php
+            }
+          ?>
+          <li class="singlerow totalrow">
+            <ul class="subli">
+              <li class="fli">Total</li>
+              <li>__</li>
+              <li><?php echo $tproductprice;?></li>
+              <li><?php echo $tspecialprice;?></li>
+              <li class="lli"> </li>
+            </ul>
+          </li>
+        </ol>
+        <div class="pager-bottom">
+          <?php echo $this->getPagerHtml(); ?>
+        </div>
+      <?php endif;?>
+    </div>
+  </div>
+<?php
+  }else{
+    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
+  }
+?>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <customer_account>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>stock/css/stock.css</stylesheet>
+      </action>
+    </reference>
+    <reference name="left">
+      <block type="core/template" name="stocknavigation" template="stock/navigation.phtml" before="-" />
+    </reference>
+  </customer_account>
+  <stock_account_productlist>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>stock/css/stock.css</stylesheet>
+      </action>
+    </reference>
+    <update handle="customer_account" />
+    <reference name="content">
+        <block type="stock/collection" name="stock_myproductslist" template="stock/myproductlist.phtml" />
+    </reference>
+  </stock_account_productlist>
+</layout>
