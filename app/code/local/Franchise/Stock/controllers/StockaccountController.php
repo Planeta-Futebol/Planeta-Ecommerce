@@ -30,13 +30,28 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->renderLayout();
   }
 
+  public function attributeListAction() {
+    $post = $this->getRequest()->getPost();
+
+    if($post){
+      $sku = $post['sku'];
+      $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+      $attributeValue = $product->getResource()->getAttribute('all_attribute')->getFrontend()->getValue($product);
+      $result = $attributeValue;
+
+      echo json_encode(array("status"=>"success", "res"=>$result));
+    } else {
+      echo json_encode(array("status"=>"error", "res"=>"There are no attributes."));
+    }
+  }
+
   public function deleteAction(){
     $urlapp=$_SERVER['REQUEST_URI'];
     $record=Mage::getModel('stock/product')->deleteProduct($urlapp);
 
     Mage::getSingleton('core/session')
       ->addSuccess( Mage::helper('stock')
-        ->__('Your Product Has Been Sucessfully Deleted From Your Account'));
+        ->__('Produto deletado com sucesso'));
 
     $this->_redirect('stock/stockaccount/myproductslist/');
   }
