@@ -82,12 +82,12 @@
 #affiliate-coupon-codes .infor-coupon {
     margin-top: 0px;
     padding: 0px 10px;
-    float:left;
-    width:100%;
+    /*float:left;*/
+    /*width:100%;*/
 }
 .message .success-msg{
-    float: left;
-    width: 100%;
+    /*float: left;*/
+    /*width: 100%;*/
     margin-bottom: 10px;
 }
 @media screen and (max-width: 600px) {
