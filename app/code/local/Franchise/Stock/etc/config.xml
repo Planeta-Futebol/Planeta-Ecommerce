@@ -128,7 +128,7 @@
     <helpers>
       <stock>
         <class>Franchise_Stock_Helper</class>
-      </stock>  
+      </stock>
     </helpers>
   </global>
 </config>
