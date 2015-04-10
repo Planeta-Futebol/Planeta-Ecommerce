@@ -259,7 +259,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
     public function createPostAction() {
         // Changed By Adam 28/07/2014
         if(!Mage::helper('affiliateplus')->isAffiliateModuleEnabled()) return $this->_redirectUrl(Mage::getBaseUrl());
-        
+
         if (!$this->getRequest()->isPost())
             return $this->_redirect('affiliateplus/account/register');
 
@@ -268,6 +268,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
         $customerSession = $this->_getCustomerSession();
 
         $address = '';
+
         
         //hainh 28-07-2014 save on session
         $referredBy = $this->getRequest()->getPost('referred_by', '');
@@ -287,7 +288,6 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
         //end editing
 
 
-
         if ($session->isRegistered()) {
             //Registered
             //$coreSession->addError(Mage::helper('affiliateplus')->__('You already had an affiliate account, please log in.'));
@@ -296,16 +296,23 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
             $data = $this->_filterDates($this->getRequest()->getPost(), array('dob'));
             //Check Captcha Code
             $captchaCode = $coreSession->getData('register_account_captcha_code');
-            if ($captchaCode != $data['account_captcha']) {
-                $session->setAffiliateFormData($this->getRequest()->getPost());
-                $coreSession->addError(Mage::helper('affiliateplus')->__('The verification code entered is incorrect. Please try again.'));
-                return $this->_redirect('affiliateplus/account/register');
-            }
+
+            /*
+             * Ignoring Captcha
+             */
+
+            // if ($captchaCode != $data['account_captcha']) {
+            //     $session->setAffiliateFormData($this->getRequest()->getPost());
+            //     $coreSession->addError(Mage::helper('affiliateplus')->__('The verification code entered is incorrect. Please try again.'));
+            //     return $this->_redirect('affiliateplus/account/register');
+            // }
+
             //Customer not register affiliate account
             $customer = $customerSession->getCustomer();
-            if (isset($data['account_address_id']) && $data['account_address_id']) {
-                $address = Mage::getModel('customer/address')->load($data['account_address_id']);
-            } elseif (Mage::helper('affiliateplus/config')->getSharingConfig('required_address')) {
+
+            // if (isset($data['account_address_id']) && $data['account_address_id']) {
+            //     $address = Mage::getModel('customer/address')->load($data['account_address_id']);
+            // } elseif (Mage::helper('affiliateplus/config')->getSharingConfig('required_address')) {
                 $address_data = $this->getRequest()->getPost('account');
                 $address = Mage::getModel('customer/address')
                         ->setData($address_data)
@@ -313,44 +320,57 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
                         ->setFirstname($customer->getFirstname())
                         ->setLastname($customer->getLastname())
                         ->setId(null);
+
                 $customer->addAddress($address);
+
+                
                 $errors = $address->validate();
-                if (!is_array($errors))
-                    $errors = array();
-                try {
-                    $validationCustomer = $customer->validate();
-                    if (is_array($validationCustomer))
-                        $errors = array_merge($validationCustomer, $errors);
-                    $validationResult = (count($errors) == 0);
-                    if (true === $validationResult) {
-                        $customer->save();
-                        $address->save();
-                    } else {
-                        foreach ($errors as $error)
-                            $coreSession->addError($error);
-                        $formData = $this->getRequest()->getPost();
-                        $formData['account_name'] = $customer->getName();
-                        $session->setAffiliateFormData($formData);
-                        return $this->_redirect('affiliateplus/account/register');
-                    }
-                } catch (Exception $e) {
-                    $coreSession->addError($e->getMessage());
-                    $formData = $this->getRequest()->getPost();
-                    $formData['account_name'] = $customer->getName();
-                    $session->setAffiliateFormData($formData);
-                    return $this->_redirect('affiliateplus/account/register');
-                }
-            }
+                
+
+                $customer->save();
+                $address->save();
+
+                // if (!is_array($errors))
+                //     $errors = array();
+                // try {
+                //     $validationCustomer = $customer->validate();
+                //     if (is_array($validationCustomer))
+                //         $errors = array_merge($validationCustomer, $errors);
+                //     $validationResult = (count($errors) == 0);
+                //     if (true === $validationResult) {
+                //         $customer->save();
+                //         $address->save();
+                //     } else {
+                //         foreach ($errors as $error)
+                //             $coreSession->addError($error);
+                //         $formData = $this->getRequest()->getPost();
+                //         $formData['account_name'] = $customer->getName();
+                //         $session->setAffiliateFormData($formData);
+                //         return $this->_redirect('affiliateplus/account/register');
+                //     }
+                // } catch (Exception $e) {
+                //     $coreSession->addError($e->getMessage());
+                //     $formData = $this->getRequest()->getPost();
+                //     $formData['account_name'] = $customer->getName();
+                //     $session->setAffiliateFormData($formData);
+                //     return $this->_redirect('affiliateplus/account/register');
+                // }
+            // }
         } else {
 
             $data = $this->_filterDates($this->getRequest()->getPost(), array('dob'));
+
+            /*
+             * Ignoring Captcha
+             */
+
             //Check Captcha Code
-            $captchaCode = $coreSession->getData('register_account_captcha_code');
-            if ($captchaCode != $data['account_captcha']) {
-                $session->setAffiliateFormData($this->getRequest()->getPost());
-                $coreSession->addError(Mage::helper('affiliateplus')->__('The verification code entered is incorrect. Please try again.'));
-                return $this->_redirect('affiliateplus/account/register');
-            }
+            // $captchaCode = $coreSession->getData('register_account_captcha_code');
+            // if ($captchaCode != $data['account_captcha']) {
+            //     $session->setAffiliateFormData($this->getRequest()->getPost());
+            //     $coreSession->addError(Mage::helper('affiliateplus')->__('The verification code entered is incorrect. Please try again.'));
+            //     return $this->_redirect('affiliateplus/account/register');
+            // }
 
             //Create new customer and affiliate account
             $customerSession->setEscapeMessages(true);
@@ -417,6 +437,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
             }
         }
 
+                
         try {
             //hainh 22-07-2014
            /*
@@ -435,8 +456,14 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
                 }
             }
             */
+            // echo '<pre>';
+            // echo '<strong>Debug</strong><br>';
+            // print_r($customer);
+            // echo '</pre>';
+            // exit;
             $successMessage = '';
             $successMessage = Mage::helper('affiliateplus/account')->createAffiliateAccount($address, $data['paypal_email'], $customer, $this->getRequest()->getPost('notification'), $this->getRequest()->getPost('referring_website'), $successMessage, $referredBy);
+            
 
             //add success
             $coreSession->addSuccess($successMessage);
@@ -446,7 +473,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
             Mage::getSingleton('affiliateplus/session')->setData('top_affiliate_indentify_code', '');
         }
         
-            return $this->_redirect('affiliateplus/index/index');
+            return $this->_redirect('affiliatepluscoupon/index/index');
         } catch (Exception $e) {
             $coreSession->addError($e->getMessage());
             $formData = $this->getRequest()->getPost();

@@ -200,19 +200,6 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                 </div>
 <?php endif ?>
             <div class="form-group">
-                <div class="<?php echo $class_name_col; ?>">
-<?php if ($this->requiredPaypal()): ?>
-                        <label class="required" for="paypal_email"><?php echo $this->__('Paypal Email'); ?><em>*</em></label>
-
-                        <input id="paypal_email" placeholder="<?php echo $this->__('Paypal Email') ?>"  class="input-text required-entry validate-email form-control" type="text" title="<?php echo $this->__('Paypal Email'); ?>" name="paypal_email" value="<?php echo $this->getFormData('paypal_email') ?>"/>
-
-<?php else: ?>
-                        <label for="paypal_email"><?php echo $this->__('Paypal Email'); ?></label>
-                        <div class="input-box">
-                            <input id="paypal_email" placeholder="<?php echo $this->__('Paypal Email') ?>" class="input-text validate-email" type="text" title="<?php echo $this->__('Paypal Email'); ?>" name="paypal_email" value="<?php echo $this->getFormData('paypal_email') ?>"/>
-                        </div>
-<?php endif ?>
-                </div>
            
                 <div class="<?php echo $class_name_col; ?>">
                     <label for="notification"><?php echo $this->__('Receive notification emails') ?></label>
@@ -268,24 +255,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 <?php endif ?>
             <!-- end editing -->
 
-            <div class="form-group">
-                <div class="<?php echo $class_name_col; ?>">
-                    <label class="required" for="account_captcha"><?php echo $this->__('Verification'); ?><em>*</em></label>
-                    <div class="input-box">
-                        <img src="<?php echo $this->getUrl('affiliateplus/account/imagecaptcha'); ?>" id="account_captcha_image" />
-                        <span id="affiliate-please-wait-captcha" style="display:none;" class="opc-please-wait">
-                            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Getting new captcha') ?>...
-                        </span>
-                        <a href="javascript:void(0);" onclick="refreshCaptchaImage();
-                                return false;" id="affiliate-captcha-link"><?php echo $this->__("Refresh"); ?></a>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="<?php echo $class_name_col; ?>">
-                    <input id="account_captcha" placeholder="<?php echo $this->__('Verification') ?>" class="input-text required-entry form-control" type="text" title="<?php echo $this->__('Captcha code') ?>" name="account_captcha" />
-                </div>
-            </div>
+   
             <div class="buttons-set">
                 <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                 <button type="submit" title="<?php echo $this->__('Save'); ?>" class="button button-config">
