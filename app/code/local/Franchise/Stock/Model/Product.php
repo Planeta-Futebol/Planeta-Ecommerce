@@ -7,9 +7,85 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
     $this->_init('stock/product');
   }
 
+  public function getFrCollection($userid) {
+    $querydata = Mage::getModel('stock/product')->getCollection()
+        ->addFieldToFilter('userid', array('eq' => $userid))
+        ->addFieldToFilter('status', array('neq' => 2))
+        ->setOrder('stockproductid');
+    $rowdata=array();
+
+    foreach ($querydata as  $value) {
+      $qty = (int)Mage::getModel('cataloginventory/stock_item')
+                ->loadByProduct($value->getStockproductid())->getQty();
+      if($qty) {
+        $rowdata[] = $value->getStockproductid();
+      }
+    }
+
+    $collection = Mage::getModel('catalog/product')->getCollection();
+    $collection->addAttributeToSelect('*');
+    $collection->addAttributeToFilter('entity_id', array('in' => $rowdata));
+
+    return $collection;
+  }
+
+  protected function addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info) {
+    $product = Mage::getModel('catalog/product');
+    $_product = Mage::getModel('catalog/product')->loadByAttribute('sku', $itemsku);
+
+    //duplicate sku will be combination of franchise user id, his order id, item sku.
+    $duplicate_sku = "fr_".$fruserid."_".$frorderid."_".$itemsku;
+    $saleprice = $_product->getPrice();
+
+    $clone = $_product->duplicate();
+    $clone->setSku($duplicate_sku);
+    $clone->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+    $clone->setPrice($purchased_price);
+    $clone->setSpecialPrice($saleprice); // purchased_price at which franchise has ordered which is at discount.
+
+    if(!empty($attribute_info)) {
+      foreach($attribute_info as $attribute_inf) {
+        $attrilabel = $attribute_inf['label'];
+        $attrival = $attribute_inf['value'];
+        $clone->set.$attrilabel.'('.$attrival.')';
+        $allattributes .= $attrilabel.",";
+      }
+    }
+
+    $clone->setAll_attribute($allattributes);
+    $clone->setStatus(1);
+    $clone->setTaxClassId(4);
+
+    $imageUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product' . $_product->getImage();
+    $clone->setMediaGallery (array('images'=>array (), 'values'=>array ()));
+
+    try{
+      $clone->getResource()->save($clone);
+      $cloneid = $clone->getId();
+      $stproduct = $product->load($cloneid);
+      $stockItem1 = Mage::getModel('cataloginventory/stock_item')->loadByProduct($stproduct);
+      $stockItem1->setData('manage_stock', 1);
+      $stockItem1->setData('is_in_stock', 1);
+      $stockItem1->setData('use_config_notify_stock_qty', 0);
+      $stockItem1->setData('qty', $qty);
+      $stockItem1->save();
+      $stproduct->save();
+    } catch(Exception $e){
+      Mage::log($e->getMessage());
+    }
+
+    $collection = Mage::getModel('stock/product');
+    $collection->setstockproductid($cloneid); // magento product id
+    $collection->setuserid($fruserid);
+    $collection->setstatus(1);
+    $collection->save();
+
+    return $cloneid;
+  }
+
   /* save products */
-  public function saveFranchiseProduct($wholedata){
-    //need to apply check for the same sku.
+  public function saveFranchiseProduct($wholedata) {
+    $frobject = new Franchise_Stock_Model_Product();
     $frorderid = $wholedata['franchise_order'];
     $fruserid = $wholedata['franchise_id'];
     $singleorder = Mage::getModel("sales/order")->loadByIncrementId($frorderid);
@@ -19,90 +95,64 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
         ->addAttributeToSelect('*')
         ->load();
 
-      $items = array();
-      $totalorder = $orderItems.count();
-
       if($orderItems) {
-        $i=1;
-
         foreach($orderItems as $orderItem) {
-          $item = array();
-          $item['itemsku'] = $orderItem->getSku();
-          $item['itemqty'] =  (int) $orderItem->getData('qty_ordered');
-          $item['itemprice'] =  $orderItem->getData('price');
-          $items[$i] = $item;
-          $i++;
-        }
-      }
-      $arrofexistssku = array();
+          $itemsku = $orderItem->getSku();
+          $qty =  (int) $orderItem->getData('qty_ordered');
+          $purchased_price = $orderItem->getData('price');
+          $productoptions = $orderItem->getProductOptions();
+          $cloneid = 1;
 
-      foreach($items as $temp_item) {
-        $itemsku = $temp_item['itemsku'];
-        $qty = $temp_item['itemqty'];
-        $collects = Mage::getModel('stock/product')->getCollection();
-
-        foreach($collects as $collect) {
-          $frproductid = $collect->getData('stockproductid');
-          $frprodload = Mage::getModel('catalog/product')->load($frproductid);
-          $prodsku = $frprodload->getSku();
-          $exists = explode("_",$prodsku);
-          $existssku = trim($exists[3],"");
-
-          if($existssku == trim($itemsku,"")) {
-            $arrofexistssku[] = $itemsku;
-            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($frprodload);
-            $oldqty = $stockItem->getData('qty');
-            $totalqty = $oldqty + $qty;
-            $stockItem->setData('qty', $totalqty);
-            $stockItem->save();
-            $frprodload->save();
-          }
-        }
-
-        if(!in_array($itemsku, $arrofexistssku))
-        {
-          $product = Mage::getModel('catalog/product');
-          $_product = Mage::getModel('catalog/product')->loadByAttribute('sku', $itemsku);
-
-          //duplicate sku will be combination of franchise user id, his order id, item sku.
-          $duplicate_sku = "fr_".$fruserid."_".$frorderid."_".$itemsku;
-          $purchased_price = $temp_item['itemprice'];
-          $saleprice = $_product->getPrice();
-
-          $clone = $_product->duplicate();
-          $clone->setSku($duplicate_sku);
-          $clone->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
-          $clone->setPrice($saleprice);
-          $clone->setSpecialPrice($purchased_price); // purchased_price at which franchise has ordered which is at discount.
-          $qty = $temp_item['itemqty'];
-
-          $clone->setStatus(1);
-          $clone->setTaxClassId(4);
-
-          $imageUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product' . $_product->getImage();
-          $clone->setMediaGallery (array('images'=>array (), 'values'=>array ()));
-
-          try{
-            $clone->getResource()->save($clone);
-            $cloneid = $clone->getId();
-            $stproduct = $product->load($cloneid);
-            $stockItem1 = Mage::getModel('cataloginventory/stock_item')->loadByProduct($stproduct);
-            $stockItem1->setData('manage_stock', 1);
-            $stockItem1->setData('is_in_stock', 0);
-            $stockItem1->setData('use_config_notify_stock_qty', 0);
-            $stockItem1->setData('qty', $qty);
-            $stockItem1->save();
-            $stproduct->save();
-          } catch(Exception $e){
-            Mage::log($e->getMessage());
+          if(!empty($productoptions)) {
+            $attribute_info = $productoptions['attributes_info'];
+          } else {
+            $attribute_info = array();
           }
 
-          $vendorId = Mage::getSingleton('customer/session')->getCustomer()->getId();
-          $collection = Mage::getModel('stock/product');
-          $collection->setstockproductid($cloneid); // magento product id
-          $collection->setuserid($fruserid);
-          $collection->setstatus(1);
-          $collection->save();
+          $collects = Mage::getModel('stock/product')->getCollection();
+
+          if($collects->count()) {
+            //if products exists in franchise customer's store
+
+            foreach($collects as $collect) {
+              $frproductid = $collect->getData('stockproductid');
+              $frprodload = Mage::getModel('catalog/product')->load($frproductid);
+              $prodsku = $frprodload->getSku();
+
+              //for increasing the stock of already existing product
+              if(strpos($prodsku,"fr_")) {
+                $exists = explode("_",$prodsku);
+                $existssku = trim($exists[3], "");
+
+                if($existssku == trim($itemsku,"")) {
+                  $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($frprodload);
+                  $oldqty = $stockItem->getData('qty');
+                  $totalqty = $oldqty + $qty;
+                  $stockItem->setData('qty', $totalqty);
+                  $stockItem->setData('is_in_stock', 1);
+                  $stockItem->save();
+
+                  if(!empty($attribute_info)) {
+                    foreach($attribute_info as $attribute_inf) {
+                      $attrilabel = $attribute_inf['label'];
+                      $attrival = $attribute_inf['value'];
+                      $frprodload->set.$attrilabel.'('.$attrival.')';
+                      $allattributes .= $attrilabel.",";
+                    }
+                  }
+
+                  $frprodload->setAll_attribute($allattributes);
+                  $frprodload->save();
+                } else {
+                  $cloneid = $frobject->addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info);
+                }
+              } else {
+                $cloneid = $frobject->addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info);
+              }
+            }
+          } else {
+            $cloneid = $frobject->addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info);
+          }
         }
       }
     }

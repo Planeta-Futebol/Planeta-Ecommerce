@@ -11,77 +11,170 @@
       <h1><?php echo $helper->__('Meu Estoque') ?></h1>
     </div>
     <div class="productlist frproductlist">
+      <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+        <label>Buscar: </label>
+        <input type="text" name="searchfr" id="searchfr" required="required"/>
+        <input type="submit" name="submit" id="submit" value="OK"/>
+      </form>
       <?php if(!$_productCollection->count()): ?>
-        <p class="note-msg">
-          <?php echo $this->__('Não há produtos relacionados a essa busca.') ?>
-        </p>
-      <?php else: ?>
+        <div class="clearfr"></div>
+        <p class="note-msg noprodsfr"><?php echo $this->__('Nenhum resultado encontrado.') ?></p>
+      <?php endif; ?>
       <div class= "frpagewrap">
-      <form method="post" id="frsearch" enctype="multipart/form-data" action="<?php echo $this->getUrl('*/*/serching'); ?>">
-          <label>Buscar: </label>
-          <input type="text" name="searchfr" id="searchfr" required="required"/>
-          <input type="submit" name="submit" id="submit" value="OK"/>
-        </form>
         <div class="pager-top">
           <?php echo $this->getPagerHtml();?>
         </div>
       </div>
-       <ol class="maintree">
-          <li class="singlerow headtree">
-            <ul>
-              <li class="fli">Produto</li>
-              <li>Quant.</li>
-              <li>Compra</li>
-              <li>Potencial de venda</li>
-              <li class="lli">Lançar</li>
-            </ul>
-          </li>
-          <?php
-            $tproductprice = 0;
-            $tsalesprice = 0;
-            $quant1 = 0;
+      <ol class="maintree">
+        <li class="singlerow headtree">
+          <ul>
+            <li class="fli">Produto</li>
+            <li>Quant.</li>
+            <li>Compra</li>
+            <li>Potencial de venda</li>
+            <li class="lli">Lançar</li>
+          </ul>
+        </li>
+        <?php
+          $tproductprice = 0;
+          $tsalesprice = 0;
+          $tquant = 0;
+          $i=1;
 
-            foreach($_productCollection as $_product) {
-              $productMediaConfig = Mage::getModel('catalog/product_media_config');
-              $productprice = $_product->getPrice();
-              $tproductprice += $productprice;
-              $salesprice = $_product->getSpecialPrice();
-              $tsalesprice += $salesprice;
-          ?>
+          foreach($_productCollection as $_product) {
+            $productMediaConfig = Mage::getModel('catalog/product_media_config');
+            $productprice = $_product->getPrice();
+            $tproductprice += $productprice;
+            $salesprice = $_product->getSpecialPrice();
+            $tsalesprice += $salesprice;
+
+            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
+            $qty = (int) $stockItem->getData('qty');
+            $tquant += $qty;
+        ?>
           <li class="singlerow">
-            <ul class="subli">
-              <li class="fli"><?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?></li>
-              <li>
-                <?php
-                  $stockItem = Mage::getModel('cataloginventory/stock_item')
-                    ->loadByProduct($_product);
-                  echo (int) $stockItem->getData('qty'); 
-                ?>
+            <ul class="subli" id="salesim_<?php echo $i;?>">
+              <li class="fli" sku="<?php echo $_product->getSku(); ?>" frprodid="<?php echo $_product->getId();?>" frprodnm="<?php echo $_product->getName(); ?>">
+                <?php echo $_product->getName(); ?>
               </li>
+              <li class="qty"><?php echo $qty; ?></li>
               <li><?php echo Mage::helper('core')->currency($productprice); ?></li>
-              <li><?php echo Mage::helper('core')->currency($salesprice); ?></li>
-              <li class="lli"><a>Lançar</a></li>
+              <li class="salesprice" salesprice="<?php  echo Mage::getModel('directory/currency')->format($salesprice, array('display'=>Zend_Currency::NO_SYMBOL), false); ?>">
+                <?php echo Mage::helper('core')->currency($salesprice); ?>
+              </li>
+              <li class="lli"><a class="salessimul">Lançar</a></li>
             </ul>
           </li>
-          <?php
-            }
-          ?>
-          <li class="singlerow totalrow">
-            <ul class="subli">
-              <li class="fli">Total</li>
-              <li>__</li>
-              <li><?php echo $tproductprice;?></li>
-              <li><?php echo $tspecialprice;?></li>
-              <li class="lli"> </li>
-            </ul>
-          </li>
-        </ol>
-        <div class="pager-bottom">
-          <?php echo $this->getPagerHtml(); ?>
-        </div>
-      <?php endif;?>
+        <?php
+            $i++;
+          }
+        ?>
+        <li class="singlerow totalrow">
+          <ul class="subli">
+            <li class="fli">Total</li>
+            <li><?php echo $tquant;?></li>
+            <li><?php echo $tproductprice;?></li>
+            <li><?php echo $tsalesprice;?></li>
+            <li class="lli"> </li>
+          </ul>
+        </li>
+      </ol>
+      <div class="pager-bottom">
+        <?php echo $this->getPagerHtml(); ?>
+      </div>
     </div>
   </div>
+
+  <div class="sales_simulate" id="salessimulatebox">
+    <div class="sales_details">
+      <p class="prodsimul">
+        <strong>Produto: </strong>
+        <span class="fprodnm"></span>
+      </p>
+      <table class="frtab">
+        <tbody>
+          <tr class="hdfr">
+            <td>Tamanho</td>
+            <td>Quantidade</td>
+            <td>Quantidade</td>
+            <td class="last">Valor de venda</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var searchForm = new Varien.searchForm('search_mini_form', 'searchfr', 'Por nome do produto');
+  </script>
+
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery.js"></script>
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery-ui.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict();
+
+    jQuery(document).ready(function() {
+      jQuery(".salessimul").click(function() {
+        jQuery(".sales_details").css("display","block");
+
+        var rowid = jQuery(this).parent().parent().attr('id');
+        var sku = jQuery("ul#"+rowid+" li.fli").attr('sku');
+        var frprodid = jQuery("ul#"+rowid+" li.fli").attr('frprodid');
+        var frprodnm = jQuery("ul#"+rowid+" li.fli").attr('frprodnm');
+        jQuery("#salessimulatebox .sales_details .prodsimul .fprodnm").text(frprodnm);
+        var qty = parseInt(jQuery("ul#"+rowid+" li.qty").text());
+        var salesprice = jQuery("ul#"+rowid+" li.salesprice").attr('salesprice');
+        jQuery("table.frtab tbody").append(
+          '<tr>'+
+          '<td class="configtypes"></td>'+
+          '<td class="qty">'+qty+'</td>'+
+          '<td class="qty_sale"><input type="text" class="qty_sale" value=""/></td>'+
+          '<td class="slprice"><input type="text" class="slprice" value="'+salesprice+'"/></td>'+
+          +'</tr>'
+        );
+        var ret_attr;
+
+        new Ajax.Request("<?php echo $this->getUrl('stock/stockaccount/attributeList') ?>", {
+          method: 'Post',
+          parameters: {"sku":sku},
+          onSuccess: function(transport) {
+            var json = transport.responseText.evalJSON(true);
+            attributes = String(json.res);
+            var allattrs = attributes.split(","); //check the attribute count
+
+            if(allattrs[1]=="") {
+              ret_attr = allattrs[0];
+            } else {
+              ret_attr = allattr;
+            }
+
+            jQuery("table.frtab tbody tr td.configtypes").text(""+ret_attr);
+          }
+        });
+        jQuery("#salessimulatebox").dialog({
+          height: 400,
+          width: 415,
+          modal: true,
+          title:'Sales Simulation',
+          buttons: [
+            {
+              text: "Confirmar",
+              click: function() {
+                jQuery( this ).dialog( "close" );
+              }
+            },
+            {
+              text: "Cancelar",
+              click: function() {
+                jQuery( this ).dialog( "close" );
+              }
+            }
+          ]
+        });
+      });
+    });
+  </script>
 <?php
   }else{
     echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");

@@ -15,6 +15,9 @@
       <action method="addCss">
         <stylesheet>stock/css/stock.css</stylesheet>
       </action>
+      <action method="addCss">
+        <stylesheet>stock/css/jquery-ui.css</stylesheet>
+      </action>
     </reference>
     <update handle="customer_account" />
     <reference name="content">
