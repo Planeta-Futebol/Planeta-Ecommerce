@@ -100,7 +100,7 @@ class Magestore_Affiliateplus_Helper_Account extends Mage_Core_Helper_Abstract {
     
     
     //hainh 22-07-2014
-    public function createAffiliateAccount($address, $paypalEmail, $customer, $notification, $referringWebsite, $successMessage, $referredBy=null) {
+    public function createAffiliateAccount($address, $paypalEmail, $customer, $notification, $referringWebsite, $successMessage, $referredBy=null, $coreSession=null) {
 
         $account = Mage::getModel('affiliateplus/account')
                 ->setData('customer_id', $customer->getId())
@@ -130,6 +130,7 @@ class Magestore_Affiliateplus_Helper_Account extends Mage_Core_Helper_Abstract {
                 ->setData('referred_by', $referredBy)
         ;
         $successMessage = Mage::helper('affiliateplus/config')->getSharingConfig('notification_after_signing_up');
+        $coreSession = $coreSession ? $coreSession : Mage::getSingleton('core/session');
         if (Mage::helper('affiliateplus/config')->getSharingConfig('need_approved')) {
             $account->setData('status', 2);
             $account->setData('approved', 2);
