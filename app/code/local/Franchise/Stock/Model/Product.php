@@ -34,14 +34,15 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
     $_product = Mage::getModel('catalog/product')->loadByAttribute('sku', $itemsku);
 
     //duplicate sku will be combination of franchise user id, his order id, item sku.
-    $duplicate_sku = "fr_".$fruserid."_".$frorderid."_".$itemsku;
-    $saleprice = $_product->getPrice();
+    $duplicate_sku = "fr_".$fruserid."_".$itemsku;
+    $saleprice = $_product->getMrsp();
 
     $clone = $_product->duplicate();
     $clone->setSku($duplicate_sku);
     $clone->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
     $clone->setPrice($purchased_price);
-    $clone->setSpecialPrice($saleprice); // purchased_price at which franchise has ordered which is at discount.
+    $clone->setMrsp($saleprice);
+    $allattributes = "";
 
     if(!empty($attribute_info)) {
       foreach($attribute_info as $attribute_inf) {
@@ -78,6 +79,7 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
     $collection->setstockproductid($cloneid); // magento product id
     $collection->setuserid($fruserid);
     $collection->setstatus(1);
+    $collection1->setstockprodsku($itemsku);
     $collection->save();
 
     return $cloneid;
@@ -97,61 +99,54 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
 
       if($orderItems) {
         foreach($orderItems as $orderItem) {
-          $itemsku = $orderItem->getSku();
-          $qty =  (int) $orderItem->getData('qty_ordered');
-          $purchased_price = $orderItem->getData('price');
-          $productoptions = $orderItem->getProductOptions();
+          $parentitemid = $orderItem->getParentItemId();
           $cloneid = 1;
 
-          if(!empty($productoptions)) {
-            $attribute_info = $productoptions['attributes_info'];
-          } else {
-            $attribute_info = array();
-          }
+          if(empty($parentitemid)) {
+            $productoptions = $orderItem->getProductOptions();
 
-          $collects = Mage::getModel('stock/product')->getCollection();
+            if(!empty($productoptions)) {
+              $attribute_info = $productoptions['attributes_info'];
+            } else {
+              $attribute_info = array();
+            }
 
-          if($collects->count()) {
-            //if products exists in franchise customer's store
+            $itemsku = $orderItem->getSku();
+            $qty =  (int) $orderItem->getData('qty_ordered');
+            $purchased_price = $orderItem->getData('price');
 
-            foreach($collects as $collect) {
-              $frproductid = $collect->getData('stockproductid');
+            $stockskus = Mage::getModel('stock/product')->getCollection()
+              ->addFieldToFilter('userid', array('eq' => $fruserid));
+            $allskus = $stockskus->getColumnValues('stockprodsku');
+
+            $dup_sku = "fr_".$fruserid."_".$itemsku;
+            $repli_product = Mage::getModel('catalog/product')->loadByAttribute('sku',$dup_sku);
+
+            if(!empty($allskus) && (in_array($itemsku, $allskus)) && !empty($repli_product)) {
+              $frproductid = $repli_product->getId();
               $frprodload = Mage::getModel('catalog/product')->load($frproductid);
               $prodsku = $frprodload->getSku();
+              $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($frprodload);
+              $oldqty = $stockItem->getData('qty');
+              $totalqty = $oldqty + $qty;
+              $stockItem->setData('qty', $totalqty);
+              $stockItem->setData('is_in_stock', 1);
+              $stockItem->save();
 
-              //for increasing the stock of already existing product
-              if(strpos($prodsku,"fr_")) {
-                $exists = explode("_",$prodsku);
-                $existssku = trim($exists[3], "");
-
-                if($existssku == trim($itemsku,"")) {
-                  $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($frprodload);
-                  $oldqty = $stockItem->getData('qty');
-                  $totalqty = $oldqty + $qty;
-                  $stockItem->setData('qty', $totalqty);
-                  $stockItem->setData('is_in_stock', 1);
-                  $stockItem->save();
-
-                  if(!empty($attribute_info)) {
-                    foreach($attribute_info as $attribute_inf) {
-                      $attrilabel = $attribute_inf['label'];
-                      $attrival = $attribute_inf['value'];
-                      $frprodload->set.$attrilabel.'('.$attrival.')';
-                      $allattributes .= $attrilabel.",";
-                    }
-                  }
-
-                  $frprodload->setAll_attribute($allattributes);
-                  $frprodload->save();
-                } else {
-                  $cloneid = $frobject->addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info);
+              if(!empty($attribute_info)) {
+                foreach($attribute_info as $attribute_inf) {
+                  $attrilabel = $attribute_inf['label'];
+                  $attrival = $attribute_inf['value'];
+                  $frprodload->set.$attrilabel.'('.$attrival.')';
+                  $allattributes .= $attrilabel.",";
                 }
-              } else {
-                $cloneid = $frobject->addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info);
+
+                $frprodload->setAll_attribute($allattributes);
+                $frprodload->save();
               }
+            } else if(empty($repli_product)) {
+              $cloneid = $frobject->addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info);
             }
-          } else {
-            $cloneid = $frobject->addProductFr($itemsku, $fruserid, $frorderid, $purchased_price, $qty, $attribute_info);
           }
         }
       }
