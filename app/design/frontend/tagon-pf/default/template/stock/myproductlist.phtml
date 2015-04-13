@@ -46,7 +46,7 @@
             $productMediaConfig = Mage::getModel('catalog/product_media_config');
             $productprice = $_product->getPrice();
             $tproductprice += $productprice;
-            $salesprice = $_product->getSpecialPrice();
+            $salesprice = $_product->getMrsp();
             $tsalesprice += $salesprice;
 
             $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
@@ -61,7 +61,7 @@
               <li class="qty"><?php echo $qty; ?></li>
               <li><?php echo Mage::helper('core')->currency($productprice); ?></li>
               <li class="salesprice" salesprice="<?php  echo Mage::getModel('directory/currency')->format($salesprice, array('display'=>Zend_Currency::NO_SYMBOL), false); ?>">
-                <?php echo Mage::helper('core')->currency($salesprice); ?>
+                <?php echo $salesprice; ?>
               </li>
               <li class="lli"><a class="salessimul">Lançar</a></li>
             </ul>
@@ -95,10 +95,10 @@
       <table class="frtab">
         <tbody>
           <tr class="hdfr">
-            <td>Tamanho</td>
-            <td>Quantidade</td>
-            <td>Quantidade</td>
-            <td class="last">Valor de venda</td>
+            <th>Tamanho</th>
+            <th>Quantidade</th>
+            <th>Quantidade</th>
+            <th class="last">Valor de venda</th>
           </tr>
         </tbody>
       </table>
@@ -116,6 +116,7 @@
 
     jQuery(document).ready(function() {
       jQuery(".salessimul").click(function() {
+        jQuery('#salessimulatebox .sales_details table.frtab tbody').find("tr:gt(0)").remove();
         jQuery(".sales_details").css("display","block");
 
         var rowid = jQuery(this).parent().parent().attr('id');
@@ -140,7 +141,7 @@
           parameters: {"sku":sku},
           onSuccess: function(transport) {
             var json = transport.responseText.evalJSON(true);
-            attributes = String(json.res);
+            var attributes = String(json.res);
             var allattrs = attributes.split(","); //check the attribute count
 
             if(allattrs[1]=="") {
