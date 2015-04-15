@@ -1,0 +1,103 @@
+<?php
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+  $helper= Mage::helper('stock');
+
+  if($roleId>1) {
+    $sales_report=$this->getCollection();
+?>
+  <div class="fieldset">
+    <div class="page-title">
+      <h1><?php echo $helper->__('Relatórios') ?></h1>
+    </div>
+    <div class="productlist frproductlist">
+      <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+        <label>Periodo:</label>
+        <input type="date" class="datie" name="fromdate" id="fromdate" value=""/>
+        <label>ate:</label>
+        <input type="date" class="datie" name="todate" id="todate" value=""/>
+        <label>Buscar:</label>
+        <input type="text" name="searchfr" required="required" id="searchfr"/>
+        <input type="submit" name="submit" id="submit" value="OK"/>
+      </form>
+      <?php if(!$sales_report->count()): ?>
+        <div class="clearfr"></div>
+        <p class="note-msg noprodsfr"><?php echo $this->__('Nenhuma venda foi efetuada.') ?></p>
+      <?php endif; //else: ?>
+        <div class="frpagewrap">
+          <div class="pager-top">
+          <?php echo $this->getPagerHtml(); ?>
+          </div>
+        </div>
+        <ol class="maintree">
+          <li class="singlerow headtree">
+            <ul>
+              <li class="fli">Produto</li>
+              <li>Quant.</li>
+              <li>Compra</li>
+              <li>Venda</li>
+              <li class="lli">Lucro</li>
+            </ul>
+          </li>
+          <?php
+            $tproductprice = 0;
+            $tsalesprice = 0;
+            $tquant = 0;
+            $tprofit = 0;
+            $i=1;
+
+            foreach($sales_report as $_product) {
+              $stid = $_product->getStockprodid();
+              $mainproduct = Mage::getModel('catalog/product')->load($stid);
+              $productprice = $_product->getPrice_bought();
+              $tproductprice += $productprice;
+              $salesprice = $_product->getPrice_sold();
+              $tsalesprice += $salesprice;
+              $qty = $_product->getData('qty_sold');
+              $tquant += $qty;
+              $profit = $salesprice - $productprice;
+              $tprofit += $profit;
+            ?>
+              <li class="singlerow">
+                <ul class="subli" id="salesim_<?php echo $i;?>">
+                  <li class="fli" sku="<?php echo $_product->getSku(); ?>" frprodid="<?php echo $_product->getId();?>" frprodnm="<?php echo $_product->getName(); ?>">
+                    <?php echo $mainproduct->getName(); ?>
+                  </li>
+                  <li class="qty"><?php echo (int) $qty; ?></li>
+                  <li><?php echo Mage::helper('core')->currency($productprice); ?></li>
+                  <li class="salesprice" salesprice="<?php echo Mage::getModel('directory/currency')->format($salesprice, array('display'=>Zend_Currency::NO_SYMBOL), false); ?>">
+                    <?php echo Mage::helper('core')->currency($salesprice); ?>
+                  </li>
+                  <li class="lli"><?php echo $profit;?></li>
+                </ul>
+              </li>
+          <?php
+              $i++;
+            }
+          ?>
+          <li class="singlerow totalrow">
+            <ul class="subli">
+              <li class="fli">Total</li>
+              <li><?php echo $tquant; ?></li>
+              <li><?php echo $tproductprice;?></li>
+              <li><?php echo $tsalesprice;?></li>
+              <li class="lli"><?php echo $tprofit;?></li>
+            </ul>
+          </li>
+        </ol>
+        <div class="pager-bottom">
+          <?php echo $this->getPagerHtml(); ?>
+        </div>
+      <?php //endif; ?>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var searchForm = new Varien.searchForm('search_mini_form', 'searchfr', 'Por nome do produto');
+  </script>
+
+<?php
+  } else {
+    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
+  }
+?>
