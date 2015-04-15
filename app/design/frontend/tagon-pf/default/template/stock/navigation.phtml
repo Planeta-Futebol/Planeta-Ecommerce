@@ -20,8 +20,8 @@
         </a>
       <?php } ?>
       </li>
-      <li  <?php echo strpos($magentoCurrentUrl,'Saleperpartner')? "class=current":"";?>>
-      <?php if(strpos($magentoCurrentUrl,'Saleperpartner')){ ?>
+      <li  <?php echo strpos($magentoCurrentUrl,'saleperpartner')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'saleperpartner')){ ?>
         <strong><?php echo $helper->__('Relatórios') ?></strong>
       <?php } else { ?>
         <a href="<?php echo $this->getUrl('stock/stockaccount/saleperpartner'); ?>">
