@@ -6,12 +6,14 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
     parent::__construct();
 
     $userid = Mage::getSingleton('customer/session')->getCustomer()->getId();
+    $post = $this->getRequest()->getPost();
+    $rowdata=array();
+
     $querydata = Mage::getModel('stock/product')->getCollection()
         ->addFieldToFilter('userid', array('eq' => $userid))
         ->addFieldToFilter('status', array('neq' => 2))
         ->setOrder('stockproductid');
 
-    $rowdata=array();
     foreach ($querydata as  $value) {
       $qty = (int)Mage::getModel('cataloginventory/stock_item')
                 ->loadByProduct($value->getStockproductid())->getQty();
@@ -22,8 +24,14 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
 
     $collection = Mage::getModel('catalog/product')->getCollection();
     $collection->addAttributeToSelect('*');
-
     $collection->addAttributeToFilter('entity_id', array('in' => $rowdata));
+
+    //filter with search content
+    if(!empty($post)) {
+      $collection->addAttributeToFilter(array(
+                  array('attribute'=>'description', 'like'=>'%'.$post['searchfr'].'%')));
+    }
+
     $this->setCollection($collection);
   }
 
@@ -31,8 +39,7 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
     parent::_prepareLayout();
     $pager = $this->getLayout()->createBlock('page/html_pager', 'custom.pager');
 
-    //$pager->setAvailableLimit(array(5=>5,10=>10,20=>20,'all'=>'all'));
-    $pager->setAvailableLimit(array(1=>1,2=>2,3=>3,'all'=>'all'));
+    $pager->setAvailableLimit(array(10=>10, 20=>20, 30=>30, 'all'=>'all'));
     $pager->setCollection($this->getCollection());
 
     $this->setChild('pager', $pager);
