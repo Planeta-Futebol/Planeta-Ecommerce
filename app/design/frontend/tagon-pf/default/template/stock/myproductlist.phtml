@@ -44,8 +44,8 @@
 
           foreach($_productCollection as $_product) {
             $productMediaConfig = Mage::getModel('catalog/product_media_config');
-            $productprice = $_product->getPrice();
-            $tproductprice += $productprice;
+            $pricepaid = $_product->getSpecialPrice();
+            $tproductprice += $pricepaid;
             $salesprice = $_product->getMrsp();
             $tsalesprice += $salesprice;
 
@@ -59,9 +59,9 @@
                 <?php echo $_product->getName(); ?>
               </li>
               <li class="qty"><?php echo $qty; ?></li>
-              <li><?php echo Mage::helper('core')->currency($productprice); ?></li>
+              <li><?php echo Mage::helper('core')->currency($pricepaid); ?></li>
               <li class="salesprice" salesprice="<?php  echo Mage::getModel('directory/currency')->format($salesprice, array('display'=>Zend_Currency::NO_SYMBOL), false); ?>">
-                <?php echo $salesprice; ?>
+                <?php echo Mage::helper('core')->currency($salesprice); ?>
               </li>
               <li class="lli"><a class="salessimul">Lançar</a></li>
             </ul>
@@ -115,7 +115,7 @@
     jQuery.noConflict();
 
     jQuery(document).ready(function() {
-      jQuery(".salessimul").click(function() {
+      jQuery(".salessimul").on("click", function() {
         jQuery('#salessimulatebox .sales_details table.frtab tbody').find("tr:gt(0)").remove();
         jQuery(".sales_details").css("display","block");
 
@@ -126,7 +126,7 @@
         jQuery("#salessimulatebox .sales_details .prodsimul .fprodnm").text(frprodnm);
         var qty = parseInt(jQuery("ul#"+rowid+" li.qty").text());
         var salesprice = jQuery("ul#"+rowid+" li.salesprice").attr('salesprice');
-        jQuery("table.frtab tbody").append(
+        jQuery('#salessimulatebox .sales_details table.frtab tbody').append(
           '<tr>'+
           '<td class="configtypes"></td>'+
           '<td class="qty">'+qty+'</td>'+
@@ -153,6 +153,7 @@
             jQuery("table.frtab tbody tr td.configtypes").text(""+ret_attr);
           }
         });
+
         jQuery("#salessimulatebox").dialog({
           height: 400,
           width: 415,
@@ -162,7 +163,37 @@
             {
               text: "Confirmar",
               click: function() {
-                jQuery( this ).dialog( "close" );
+                var qty = jQuery.trim(jQuery(".ui-dialog #salessimulatebox .sales_details table.frtab tbody tr td.qty").text());
+                var qty_sold = jQuery.trim(jQuery(".ui-dialog #salessimulatebox .sales_details table.frtab tbody tr td.qty_sale input.qty_sale").val());
+                var price_sold = jQuery.trim(jQuery(".ui-dialog #salessimulatebox .sales_details table.frtab tbody tr td.slprice input.slprice").val());
+
+                console.log("sold:" + parseInt(qty_sold));
+                console.log("qty:" + parseInt(qty));
+                if(sku!='' && qty_sold!='' && price_sold!='') {
+                  if(parseInt(qty_sold) <= parseInt(qty)) {
+                    new Ajax.Request("<?php echo $this->getUrl('stock/stockaccount/saveSalesReport') ?>", {
+                      method: 'Post',
+                      parameters: {"frprodid":frprodid, "sku":sku, "qty_sold":qty_sold, "price_sold":price_sold},
+                      onSuccess: function(transport) {
+                        var json = transport.responseText.evalJSON(true);
+                        var result = String(json.res);
+
+                        if (result == 1) {
+                          alert("Venda efetuada com sucesso.");
+                          jQuery( this ).dialog( "close" );
+                          location.reload();
+                        } else {
+                          alert("Por favor, tente novamente.");
+                        }
+                      }
+                    });
+                    jQuery( this ).dialog( "close" );
+                  } else {
+                    alert("A quantidade vendida não pode ser superior a quantidade no estoque.");
+                  }
+                } else {
+                  alert("Verifique os campos quantidade e valor.");
+                }
               }
             },
             {
