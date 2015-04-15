@@ -98,6 +98,11 @@
             <table>stock_product</table>
           </product>
         </entities>
+        <entities>
+          <Saleperpartner>
+            <table>stock_Saleperpartner</table>
+          </Saleperpartner>
+        </entities>
       </stock_mysql4>
     </models>
     <resources>

@@ -2,9 +2,8 @@
 class Franchise_Stock_Model_FranchiseProducts
 {
   public function orderSaveEvent() {
-    $order = new Mage_Sales_Model_Order();
     $incrementId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
-    $orderdetail = $order->loadByIncrementId($incrementId);
+    $orderdetail = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
 
     if(Mage::getSingleton('customer/session')->isLoggedIn()) {
       $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
@@ -14,7 +13,8 @@ class Franchise_Stock_Model_FranchiseProducts
         $customerid = $customerData->getId();
         $wholedata=array("franchise_order"=>$incrementId, "franchise_id"=>$customerid);
         $cloneid = Mage::getModel('stock/product')->saveFranchiseProduct($wholedata);
-        $this->_redirect('stock/stockaccount/myproductslist/');
+
+        return true;
       }
     }
   }

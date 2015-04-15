@@ -8,18 +8,11 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
   }
 
   public function myproductslistAction() {
-    if($this->getRequest()->isPost()) {
-      if (!$this->_validateFormKey()) {
-        return $this->_redirect('stock/stockaccount/myproductslist/');
-      }
-
-      $collection_product = Mage::getModel('stock/product')
-        ->getCollection()
-        ->addFieldToFilter('stockproductid',array('eq'=>$id))
-        ->addFieldToFilter('userid',array('eq'=>$customerid));
+    if(($this->getRequest()->isPost()) && (!$this->_validateFormKey())) {
+      return $this->_redirect('stock/stockaccount/myproductslist/');
     }
 
-    $this->loadLayout( array('default','stock_account_productlist'));
+    $this->loadLayout(array('default', 'stock_account_productlist'));
     $this->_initLayoutMessages('customer/session');
     $this->_initLayoutMessages('catalog/session');
     $this->getLayout()
@@ -36,24 +29,48 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     if($post){
       $sku = $post['sku'];
       $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
-      $attributeValue = $product->getResource()->getAttribute('all_attribute')->getFrontend()->getValue($product);
-      $result = $attributeValue;
 
+      /*
+       * check if product attribute with code all_attribute of textarea 
+       * type in attribute_set is created in admin or not.
+       */
+      $attributeValue = $product->getResource()
+        ->getAttribute('all_attribute')
+        ->getFrontend()
+        ->getValue($product);
+
+      $result = $attributeValue;
       echo json_encode(array("status"=>"success", "res"=>$result));
     } else {
       echo json_encode(array("status"=>"error", "res"=>"There are no attributes."));
     }
   }
 
-  public function deleteAction(){
-    $urlapp=$_SERVER['REQUEST_URI'];
-    $record=Mage::getModel('stock/product')->deleteProduct($urlapp);
+  public function saleperpartnerAction() {
+    if(($this->getRequest()->isPost()) && (!$this->_validateFormKey())) {
+      return $this->_redirect('stock/stockaccount/saleperpartner/');
+    }
 
-    Mage::getSingleton('core/session')
-      ->addSuccess( Mage::helper('stock')
-        ->__('Produto deletado com sucesso'));
+    $this->loadLayout(array('default', 'stock_account_saleperpartner'));
+    $this->_initLayoutMessages('customer/session');
+    $this->_initLayoutMessages('catalog/session');
+    $this->getLayout()
+      ->getBlock('head')
+      ->setTitle( Mage::helper('stock')
+      ->__('Relatório de vendas'));
 
-    $this->_redirect('stock/stockaccount/myproductslist/');
+    $this->renderLayout();
+  }
+
+  public function saveSalesReportAction() {
+    $post = $this->getRequest()->getPost();
+
+    if($post) {
+      $result = Mage::getModel('stock/Saleperpartner')->saveSaleReport($post);
+      echo json_encode(array("status"=>"success", "res"=>$result));
+    } else {
+      echo json_encode(array("status"=>"error", "res"=>"Please refresh the page and try again."));
+    }
   }
 }
 ?>
