@@ -35,13 +35,13 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
 
     //duplicate sku will be combination of franchise user id, his order id, item sku.
     $duplicate_sku = "fr_".$fruserid."_".$itemsku;
-    $saleprice = $_product->getPrice();
 
     $clone = $_product->duplicate();
     $clone->setSku($duplicate_sku);
     $clone->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
-    $clone->setPrice($saleprice);
+    $clone->setPrice($_product->getPrice());
     $clone->setSpecialPrice($purchased_price);
+    $clone->setMrsp($_product->getMrsp());
     $allattributes = "";
 
     if(!empty($attribute_info)) {
@@ -64,12 +64,13 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
       $clone->getResource()->save($clone);
       $cloneid = $clone->getId();
       $stproduct = $product->load($cloneid);
-      $stockItem1 = Mage::getModel('cataloginventory/stock_item')->loadByProduct($stproduct);
-      $stockItem1->setData('manage_stock', 1);
-      $stockItem1->setData('is_in_stock', 1);
-      $stockItem1->setData('use_config_notify_stock_qty', 0);
-      $stockItem1->setData('qty', $qty);
-      $stockItem1->save();
+      $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($stproduct);
+      $stockItem->setData('manage_stock', 1);
+      $stockItem->setData('is_in_stock', 1);
+      $stockItem->setData('use_config_notify_stock_qty', 0);
+      $stockItem->setData('qty', $qty);
+
+      $stockItem->save();
       $stproduct->save();
     } catch(Exception $e){
       Mage::log($e->getMessage());
