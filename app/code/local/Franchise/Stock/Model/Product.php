@@ -41,7 +41,7 @@ class Franchise_Stock_Model_Product extends Mage_Core_Model_Abstract
     $clone->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
     $clone->setPrice($_product->getPrice());
     $clone->setSpecialPrice($purchased_price);
-    $clone->setMrsp($_product->getMrsp());
+    $clone->setMsrp($_product->getMsrp());
     $allattributes = "";
 
     if(!empty($attribute_info)) {
