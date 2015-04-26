@@ -29,6 +29,47 @@
         </a>
       <?php } ?>
       </li>
+
+      <li  <?php echo strpos($magentoCurrentUrl,'listTransaction')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'listTransaction')){ ?>
+        <strong><?php echo $helper->__('Comissões') ?></strong>
+      <?php } else { ?>
+        <a href="<?php echo $this->getUrl('affiliateplus/index/listTransaction'); ?>">
+          <?php echo $helper->__('Comissões') ?>
+        </a>
+      <?php } ?>
+      </li>
+
+      <li  <?php echo strpos($magentoCurrentUrl,'affiliateplus/refer/index')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'affiliateplus/refer/index')){ ?>
+        <strong><?php echo $helper->__('Refer Friends') ?></strong>
+      <?php } else { ?>
+        <a href="<?php echo $this->getUrl('affiliateplus/refer/index'); ?>">
+          <?php echo $helper->__('Refer Friends') ?>
+        </a>
+      <?php } ?>
+      </li>
+
+      <li  <?php echo strpos($magentoCurrentUrl,'affiliateplusstatisticfrontend/statistic/index')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'affiliateplusstatisticfrontend/statistic/index')){ ?>
+        <strong><?php echo $helper->__('Relatório de Comissões') ?></strong>
+      <?php } else { ?>
+        <a href="<?php echo $this->getUrl('affiliateplusstatisticfrontend/statistic/index'); ?>">
+          <?php echo $helper->__('Relatório de Comissões') ?>
+        </a>
+      <?php } ?>
+      </li>
+
+      <li  <?php echo strpos($magentoCurrentUrl,'affiliatepluscoupon/index/index')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'affiliatepluscoupon/index/index')){ ?>
+        <strong><?php echo $helper->__('Cupons') ?></strong>
+      <?php } else { ?>
+        <a href="<?php echo $this->getUrl('affiliatepluscoupon/index/index'); ?>">
+          <?php echo $helper->__('Cupons') ?>
+        </a>
+      <?php } ?>
+      </li>
+
     </ul>
   </div>
 </div>
