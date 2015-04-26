@@ -14,18 +14,6 @@
 <?php $columns = $this->getColumns() ?>
 
 <?php if ($this->getData('add_searchable_row')): ?>
-    <div class="affiliateplus-search-button">
-        <button type="button"  onclick="setLocation('<?php echo $this->getFilterUrl() ?>');" class="button right button-config">
-            <span>
-                <span><?php echo $this->__('Reset Filter') ?></span>
-            </span>
-        </button>       
-        <button type="button" onclick="searchGrid<?php echo $this->getNameInLayout() ?>();" class="button right button-config">
-            <span>
-                <span><?php echo $this->__('Search') ?></span>
-            </span>
-        </button>               
-    </div>
     <script type="text/javascript">
         function searchGrid<?php echo $this->getNameInLayout() ?>() {
             var inputEl = $$('#<?php echo $this->getNameInLayout() ?> thead input');
@@ -108,100 +96,71 @@
             <?php endforeach ?>
         </colgroup>
         <thead>
-            <tr <?php if ($this->getData('add_searchable_row')): ?>class="affiliateplus-grid-title"<?php endif ?>>
-                <?php foreach ($columns as $id => $column): ?>
-                    <th><?php echo $column['header'] ?></th>
-                <?php endforeach ?>
-            </tr>
             <?php if ($this->getData('add_searchable_row')): ?>
-                <tr>
-                    <?php foreach ($columns as $id => $column): ?>
-                        <th>
-                            <?php if (isset($column['searchable'])): ?>
-                    <div <?php if (isset($column['width']) && $column['width']): ?> <?php endif ?>>
-                        <?php $type = isset($column['type']) ? $column['type'] : '' ?>
-                        <?php if ($type == 'date' || $type == 'datetime'): ?>
-                            <div class="aff-join">
-                                <div class="from-to-aff">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <span><?php echo $this->__('From') ?>:</span>
-                                    </div>
-                                    <div class="col-md-8 col-sm-8 col-xs-8">
-                                        <input type="text" class="form-control"  name="<?php echo $id ?>-from" id="<?php echo $this->getNameInLayout() . '-' . $id ?>-from" value="<?php echo $this->getFilterValue($id, '-from') ?>" />
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 col-xs-2 calender">
-                                        <img src="<?php echo Mage::getBaseUrl('skin') ?>/adminhtml/default/default/images/grid-cal.gif" alt="<?php echo $this->__('dateinput') ?>" class="v-middle" id="calendar-<?php echo $id ?>-from" />
-                                    </div>
-                                </div>
-                                <div class="from-to-aff">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <span><?php echo $this->__('To') ?>:</span>
-                                    </div>
-                                    <div class="col-md-8 col-sm-8 col-xs-8">
-                                        <input type="text" class="form-control" name="<?php echo $id ?>-to" id="<?php echo $this->getNameInLayout() . '-' . $id ?>-to"  value="<?php echo $this->getFilterValue($id, '-to') ?>" />
-                                    </div>
-                                    <div class="col-md-2 col-sm-2 col-xs-2 calender">
-                                        <img src="<?php echo Mage::getBaseUrl('skin') ?>/adminhtml/default/default/images/grid-cal.gif" alt="<?php echo $this->__('dateinput') ?>" class="v-middle" id="calendar-<?php echo $id ?>-to" />
-                                    </div>
-                                </div>
-                                <script type="text/javascript">
-                                    Calendar.setup({
-                                        inputField: "<?php echo $this->getNameInLayout() . '-' . $id ?>-from",
-                                        ifFormat: "%m/%e/%y",
-                                        showsTime: false,
-                                        button: "calendar-<?php echo $id ?>-from",
-                                        align: "Bl",
-                                        singleClick: true
-                                    });
-                                    Calendar.setup({
-                                        inputField: "<?php echo $this->getNameInLayout() . '-' . $id ?>-to",
-                                        ifFormat: "%m/%e/%y",
-                                        showsTime: false,
-                                        button: "calendar-<?php echo $id ?>-to",
-                                        align: "Bl",
-                                        singleClick: true
-                                    });
+              <tr>
+                <th colspan="5" class="inline">
+                  <?php foreach ($columns as $id => $column): ?>
+                    <?php //echo $id; ?>
+                    <?php if (isset($column['searchable'])): ?>
+                  
+                  <?php $type = isset($column['type']) ? $column['type'] : '' ?>
 
-
-                                </script>
-                            </div>
-                        <?php elseif ($type == 'options'): ?>
-                            <select class="form-control status-grid" name="<?php echo $id ?>" id="<?php echo $this->getNameInLayout() . '-' . $id ?>">
-                                <option value=""></option>
-                                <?php foreach ($column['options'] as $value => $label): ?>
-                                    <option value="<?php echo $value ?>"<?php if ($value == $this->getFilterValue($id)): ?> selected="selected"<?php endif ?>><?php echo $label ?></option>
-                                <?php endforeach ?>
-                            </select>
-                        <?php elseif ($type == 'price' || $type == 'baseprice'): ?>
-                            <div>
-                                <div class="from-to-aff">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <span><?php echo $this->__('From') ?>:</span>
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <input class="form-control" type="text" name="<?php echo $id ?>-from" id="<?php echo $this->getNameInLayout() . '-' . $id ?>-from" value="<?php echo $this->getFilterValue($id, '-from') ?>" />
-                                    </div>
-                                </div>
-                                <div class="from-to-aff">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <span><?php echo $this->__('To') ?>:</span>
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <input class="form-control" type="text" name="<?php echo $id ?>-to" id="<?php echo $this->getNameInLayout() . '-' . $id ?>-to"  value="<?php echo $this->getFilterValue($id, '-to') ?>" />
-                                    </div>
-                                </div>
-                            </div>
-                        <?php else: ?>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <input class="form-control" type="text" name="<?php echo $id ?>" id="<?php echo $this->getNameInLayout() . '-' . $id ?>"  value="<?php echo $this->getFilterValue($id) ?>" />
-                            </div>
-                        <?php endif ?>
+                  <?php if ($type == 'date' || $type == 'datetime'): ?>
+                      <span><?php echo $this->__('Período') ?>:</span>
+                      <input type="date" class="datie form-control" name="created_time-from" id="<?php echo $this->getNameInLayout() . '-created_time' ?>-from" value="<?php echo $this->getFilterValue('created_time', '-from') ?>"/>
+                      <span><?php echo $this->__('To') ?>:</span>
+                      <input type="date" class="datie form-control" name="created_time-to" id="<?php echo $this->getNameInLayout() . '-created_time' ?>-to" value="<?php echo $this->getFilterValue('created_time', '-to') ?>"/>
+                  <?php elseif ($type == 'options'): ?>
+                    <select class="form-control status-grid" name="<?php echo $id ?>" id="<?php echo $this->getNameInLayout() . '-' . $id ?>">
+                        <option value="">Status</option>
+                        <?php foreach ($column['options'] as $value => $label): ?>
+                            <option value="<?php echo $value ?>"<?php if ($value == $this->getFilterValue($id)): ?> selected="selected"<?php endif ?>><?php echo $label ?></option>
+                        <?php endforeach ?>
+                    </select>
+                  <?php elseif ($type == 'price' || $type == 'baseprice'): ?>
+                    <div>
+                      <div class="from-to-aff">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        <span><?php echo $this->__('From') ?>:</span>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <input class="form-control" type="text" name="<?php echo $id ?>-from" id="<?php echo $this->getNameInLayout() . '-' . $id ?>-from" value="<?php echo $this->getFilterValue($id, '-from') ?>" />
+                        </div>
+                      </div>
+                      <div class="from-to-aff">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                        <span><?php echo $this->__('To') ?>:</span>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <input class="form-control" type="text" name="<?php echo $id ?>-to" id="<?php echo $this->getNameInLayout() . '-' . $id ?>-to"  value="<?php echo $this->getFilterValue($id, '-to') ?>" />
+                        </div>
+                      </div>
                     </div>
+                  <?php else: ?>
+                      <input class="form-control" type="text" name="<?php echo $id ?>" id="<?php echo $this->getNameInLayout() . '-' . $id ?>"  value="<?php echo $this->getFilterValue($id) ?>" />
+                  <?php endif ?>
                 <?php endif ?>
-                </th>
             <?php endforeach ?>
+              <button type="button"  onclick="setLocation('<?php echo $this->getFilterUrl() ?>');" class="button right button-config">
+                <span><?php echo $this->__('Reset Filter') ?></span>
+              </button>       
+              <button type="button" onclick="searchGrid<?php echo $this->getNameInLayout() ?>();" class="button right button-config">
+                <span><?php echo $this->__('Search') ?></span>
+              </button>
+              </th>
             </tr>
-        <?php endif ?>
+          <?php endif ?>
+          <tr <?php if ($this->getData('add_searchable_row')): ?>class="affiliateplus-grid-title"<?php endif ?>>
+            <?php foreach ($columns as $id => $column): ?>
+              <th><?php echo $column['header'] ?></th>
+            <?php endforeach ?>
+          </tr>
+          <tr class="total">
+            <td colspan="5">
+              <span>Total</span>
+              <?php echo $this->getLayout()->createBlock('affiliateplus/payment_miniform')->getFormatedBalance(); ?>
+            </td>
+          </tr>
         </thead>
         <tbody>
             <?php if ($collection->count()): ?>
