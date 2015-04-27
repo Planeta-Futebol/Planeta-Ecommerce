@@ -1055,11 +1055,12 @@ table[class~=bottom] td[class~=in] { padding:0 5px !important; }
         }
 
         function openModal (event) {
-          if (event.data === 1){
+          var isMobile = window.matchMedia("only screen and (max-width: 650px)");
+          if (event.data === 1 && (!isMobile.matches)){
             event.target.stopVideo();
             event.target.clearVideo();
-            var reg = /[\?&]v=([^&#]*)/
-            var id = reg.exec(event.target.getVideoUrl())[1]
+            var reg = /[\?&]v=([^&#]*)/;
+            var id = reg.exec(event.target.getVideoUrl())[1];
             $('#modal1').fadeIn(500);
             player2.loadVideoById(id);
           }
