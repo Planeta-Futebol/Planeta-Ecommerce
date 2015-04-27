@@ -21,6 +21,11 @@
             <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('slider-home-2')->toHtml() ?>
 	    		</div>
         <?php endif; ?>
+        <?php if ($this->getLayout()->createBlock('cms/block')->setBlockId('slider-home-3')->toHtml() !== ''): ?>
+          <div class="section" id="section3">
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('slider-home-3')->toHtml() ?>
+          </div>
+        <?php endif; ?>
 	    	</div>
 	    </div>
 	</div>

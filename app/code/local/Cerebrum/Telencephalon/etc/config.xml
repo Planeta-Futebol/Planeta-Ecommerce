@@ -358,6 +358,26 @@
                     </cerebrum_telencephalon_observer_adminhtml_onblockhtmlbeforehackathon>
                 </observers>
             </adminhtml_block_html_before>
+            <!-- FIX AMTY: exibe novos atributos no csv -->
+            <!--<core_layout_block_create_after>
+                <observers>
+                    <amcustomerattr>
+                        <type>singleton</type>
+                        <class>telencephalon/adminhtml_observer</class>
+                        <method>forSearchCustomerGrid</method>
+                    </amcustomerattr>
+                </observers>
+            </core_layout_block_create_after>
+            <eav_collection_abstract_load_before>
+                <observers>
+                    <amcustomerattr>
+                        <type>singleton</type>
+                        <class>telencephalon/adminhtml_observer</class>
+                        <method>modifyCustomerCollection</method>
+                    </amcustomerattr>
+                </observers>
+            </eav_collection_abstract_load_before>-->
+            <!-- FIX AMTY: exibe novos atributos no csv -->
 	    </events><!-- cerebrum->events -->
 
 		<global_search>
@@ -565,6 +585,7 @@
                     <largura_max>105</largura_max>
                     <altura_min>2</altura_min>
                     <altura_max>105</altura_max>
+					<sum_min>29</sum_min>
                     <sum_max>200</sum_max>
                 </volume_validation>
             </cerebrum_correios>
@@ -777,6 +798,7 @@
 				<bandeiras_por_linha>10</bandeiras_por_linha>
 				<place_redirect>dhtml</place_redirect>
 				<generate_inovice>1</generate_inovice>
+				<curlopt_sslversion>1</curlopt_sslversion>
 			</cerebrum_cielo>
 			<cerebrum_americanexpress>
 				<group>telencephalon</group>
@@ -828,6 +850,7 @@
 				<environment>http://mupteste.comercioeletronico.com.br</environment>
 <assinatura_boleto>233542AD8CA027BA56B63C2E5A530029F68AACD5E152234BFA1446836220CAA53BD3EA92B296CA94A313E4E438AD64C1E4CF2CBAD6C67DAA00DE7AC2C907A99979A5AB53BFEF1FD6DD3D3A24B278536929F7F747907F7F922C6C0F3553F8C6E29D68E1F6E0CA2566C46C63A2DD65AFF7DF4802FBF4811CA58619B33989B8DDF8</assinatura_boleto>
                 <assinatura_transferencia>7B94A66D138FFD2AEBFBE3D8E0BDBD02700A5B793F017B0C8B40252C3680F9CD05C7EEB1A395C84916425DC318F7F07518D416194FB077AA47A8DBD2B35B2E4C376A23385FDD9B0AA3E7D0712B373B9EFD11028ADFC763B7EAD4A3E70FC8BE4A3CF4DA804E692A6173F4B81F568D7A9A38F663106149A34409B3C48147FBAA12</assinatura_transferencia>
+				<generate_inovice>1</generate_inovice>
 			</cerebrum_bradesco>
 			<cerebrum_bancodobrasil>
 				<group>telencephalon</group>
@@ -1125,7 +1148,8 @@
 				<model>Cerebrum_Telencephalon_Model_Payment_Meucheckout_Method</model>
 				<active>0</active>
 				<sort_order>1</sort_order>
-				<title>MeuCheckout BRASPAG® - (powered by CEREBRUM)</title>
+				<title>Cielo Solução Integrada - (powered by CEREBRUM)</title>
+				<environment>https://cieloecommerce.cielo.com.br/Transactional/Order/Index</environment>
                 <merchant_id>c13ee41f-8219-49e1-ab31-7e6f1f33169b</merchant_id>
                 <soft_descriptor>ACME</soft_descriptor>
                 <charset>UTF-8</charset>
@@ -1133,6 +1157,7 @@
 				<active_logo>1</active_logo>
 				<active_expresscheckout>1</active_expresscheckout>
 				<shippingtype_expresscheckout>1</shippingtype_expresscheckout>
+				<antifraude_enabled>1</antifraude_enabled>
 			</cerebrum_meucheckout>
 			<cerebrum_pagador>
 				<group>telencephalon</group>
@@ -1147,6 +1172,10 @@
 				<installments_establishment>a:3:{s:18:"_1389208983120_120";a:4:{s:10:"card_types";s:1:"0";s:12:"installments";s:1:"1";s:4:"rate";s:0:"";s:11:"price_range";s:0:"";}s:18:"_1389208986250_250";a:4:{s:10:"card_types";s:1:"0";s:12:"installments";s:1:"2";s:4:"rate";s:1:"2";s:11:"price_range";s:4:"0-10";}s:18:"_1389208986983_983";a:4:{s:10:"card_types";s:1:"0";s:12:"installments";s:1:"3";s:4:"rate";s:2:"3%";s:11:"price_range";s:4:"0-10";}}</installments_establishment>
 				<installments_issuer>a:3:{s:18:"_1394462736147_147";a:4:{s:10:"card_types";s:1:"0";s:12:"installments";s:1:"3";s:4:"rate";s:10:"1.99% a.m.";s:11:"price_range";s:4:"0-10";}s:18:"_1394462739105_105";a:4:{s:10:"card_types";s:1:"0";s:12:"installments";s:1:"4";s:4:"rate";s:10:"1.99% a.m.";s:11:"price_range";s:4:"0-10";}s:18:"_1394462739889_889";a:4:{s:10:"card_types";s:1:"0";s:12:"installments";s:1:"5";s:4:"rate";s:10:"1.99% a.m.";s:11:"price_range";s:4:"0-10";}}</installments_issuer>
 				<savecreditcard>0</savecreditcard>
+				<vencimento>5</vencimento>
+				<instructions>- Sr. Caixa, cobrar multa de 2% após o vencimento
+- Receber até 10 dias após o vencimento
+- Em caso de dúvidas entre em contato conosco: acme@acme.com.br - Tel .: (99) 9999-9999</instructions>
 				<transaction_types>2</transaction_types>
 				<tipo_calculo>1</tipo_calculo>
 				<place_redirect>dhtml</place_redirect>
@@ -1204,7 +1233,7 @@
 				<place_redirect>dhtml</place_redirect>
 				<generate_inovice>1</generate_inovice>
 			</cerebrum_mercadopago>
-			<cerebrum_erede>
+			<!--<cerebrum_erede>
 				<group>telencephalon</group>
 				<model>Cerebrum_Telencephalon_Model_Payment_Erede_Method</model>
 				<payment_action>authorize</payment_action>
@@ -1234,7 +1263,7 @@
 
 				<place_redirect>dhtml</place_redirect>
 				<generate_inovice>1</generate_inovice>
-			</cerebrum_erede>
+			</cerebrum_erede>-->
 		</payment>
 		<fraudcheck>
             <cerebrum_fcontrol>
@@ -1272,6 +1301,14 @@
                     <model>telencephalon/cron::consultaItau</model>
                 </run>
             </cerebrum_consulta_itau>
+            <cerebrum_consulta_bradesco>
+                <schedule>
+					<cron_expr>*/30 * * * *</cron_expr><!-- Este cron será executado a cada X minutos -->
+				</schedule>
+                <run>
+                    <model>telencephalon/cron::consultaBradesco</model>
+                </run>
+            </cerebrum_consulta_bradesco>
             <cerebrum_correios_tracking>
                 <schedule>
 					<cron_expr>*/30 * * * *</cron_expr><!-- Este cron será executado a cada X minutos -->

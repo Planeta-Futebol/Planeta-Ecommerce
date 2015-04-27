@@ -1,0 +1,70 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+$order = $this->getOrder();
+$blingNF = Mage::getModel('fuza_bling/blingnf')->load( $order->getId(), 'order_id' );
+$nf = $blingNF->getData();
+
+?>
+<div id="order_nfe_block">
+    <ul class="note-list">
+		<?php if (!$nf): ?>
+            Nota Fiscal Eletrônica ainda não foi gerada!
+			<a href="<?php echo $this->getUrl('fuza_bling/adminhtml_index/alocaNf', array('order_id' => $order->getId())); ?>" title="Clique aqui para gerar a NFe deste pedido">
+                Gerar NFe
+            </a>
+		<?php else: ?>
+        <li>
+            Número: <strong><?php echo $nf['id'] ?></strong> <br/><br/>
+			<?php if ($nf['status'] == "finished"): ?>
+			Status: <strong><?php echo $nf['status'] ?></strong><span class="separator">|</span><?php echo $nf['status_gateway'] ?><span class="separator">|</span><?php echo $nf['status_message'] ?> <br/><br/>
+			Danfe: <strong><a href="<?php echo $nf['nf_danfe'] ?>" target="_blank"><?php echo $nf['nf_danfe'] ?></a></strong> <br/>
+			Chave: <strong><?php echo $nf['nf_key'] ?></strong> <br/><br/>
+			<?php elseif (($nf['status'] == "processing") || ($nf['status'] == "created")): ?>
+				<?php if ($nf['updated_at'] != "0000-00-00 00:00:00"): ?>
+				Status: <strong>Processo de geração automática iniciado</strong><span class="separator">|</span>Espelho do Pedido enviado ao Bling
+					<?php if ($nf['error_message'] != ""): ?>
+					<br/><?php echo $nf['error_message'] ?>
+					<?php endif; ?>
+				<br/><br/>
+				<?php else: ?>
+				Status: <strong>Processo de geração automática iniciado</strong> <br/><br/>
+				<?php endif; ?>
+			<?php else: ?>
+			Status: <?php echo $nf['status_gateway'] ?><span class="separator">|</span><?php echo $nf['status_message'] ?> <br/><br/>
+				<?php if ($nf['nf_key'] != ""): ?>
+				Chave: <strong><?php echo $nf['nf_key'] ?></strong> <br/><br/>
+				<?php endif; ?>
+			Erro: <strong><?php echo $nf['error_message'] ?></strong> <br/><br/>
+			<?php endif; ?>
+            Criado em: <strong><?php echo Mage::helper('core')->formatDate($nf['created_at'], 'medium', true) ?></strong><br />
+			<?php if ($nf['updated_at'] != "0000-00-00 00:00:00"): ?>
+            Atualizado em: <strong><?php echo Mage::helper('core')->formatDate($nf['updated_at'], 'medium', true) ?></strong>
+			<?php endif; ?>
+        </li>
+		<?php endif; ?>
+    </ul>
+</div>

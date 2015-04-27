@@ -411,7 +411,7 @@
 					<label>Endereçador Correios - (powered by CEREBRUM)</label>
                     <comment>
                           <![CDATA[<div style="padding:10px;background-color:#fff;border:1px solid #ddd;margin-bottom:7px;">
-<p><a href="http://www.correios.com.br/enderecador/encomendas/default.cfm" target="_blank">Ferramenta para preparação e impressão rápida de etiquetas de endereçamento para encomendas</a></p>
+<p><a href="http://www2.correios.com.br/enderecador/encomendas/default.cfm" target="_blank">Ferramenta para preparação e impressão rápida de etiquetas de endereçamento para encomendas</a></p>
 </div>]]>
                     </comment>	
 					<frontend_type>text</frontend_type>
@@ -991,7 +991,7 @@
                         <showservice translate="label">
                             <label>Show Service if Not Applicable</label>
                             <comment>
-                                <![CDATA[<a href="http://goo.gl/4KTjjp" target="_blank">http://goo.gl/4KTjjp</a>]]>
+                                <![CDATA[<a href="http://goo.gl/BXpeML" target="_blank">http://goo.gl/BXpeML</a>]]>
                             </comment>
                             <frontend_type>select</frontend_type>
                             <sort_order>320</sort_order>
@@ -3291,6 +3291,17 @@ No processo de geração da fatura no Magento é disparado tambem o processo de 
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </generate_inovice>
+                        <curlopt_sslversion translate="label">
+                            <label>curlopt_sslversion</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/eTVCEA" target="_blank">http://goo.gl/eTVCEA</a>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>270</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </curlopt_sslversion>
 
 
                         <heading_end translate="label" module="telencephalon">
@@ -3327,6 +3338,188 @@ No processo de geração da fatura no Magento é disparado tambem o processo de 
                         </specificcountry>
 			  	     </fields>
                 </cerebrum_cielo>
+		      	<cerebrum_meucheckout translate="label" module="telencephalon">                
+					<label>Cielo Solução Integrada - (powered by CEREBRUM)</label>
+					<sort_order>111</sort_order>
+					<show_in_default>1</show_in_default>
+				  	<show_in_website>1</show_in_website>
+				  	<show_in_store>1</show_in_store>                    
+                    <comment>
+                        <![CDATA[<div style="padding:10px;background-color:#fff;border:1px solid #ddd;margin-bottom:7px;"><p><a href="http://www.cielo.com.br/" target="_blank">Comece a aceitar pagamentos via Cielo!</a></div>]]>
+                    </comment>				  	
+					<fields>                    
+				      	<active translate="label" module="telencephalon">
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+					    </active>
+                        <sort_order translate="label" module="telencephalon">
+                            <label>Sort Order</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/Xw5Xv2" target="_blank">http://goo.gl/Xw5Xv2</a>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sort_order>
+						<title translate="label" module="telencephalon">
+					  		<label>Title</label>
+					  		<frontend_type>text</frontend_type>
+					  		<sort_order>30</sort_order>
+					  		<show_in_default>1</show_in_default>
+					  		<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/X1cGLU" target="_blank">http://goo.gl/X1cGLU</a>]]>
+                            </comment>
+                            <tooltip>
+                                <![CDATA[Título que aparecerá no frontend]]>
+                            </tooltip>
+				      	</title>
+                        <heading_init translate="label" module="telencephalon">
+                            <label></label>
+                            <frontend_model>telencephalon/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </heading_init>
+
+
+                        <merchant_id translate="label">
+                            <label>Identificador da loja</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/f0TxfZ" target="_blank">http://goo.gl/f0TxfZ</a>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </merchant_id>
+						<soft_descriptor translate="label" module="telencephalon">
+					  		<label>Texto de até 13 caracteres que será impresso na fatura do portador</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/S6x3xd" target="_blank">http://goo.gl/S6x3xd</a>]]>
+                            </comment>
+					  		<frontend_type>text</frontend_type>
+					  		<sort_order>110</sort_order>
+					  		<show_in_default>1</show_in_default>
+					  		<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+							<tooltip>
+							<![CDATA[
+							<div>
+							    Permite que o lojista envie um texto de até 13 caracteres que será impresso na fatura do portador, ao lado da identificação da loja.
+							</div>
+							]]>
+						    </tooltip>
+				      	</soft_descriptor> 
+                        <generate_inovice translate="label">
+                            <label>Gerar fatura</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/j1OALV" target="_blank">http://goo.gl/j1OALV</a>]]>
+                            </comment>
+                            <tooltip>
+                                <![CDATA[
+Quando ativado será gerado a fatura de forma automática quando a transação do pedido for efetuada com sucesso.
+]]>
+                            </tooltip>
+                            <frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </generate_inovice>
+				      	<active_logo translate="label" module="telencephalon">
+							<label>Exibir logo de parceiro "sidebar"</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/TPMAAa" target="_blank">http://goo.gl/TPMAAa</a>]]>
+                            </comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>130</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+					    </active_logo>
+				      	<active_expresscheckout translate="label" module="telencephalon">
+							<label>Ativar o botão "ExpressCheckout"</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/qZ0M3w" target="_blank">http://goo.gl/qZ0M3w</a>]]>
+                            </comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>140</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+					    </active_expresscheckout>
+                        <shippingtype_expresscheckout translate="label">
+                            <label>Opção de entrega para o "ExpressCheckout"</label>
+                            <comment>
+                                <![CDATA[<a href="xxx" target="_blank">xxx</a>]]>
+                            </comment>
+							<frontend_type>select</frontend_type>
+							<source_model>telencephalon/adminhtml_source_meucheckout_shippingtype</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip><![CDATA[- Loja com frete grátis para o Brasil todo (onde nunca há calculo de frete): Shipping_type = 3
+- Calculo de frete do lado da Cielo (por enquanto obrigatoriamente Correios): Shipping_type = 1]]></tooltip>
+                            <depends><active_express_meucheckout>1</active_express_meucheckout></depends>
+                        </shippingtype_expresscheckout>
+				      	<antifraude_enabled translate="label" module="telencephalon">
+							<label>Ativar Antifraude</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>160</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+					    </antifraude_enabled>
+
+                        <heading_end translate="label" module="telencephalon">
+                            <label></label>
+                            <frontend_model>telencephalon/adminhtml_system_config_form_field_heading</frontend_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </heading_end>
+                        <allowspecific translate="label" module="telencephalon">
+                            <label>Payment from Applicable Countries</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/ryFknc" target="_blank">http://goo.gl/ryFknc</a>]]>
+                            </comment>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>510</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label" module="telencephalon">
+                            <label>Payment from Specific Countries</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/p750YQ" target="_blank">http://goo.gl/p750YQ</a>]]>
+                            </comment>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>520</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                        </specificcountry>
+			  	     </fields>
+                </cerebrum_meucheckout>
 		      	<!--<cerebrum_americanexpress translate="label" module="telencephalon">                
 					<label>AmericanExpress - (powered by CEREBRUM)</label>
                     <comment>
@@ -3964,6 +4157,24 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </assinatura_transferencia>
+                        <generate_inovice translate="label">
+                            <label>Gerar fatura</label>
+                            <comment>
+                                <![CDATA[<a href="http://goo.gl/It7uOL" target="_blank">http://goo.gl/It7uOL</a>]]>
+                            </comment>
+                            <tooltip>
+                                <![CDATA[
+Quando ativado será gerado a fatura de forma automática quando a transação do pedido for efetuada com sucesso.<br>
+No processo de geração da fatura no Magento é disparado tambem o processo de captura da transação.
+]]>
+                            </tooltip>
+                            <frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </generate_inovice>
 
 
                         <heading_end translate="label" module="telencephalon">
@@ -6964,7 +7175,7 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
 			  	     </fields>
                 </cerebrum_pagseguro>
 		      	<cerebrum_pagseguro_transparente translate="label" module="telencephalon">                
-					<label>PagSeguro Transparente - (powered by CEREBRUM)</label>
+					<label>PagSeguro Transparente - (powered by CEREBRUM) "Em Desenvolvimento"</label>
 					<sort_order>261</sort_order>
 					<show_in_default>1</show_in_default>
 				  	<show_in_website>1</show_in_website>
@@ -7141,180 +7352,6 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
                         </specificcountry>
 			  	     </fields>
                 </cerebrum_pagseguro_transparente>
-		      	<cerebrum_meucheckout translate="label" module="telencephalon">                
-					<label>MeuCheckout BRASPAG® - (powered by CEREBRUM)</label>
-					<sort_order>270</sort_order>
-					<show_in_default>1</show_in_default>
-				  	<show_in_website>1</show_in_website>
-				  	<show_in_store>1</show_in_store>                    
-                    <comment>
-                        <![CDATA[<div style="padding:10px;background-color:#fff;border:1px solid #ddd;margin-bottom:7px;"><p><a href="http://www.braspag.com.br/meucheckout/venda-com-meu-checkout.html" target="_blank">Comece a aceitar pagamentos via MeuCheckout!</a></div>]]>
-                    </comment>				  	
-					<fields>                    
-				      	<active translate="label" module="telencephalon">
-							<label>Enabled</label>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>10</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-					  		<show_in_store>1</show_in_store>
-					    </active>
-                        <sort_order translate="label" module="telencephalon">
-                            <label>Sort Order</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/Xw5Xv2" target="_blank">http://goo.gl/Xw5Xv2</a>]]>
-                            </comment>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </sort_order>
-						<title translate="label" module="telencephalon">
-					  		<label>Title</label>
-					  		<frontend_type>text</frontend_type>
-					  		<sort_order>30</sort_order>
-					  		<show_in_default>1</show_in_default>
-					  		<show_in_website>1</show_in_website>
-					  		<show_in_store>1</show_in_store>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/X1cGLU" target="_blank">http://goo.gl/X1cGLU</a>]]>
-                            </comment>
-                            <tooltip>
-                                <![CDATA[Título que aparecerá no frontend]]>
-                            </tooltip>
-				      	</title>
-                        <heading_init translate="label" module="telencephalon">
-                            <label></label>
-                            <frontend_model>telencephalon/adminhtml_system_config_form_field_heading</frontend_model>
-                            <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </heading_init>
-
-
-                        <merchant_id translate="label">
-                            <label>Identificador da loja no MeuCheckout</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/f0TxfZ" target="_blank">http://goo.gl/f0TxfZ</a>]]>
-                            </comment>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </merchant_id>
-						<soft_descriptor translate="label" module="telencephalon">
-					  		<label>Texto de até 13 caracteres que será impresso na fatura do portador</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/S6x3xd" target="_blank">http://goo.gl/S6x3xd</a>]]>
-                            </comment>
-					  		<frontend_type>text</frontend_type>
-					  		<sort_order>110</sort_order>
-					  		<show_in_default>1</show_in_default>
-					  		<show_in_website>1</show_in_website>
-					  		<show_in_store>1</show_in_store>
-							<tooltip>
-							<![CDATA[
-							<div>
-							    Permite que o lojista envie um texto de até 13 caracteres que será impresso na fatura do portador, ao lado da identificação da loja.
-							</div>
-							]]>
-						    </tooltip>
-				      	</soft_descriptor> 
-                        <generate_inovice translate="label">
-                            <label>Gerar fatura</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/j1OALV" target="_blank">http://goo.gl/j1OALV</a>]]>
-                            </comment>
-                            <tooltip>
-                                <![CDATA[
-Quando ativado será gerado a fatura de forma automática quando a transação do pedido for efetuada com sucesso.
-]]>
-                            </tooltip>
-                            <frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>120</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </generate_inovice>
-				      	<active_logo translate="label" module="telencephalon">
-							<label>Exibir logo de parceiro "sidebar"</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/TPMAAa" target="_blank">http://goo.gl/TPMAAa</a>]]>
-                            </comment>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>130</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-					  		<show_in_store>1</show_in_store>
-					    </active_logo>
-				      	<active_expresscheckout translate="label" module="telencephalon">
-							<label>Ativar o botão "ExpressCheckout"</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/qZ0M3w" target="_blank">http://goo.gl/qZ0M3w</a>]]>
-                            </comment>
-							<frontend_type>select</frontend_type>
-							<source_model>adminhtml/system_config_source_yesno</source_model>
-							<sort_order>140</sort_order>
-							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>
-					  		<show_in_store>1</show_in_store>
-					    </active_expresscheckout>
-                        <shippingtype_expresscheckout translate="label">
-                            <label>Opção de entrega para o "ExpressCheckout"</label>
-                            <comment>
-                                <![CDATA[<a href="xxx" target="_blank">xxx</a>]]>
-                            </comment>
-							<frontend_type>select</frontend_type>
-							<source_model>telencephalon/adminhtml_source_meucheckout_shippingtype</source_model>
-                            <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <tooltip><![CDATA[- Loja com frete grátis para o Brasil todo (onde nunca há calculo de frete): Shipping_type = 3
-- Calculo de frete do lado do MeuCheckout (por enquanto obrigatoriamente Correios): Shipping_type = 1]]></tooltip>
-                            <depends><active_express_meucheckout>1</active_express_meucheckout></depends>
-                        </shippingtype_expresscheckout>
-
-
-                        <heading_end translate="label" module="telencephalon">
-                            <label></label>
-                            <frontend_model>telencephalon/adminhtml_system_config_form_field_heading</frontend_model>
-                            <sort_order>500</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </heading_end>
-                        <allowspecific translate="label" module="telencephalon">
-                            <label>Payment from Applicable Countries</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/ryFknc" target="_blank">http://goo.gl/ryFknc</a>]]>
-                            </comment>
-                            <frontend_type>allowspecific</frontend_type>
-                            <sort_order>510</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </allowspecific>
-                        <specificcountry translate="label" module="telencephalon">
-                            <label>Payment from Specific Countries</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/p750YQ" target="_blank">http://goo.gl/p750YQ</a>]]>
-                            </comment>
-                            <frontend_type>multiselect</frontend_type>
-                            <sort_order>520</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <can_be_empty>1</can_be_empty>
-                        </specificcountry>
-			  	     </fields>
-                </cerebrum_meucheckout>
 		      	<cerebrum_pagador translate="label" module="telencephalon">                
 					<label>Pagador BRASPAG® - (powered by CEREBRUM)</label>
 					<sort_order>280</sort_order>
@@ -7456,6 +7493,32 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
 					  		<show_in_store>1</show_in_store>
                             <tooltip>Usado na modalidade: Transparente</tooltip>
 					    </savecreditcard>-->
+                        <vencimento translate="label">
+                            <label>Vencimento (em dias)</label>
+                            <comment>
+                                <![CDATA[<a href="xxx" target="_blank">xxx</a>]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>228</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </vencimento>
+                        <instructions translate="label">
+                            <label>Observação</label>
+                            <comment>
+                                <![CDATA[<a href="xxx" target="_blank">xxx</a>]]>
+                            </comment>
+                            <tooltip>
+							<![CDATA[
+							]]>
+                            </tooltip>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>229</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </instructions>
 				      	<transaction_types translate="label" module="telencephalon">
 							<label>Tipos de transação</label>
                             <comment>
@@ -7463,7 +7526,7 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
                             </comment>
 							<frontend_type>select</frontend_type>
 							<source_model>telencephalon/adminhtml_source_pagador_transactiontypes</source_model>
-							<sort_order>211</sort_order>
+							<sort_order>230</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 					  		<show_in_store>1</show_in_store>
@@ -7478,7 +7541,7 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
                             </tooltip>
                             <frontend_type>select</frontend_type>
 							<source_model>telencephalon/adminhtml_source_pagador_tiposjuros</source_model>
-                            <sort_order>220</sort_order>
+                            <sort_order>240</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -8182,7 +8245,7 @@ No processo de geração da fatura no Magento é disparado tambem o processo de 
                         </specificcountry>
 			  	     </fields>
                 </cerebrum_mercadopago>
-		      	<cerebrum_erede translate="label" module="telencephalon">                
+		      	<!--<cerebrum_erede translate="label" module="telencephalon">                
 					<label>e-Rede - (powered by CEREBRUM)</label>
 					<sort_order>320</sort_order>
 					<show_in_default>1</show_in_default>
@@ -8482,7 +8545,7 @@ No processo de geração da fatura no Magento é disparado tambem o processo de 
                             <can_be_empty>1</can_be_empty>
                         </specificcountry>
 			  	     </fields>
-                </cerebrum_erede>
+                </cerebrum_erede>-->
 			</groups>
 		</payment>
 
