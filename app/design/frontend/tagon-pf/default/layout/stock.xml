@@ -36,6 +36,32 @@
     <update handle="customer_account" />
     <reference name="content">
       <block type="stock/Saleperpartner" name="stock_saleperpartner" template="stock/saleperpartner.phtml" />
+      <block type="stock/Saleperpartner" name="stock_sales" template="stock/sales.phtml" />
+      <block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml" />
+      <block type="stock/Saleperpartner" name="stock_comissoes" template="stock/comissions.phtml" />
     </reference>
   </stock_account_saleperpartner>
+  <stock_account_financialchart>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>stock/css/stock.css</stylesheet>
+      </action>
+      <action method="addCss">
+        <stylesheet>stock/css/jquery-ui.css</stylesheet>
+      </action>
+      <action method="addCss">
+        <stylesheet>stock/css/morris.css</stylesheet>
+      </action>
+      <action method="addJs">
+        <script>stock/js/raphael-min.js</script>
+      </action>
+      <action method="addJs">
+        <script>stock/js/morris.js</script>
+      </action>
+    </reference>
+    <update handle="customer_account" />
+    <reference name="content">
+      <block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml" />
+    </reference>
+  </stock_account_financialchart>
 </layout>
