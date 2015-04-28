@@ -585,6 +585,7 @@
                     <largura_max>105</largura_max>
                     <altura_min>2</altura_min>
                     <altura_max>105</altura_max>
+					<sum_min>29</sum_min>
                     <sum_max>200</sum_max>
                 </volume_validation>
             </cerebrum_correios>
