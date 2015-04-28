@@ -36,6 +36,7 @@ class Franchise_Stock_Model_Saleperpartner extends Mage_Core_Model_Abstract
     $collection->setData($saledata);
     $collection->save();
 
+    // reduce stock from main product
     $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
     $oldqty = (int) $stockItem->getData('qty');
     $newqty = $oldqty - $wholedata['qty_sold'];
