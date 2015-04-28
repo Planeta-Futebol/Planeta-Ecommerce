@@ -160,7 +160,7 @@
           height: 400,
           width: 415,
           modal: true,
-          title:'Sales Simulation',
+          title:'Lançar Venda',
           buttons: [
             {
               text: "Confirmar",
@@ -180,7 +180,7 @@
                         var json = transport.responseText.evalJSON(true);
                         var result = String(json.res);
 
-                        if (result == 1) {
+                        if (result == '1') {
                           alert("Venda efetuada com sucesso.");
                           jQuery( this ).dialog( "close" );
                           location.reload();
@@ -196,12 +196,6 @@
                 } else {
                   alert("Verifique os campos quantidade e valor.");
                 }
-              }
-            },
-            {
-              text: "Cancelar",
-              click: function() {
-                jQuery( this ).dialog( "close" );
               }
             }
           ]
