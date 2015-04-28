@@ -1155,6 +1155,7 @@ height: 40px;
 
 .data-table {
 	width: 100%;
+  font-family: 'Helvetica';
 }
 
 .data-table th {
@@ -5568,4 +5569,30 @@ table#shopping-cart-table td, table#shopping-cart-table th{
 
 .clearfix {
   clear: both;
+}
+
+.data-table .inline {
+  background: #fff;
+}
+
+.data-table .inline select {
+  height: 32px;
+  display: inline-block;
+}
+
+.data-table .inline span, .data-table .inline input {
+  display: inline-block;
+}
+
+.data-table .total{
+  background: #fffc98;
+}
+
+.data-table .total span{
+  font-weight: bold;
+}
+
+.data-table .total span.price{
+  float: right;
+  width: 188px;
 }
