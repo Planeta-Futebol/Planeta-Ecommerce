@@ -1,0 +1,51 @@
+<?php
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+  $helper= Mage::helper('stock');
+
+  if($roleId > 1) {
+    $sales_data=$this->getChartdata();
+?>
+  <div class="productlist frproductlist sales_rep othersalesrep_list" id="financialgraph">
+    <div class="filterhead">
+      <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+        <label><strong>Periodo:</strong></label>
+        <input type="date" class="datie" name="fromdate" id="fromdate" value=""/>
+        <label><strong>ate:</strong></label>
+        <input type="date" class="datie" name="todate" id="todate" value=""/>
+        <input type="submit" name="submit" id="submit" value="OK"/>
+      </form>
+    </div>
+    <?php if(empty($sales_data)): ?>
+      <div class="clearfr"></div>
+      <p class="note-msg noprodsfr"><?php echo $this->__('Nenhuma venda foi efetuada no período') ?></p>
+    <?php else: ?>
+      <div id="financialchart" class="chartblock"></div>
+    <?php endif; ?>
+  </div>
+
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/raphael-min.js"></script>
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/morris.js"></script>
+  <script type="text/javascript">
+    new Morris.Line({
+      element: 'financialchart',
+      data: [
+        <?php
+            foreach($sales_data as $_sale) {
+            echo json_encode($_sale) . ',';
+          }
+        ?>
+      ],
+      xkey: 'date',
+      ykeys: ['totalsales', 'totalcost', 'totalprofit'],
+      labels: ['Faturamento', 'Custo', 'Lucro'],
+      hideHover: 'auto',
+      grid: false
+    });
+  </script>
+
+<?php
+  } else {
+    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
+  }
+?>
