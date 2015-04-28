@@ -9,7 +9,7 @@
     <div class="pager">
     <?php endif ?>
 
-    <?php if ($this->getShowAmounts()): ?>
+    <?php if (!$this->getShowAmounts()): ?>
         <div class="div-left">
             <p class="amount">
                 <?php if ($this->getLastPageNum() > 1): ?>

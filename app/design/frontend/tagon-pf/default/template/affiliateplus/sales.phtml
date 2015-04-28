@@ -11,12 +11,13 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
  else
      $class_name = 'col-lg-9 col-md-9 col-sm-9 col-xs-9';
 ?>
-<div class="aff-main-content <?php echo $class_name; ?>">
-<div class="aff-title">
-	<h2><?php echo $this->__('Commissions') ?></h2>
+
+<div class="fieldset <?php echo $class_name; ?>">
+<div class="page-title">
+	<h2><?php echo $this->__('Relatórios') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<?php echo $this->getChildHtml('payment_miniform') ?>
+<?php // echo $this->getChildHtml('payment_miniform') ?>
 
 <?php echo $this->getChildHtml('sales_statistic') ?>
 

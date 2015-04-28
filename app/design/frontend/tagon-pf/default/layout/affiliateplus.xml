@@ -28,11 +28,11 @@
                 <path>affiliateplus</path>
                 <label>Affiliates</label>
             </action> -->
-            <action method="addLink" translate="label" module="affiliateplus">
+            <!-- <action method="addLink" translate="label" module="affiliateplus">
                     <name>standard</name>
                     <path>affiliateplus/index/listTransaction</path>
                     <label><![CDATA[Comissions]]></label>
-                    <!-- <disabled helper="affiliateplusreferfriend/disableReferFriend" /> -->
+                    <disabled helper="affiliateplusreferfriend/disableReferFriend" />
                     <order>48</order>
                 </action>
             <action method="addLink" translate="label" module="affiliateplus">
@@ -52,7 +52,7 @@
             </action>
             <action method="addLink" translate="label" module="affiliatepluscoupon">
               <name>banners</name><path>affiliatepluscoupon/index/index</path><label><![CDATA[Coupons]]></label><disabled helper="affiliatepluscoupon/couponIsDisable" /><order>45</order>
-            </action>
+            </action> -->
         </reference>
     </customer_account>
     
@@ -64,18 +64,19 @@
         </reference>
 
         <reference name="left">
+            
             <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
                 <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
                 <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
                 <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
                 <action method="addLink" translate="label" module="sales"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
-                <action method="addLink" translate="label" module="tag"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action>
+                <!-- <action method="addLink" translate="label" module="tag"><name>tags</name><path>tag/customer/</path><label>My Tags</label></action> -->
                 
-                <action method="addLink" translate="label" module="affiliateplus">
+                <!-- <action method="addLink" translate="label" module="affiliateplus">
                     <name>standard</name>
                     <path>affiliateplus/index/listTransaction</path>
                     <label><![CDATA[Comissions]]></label>
-                    <!-- <disabled helper="affiliateplusreferfriend/disableReferFriend" /> -->
+                    <disabled helper="affiliateplusreferfriend/disableReferFriend" />
                     <order>48</order>
                 </action>
 
@@ -96,8 +97,9 @@
                 </action>
                 <action method="addLink" translate="label" module="affiliatepluscoupon">
                   <name>banners</name><path>affiliatepluscoupon/index/index</path><label><![CDATA[Coupons]]></label><disabled helper="affiliatepluscoupon/couponIsDisable" /><order>45</order>
-                </action>
+                </action> -->
             </block>
+            <block type="core/template" name="stocknavigation" template="stock/navigation.phtml" before="-" />
             <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml">
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
