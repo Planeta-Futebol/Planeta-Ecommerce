@@ -1,0 +1,131 @@
+<?php
+  $helper=Mage::helper('stock');
+?>
+<div class="content-header">
+  <table cellspacing="0">
+    <tr>
+    <td><h3 class="head-dashboard"> <?php echo $helper->__('Painel'); ?> </h3></td>
+    </tr>
+  </table>
+</div>
+<div class="dashboard-container" style="height:500px">
+  <div style="height:25px; background-color:#cccccc; padding-left:20px; padding-top:3px">
+    <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+      <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+      <label>Filtrar por franqueado: </label>
+      <select name="period" id="periodfilxter" onchange="filterTable(this);">
+        <option value="0" selected="selected"><?php echo $this->__('TODOS')?></option>
+        <option value="7"><?php echo $this->__('Última semana')?></option>
+        <option value="30"><?php echo $this->__('Útimo mês')?></option>
+        <option value="365"><?php echo $this->__('Último ano')?></option>
+        <option value="0"><?php echo $this->__('Geral')?></option>
+      </select>
+      <input type="submit" name="submit" id="submit" value="OK"/>
+    </form>
+  </div>
+  <div style="float:left; width:40%">
+
+    <!-- Overview -->
+    <div class="entry-edit" style="height:150px; margin:20px; vertical-align:center">
+      <div class="entry-edit-head"><h4><?php echo $this->__('Total de Vendas'); ?></h4></div>
+      <fieldset class="np a-center bold" style="height:40px">
+        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency(1000); ?></span>
+      </fieldset>
+      <div class="entry-edit-head"><h4><?php echo $this->__('Valor médio das vendas'); ?></h4></div>
+      <fieldset class="np a-center bold" style="height:40px">
+        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency(70); ?></span>
+      </fieldset>
+    </div>
+
+    <!-- Last sales -->
+    <div class="entry-edit" style="margin:20px">
+      <div class="entry-edit-head"><h4><?php echo $this->__('Últimas vendas'); ?></h4></div>
+      <div class="grid np">
+        <table cellspacing="0" style="border:0" id="franchise_table">
+          <thead>
+            <tr class="headings">
+              <td><?php echo $this->__('Franqueado'); ?></td>
+              <td><?php echo $this->__('Produto'); ?></td>
+              <td><?php echo $this->__('Quant.'); ?></td>
+              <td><?php echo $this->__('Total'); ?></td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php //foreach(): ?>
+              <tr>
+                <td>Hannway</td>
+                <td>Teste</td>
+                <td>2</td>
+                <td>80,00</td>
+              </tr>
+            <?php //endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sales grid -->
+  <div class="entry-edit" style="border:1px solid #ccc; float:right; width:59%; margin-top:20px;">
+    <div>
+      <p class="switcher a-right" style="padding:5px 10px;">
+        <?php echo $this->__('Selecione o período'); ?>:
+        <select name="period" id="periodfilter" onchange="filterTable(this);">
+          <option value="1"><?php echo $this->__('Hoje')?></option>
+          <option value="7" selected="selected"><?php echo $this->__('Última semana')?></option>
+          <option value="30"><?php echo $this->__('Útimo mês')?></option>
+          <option value="365"><?php echo $this->__('Último ano')?></option>
+          <option value="0"><?php echo $this->__('Geral')?></option>
+        </select>
+      </p>
+      <div class="grid np">
+        <table cellspacing="0" style="border:0" id="franchise_table">
+          <thead>
+            <tr class="headings">
+              <td><?php echo $this->__('Franqueado'); ?></td>
+              <td><?php echo $this->__('Produto'); ?></td>
+              <td><?php echo $this->__('Quant.'); ?></td>
+              <td><?php echo $this->__('Compra'); ?></td>
+              <td><?php echo $this->__('Venda'); ?></td>
+              <td><?php echo $this->__('Lucro'); ?></td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php //foreach(): ?>
+              <tr>
+                <td>Hannaway</td>
+                <td>Teste</td>
+                <td>2</td>
+                <td>10,00</td>
+                <td>30,00</td>
+                <td>20,00</td>
+              </tr>
+            <?php //endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Totals -->
+    <div style="margin:20px; padding:10px; border:1px solid #ccc; background-color:#fafafa">
+      <table cellpadding="40" style="text-align:center; width:100%">
+        <tbody>
+          <tr>
+            <td><?php echo $this->__('Lucro'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency(300);?></span>
+            </td>
+            <td><?php echo $this->__('Venda'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency(500);?></span>
+            </td>
+            <td><?php echo $this->__('Compra'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency(200);?></span>
+            </td>
+            <td><?php echo $this->__('Quantidade'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo 50;?></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
