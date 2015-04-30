@@ -76,11 +76,6 @@
             <sort_order>110</sort_order>
             <action>stock/adminhtml_franchise</action>
           </dashboard>
-          <test>
-            <title>Set Franchise Product</title>
-            <sort_order>119</sort_order>
-            <action>stock/adminhtml_myform</action>
-          </test>
         </children>
       </franchise>
     </menu>
