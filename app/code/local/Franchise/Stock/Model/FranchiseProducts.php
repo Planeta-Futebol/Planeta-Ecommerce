@@ -12,7 +12,7 @@ class Franchise_Stock_Model_FranchiseProducts
         $customerData = Mage::getSingleton('customer/session')->getCustomer();
         $customerid = $customerData->getId();
         $wholedata=array("franchise_order"=>$incrementId, "franchise_id"=>$customerid);
-        $cloneid = Mage::getModel('stock/product')->saveFranchiseProduct($wholedata);
+        Mage::getModel('stock/product')->saveFranchiseProduct($wholedata);
 
         return true;
       }

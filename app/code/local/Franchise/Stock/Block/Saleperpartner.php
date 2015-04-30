@@ -6,11 +6,42 @@ class Franchise_Stock_Block_Saleperpartner extends Mage_Core_Block_Template
 
     $post = $this->getRequest()->getPost();
     $userid = Mage::getSingleton('customer/session')->getCustomer()->getId();
+
+    $fromdate = trim($post['fromdate']);
+    $todate = trim($post['todate']);
+    $firsit = $fromdate." 00:00:00";
+    $last = $todate." 24:00:00";
+    $name = trim($post['searchfr']);
+    $alias = 'name_table';
+
     $collection = Mage::getModel("stock/Saleperpartner")->getCollection();
     $collection->addFieldToFilter('userid',array('eq'=>$userid));
     $collection->getSelect()->joinLeft(
         array('cust' => $collection->getTable('catalog/product')),
-        'cust.entity_id = main_table.stockprodid');
+        'cust.entity_id = main_table.stockprodid', array('*'));
+
+    $attribute = Mage::getSingleton('eav/config')
+      ->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'name');
+
+    if(!empty($name) && $name!="Por nome do produto") {
+      $collection->getSelect()
+        ->join(array($alias => $attribute->getBackendTable()),
+              "main_table.stockprodid = $alias.entity_id AND $alias.attribute_id={$attribute->getId()}",
+              array('name' => 'value'))->where("name_table.value LIKE ?", "%$name%");
+    } else {
+      $collection->getSelect()
+        ->join(array($alias => $attribute->getBackendTable()),
+              "main_table.stockprodid = $alias.entity_id AND $alias.attribute_id={$attribute->getId()}",
+              array('name' => 'value'));
+    }
+
+    if(!empty($fromdate) && !empty($todate)) {
+      $collection->addFieldToFilter('sale_at', array(
+        'from' => $first,
+        'to' => $last,
+        'date' => true
+      ));
+    }
 
     $this->setCollection($collection);
   }

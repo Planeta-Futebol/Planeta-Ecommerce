@@ -25,11 +25,12 @@ class Franchise_Stock_Block_Collection  extends Mage_Catalog_Block_Product_Abstr
     $collection = Mage::getModel('catalog/product')->getCollection();
     $collection->addAttributeToSelect('*');
     $collection->addAttributeToFilter('entity_id', array('in' => $rowdata));
+    $collection->addAttributeToSort('name', 'ASC');
 
     //filter with search content
     if(!empty($post)) {
       $collection->addAttributeToFilter(array(
-                  array('attribute'=>'description', 'like'=>'%'.$post['searchfr'].'%')));
+                  array('attribute'=>'name', 'like'=>'%'.$post['searchfr'].'%')));
     }
 
     $this->setCollection($collection);

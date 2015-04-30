@@ -72,5 +72,21 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
       echo json_encode(array("status"=>"error", "res"=>"Please refresh the page and try again."));
     }
   }
+
+  public function financialchartAction() {
+    if(($this->getRequest()->isPost()) && (!$this->_validateFormKey())) {
+      return $this->_redirect('stock/stockaccount/financialchart/');
+    }
+
+    $this->loadLayout(array('default', 'stock_account_financialchart'));
+    $this->_initLayoutMessages('customer/session');
+    $this->_initLayoutMessages('catalog/session');
+    $this->getLayout()
+      ->getBlock('head')
+      ->setTitle( Mage::helper('stock')
+      ->__('Relatório Financeiro'));
+
+    $this->renderLayout();
+  }
 }
 ?>
