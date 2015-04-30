@@ -9,9 +9,9 @@
       <form method="post" id="frsearch" enctype="multipart/form-data" action="">
         <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
         <label>Periodo:</label>
-        <input type="date" class="datie" name="fromdate" id="fromdate" min="1979-12-31" value=""/>
+        <input type="text" class="datie" name="fromdate"i id="fromdate" min="1979-12-31" value=""/>
         <label>ate:</label>
-        <input type="date" class="datie" name="todate" id="todate" max="<?php echo Mage::getModel('core/date')->date('Y-m-d'); ?>" value=""/>
+        <input type="text" class="datie" name="todate" id="todate" max="<?php echo Mage::getModel('core/date')->date('Y-m-d'); ?>" value=""/>
         <label>Buscar:</label>
         <input type="text" name="searchfr" id="searchfr" value=""/>
         <input type="submit" name="submit" id="submit" value="OK"/>
@@ -90,12 +90,6 @@
   <script type="text/javascript">
     var searchForm = new Varien.searchForm('search_mini_form', 'searchfr', 'Por nome do produto');
   </script>
-
-<?php
-/*    echo $this->getLayout()->createBlock("stock/financialchart")
-      ->setTemplate("stock/financialchart.phtml")
-      ->toHtml();*/
-  ?>
 <?php
   } else {
     echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
