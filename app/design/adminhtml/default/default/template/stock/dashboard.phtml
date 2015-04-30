@@ -1,39 +1,28 @@
 <?php
-  $helper=Mage::helper('stock');
+  $users = $this->getUsers();
+  $sales = $this->getCollection();
+  $lastsales = $this->getLastsales();
+  $salesinfo = $this->getSalesinfo();
 ?>
 <div class="content-header">
   <table cellspacing="0">
     <tr>
-    <td><h3 class="head-dashboard"> <?php echo $helper->__('Painel'); ?> </h3></td>
+    <td><h3 class="head-dashboard"> <?php echo $this->__('Painel'); ?> </h3></td>
     </tr>
   </table>
 </div>
 <div class="dashboard-container" style="height:500px">
-  <div style="height:25px; background-color:#cccccc; padding-left:20px; padding-top:3px">
-    <form method="post" id="frsearch" enctype="multipart/form-data" action="">
-      <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
-      <label>Filtrar por franqueado: </label>
-      <select name="period" id="periodfilxter" onchange="filterTable(this);">
-        <option value="0" selected="selected"><?php echo $this->__('TODOS')?></option>
-        <option value="7"><?php echo $this->__('Última semana')?></option>
-        <option value="30"><?php echo $this->__('Útimo mês')?></option>
-        <option value="365"><?php echo $this->__('Último ano')?></option>
-        <option value="0"><?php echo $this->__('Geral')?></option>
-      </select>
-      <input type="submit" name="submit" id="submit" value="OK"/>
-    </form>
-  </div>
   <div style="float:left; width:40%">
 
     <!-- Overview -->
     <div class="entry-edit" style="height:150px; margin:20px; vertical-align:center">
       <div class="entry-edit-head"><h4><?php echo $this->__('Total de Vendas'); ?></h4></div>
       <fieldset class="np a-center bold" style="height:40px">
-        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency(1000); ?></span>
+        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency($salesinfo['totalvalue']); ?></span>
       </fieldset>
       <div class="entry-edit-head"><h4><?php echo $this->__('Valor médio das vendas'); ?></h4></div>
       <fieldset class="np a-center bold" style="height:40px">
-        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency(70); ?></span>
+        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency($salesinfo['average']); ?></span>
       </fieldset>
     </div>
 
@@ -45,20 +34,19 @@
           <thead>
             <tr class="headings">
               <td><?php echo $this->__('Franqueado'); ?></td>
-              <td><?php echo $this->__('Produto'); ?></td>
-              <td><?php echo $this->__('Quant.'); ?></td>
               <td><?php echo $this->__('Total'); ?></td>
             </tr>
           </thead>
           <tbody>
-            <?php //foreach(): ?>
+            <?php foreach($lastsales as $lastsale) {
+              $ls_frid = $lastsale->getUserid();
+              $ls_franchise = Mage::getModel('customer/customer')->load($ls_frid);
+            ?>
               <tr>
-                <td>Hannway</td>
-                <td>Teste</td>
-                <td>2</td>
-                <td>80,00</td>
+                <td><?php echo $ls_franchise->getEmail();?></td>
+                <td><?php echo Mage::helper('core')->currency($lastsale->getPrice_sold());?></td>
               </tr>
-            <?php //endforeach; ?>
+            <?php } ?>
           </tbody>
         </table>
       </div>
@@ -68,16 +56,19 @@
   <!-- Sales grid -->
   <div class="entry-edit" style="border:1px solid #ccc; float:right; width:59%; margin-top:20px;">
     <div>
-      <p class="switcher a-right" style="padding:5px 10px;">
-        <?php echo $this->__('Selecione o período'); ?>:
-        <select name="period" id="periodfilter" onchange="filterTable(this);">
-          <option value="1"><?php echo $this->__('Hoje')?></option>
-          <option value="7" selected="selected"><?php echo $this->__('Última semana')?></option>
-          <option value="30"><?php echo $this->__('Útimo mês')?></option>
-          <option value="365"><?php echo $this->__('Último ano')?></option>
-          <option value="0"><?php echo $this->__('Geral')?></option>
-        </select>
-      </p>
+      <div class="a-right" style="height:25px; background-color:#cccccc; padding-right:5px; padding-top:3px">
+        <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+          <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+          <label><strong><?php echo $this->__('Filtrar por franqueado: '); ?></strong></label>
+          <select name="franchise" id="franchise">
+            <option value="0" selected="selected"><?php echo $this->__('TODOS')?></option>
+            <?php foreach($users as $user): ?>
+            <option value="<?php echo $user->getId();?>"><?php echo $user->getEmail();?></option>
+            <?php endforeach; ?>
+          </select>
+          <input type="submit" name="submit" id="submit" value="OK"/>
+        </form>
+      </div>
       <div class="grid np">
         <table cellspacing="0" style="border:0" id="franchise_table">
           <thead>
@@ -91,16 +82,30 @@
             </tr>
           </thead>
           <tbody>
-            <?php //foreach(): ?>
+            <?php foreach($sales as $sale) {
+              $stid = $sale->getStockprodid();
+              $mainproduct = Mage::getModel('catalog/product')->load($stid);
+              $frid = $sale->getUserid();
+              $franchise = Mage::getModel('customer/customer')->load($frid);
+              $productprice = $sale->getPrice_bought();
+              $salesprice = $sale->getPrice_sold();
+              $qty = $sale->getQty_sold();
+              $profit = ($salesprice - $productprice) * $qty;
+
+              $tquant += $qty;
+              $tsalesprice += $salesprice * $qty;
+              $tproductprice += $productprice * $qty;
+              $tprofit += $profit;
+            ?>
               <tr>
-                <td>Hannaway</td>
-                <td>Teste</td>
-                <td>2</td>
-                <td>10,00</td>
-                <td>30,00</td>
-                <td>20,00</td>
+                <td><?php echo $franchise->getEmail();?></td>
+                <td><?php echo $mainproduct->getName();?></td>
+                <td><?php echo $qty?></td>
+                <td><?php echo Mage::helper('core')->currency($productprice);?></td>
+                <td><?php echo Mage::helper('core')->currency($salesprice);?></td>
+                <td><?php echo Mage::helper('core')->currency($profit);?></td>
               </tr>
-            <?php //endforeach; ?>
+            <?php } ?>
           </tbody>
         </table>
       </div>
@@ -112,16 +117,16 @@
         <tbody>
           <tr>
             <td><?php echo $this->__('Lucro'); ?><br>
-              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency(300);?></span>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency($tprofit);?></span>
             </td>
             <td><?php echo $this->__('Venda'); ?><br>
-              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency(500);?></span>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency($tsalesprice);?></span>
             </td>
             <td><?php echo $this->__('Compra'); ?><br>
-              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency(200);?></span>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency($tproductprice);?></span>
             </td>
             <td><?php echo $this->__('Quantidade'); ?><br>
-              <span style="font-size:20px; color:#eb5e00"><?php echo 50;?></span>
+              <span style="font-size:20px; color:#eb5e00"><?php echo $tquant;?></span>
             </td>
           </tr>
         </tbody>
