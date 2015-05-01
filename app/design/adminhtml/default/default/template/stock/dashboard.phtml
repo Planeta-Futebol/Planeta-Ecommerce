@@ -1,0 +1,136 @@
+<?php
+  $users = $this->getUsers();
+  $sales = $this->getCollection();
+  $lastsales = $this->getLastsales();
+  $salesinfo = $this->getSalesinfo();
+?>
+<div class="content-header">
+  <table cellspacing="0">
+    <tr>
+    <td><h3 class="head-dashboard"> <?php echo $this->__('Painel Franquias'); ?> </h3></td>
+    </tr>
+  </table>
+</div>
+<div class="dashboard-container" style="height:500px">
+  <div style="float:left; width:40%">
+
+    <!-- Overview -->
+    <div class="entry-edit" style="height:150px; margin:20px; vertical-align:center">
+      <div class="entry-edit-head"><h4><?php echo $this->__('Total de Vendas'); ?></h4></div>
+      <fieldset class="np a-center bold" style="height:40px">
+        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency($salesinfo['totalvalue']); ?></span>
+      </fieldset>
+      <div class="entry-edit-head"><h4><?php echo $this->__('Valor médio das vendas'); ?></h4></div>
+      <fieldset class="np a-center bold" style="height:40px">
+        <span style="font-size:20px; vertical-align:-webkit-baseline-middle"><?php echo Mage::helper('core')->currency($salesinfo['average']); ?></span>
+      </fieldset>
+    </div>
+
+    <!-- Last sales -->
+    <div class="entry-edit" style="margin:20px">
+      <div class="entry-edit-head"><h4><?php echo $this->__('Últimas vendas'); ?></h4></div>
+      <div class="grid np">
+        <table cellspacing="0" style="border:0" id="franchise_table">
+          <thead>
+            <tr class="headings">
+              <td><?php echo $this->__('Franqueado'); ?></td>
+              <td><?php echo $this->__('Total'); ?></td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($lastsales as $lastsale) {
+              $ls_frid = $lastsale->getUserid();
+              $ls_franchise = Mage::getModel('customer/customer')->load($ls_frid);
+            ?>
+              <tr>
+                <td><?php echo $ls_franchise->getEmail();?></td>
+                <td><?php echo Mage::helper('core')->currency($lastsale->getPrice_sold());?></td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sales grid -->
+  <div class="entry-edit" style="border:1px solid #ccc; float:right; width:59%; margin-top:20px;">
+    <div>
+      <div class="a-right" style="height:25px; background-color:#cccccc; padding-right:5px; padding-top:3px">
+        <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+          <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+          <label><strong><?php echo $this->__('Filtrar por franqueado: '); ?></strong></label>
+          <select name="franchise" id="franchise">
+            <option value="0" selected="selected"><?php echo $this->__('TODOS')?></option>
+            <?php foreach($users as $user): ?>
+            <option value="<?php echo $user->getId();?>"><?php echo $user->getEmail();?></option>
+            <?php endforeach; ?>
+          </select>
+          <input type="submit" name="submit" id="submit" value="OK"/>
+        </form>
+      </div>
+      <div class="grid np">
+        <table cellspacing="0" style="border:0" id="franchise_table">
+          <thead>
+            <tr class="headings">
+              <td><?php echo $this->__('Franqueado'); ?></td>
+              <td><?php echo $this->__('Produto'); ?></td>
+              <td><?php echo $this->__('Quant.'); ?></td>
+              <td><?php echo $this->__('Compra'); ?></td>
+              <td><?php echo $this->__('Venda'); ?></td>
+              <td><?php echo $this->__('Lucro'); ?></td>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($sales as $sale) {
+              $stid = $sale->getStockprodid();
+              $mainproduct = Mage::getModel('catalog/product')->load($stid);
+              $frid = $sale->getUserid();
+              $franchise = Mage::getModel('customer/customer')->load($frid);
+              $productprice = $sale->getPrice_bought();
+              $salesprice = $sale->getPrice_sold();
+              $qty = $sale->getQty_sold();
+              $profit = ($salesprice - $productprice) * $qty;
+
+              $tquant += $qty;
+              $tsalesprice += $salesprice * $qty;
+              $tproductprice += $productprice * $qty;
+              $tprofit += $profit;
+            ?>
+              <tr>
+                <td><?php echo $franchise->getEmail();?></td>
+                <td><?php echo $mainproduct->getName();?></td>
+                <td><?php echo $qty?></td>
+                <td><?php echo Mage::helper('core')->currency($productprice);?></td>
+                <td><?php echo Mage::helper('core')->currency($salesprice);?></td>
+                <td><?php echo Mage::helper('core')->currency($profit);?></td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Totals -->
+    <div style="margin:20px; padding:10px; border:1px solid #ccc; background-color:#fafafa">
+      <table cellpadding="40" style="text-align:center; width:100%">
+        <tbody>
+          <tr>
+            <td><?php echo $this->__('Lucro'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency($tprofit);?></span>
+            </td>
+            <td><?php echo $this->__('Venda'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency($tsalesprice);?></span>
+            </td>
+            <td><?php echo $this->__('Compra'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo Mage::helper('core')->currency($tproductprice);?></span>
+            </td>
+            <td><?php echo $this->__('Quantidade'); ?><br>
+              <span style="font-size:20px; color:#eb5e00"><?php echo $tquant;?></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
