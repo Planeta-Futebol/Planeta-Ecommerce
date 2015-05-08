@@ -2,7 +2,6 @@
 class Franchise_Stock_Adminhtml_FranchiseController extends Mage_Adminhtml_Controller_Action
 {
   public function indexAction() {
-    $this->_initAction();
     $post = $this->getRequest()->getPost();
 
     // franchise list
@@ -39,14 +38,15 @@ class Franchise_Stock_Adminhtml_FranchiseController extends Mage_Adminhtml_Contr
 
     $salesinfo = array('totalvalue'=>$totalsales, 'average'=>($totalsales/$salescount));
     /* TODO: fill Users, Lastsales and Salesinfo */
-
-    $block = $this->getLayout()->createBlock('core/template');
+    $block = $this->getLayout()->createBlock('stock/admindashboard');
     $block->setUsers($users->load());
     $block->setLastsales($lastsales->load());
-    $block->setCollection($collection->load());
+    $block->setCollection($collection);
     $block->setSalesinfo($salesinfo);
+    $block->preparePager();
     $block->setTemplate("stock/dashboard.phtml");
 
+    $this->_initAction();
     $this->_addContent($block);
     $this->renderLayout();
   }
