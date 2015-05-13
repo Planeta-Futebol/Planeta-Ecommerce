@@ -2618,6 +2618,7 @@ width: 100%;
 .products-grid .item-bottom {
 	padding: 10px;
 	background: #e7e7e7;
+	min-height: 151px;
 }
 
 .products-grid .product-name {
