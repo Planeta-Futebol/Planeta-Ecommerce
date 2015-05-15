@@ -1148,7 +1148,7 @@
 				<model>Cerebrum_Telencephalon_Model_Payment_Meucheckout_Method</model>
 				<active>0</active>
 				<sort_order>1</sort_order>
-				<title>Cielo Solução Integrada - (powered by CEREBRUM)</title>
+				<title>Cielo / Checkout Cielo - (powered by CEREBRUM)</title>
 				<environment>https://cieloecommerce.cielo.com.br/Transactional/Order/Index</environment>
                 <merchant_id>c13ee41f-8219-49e1-ab31-7e6f1f33169b</merchant_id>
                 <soft_descriptor>ACME</soft_descriptor>
@@ -1275,7 +1275,7 @@
             </cerebrum_fcontrol>
             <cerebrum_clearsale_start>
                 <active>0</active>
-                <environment>http://homolog.clearsale.com.br/start/Entrada/EnviarPedido.aspx</environment>
+                <environment>https://homolog.clearsale.com.br/start/Entrada/EnviarPedido.aspx</environment>
                 <entitycode></entitycode>
                 <serialized>a:20:{s:18:"_1382028227734_734";a:2:{s:9:"paymentId";s:6:"ccsave";s:11:"clearsaleId";s:1:"1";}s:17:"_1382028229036_36";a:2:{s:9:"paymentId";s:7:"checkmo";s:11:"clearsaleId";s:1:"8";}s:18:"_1382028229772_772";a:2:{s:9:"paymentId";s:17:"cerebrum_redecard";s:11:"clearsaleId";s:1:"1";}s:18:"_1382028230691_691";a:2:{s:9:"paymentId";s:14:"cerebrum_cielo";s:11:"clearsaleId";s:1:"1";}s:18:"_1382028231324_324";a:2:{s:9:"paymentId";s:24:"cerebrum_americanexpress";s:11:"clearsaleId";s:1:"1";}s:17:"_1382028232060_60";a:2:{s:9:"paymentId";s:21:"cerebrum_itaushopline";s:11:"clearsaleId";s:1:"6";}s:18:"_1382028234270_270";a:2:{s:9:"paymentId";s:17:"cerebrum_bradesco";s:11:"clearsaleId";s:1:"6";}s:18:"_1382028234887_887";a:2:{s:9:"paymentId";s:22:"cerebrum_bancodobrasil";s:11:"clearsaleId";s:1:"6";}s:18:"_1382028235579_579";a:2:{s:9:"paymentId";s:30:"cerebrum_banrisul_banricompras";s:11:"clearsaleId";s:1:"6";}s:18:"_1382028236191_191";a:2:{s:9:"paymentId";s:24:"cerebrum_banrisul_boleto";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028236924_924";a:2:{s:9:"paymentId";s:18:"cerebrum_boleto_bb";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028237564_564";a:2:{s:9:"paymentId";s:24:"cerebrum_boleto_bradesco";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028238263_263";a:2:{s:9:"paymentId";s:20:"cerebrum_boleto_itau";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028238983_983";a:2:{s:9:"paymentId";s:33:"cerebrum_boleto_santander_banespa";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028342291_291";a:2:{s:9:"paymentId";s:23:"cerebrum_boleto_banespa";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028343237_237";a:2:{s:9:"paymentId";s:19:"cerebrum_boleto_cef";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028343871_871";a:2:{s:9:"paymentId";s:20:"cerebrum_boleto_hsbc";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028344566_566";a:2:{s:9:"paymentId";s:23:"cerebrum_boleto_bancoob";s:11:"clearsaleId";s:1:"2";}s:18:"_1382028345383_383";a:2:{s:9:"paymentId";s:18:"cerebrum_pagseguro";s:11:"clearsaleId";s:1:"1";}s:17:"_1382028346094_94";a:2:{s:9:"paymentId";s:20:"cerebrum_meucheckout";s:11:"clearsaleId";s:1:"1";}}</serialized>
             </cerebrum_clearsale_start>
