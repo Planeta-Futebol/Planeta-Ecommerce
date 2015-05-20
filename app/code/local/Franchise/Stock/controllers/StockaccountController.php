@@ -23,6 +23,22 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->renderLayout();
   }
 
+  public function commissionAction() {
+    if(($this->getRequest()->isPost()) && (!$this->_validateFormKey())) {
+      return $this->_redirect('stock/stockaccount/commission/');
+    }
+
+    $this->loadLayout(array('default', 'stock_account_commission'));
+    $this->_initLayoutMessages('customer/session');
+    $this->_initLayoutMessages('catalog/session');
+    $this->getLayout()
+      ->getBlock('head')
+      ->setTitle( Mage::helper('stock')
+        ->__('Comissões'));
+
+    $this->renderLayout();
+  }
+
   public function attributeListAction() {
     $post = $this->getRequest()->getPost();
 

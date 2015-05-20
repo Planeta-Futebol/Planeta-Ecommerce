@@ -1,0 +1,74 @@
+<?php
+  $helper= Mage::helper('stock');
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+  if($roleId > 1){
+    $_commissionCollection=$this->getCollection();
+?>
+  <div class="fieldset">
+    <div class="page-title">
+      <h1><?php echo $helper->__('Commissão') ?></h1>
+    </div>
+    <br>
+    <p style="font-size:14px">Lista de clientes afiliados:</p>
+    <div class="productlist frproductlist">
+      <?php if(!$_commissionCollection->count()): ?>
+        <p class="note-msg noprodsfr"><?php echo $this->__('Nenhum resultado encontrado.') ?></p>
+      <?php endif; ?>
+      <div class= "frpagewrap">
+        <div class="pager-top">
+          <?php echo $this->getPagerHtml();?>
+        </div>
+      </div>
+      <ol class="maintree">
+        <li class="singlerow headtree" style="height:40px">
+          <ul>
+            <li class="fli">Nome</li>
+            <li>Email</li>
+            <li>Telefone</li>
+            <li class="lli">Tipo de usuário</li>
+          </ul>
+        </li>
+        <?php
+          $i=1;
+
+          foreach($_commissionCollection as $collectio) {
+            $customerid = $collectio->getCustomer_id();
+            $customerDat = Mage::getModel('customer/customer')->load($customerid)->getData();
+            $commission = $collectio->getCommission();
+            $customer = Mage::getModel('customer/customer')->load($customerid);
+            $groupid = $customer->getGroupId();
+            $group = Mage::getModel('customer/group')->load($groupid)->getCustomerGroupCode();
+        ?>
+          <li class="singlerow">
+            <ul class="subli" id="commission_<?php echo $i;?>">
+              <li class="fli">
+                <?php echo $customerDat['firstname']." ".$customerDat['lastname']; ?>
+              </li>
+              <li><?php echo $customerDat['email']; ?></li>
+              <li>-</li>
+              <li class="lli">
+                <?php echo $group; ?>
+              </li>
+            </ul>
+          </li>
+        <?php
+            $i++;
+          }
+        ?>
+      </ol>
+      <div class="pager-bottom">
+        <?php echo $this->getPagerHtml(); ?>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict();
+  </script>
+<?php
+  }else{
+    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
+  }
+?>

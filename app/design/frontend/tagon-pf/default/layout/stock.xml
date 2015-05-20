@@ -21,9 +21,23 @@
     </reference>
     <update handle="customer_account" />
     <reference name="content">
-        <block type="stock/collection" name="stock_myproductslist" template="stock/myproductlist.phtml" />
+      <block type="stock/collection" name="stock_myproductslist" template="stock/myproductlist.phtml" />
     </reference>
   </stock_account_productlist>
+  <stock_account_commission>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>stock/css/stock.css</stylesheet>
+      </action>
+      <action method="addCss">
+        <stylesheet>stock/css/jquery-ui.css</stylesheet>
+      </action>
+    </reference>
+    <update handle="customer_account" />
+    <reference name="content">
+      <block type="stock/commission" name="stock_commission" template="stock/commission.phtml" />
+    </reference>
+  </stock_account_commission>
   <stock_account_saleperpartner>
     <reference name="head">
       <action method="addCss">
@@ -38,7 +52,7 @@
       <block type="stock/Saleperpartner" name="stock_saleperpartner" template="stock/saleperpartner.phtml" />
       <block type="stock/Saleperpartner" name="stock_sales" template="stock/sales.phtml" />
       <block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml" />
-      <block type="stock/Saleperpartner" name="stock_comissoes" template="stock/comissions.phtml" />
+      <block type="stock/Saleperpartner" name="stock_commissionsreport" template="stock/comissionsreport.phtml" />
     </reference>
   </stock_account_saleperpartner>
   <stock_account_financialchart>
