@@ -136,6 +136,12 @@
     <affiliateplus_transaction>
         <update handle="affiliateplus_default" />
         <reference name="head" translate="title">
+            <action method="addCss">
+                <stylesheet>stock/css/stock.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>stock/css/jquery-ui.css</stylesheet>
+            </action>
             <action method="setTitle">
                 <title>Commissions</title>
             </action>
