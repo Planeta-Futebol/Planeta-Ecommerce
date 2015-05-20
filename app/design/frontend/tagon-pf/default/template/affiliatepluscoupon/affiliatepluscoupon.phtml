@@ -43,9 +43,9 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
         <li class="success-msg">
 
-            <?php echo $this->__('Share with your friends the coupon code below.') ?>
+            <?php echo $this->__('Divulgue os códigos de cupom abaixo.') ?>
 
-            <?php echo $this->__('You will receive commission when your friends purchase using this coupon.') ?>
+            <?php echo $this->__('Você receberá comissão em cima de todas as compras de clientes que os utilizarem.') ?>
 
         </li>
 
@@ -75,29 +75,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
                         <strong>
 
-                            <?php echo $discountText ?>
-
-                        </strong>
-
-                        <strong style="text-transform: uppercase;">
-
-                            <?php echo $this->__('discount') ?>
-
-                            <?php if ($program->getId() && $program->getValidFrom()): ?>
-
-                                <?php echo $this->__('from') ?>
-
-                                <?php echo $this->formatDate($program->getValidFrom(), 'short', false) ?>
-
-                            <?php endif ?>
-
-                            <?php if ($program->getId() && $program->getValidTo()): ?>
-
-                                <?php echo $this->__('to') ?>
-
-                                <?php echo $this->formatDate($program->getValidTo(), 'short', false) ?>
-
-                            <?php endif ?>					
+                            <?php echo 'Cupom: '.$program->getCouponCode() ?>
 
                         </strong>
 
@@ -113,15 +91,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
                             <tr>
 
-                                <td class = "td-left"><?php echo $this->__('Coupon Code') ?>:&nbsp;</td>
-
-                                <td class = "td-right"><strong><?php echo $program->getCouponCode() ?></strong></td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td class = "td-left"><?php echo $this->__('Program') ?>:&nbsp;</td>
+                                <td class = "td-left"><?php echo $this->__('Programa') ?>:&nbsp;</td>
 
                                 <td class = "td-right">
 
@@ -145,89 +115,9 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
                             <tr>
 
-                                <td class = "td-left"><?php echo $this->__('Commission Type') ?>:&nbsp;</td>
+                                <td class = "td-left"><?php echo $this->__('Tipo de Comissão') ?>:&nbsp;</td>
 
-                                <td class = "td-right">
-
-                                    <?php
-
-                                    $commission = $program->getCommission();
-
-                                    $secCommission = $program->getSecondaryCommission();
-
-
-
-                                    if ($program->getCommissionType() == 'fixed') {
-
-                                        $commissionText = Mage::helper('core')->currency($commission);
-
-                                    } elseif ($program->getCommissionType() == 'cart_fixed') {
-
-                                        $commissionText = Mage::helper('core')->currency($commission) . ' ' . $this->__('');
-
-                                    } else {
-
-                                        $commissionText = rtrim(rtrim(sprintf("%.2f", $commission), '0'), '.') . '%';
-
-                                    }
-
-                                    if ($program->getSecCommissionType() == 'fixed') {
-
-                                        $secText = Mage::helper('core')->currency($secCommission);
-
-                                    } elseif ($program->getSecCommissionType() == 'cart_fixed') {  // Changed By Adam 22/07/2014
-
-                                        $secText = Mage::helper('core')->currency($secCommission) . ' ' . $this->__('');
-
-                                    } else {
-
-                                        $secText = rtrim(rtrim(sprintf("%.2f", $secCommission), '0'), '.') . '%';
-
-                                    }
-
-
-
-                                    $typeIsProfit = Mage::helper('affiliateplus')->affiliateTypeIsProfit();
-
-                                    if ($program->getAffiliateType()) {
-
-                                        $typeIsProfit = (bool) ($program->getAffiliateType() == 'profit');
-
-                                    }
-
-                                    ?>
-
-                                    <?php if ($typeIsProfit): ?>
-
-                                        <?php $profitText = $this->__('Pay-per-Profit') ?>
-
-                                    <?php else: ?>
-
-                                        <?php $profitText = $this->__('Pay-per-Sale') ?>
-
-                                    <?php endif ?>
-
-
-
-                                    <?php if (!$this->hasSecondaryCommission($program)): ?>
-
-                                        <?php if ($program->getCommissionType() == 'cart_fixed'): // Changed By Adam 22/07/2014?>
-
-                                            <?php echo $this->__('%s %s for whole cart you deliver', $commissionText, $profitText) ?>
-
-                                        <?php else: ?>
-
-                                            <?php echo $this->__('%s %s for each sale you deliver', $commissionText, $profitText) ?>
-
-                                        <?php endif; ?>
-
-                                    <?php else: ?>
-
-                                        <?php echo $this->__('%s %s for the first order of a customer, %s for next orders', $commissionText, $profitText, $secText) ?>
-
-                                    <?php endif ?>
-
-                                </td>
+                                <td class = "td-right"><?php echo $commission = sprintf("%.0f", $program->getCommission()).'%';?></td>
 
                             </tr>
 
@@ -316,27 +206,10 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                         </table>
 
                     </div>
-
-                <div class="tweeter">
-
-                    <div class="share-tweeter" onclick="popWin('https://twitter.com/share?original_referer=<?php echo urlencode($this->getBaseUrl()) ?>&source=tweetbutton&text=<?php echo urlencode($this->__('Get %s discount by Coupon Code: ', $discountText) . $program->getCouponCode() . chr(10) . $this->__('at')) ?>', 'tweeter', 'top:100,left:100,width=640,height=480,resizable=yes,scrollbars=yes');
-
-                                        return false;" style="text-decoration: none;">
-
-                            <span class = "coupon-tweeter">
-
-                                <?php echo $this->__('Tweet') ?>
-
-                            </span>
-
-                    </div>
-
-                </div>
+                    <br>
 
             </div>
-
             </li>
-
         <?php endforeach ?>
 
     </ul>
@@ -355,11 +228,11 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
         <li class="notice-msg">
 
-            <?php echo $this->__('You have no affiliate coupon code.') ?>
+            <?php echo $this->__('Você não possui código de cupom.') ?>
 
             <?php if ($this->isMultiProgram()): ?>
 
-                <?php echo $this->__('Please join to a program to get coupon code.') ?>
+                <?php echo $this->__('Por favor, afilie-se a um programa de comissao.') ?>
 
             <?php endif ?>
 

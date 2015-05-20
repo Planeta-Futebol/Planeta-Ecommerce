@@ -37,7 +37,7 @@ class Franchise_Stock_Adminhtml_FranchiseController extends Mage_Adminhtml_Contr
     }
 
     $salesinfo = array('totalvalue'=>$totalsales, 'average'=>($totalsales/$salescount));
-    /* TODO: fill Users, Lastsales and Salesinfo */
+
     $block = $this->getLayout()->createBlock('stock/admindashboard');
     $block->setUsers($users->load());
     $block->setLastsales($lastsales->load());
