@@ -11,13 +11,15 @@
     <ul class="tabrl">
       <li class="tabi active firsttab tabs" tabid="salesreportlist"><p>Vendas</p></li>
       <li class="tabi tabs" tabid="financialgraph"><p>Financeiro</p></li>
-      <li class="tabi tabs lasttab" tabid="comissionslist"><p>Comissões</p></li>
+      <li class="tabi tabs lasttab" tabid="commissionslist">
+        <p><a href="<?php echo $this->getUrl('affiliateplus/index/listTransaction'); ?>">Comissões</a></p>
+      </li>
     </ul>
     <div style="clear: both;"></div>
   </div>
     <?php echo $this->getChildHtml('sales'); ?>
     <?php echo $this->getChildHtml('financialchart'); ?>
-    <?php echo $this->getChildHtml('comissions'); ?>
+    <?php //echo $this->getChildHtml('commissionsreport'); ?>
 
   <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery.js"></script>
   <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery-ui.js"></script>
@@ -32,12 +34,14 @@
       jQuery(".othersalesrep_list").css("display", "none");
       jQuery("li.tabs").click(function() {
         var divid = jQuery(this).attr('tabid');
-        jQuery(".sales_rep").css("display","none");
-        jQuery(".sales_rep").removeClass("active");
-        jQuery("li.tabs").removeClass("active");
-        jQuery("#"+divid).css("display","block");
-        jQuery("#"+divid).addClass("active");
-        jQuery(this).addClass("active");
+        if (divid != 'commissionslist') { // retirar
+          jQuery(".sales_rep").css("display","none");
+          jQuery(".sales_rep").removeClass("active");
+          jQuery("li.tabs").removeClass("active");
+          jQuery("#"+divid).css("display","block");
+          jQuery("#"+divid).addClass("active");
+          jQuery(this).addClass("active");
+        }
       });
     });
   </script>

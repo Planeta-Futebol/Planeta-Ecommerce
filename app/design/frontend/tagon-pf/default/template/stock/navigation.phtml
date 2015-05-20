@@ -11,6 +11,16 @@
   </div>
   <div class="block-content">
     <ul class="wk_cont_ul">
+<!--
+      <li <?php //echo strpos($magentoCurrentUrl,'dashboard')? "class=current":"";?>>
+      <?php //if(strpos($magentoCurrentUrl,'dashboard')) { ?>
+        <strong><?php //echo $helper->__('Painel') ?></strong>
+      <?php //} else { ?>
+        <a href="<?php //echo $this->getUrl('stock/stockaccount/dashboard'); ?>">
+          <?php //echo $helper->__('Painel') ?>
+        </a>
+      <?php //} ?>
+      </li> -->
       <li <?php echo strpos($magentoCurrentUrl,'myproductslist')? "class=current":"";?>>
       <?php if(strpos($magentoCurrentUrl,'myproductslist')){ ?>
         <strong><?php echo $helper->__('Meu Estoque') ?></strong>
@@ -30,22 +40,12 @@
       <?php } ?>
       </li>
 
-      <li  <?php echo strpos($magentoCurrentUrl,'listTransaction')? "class=current":"";?>>
-      <?php if(strpos($magentoCurrentUrl,'listTransaction')){ ?>
+      <li  <?php echo strpos($magentoCurrentUrl,'commission')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'commission')){ ?>
         <strong><?php echo $helper->__('Comissões') ?></strong>
       <?php } else { ?>
-        <a href="<?php echo $this->getUrl('affiliateplus/index/listTransaction'); ?>">
+        <a href="<?php echo $this->getUrl('stock/stockaccount/commission'); ?>">
           <?php echo $helper->__('Comissões') ?>
-        </a>
-      <?php } ?>
-      </li>
-
-      <li  <?php echo strpos($magentoCurrentUrl,'affiliateplus/refer/index')? "class=current":"";?>>
-      <?php if(strpos($magentoCurrentUrl,'affiliateplus/refer/index')){ ?>
-        <strong><?php echo $helper->__('Refer Friends') ?></strong>
-      <?php } else { ?>
-        <a href="<?php echo $this->getUrl('affiliateplus/refer/index'); ?>">
-          <?php echo $helper->__('Refer Friends') ?>
         </a>
       <?php } ?>
       </li>

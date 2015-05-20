@@ -1,0 +1,38 @@
+<?php
+  $helper= Mage::helper('stock');
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+  if($roleId > 1) {
+    $_productCollection=$this->getCollection();
+    $_helper = $this->helper('catalog/output');
+?>
+  <div class="fieldset">
+    <div class="page-title">
+      <h1><?php echo $helper->__('Painel Franquia') ?></h1>
+    </div>
+    <strong> <?php echo $helper->__('Olá, ').$username; ?> </strong>
+    <?php echo $helper->__('Aqui é possível ver um resumo das suas informações de estoque, comissões e vendas'); ?>
+    <hr>
+    <div class="comission_head">
+      <hr>
+      <strong>Tipo de franqueado: </strong>
+      <?php echo $this->getFranchiseType(); ?>
+      <strong> ID: <?php echo $this->getComissionId(); ?> </strong>
+      <hr>
+    </div>
+    <div class="overview">
+      <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+        <label><strong><?php echo $this->__('Desempenho de: '); ?></strong></label>
+        <select name="franchise" id="franchise">
+          <option value="1" selected="selected"><?php echo $this->__('Hoje')?></option>
+          <option value="7"><?php echo $this->__('7 dias')?></option>
+          <option value="30"><?php echo $this->__('30 dias')?></option>
+          <option value="0"><?php echo $this->__('')?></option>
+        </select>
+        <input type="submit" name="submit" id="submit" value="OK"/>
+      </form>
+      <div>
+      </div>
+    </div>
+  </div>
