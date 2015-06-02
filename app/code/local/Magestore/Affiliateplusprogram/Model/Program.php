@@ -298,6 +298,7 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
                     $productId = $item->getProductId();
         //
          $programByItems = $this->getAllProgramsByItems($productId);
+		 
         if (!in_array($productId, Mage::helper('affiliateplusprogram')->getProgramProductIds($this->getId()))) {
             if ($parentItem = $item->getParentItem()) {
                 if (!in_array($parentItem->getProduct()->getId(), Mage::helper('affiliateplusprogram')->getProgramProductIds($this->getId())))
@@ -306,10 +307,19 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
                 return false;
             }
         }
+
         //add by Jack
-        if($this->getId() != $programByItems[0] && count($programByItems) > 1){
-              return false; 
-        }
+		/*
+			Khi dung coupon thi khong can phai kiem tra
+		*/	
+		$session = Mage::getSingleton('checkout/session');
+		$isUseCoupon = $session->getAffiliateCouponCode();
+		if(!isset($isUseCoupon))
+		{			
+			if($this->getId() != $programByItems[0] && count($programByItems) > 1){
+				return false; 
+			}
+		}
         //
         return $this->getActions()->validate($item);
     }
