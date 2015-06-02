@@ -252,4 +252,24 @@ ul.tabrl li.active {
   height: 300px;
   width: 99%;
 }
-
+.commlist ol.maintree li.singlerow ul li.fli {
+   width: 38%;
+   padding-bottom: 5px;
+}
+.commlist ol.maintree li.singlerow ul li {
+   width: 18%;
+}
+.commlist ol.maintree li ul.subli li {
+   width: 18%;
+}
+.main .commlist ol.maintree li.headtree ul li {
+   padding-bottom: 5px;
+}
+.commlist .pager-top {
+   position: relative;
+}
+.commlist .couponid {
+   left: 6px;
+   position: absolute;
+   top: 4px;
+}

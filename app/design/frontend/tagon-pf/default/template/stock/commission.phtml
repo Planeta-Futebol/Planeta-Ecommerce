@@ -7,16 +7,17 @@
 ?>
   <div class="fieldset">
     <div class="page-title">
-      <h1><?php echo $helper->__('Commissão') ?></h1>
+      <h1><?php echo $helper->__('Comissões') ?></h1>
     </div>
-    <br>
-    <p style="font-size:14px">Lista de clientes afiliados:</p>
-    <div class="productlist frproductlist">
+    <div class="productlist frproductlist commlist">
       <?php if(!$_commissionCollection->count()): ?>
         <p class="note-msg noprodsfr"><?php echo $this->__('Nenhum resultado encontrado.') ?></p>
       <?php endif; ?>
       <div class= "frpagewrap">
         <div class="pager-top">
+          <div class="pagerhead-content">
+            <?php echo $this->__('Lista de clientes afiliados'); ?>
+          </div>
           <?php echo $this->getPagerHtml();?>
         </div>
       </div>
