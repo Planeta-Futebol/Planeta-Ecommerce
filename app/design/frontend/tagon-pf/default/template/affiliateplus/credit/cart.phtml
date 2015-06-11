@@ -4,6 +4,9 @@
  */
 ?>
 <?php
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+  if($roleId > 1) {
     $store_id = Mage::app()->getStore()->getStoreId();
     $subtotal = Mage::helper('checkout')->getQuote()->getSubtotal();
     $maxUsage = ($subtotal * 0.3);
@@ -37,18 +40,19 @@
                                   <span>
                                       <span><?php echo $this->__('Apply') ?></span>
                                   </span>
-                              </button>                                                            
+                              </button>
                           </div>
                           <p></p>
                       </div>
                   </dd>
-                  <dt></dt>                
+                  <dt></dt>
               </dl>
           </div>
 
       </div>
   </form>
 </div>
+<?php } ?>
 <script type="text/javascript">
 //<![CDATA[
     function showAffiliateCreditInput(el) {
