@@ -1,0 +1,52 @@
+<?php
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+  $helper= Mage::helper('stock');
+
+  if($roleId>1){
+?>
+  <div class="page-title">
+    <h1><?php echo $helper->__('Relatórios') ?></h1>
+  </div>
+  <div class="saleswrap"> <!--fieldset-->
+    <ul class="tabrl">
+      <li class="tabi active firsttab tabs" tabid="salesreportlist"><p>Vendas</p></li>
+      <li class="tabi tabs" tabid="financialgraph"><p>Financeiro</p></li>
+      <li class="tabi tabs lasttab" tabid="commissionslist">
+        <p><a href="<?php echo $this->getUrl('affiliateplus/index/listTransaction'); ?>">Comissões</a></p>
+      </li>
+    </ul>
+    <div style="clear: both;"></div>
+  </div>
+    <?php echo $this->getChildHtml('sales'); ?>
+    <?php echo $this->getChildHtml('financialchart'); ?>
+    <?php //echo $this->getChildHtml('commissionsreport'); ?>
+
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery.js"></script>
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery-ui.js"></script>
+  <script>
+    jQuery.noConflict();
+    jQuery(function() {
+      jQuery(".datie").datepicker();
+    });
+  </script>
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+      jQuery(".othersalesrep_list").css("display", "none");
+      jQuery("li.tabs").click(function() {
+        var divid = jQuery(this).attr('tabid');
+        if (divid != 'commissionslist') { // retirar
+          jQuery(".sales_rep").css("display","none");
+          jQuery(".sales_rep").removeClass("active");
+          jQuery("li.tabs").removeClass("active");
+          jQuery("#"+divid).css("display","block");
+          jQuery("#"+divid).addClass("active");
+          jQuery(this).addClass("active");
+        }
+      });
+    });
+  </script>
+<?php
+  }else{
+    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
+  }
+?>

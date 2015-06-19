@@ -563,7 +563,7 @@ div.onestepcheckout-skin-magento p.onestepcheckout-numbers-4 {
     font-weight: bold;
     position: absolute;
     right: 10px;
-    bottom: -5px;
+    bottom: 5px;
 }
 
 #onestepcheckout-login-popup p.close a,#onestepcheckout-login-popup p.close a:link,#onestepcheckout-login-popup p.close a:visited,#onestepcheckout-toc-popup p.close a,#onestepcheckout-toc-popup p.close a:link,#onestepcheckout-toc-popup p.close a:visited

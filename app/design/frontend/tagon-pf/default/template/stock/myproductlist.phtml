@@ -1,0 +1,210 @@
+<?php
+  $helper= Mage::helper('stock');
+  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+  if($roleId > 1) {
+    $_productCollection=$this->getCollection();
+    $_helper = $this->helper('catalog/output');
+?>
+  <div class="fieldset">
+    <div class="page-title">
+      <h1><?php echo $helper->__('Meu Estoque') ?></h1>
+    </div>
+    <div class="productlist frproductlist">
+      <form method="post" id="frsearch" enctype="multipart/form-data" action="">
+        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
+        <label><strong>Buscar: </strong></label>
+        <input type="text" name="searchfr" id="searchfr" required="required"/>
+        <input type="submit" name="submit" id="submit" value="OK"/>
+      </form>
+      <?php if(!$_productCollection->count()): ?>
+        <div class="clearfr"></div>
+        <p class="note-msg noprodsfr"><?php echo $this->__('Nenhum resultado encontrado.') ?></p>
+      <?php endif; ?>
+      <div class= "frpagewrap">
+        <div class="pager-top">
+          <?php echo $this->getPagerHtml();?>
+        </div>
+      </div>
+      <ol class="maintree">
+        <li class="singlerow headtree">
+          <ul>
+            <li class="fli">Produto</li>
+            <li>Estoque atual</li>
+            <li>Valor do estoque</li>
+            <li>Potencial de venda</li>
+            <li class="lli">Lançar venda</li>
+          </ul>
+        </li>
+        <?php
+          $tproductprice = 0;
+          $tsalesprice = 0;
+          $tquant = 0;
+          $i=1;
+
+          foreach($_productCollection as $_product) {
+            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product);
+            $pricepaid = $_product->getSpecialPrice();
+            $salesprice = $_product->getMsrp();
+            $qty = (int) $stockItem->getData('qty');
+
+            $stockvalue = $pricepaid * $qty;
+            $salespotential = $salesprice * $qty;
+
+            $tproductprice += $stockvalue;
+            $tsalesprice += $salespotential;
+            $tquant += $qty;
+        ?>
+          <li class="singlerow">
+            <ul class="subli" id="salesim_<?php echo $i;?>">
+              <li class="fli" sku="<?php echo $_product->getSku(); ?>" frprodid="<?php echo $_product->getId();?>" frprodnm="<?php echo $_product->getName(); ?>">
+                <?php echo $_product->getName(); ?>
+              </li>
+              <li class="qty"><?php echo $qty; ?></li>
+              <li><?php echo Mage::helper('core')->currency($stockvalue); ?></li>
+              <li class="salesprice" salesprice="<?php  echo Mage::getModel('directory/currency')->format($salesprice, array('display'=>Zend_Currency::NO_SYMBOL), false); ?>">
+                <?php echo Mage::helper('core')->currency($salespotential); ?>
+              </li>
+              <li class="lli"><a class="salessimul">Lançar</a></li>
+            </ul>
+          </li>
+        <?php
+            $i++;
+          }
+        ?>
+        <li class="singlerow totalrow">
+          <ul class="subli">
+            <li class="fli">Total</li>
+            <li><?php echo $tquant;?></li>
+            <li><?php echo Mage::helper('core')->currency($tproductprice); ?></li>
+            <li><?php echo Mage::helper('core')->currency($tsalesprice); ?></li>
+            <li class="lli"> </li>
+          </ul>
+        </li>
+      </ol>
+      <div class="pager-bottom">
+        <?php echo $this->getPagerHtml(); ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="sales_simulate" id="salessimulatebox">
+    <div class="sales_details">
+      <p class="prodsimul">
+        <strong>Produto: </strong>
+        <span class="fprodnm"></span>
+      </p>
+      <table class="frtab">
+        <tbody>
+          <tr class="hdfr">
+            <th>Tamanho</th>
+            <th>Em estoque</th>
+            <th>Quantidade</th>
+            <th class="last">Valor de venda</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var searchForm = new Varien.searchForm('search_mini_form', 'searchfr', 'Por nome do produto');
+  </script>
+
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery.js"></script>
+  <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery-ui.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict();
+
+    jQuery(document).ready(function() {
+      jQuery(".salessimul").on("click", function() {
+        jQuery('#salessimulatebox .sales_details table.frtab tbody').find("tr:gt(0)").remove();
+        jQuery(".sales_details").css("display","block");
+
+        var rowid = jQuery(this).parent().parent().attr('id');
+        var sku = jQuery("ul#"+rowid+" li.fli").attr('sku');
+        var frprodid = jQuery("ul#"+rowid+" li.fli").attr('frprodid');
+        var frprodnm = jQuery("ul#"+rowid+" li.fli").attr('frprodnm');
+        jQuery("#salessimulatebox .sales_details .prodsimul .fprodnm").text(frprodnm);
+        var qty = parseInt(jQuery("ul#"+rowid+" li.qty").text());
+        var salesprice = jQuery("ul#"+rowid+" li.salesprice").attr('salesprice');
+        jQuery('#salessimulatebox .sales_details table.frtab tbody').append(
+          '<tr>'+
+          '<td class="configtypes"></td>'+
+          '<td class="qty">'+qty+'</td>'+
+          '<td class="qty_sale"><input type="text" class="qty_sale" value="1"/></td>'+
+          '<td class="slprice"><input type="text" class="slprice" value="'+salesprice+'"/></td>'+
+          +'</tr>'
+        );
+        var ret_attr;
+
+        new Ajax.Request("<?php echo $this->getUrl('stock/stockaccount/attributeList') ?>", {
+          method: 'Post',
+          parameters: {"sku":sku},
+          onSuccess: function(transport) {
+            var json = transport.responseText.evalJSON(true);
+            var attributes = String(json.res);
+            var allattrs = attributes.split(","); //check the attribute count
+
+            if(allattrs[1]=="") {
+              ret_attr = allattrs[0];
+            } else {
+              ret_attr = allattr;
+            }
+
+            jQuery("table.frtab tbody tr td.configtypes").text(""+ret_attr);
+          }
+        });
+
+        jQuery("#salessimulatebox").dialog({
+          height: 400,
+          width: 415,
+          modal: true,
+          title:'Lançar Venda',
+          buttons: [
+            {
+              text: "Confirmar",
+              click: function() {
+                var qty = jQuery.trim(jQuery(".ui-dialog #salessimulatebox .sales_details table.frtab tbody tr td.qty").text());
+                var qty_sold = jQuery.trim(jQuery(".ui-dialog #salessimulatebox .sales_details table.frtab tbody tr td.qty_sale input.qty_sale").val());
+                var price_sold = jQuery.trim(jQuery(".ui-dialog #salessimulatebox .sales_details table.frtab tbody tr td.slprice input.slprice").val());
+
+                console.log("sold:" + parseInt(qty_sold));
+                console.log("qty:" + parseInt(qty));
+                if(sku!='' && qty_sold!='' && price_sold!='') {
+                  if(parseInt(qty_sold) <= parseInt(qty)) {
+                    new Ajax.Request("<?php echo $this->getUrl('stock/stockaccount/saveSalesReport') ?>", {
+                      method: 'Post',
+                      parameters: {"frprodid":frprodid, "sku":sku, "qty_sold":qty_sold, "price_sold":price_sold},
+                      onSuccess: function(transport) {
+                        var json = transport.responseText.evalJSON(true);
+                        var result = String(json.res);
+
+                        if (result == '1') {
+                          alert("Venda efetuada com sucesso.");
+                          jQuery( this ).dialog( "close" );
+                          location.reload();
+                        } else {
+                          alert("Por favor, tente novamente.");
+                        }
+                      }
+                    });
+                    jQuery( this ).dialog( "close" );
+                  } else {
+                    alert("A quantidade vendida não pode ser superior a quantidade no estoque.");
+                  }
+                } else {
+                  alert("Verifique os campos quantidade e valor.");
+                }
+              }
+            }
+          ]
+        });
+      });
+    });
+  </script>
+<?php
+  }else{
+    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
+  }
+?>

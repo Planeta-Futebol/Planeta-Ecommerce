@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Franchise_Stock>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Franchise_Stock>
+  </modules>
+</config> 

@@ -38,14 +38,14 @@
 <div class="header-container">
   <div class="header_logo">
     <?php if ($this->getIsHomePage()):?>
-      <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="/skin/frontend/tagon-pf/default/images/logo.jpg" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+      <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getSkinUrl('/images/logo.jpg'); ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
     <?php else:?>
       <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="/skin/frontend/tagon-pf/default/images/logo.jpg" alt="<?php echo $this->getLogoAlt() ?>" /></a>
     <?php endif?>
   </div>
 	<div class="header-top">
       <div class="header">
-      <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="/skin/frontend/tagon-pf/default/images/logo.png" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+      <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getSkinUrl('/images/logo.png'); ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
     	    <div class="header-right">
                     <?php echo $this->getChildHtml('topLinks') ?>
     	    	<div class="clearer"></div>

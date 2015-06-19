@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<config>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<tagon_groupscatalog translate="title" module="tagon_groupscatalog">
+										<title>Groups Catalog</title>
+										<sort_order>130</sort_order>
+									</tagon_groupscatalog>
+								</children>
+							</config>
+							<tools>
+								<children>
+									<tagon_groupscatalog translate="title" module="tagon_groupscatalog">
+										<title>Groups Catalog</title>
+										<sort_order>200</sort_order>
+									</tagon_groupscatalog>
+								</children>
+							</tools>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <tabs>
+    <franchise translate="label" module="stock">
+      <label>Franchise</label>
+      <sort_order>99999</sort_order>
+    </franchise>
+  </tabs>
+  <sections>
+    <stock>
+      <groups>
+        <!--<backend translate="label" module="stock">
+          <label>Backend</label>
+          <frontend_type>text</frontend_type>
+          <sort_order>50</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <short_desc_instructions translate="label">
+              <label>Short Description Instructions</label>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>50</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </short_desc_instructions>
+          </fields>
+        </backend>-->
+      </groups>
+    </stock>
+  </sections>
+</config>
