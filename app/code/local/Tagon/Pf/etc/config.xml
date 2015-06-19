@@ -8,38 +8,38 @@
 	</modules>
 
 	<global>
-    <resources>
-      <pf_setup>
-        <setup>
-          <module>Tagon_Pf</module>
-          <class>Mage_Eav_Model_Entity_Setup</class>
-        </setup>
-        <connection>
-          <use>default_setup</use>
-        </connection>
-      </pf_setup>
-    </resources>
+	<resources>
+	  <pf_setup>
+		<setup>
+		  <module>Tagon_Pf</module>
+		  <class>Mage_Eav_Model_Entity_Setup</class>
+		</setup>
+		<connection>
+		  <use>default_setup</use>
+		</connection>
+	  </pf_setup>
+	</resources>
   </global>
 
   <adminhtml>
-    <acl>
-      <resources>
-        <admin>
-          <children>
-            <system>
-              <children>
-                <config>
-                  <children>
-                    <tagonpf>
-                      <title>Theme Electronics Online</title>
-                    </tagonpf>
-                  </children>
-                </config>
-              </children>
-            </system>
-          </children>
-        </admin>
-      </resources>
-    </acl>
+	<acl>
+	  <resources>
+		<admin>
+		  <children>
+			<system>
+			  <children>
+				<config>
+				  <children>
+					<tagonpf>
+					  <title>Theme Electronics Online</title>
+					</tagonpf>
+				  </children>
+				</config>
+			  </children>
+			</system>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
   </adminhtml>
 </config>
