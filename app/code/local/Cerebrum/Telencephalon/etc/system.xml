@@ -3339,13 +3339,13 @@ No processo de geração da fatura no Magento é disparado tambem o processo de 
 			  	     </fields>
                 </cerebrum_cielo>
 		      	<cerebrum_meucheckout translate="label" module="telencephalon">                
-					<label>Cielo Solução Integrada - (powered by CEREBRUM)</label>
+					<label>Cielo / Checkout Cielo - (powered by CEREBRUM)</label>
 					<sort_order>111</sort_order>
 					<show_in_default>1</show_in_default>
 				  	<show_in_website>1</show_in_website>
 				  	<show_in_store>1</show_in_store>                    
                     <comment>
-                        <![CDATA[<div style="padding:10px;background-color:#fff;border:1px solid #ddd;margin-bottom:7px;"><p><a href="http://www.cielo.com.br/" target="_blank">Comece a aceitar pagamentos via Cielo!</a></div>]]>
+                        <![CDATA[<div style="padding:10px;background-color:#fff;border:1px solid #ddd;margin-bottom:7px;"><p><a href="https://www.cielo.com.br/wps/wcm/connect/cielo%20conteudo/modais/1f5ec69f-dfdc-420f-9907-c9f888159ef2" target="_blank">Comece a aceitar pagamentos via Cielo!</a></div>]]>
                     </comment>				  	
 					<fields>                    
 				      	<active translate="label" module="telencephalon">
