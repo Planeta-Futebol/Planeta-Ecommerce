@@ -153,11 +153,22 @@ class Magestore_Affiliateplus_Model_Observer {
                     break;
             }
         }
-        $account = Mage::getModel('affiliateplus/account')->getCollection()->addFieldToFilter('account_id', $accountCode)->getFirstItem();
+        // Changed By Adam 12/06/2015 fix issue can't detect affiliate when customer click on the affiliate link on Facebook
+        if(strpos($accountCode, "?")) {
+            $code = explode("?", $accountCode);
+            $accountCode = $code[0];
+        }
+        
+        // Changed By Adam 08/05/2015 fix loi tu lay identify code cua affiliate khac
+        if(Mage::getStoreConfig('affiliateplus/general/url_param_value') == 2) {
+            $account = Mage::getModel('affiliateplus/account')->getCollection()->addFieldToFilter('account_id', $accountCode)->getFirstItem();
+        } else {
+            $account = Mage::getModel('affiliateplus/account')->getCollection()->addFieldToFilter('identify_code', $accountCode)->getFirstItem();
+        }
+        
         if ($account->getId())
             $accountCode = $account->getIdentifyCode();
-        //end editing
-
+        
         if (!$accountCode && $request->getParam('df08b0441bac900')) {
             $resource = Mage::getSingleton('core/resource');
             $read = $resource->getConnection('core_read');
@@ -355,153 +366,209 @@ class Magestore_Affiliateplus_Model_Observer {
         if (!Mage::helper('affiliateplus')->isAffiliateModuleEnabled())
             return;
         $orders = $observer['orders'];
-        if($orders and count($orders))
-        foreach ($orders as $order) {
-            // check to run this function 1 time for 1 order
-            if (Mage::getSingleton('core/session')->getData("affiliateplus_order_placed_" . $order->getId())) {
-                return $this;
-            }
-            Mage::getSingleton('core/session')->setData("affiliateplus_order_placed_" . $order->getId(), true);
-
-            // Use Store Credit to Checkout
-            if ($baseAmount = $order->getBaseAffiliateCredit()) {
-                $session = Mage::getSingleton('checkout/session');
-                $session->setUseAffiliateCredit('');
-                $session->setAffiliateCredit(0);
-
-                $account = Mage::getSingleton('affiliateplus/session')->getAccount();
-                $payment = Mage::getModel('affiliateplus/payment')
-                        ->setPaymentMethod('credit')
-                        ->setAmount(-$baseAmount)
-                        ->setAccountId($account->getId())
-                        ->setAccountName($account->getName())
-                        ->setAccountEmail($account->getEmail())
-                        ->setRequestTime(now())
-                        ->setStatus(3)
-                        ->setIsRequest(1)
-                        ->setIsPayerFee(0)
-                        ->setData('is_created_by_recurring', 1)
-                        ->setData('is_refund_balance', 1);
-                if (Mage::helper('affiliateplus/config')->getSharingConfig('balance') == 'store') {
-                    $payment->setStoreIds($order->getStoreId());
+        if ($orders and count($orders))
+            foreach ($orders as $order) {
+                // check to run this function 1 time for 1 order
+                if (Mage::getSingleton('core/session')->getData("affiliateplus_order_placed_" . $order->getId())) {
+                    return $this;
                 }
-                $paymentMethod = $payment->getPayment();
-                $paymentMethod->addData(array(
-                    'order_id' => $order->getId(),
-                    'order_increment_id' => $order->getIncrementId(),
-                    'base_paid_amount' => -$baseAmount,
-                    'paid_amount' => -$order->getAffiliateCredit(),
-                ));
-                try {
-                    $payment->save();
-                    $paymentMethod->savePaymentMethodInfo();
-                } catch (Exception $e) {
-                    
-                }
-            }
+                Mage::getSingleton('core/session')->setData("affiliateplus_order_placed_" . $order->getId(), true);
 
-            if (!$order->getBaseSubtotal()) {
-                return $this;
-            }
-            $affiliateInfo = Mage::helper('affiliateplus/cookie')->getAffiliateInfo();
-            $account = '';
-            foreach ($affiliateInfo as $info)
-                if ($info['account']) {
-                    $account = $info['account'];
-                    break;
-                }
+                // Use Store Credit to Checkout
+                if ($baseAmount = $order->getBaseAffiliateCredit()) {
+                    $session = Mage::getSingleton('checkout/session');
+                    $session->setUseAffiliateCredit('');
+                    $session->setAffiliateCredit(0);
 
-            if ($account && $account->getId()) {
-                // Log affiliate tracking referal - only when has sales
-                if ($this->_getConfigHelper()->getCommissionConfig('life_time_sales')) {
-                    $tracksCollection = Mage::getResourceModel('affiliateplus/tracking_collection');
-                    if ($order->getCustomerId()) {
-                        $tracksCollection->getSelect()
-                                ->where("customer_id = {$order->getCustomerId()} OR customer_email = ?", $order->getCustomerEmail());
-                    } else {
-                        $tracksCollection->addFieldToFilter('customer_email', $order->getCustomerEmail());
+                    $account = Mage::getSingleton('affiliateplus/session')->getAccount();
+                    $payment = Mage::getModel('affiliateplus/payment')
+                            ->setPaymentMethod('credit')
+                            ->setAmount(-$baseAmount)
+                            ->setAccountId($account->getId())
+                            ->setAccountName($account->getName())
+                            ->setAccountEmail($account->getEmail())
+                            ->setRequestTime(now())
+                            ->setStatus(3)
+                            ->setIsRequest(1)
+                            ->setIsPayerFee(0)
+                            ->setData('is_created_by_recurring', 1)
+                            ->setData('is_refund_balance', 1);
+                    if (Mage::helper('affiliateplus/config')->getSharingConfig('balance') == 'store') {
+                        $payment->setStoreIds($order->getStoreId());
                     }
-                    if (!$tracksCollection->getSize()) {
-                        try {
-                            Mage::getModel('affiliateplus/tracking')->setData(array(
-                                'account_id' => $account->getId(),
-                                'customer_id' => $order->getCustomerId(),
-                                'customer_email' => $order->getCustomerEmail(),
-                                'created_time' => now()
-                            ))->save();
-                        } catch (Exception $e) {
-                            
+                    $paymentMethod = $payment->getPayment();
+                    $paymentMethod->addData(array(
+                        'order_id' => $order->getId(),
+                        'order_increment_id' => $order->getIncrementId(),
+                        'base_paid_amount' => -$baseAmount,
+                        'paid_amount' => -$order->getAffiliateCredit(),
+                    ));
+                    try {
+                        $payment->save();
+                        $paymentMethod->savePaymentMethodInfo();
+                    } catch (Exception $e) {
+                        
+                    }
+                }
+
+                if (!$order->getBaseSubtotal()) {
+                    return $this;
+                }
+                $affiliateInfo = Mage::helper('affiliateplus/cookie')->getAffiliateInfo();
+                $account = '';
+                foreach ($affiliateInfo as $info)
+                    if ($info['account']) {
+                        $account = $info['account'];
+                        break;
+                    }
+
+                if ($account && $account->getId()) {
+                    // Log affiliate tracking referal - only when has sales
+                    if ($this->_getConfigHelper()->getCommissionConfig('life_time_sales')) {
+                        $tracksCollection = Mage::getResourceModel('affiliateplus/tracking_collection');
+                        if ($order->getCustomerId()) {
+                            $tracksCollection->getSelect()
+                                    ->where("customer_id = {$order->getCustomerId()} OR customer_email = ?", $order->getCustomerEmail());
+                        } else {
+                            $tracksCollection->addFieldToFilter('customer_email', $order->getCustomerEmail());
+                        }
+                        if (!$tracksCollection->getSize()) {
+                            try {
+                                Mage::getModel('affiliateplus/tracking')->setData(array(
+                                    'account_id' => $account->getId(),
+                                    'customer_id' => $order->getCustomerId(),
+                                    'customer_email' => $order->getCustomerEmail(),
+                                    'created_time' => now()
+                                ))->save();
+                            } catch (Exception $e) {
+                                
+                            }
                         }
                     }
-                }
 
-                $baseDiscount = $order->getBaseAffiliateplusDiscount();
-                //$maxCommission = $order->getBaseGrandTotal() - $order->getBaseShippingAmount();
-                // Before calculate commission
-                $commissionObj = new Varien_Object(array(
-                    'commission' => 0,
-                    'default_commission' => true,
-                    'order_item_ids' => array(),
-                    'order_item_names' => array(),
-                    'commission_items' => array(),
-                    'extra_content' => array(),
-                    'tier_commissions' => array(),
-                ));
-                Mage::dispatchEvent('affiliateplus_calculate_commission_before', array(
-                    'order' => $order,
-                    'affiliate_info' => $affiliateInfo,
-                    'commission_obj' => $commissionObj,
-                ));
+                    $baseDiscount = $order->getBaseAffiliateplusDiscount();
+                    //$maxCommission = $order->getBaseGrandTotal() - $order->getBaseShippingAmount();
+                    // Before calculate commission
+                    $commissionObj = new Varien_Object(array(
+                        'commission' => 0,
+                        'default_commission' => true,
+                        'order_item_ids' => array(),
+                        'order_item_names' => array(),
+                        'commission_items' => array(),
+                        'extra_content' => array(),
+                        'tier_commissions' => array(),
+                    ));
+                    Mage::dispatchEvent('affiliateplus_calculate_commission_before', array(
+                        'order' => $order,
+                        'affiliate_info' => $affiliateInfo,
+                        'commission_obj' => $commissionObj,
+                    ));
 
-                $commissionType = $this->_getConfigHelper()->getCommissionConfig('commission_type');
-                $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('commission'));
-                if (Mage::helper('affiliateplus/cookie')->getNumberOrdered()) {
-                    if ($this->_getConfigHelper()->getCommissionConfig('use_secondary')) {
-                        $commissionType = $this->_getConfigHelper()->getCommissionConfig('secondary_type');
-                        $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('secondary_commission'));
-                    }
-                }
-                $commission = $commissionObj->getCommission();
-                $orderItemIds = $commissionObj->getOrderItemIds();
-                $orderItemNames = $commissionObj->getOrderItemNames();
-                $commissionItems = $commissionObj->getCommissionItems();
-                $extraContent = $commissionObj->getExtraContent();
-                $tierCommissions = $commissionObj->getTierCommissions();
-
-                $defaultItemIds = array();
-                $defaultItemNames = array();
-                $defaultAmount = 0;
-                $defCommission = 0;
-                if ($commissionValue && $commissionObj->getDefaultCommission()) {
-                    if ($commissionType == 'percentage') {
-                        if ($commissionValue > 100)
-                            $commissionValue = 100;
-                        if ($commissionValue < 0)
-                            $commissionValue = 0;
-                    }
-
-                    foreach ($order->getAllItems() as $item) {
-                        if ($item->getParentItemId()) {
-                            continue;
+                    $commissionType = $this->_getConfigHelper()->getCommissionConfig('commission_type');
+                    $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('commission'));
+                    if (Mage::helper('affiliateplus/cookie')->getNumberOrdered()) {
+                        if ($this->_getConfigHelper()->getCommissionConfig('use_secondary')) {
+                            $commissionType = $this->_getConfigHelper()->getCommissionConfig('secondary_type');
+                            $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('secondary_commission'));
                         }
-                        if (in_array($item->getId(), $commissionItems)) {
-                            continue;
+                    }
+                    $commission = $commissionObj->getCommission();
+                    $orderItemIds = $commissionObj->getOrderItemIds();
+                    $orderItemNames = $commissionObj->getOrderItemNames();
+                    $commissionItems = $commissionObj->getCommissionItems();
+                    $extraContent = $commissionObj->getExtraContent();
+                    $tierCommissions = $commissionObj->getTierCommissions();
+
+                    $defaultItemIds = array();
+                    $defaultItemNames = array();
+                    $defaultAmount = 0;
+                    $defCommission = 0;
+                    if ($commissionValue && $commissionObj->getDefaultCommission()) {
+                        if ($commissionType == 'percentage') {
+                            if ($commissionValue > 100)
+                                $commissionValue = 100;
+                            if ($commissionValue < 0)
+                                $commissionValue = 0;
                         }
 
-                        if ($item->getHasChildren() && $item->isChildrenCalculated()) {
-                            // $childHasCommission = false;
-                            foreach ($item->getChildrenItems() as $child) {
+                        foreach ($order->getAllItems() as $item) {
+                            if ($item->getParentItemId()) {
+                                continue;
+                            }
+                            if (in_array($item->getId(), $commissionItems)) {
+                                continue;
+                            }
+
+                            if ($item->getHasChildren() && $item->isChildrenCalculated()) {
+                                // $childHasCommission = false;
+                                foreach ($item->getChildrenItems() as $child) {
+                                    if ($this->_getConfigHelper()->getCommissionConfig('affiliate_type') == 'profit')
+                                        $baseProfit = $child->getBasePrice() - $child->getBaseCost();
+                                    else
+                                        $baseProfit = $child->getBasePrice();
+                                    $baseProfit = $child->getQtyOrdered() * $baseProfit - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
+                                    if ($baseProfit <= 0)
+                                        continue;
+
+                                    // $childHasCommission = true;
+                                    if ($commissionType == 'fixed')
+                                        $defaultCommission = min($child->getQtyOrdered() * $commissionValue, $baseProfit);
+                                    elseif ($commissionType == 'percentage')
+                                        $defaultCommission = $baseProfit * $commissionValue / 100;
+
+                                    $commissionObj = new Varien_Object(array(
+                                        'profit' => $baseProfit,
+                                        'commission' => $defaultCommission,
+                                        'tier_commission' => array(),
+                                    ));
+                                    Mage::dispatchEvent('affiliateplus_calculate_tier_commission', array(
+                                        'item' => $child,
+                                        'account' => $account,
+                                        'commission_obj' => $commissionObj
+                                    ));
+
+                                    if ($commissionObj->getTierCommission())
+                                        $tierCommissions[$child->getId()] = $commissionObj->getTierCommission();
+                                    $commission += $commissionObj->getCommission();
+                                    $child->setAffiliateplusCommission($commissionObj->getCommission());
+
+                                    $defCommission += $commissionObj->getCommission();
+                                    $defaultAmount += $child->getBasePrice();
+
+                                    $orderItemIds[] = $child->getProduct()->getId();
+                                    $orderItemNames[] = $child->getName();
+
+                                    $defaultItemIds[] = $child->getProduct()->getId();
+                                    $defaultItemNames[] = $child->getName();
+                                }
+                                // if ($childHasCommission) {
+                                // $orderItemIds[] = $item->getProduct()->getId();
+                                // $orderItemNames[] = $item->getName();
+                                // $defaultItemIds[] = $item->getProduct()->getId();
+                                // $defaultItemNames[] = $item->getName();
+                                // }
+                            } else {
                                 if ($this->_getConfigHelper()->getCommissionConfig('affiliate_type') == 'profit')
-                                    $baseProfit = $child->getBasePrice() - $child->getBaseCost();
+                                    $baseProfit = $item->getBasePrice() - $item->getBaseCost();
                                 else
-                                    $baseProfit = $child->getBasePrice();
-                                $baseProfit = $child->getQtyOrdered() * $baseProfit - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
+                                    $baseProfit = $item->getBasePrice();
+                                $baseProfit = $item->getQtyOrdered() * $baseProfit - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
                                 if ($baseProfit <= 0)
                                     continue;
+                                //jack
+                                if ($item->getProduct())
+                                    $inProductId = $item->getProduct()->getId();
+                                else
+                                    $inProductId = $item->getProductId();
+                                //
+                                $orderItemIds[] = $inProductId;
+                                $orderItemNames[] = $item->getName();
 
-                                // $childHasCommission = true;
+                                $defaultItemIds[] = $inProductId;
+                                $defaultItemNames[] = $item->getName();
+
                                 if ($commissionType == 'fixed')
-                                    $defaultCommission = min($child->getQtyOrdered() * $commissionValue, $baseProfit);
+                                    $defaultCommission = min($item->getQtyOrdered() * $commissionValue, $baseProfit);
                                 elseif ($commissionType == 'percentage')
                                     $defaultCommission = $baseProfit * $commissionValue / 100;
 
@@ -511,154 +578,98 @@ class Magestore_Affiliateplus_Model_Observer {
                                     'tier_commission' => array(),
                                 ));
                                 Mage::dispatchEvent('affiliateplus_calculate_tier_commission', array(
-                                    'item' => $child,
+                                    'item' => $item,
                                     'account' => $account,
                                     'commission_obj' => $commissionObj
                                 ));
 
                                 if ($commissionObj->getTierCommission())
-                                    $tierCommissions[$child->getId()] = $commissionObj->getTierCommission();
+                                    $tierCommissions[$item->getId()] = $commissionObj->getTierCommission();
                                 $commission += $commissionObj->getCommission();
-                                $child->setAffiliateplusCommission($commissionObj->getCommission());
+                                $item->setAffiliateplusCommission($commissionObj->getCommission());
 
                                 $defCommission += $commissionObj->getCommission();
-                                $defaultAmount += $child->getBasePrice();
-
-                                $orderItemIds[] = $child->getProduct()->getId();
-                                $orderItemNames[] = $child->getName();
-
-                                $defaultItemIds[] = $child->getProduct()->getId();
-                                $defaultItemNames[] = $child->getName();
+                                $defaultAmount += $item->getBasePrice();
                             }
-                            // if ($childHasCommission) {
-                            // $orderItemIds[] = $item->getProduct()->getId();
-                            // $orderItemNames[] = $item->getName();
-                            // $defaultItemIds[] = $item->getProduct()->getId();
-                            // $defaultItemNames[] = $item->getName();
-                            // }
-                        } else {
-                            if ($this->_getConfigHelper()->getCommissionConfig('affiliate_type') == 'profit')
-                                $baseProfit = $item->getBasePrice() - $item->getBaseCost();
-                            else
-                                $baseProfit = $item->getBasePrice();
-                            $baseProfit = $item->getQtyOrdered() * $baseProfit - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
-                            if ($baseProfit <= 0)
-                                continue;
-                            //jack
-                                if($item->getProduct())
-                                        $inProductId = $item->getProduct()->getId();
-                                else
-                                        $inProductId = $item->getProductId();
-                            //
-                            $orderItemIds[] = $inProductId;
-                            $orderItemNames[] = $item->getName();
-
-                            $defaultItemIds[] = $inProductId;
-                            $defaultItemNames[] = $item->getName();
-
-                            if ($commissionType == 'fixed')
-                                $defaultCommission = min($item->getQtyOrdered() * $commissionValue, $baseProfit);
-                            elseif ($commissionType == 'percentage')
-                                $defaultCommission = $baseProfit * $commissionValue / 100;
-
-                            $commissionObj = new Varien_Object(array(
-                                'profit' => $baseProfit,
-                                'commission' => $defaultCommission,
-                                'tier_commission' => array(),
-                            ));
-                            Mage::dispatchEvent('affiliateplus_calculate_tier_commission', array(
-                                'item' => $item,
-                                'account' => $account,
-                                'commission_obj' => $commissionObj
-                            ));
-
-                            if ($commissionObj->getTierCommission())
-                                $tierCommissions[$item->getId()] = $commissionObj->getTierCommission();
-                            $commission += $commissionObj->getCommission();
-                            $item->setAffiliateplusCommission($commissionObj->getCommission());
-
-                            $defCommission += $commissionObj->getCommission();
-                            $defaultAmount += $item->getBasePrice();
                         }
                     }
-                }
 
-                if (!$baseDiscount && !$commission)
-                    return $this;
+                    if (!$baseDiscount && !$commission)
+                        return $this;
 
-                // $customer = Mage::getSingleton('customer/session')->getCustomer();
-                // Create transaction
-                $transactionData = array(
-                    'account_id' => $account->getId(),
-                    'account_name' => $account->getName(),
-                    'account_email' => $account->getEmail(),
-                    'customer_id' => $order->getCustomerId(), // $customer->getId(),
-                    'customer_email' => $order->getCustomerEmail(), // $customer->getEmail(),
-                    'order_id' => $order->getId(),
-                    'order_number' => $order->getIncrementId(),
-                    'order_item_ids' => implode(',', $orderItemIds),
-                    'order_item_names' => implode(',', $orderItemNames),
-                    'total_amount' => $order->getBaseSubtotal(),
-                    'discount' => $baseDiscount,
-                    'commission' => $commission,
-                    'created_time' => now(),
-                    'status' => '2',
-                    'store_id' => Mage::app()->getStore()->getId(),
-                    'extra_content' => $extraContent,
-                    'tier_commissions' => $tierCommissions,
-                    //'ratio'			=> $ratio,
-                    //'original_commission'	=> $originalCommission,
-                    'default_item_ids' => $defaultItemIds,
-                    'default_item_names' => $defaultItemNames,
-                    'default_commission' => $defCommission,
-                    'default_amount' => $defaultAmount,
-                    'type' => 3,
-                );
-                if ($account->getUsingCoupon()) {
-                    $session = Mage::getSingleton('checkout/session');
-                    $transactionData['coupon_code'] = $session->getData('affiliate_coupon_code');
-                    if ($program = $account->getUsingProgram()) {
-                        $transactionData['program_id'] = $program->getId();
-                        $transactionData['program_name'] = $program->getName();
-                    } else {
-                        $transactionData['program_id'] = 0;
-                        $transactionData['program_name'] = 'Affiliate Program';
+                    // $customer = Mage::getSingleton('customer/session')->getCustomer();
+                    // Create transaction
+                    $transactionData = array(
+                        'account_id' => $account->getId(),
+                        'account_name' => $account->getName(),
+                        'account_email' => $account->getEmail(),
+                        'customer_id' => $order->getCustomerId(), // $customer->getId(),
+                        'customer_email' => $order->getCustomerEmail(), // $customer->getEmail(),
+                        'order_id' => $order->getId(),
+                        'order_number' => $order->getIncrementId(),
+                        'order_item_ids' => implode(',', $orderItemIds),
+                        'order_item_names' => implode(',', $orderItemNames),
+                        'total_amount' => $order->getBaseSubtotal(),
+                        'discount' => $baseDiscount,
+                        'commission' => $commission,
+                        'created_time' => now(),
+                        'status' => '2',
+                        'store_id' => Mage::app()->getStore()->getId(),
+                        'extra_content' => $extraContent,
+                        'tier_commissions' => $tierCommissions,
+                        //'ratio'			=> $ratio,
+                        //'original_commission'	=> $originalCommission,
+                        'default_item_ids' => $defaultItemIds,
+                        'default_item_names' => $defaultItemNames,
+                        'default_commission' => $defCommission,
+                        'default_amount' => $defaultAmount,
+                        'type' => 3,
+                    );
+                    if ($account->getUsingCoupon()) {
+                        $session = Mage::getSingleton('checkout/session');
+                        $transactionData['coupon_code'] = $session->getData('affiliate_coupon_code');
+                        if ($program = $account->getUsingProgram()) {
+                            $transactionData['program_id'] = $program->getId();
+                            $transactionData['program_name'] = $program->getName();
+                        } else {
+                            $transactionData['program_id'] = 0;
+                            $transactionData['program_name'] = 'Affiliate Program';
+                        }
+                        $session->unsetData('affiliate_coupon_code');
+                        $session->unsetData('affiliate_coupon_data');
                     }
-                    $session->unsetData('affiliate_coupon_code');
-                    $session->unsetData('affiliate_coupon_data');
-                }
 
-                $transaction = Mage::getModel('affiliateplus/transaction')->setData($transactionData)->setId(null);
+                    $transaction = Mage::getModel('affiliateplus/transaction')->setData($transactionData)->setId(null);
 
-                Mage::dispatchEvent('affiliateplus_calculate_commission_after', array(
-                    'transaction' => $transaction,
-                    'order' => $order,
-                    'affiliate_info' => $affiliateInfo,
-                ));
-
-                try {
-                    $transaction->save();
-                    Mage::dispatchEvent('affiliateplus_recalculate_commission', array(
+                    Mage::dispatchEvent('affiliateplus_calculate_commission_after', array(
                         'transaction' => $transaction,
                         'order' => $order,
                         'affiliate_info' => $affiliateInfo,
                     ));
 
-                    if ($transaction->getIsChangedData())
+                    try {
                         $transaction->save();
-                    Mage::dispatchEvent('affiliateplus_created_transaction', array(
-                        'transaction' => $transaction,
-                        'order' => $order,
-                        'affiliate_info' => $affiliateInfo,
-                    ));
+                        Mage::dispatchEvent('affiliateplus_recalculate_commission', array(
+                            'transaction' => $transaction,
+                            'order' => $order,
+                            'affiliate_info' => $affiliateInfo,
+                        ));
 
-                    $transaction->sendMailNewTransactionToAccount();
-                    $transaction->sendMailNewTransactionToSales();
-                } catch (Exception $e) {
-                    // Exception
+                        if ($transaction->getIsChangedData())
+                            $transaction->save();
+                        Mage::dispatchEvent('affiliateplus_created_transaction', array(
+                            'transaction' => $transaction,
+                            'order' => $order,
+                            'affiliate_info' => $affiliateInfo,
+                        ));
+
+                        $transaction->sendMailNewTransactionToAccount();
+                        $transaction->sendMailNewTransactionToSales();
+                    } catch (Exception $e) {
+                        // Exception
+                    }
                 }
             }
-        }
     }
 
     // end by Sally
@@ -757,7 +768,7 @@ class Magestore_Affiliateplus_Model_Observer {
                 'commission_items' => array(),
                 'extra_content' => array(),
                 'tier_commissions' => array(),
-                //'affiliateplus_commission_item' => '',
+                    //'affiliateplus_commission_item' => '',
             ));
             Mage::dispatchEvent('affiliateplus_calculate_commission_before', array(
                 'order' => $order,
@@ -801,12 +812,12 @@ class Magestore_Affiliateplus_Model_Observer {
                 if ($item->getHasChildren() && $item->isChildrenCalculated()) {
 
                     foreach ($item->getChildrenItems() as $child) {
-                        $baseItemsPrice += $item->getQtyOrdered() * ($child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount());
+                        $baseItemsPrice += $item->getQtyOrdered() * ($child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount() - $child->getBaseAffiliateplusCredit() - $child->getRewardpointsBaseDiscount());
                         //$baseItemsPrice += $item->getQtyOrdered() * ($child->getQty() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount());
                     }
                 } elseif ($item->getProduct()) {
 
-                    $baseItemsPrice += $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+                    $baseItemsPrice += $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount() - $item->getBaseAffiliateplusCredit() - $item->getRewardpointsBaseDiscount();
                 }
             }
 
@@ -835,7 +846,7 @@ class Magestore_Affiliateplus_Model_Observer {
                                 $baseProfit = $child->getBasePrice() - $child->getBaseCost();
                             else
                                 $baseProfit = $child->getBasePrice();
-                            $baseProfit = $child->getQtyOrdered() * $baseProfit - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
+                            $baseProfit = $child->getQtyOrdered() * $baseProfit - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount() - $child->getBaseAffiliateplusCredit() - $child->getRewardpointsBaseDiscount();
                             if ($baseProfit <= 0)
                                 continue;
 
@@ -843,7 +854,7 @@ class Magestore_Affiliateplus_Model_Observer {
                             /* Changed By Adam: Commission for whole cart 22/07/2014 */
                             if ($commissionType == "cart_fixed") {
                                 $commissionValue = min($commissionValue, $baseItemsPrice);
-                                $itemPrice = $child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
+                                $itemPrice = $child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount() - $child->getBaseAffiliateplusCredit() - $child->getRewardpointsBaseDiscount();
                                 $itemCommission = $itemPrice * $commissionValue / $baseItemsPrice;
                                 $defaultCommission = min($itemPrice * $commissionValue / $baseItemsPrice, $baseProfit);
                             } elseif ($commissionType == 'fixed')
@@ -852,7 +863,7 @@ class Magestore_Affiliateplus_Model_Observer {
                                 $defaultCommission = $baseProfit * $commissionValue / 100;
 
                             // Changed By Adam 14/08/2014: Invoice tung phan
-                            $affiliateplusCommissionItem .= $defaultCommission.",";
+                            $affiliateplusCommissionItem .= $defaultCommission . ",";
                             $commissionObj = new Varien_Object(array(
                                 'profit' => $baseProfit,
                                 'commission' => $defaultCommission,
@@ -870,7 +881,7 @@ class Magestore_Affiliateplus_Model_Observer {
                                 $tierCommissions[$child->getId()] = $commissionObj->getTierCommission();
                             $commission += $commissionObj->getCommission();
                             $child->setAffiliateplusCommission($commissionObj->getCommission());
-                            
+
                             // Changed By Adam 14/08/2014: Invoice tung phan
                             $child->setAffiliateplusCommissionItem($commissionObj->getAffiliateplusCommissionItem());
 
@@ -894,14 +905,14 @@ class Magestore_Affiliateplus_Model_Observer {
                             $baseProfit = $item->getBasePrice() - $item->getBaseCost();
                         else
                             $baseProfit = $item->getBasePrice();
-                        $baseProfit = $item->getQtyOrdered() * $baseProfit - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+                        $baseProfit = $item->getQtyOrdered() * $baseProfit - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount() - $item->getBaseAffiliateplusCredit() - $item->getRewardpointsBaseDiscount();
                         if ($baseProfit <= 0)
                             continue;
                         //jack
-                            if($item->getProduct())
-                                    $inProductId = $item->getProduct()->getId();
-                            else
-                                    $inProductId = $item->getProductId();
+                        if ($item->getProduct())
+                            $inProductId = $item->getProduct()->getId();
+                        else
+                            $inProductId = $item->getProductId();
                         //
                         $orderItemIds[] = $inProductId;
                         $orderItemNames[] = $item->getName();
@@ -912,22 +923,22 @@ class Magestore_Affiliateplus_Model_Observer {
                         /* Changed BY Adam 22/07/2014 */
                         if ($commissionType == 'cart_fixed') {
                             $commissionValue = min($commissionValue, $baseItemsPrice);
-                            $itemPrice = $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+                            $itemPrice = $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount() - $item->getBaseAffiliateplusCredit() - $item->getRewardpointsBaseDiscount();
                             $itemCommission = $itemPrice * $commissionValue / $baseItemsPrice;
                             $defaultCommission = min($itemPrice * $commissionValue / $baseItemsPrice, $baseProfit);
                         } elseif ($commissionType == 'fixed')
                             $defaultCommission = min($item->getQtyOrdered() * $commissionValue, $baseProfit);
                         elseif ($commissionType == 'percentage')
                             $defaultCommission = $baseProfit * $commissionValue / 100;
-                        
+
                         // Changed By Adam 14/08/2014: Invoice tung phan
-                        $affiliateplusCommissionItem .= $defaultCommission.",";
+                        $affiliateplusCommissionItem .= $defaultCommission . ",";
                         $commissionObj = new Varien_Object(array(
                             'profit' => $baseProfit,
                             'commission' => $defaultCommission,
                             'tier_commission' => array(),
                             'base_item_price' => $baseItemsPrice, // Added By Adam 22/07/2014
-                            'affiliateplus_commission_item' => $affiliateplusCommissionItem,     // Added By Adam 14/08/2014
+                            'affiliateplus_commission_item' => $affiliateplusCommissionItem, // Added By Adam 14/08/2014
                         ));
                         Mage::dispatchEvent('affiliateplus_calculate_tier_commission', array(
                             'item' => $item,
@@ -945,7 +956,6 @@ class Magestore_Affiliateplus_Model_Observer {
                         $defCommission += $commissionObj->getCommission();
                         $defaultAmount += $item->getBasePrice();
                     }
-                    
                 }
             }
             if (!$baseDiscount && !$commission)
@@ -993,9 +1003,9 @@ class Magestore_Affiliateplus_Model_Observer {
                 $session->unsetData('affiliate_coupon_data');
             }
             //jack
-            else{
+            else {
                 $checkProgramByConfig = Mage::getStoreConfig('affiliateplus/program/enable');
-                if($checkProgramByConfig == 0 || !Mage::helper('core')->isModuleEnabled('Magestore_Affiliateplusprogram')){
+                if ($checkProgramByConfig == 0 || !Mage::helper('core')->isModuleEnabled('Magestore_Affiliateplusprogram')) {
                     $transactionData['program_id'] = 0;
                     $transactionData['program_name'] = 'Affiliate Program';
                 }
@@ -1051,6 +1061,7 @@ class Magestore_Affiliateplus_Model_Observer {
     }
 
     /* create new transaction when submit order and edit order - Edit By Jack */
+
     public function createNewTransaction($order) {
         // Changed By Adam 28/07/2014
         if (!Mage::helper('affiliateplus')->isAffiliateModuleEnabled())
@@ -1060,19 +1071,19 @@ class Magestore_Affiliateplus_Model_Observer {
         $customerEmail = $currentOrderEdit->getCustomerEmail();
         $originalIncrementId = $currentOrderEdit->getIncrementId();
         $transactionAffiliate = Mage::getModel('affiliateplus/transaction')
-                                            ->getCollection()
-                                            ->addFieldToFilter('order_number',$originalIncrementId)
-                                            ->getFirstItem();  
+                ->getCollection()
+                ->addFieldToFilter('order_number', $originalIncrementId)
+                ->getFirstItem();
         /* process code in the case :  life time affiliate Edit By Jack */
-        $account = '';   
+        $account = '';
         $lifeTimeAff = false;
-        
+
         // Changed By Adam 15/10/2014: 2014-10-15T07:59:02+00:00 ERR (3): Notice: Undefined variable: couponCode  in C:\xampp\htdocs\project\magento1.5.0.1\app\code\local\Magestore\Affiliateplus\Model\Observer.php on line 1077
         $couponCode = Mage::getSingleton('checkout/session')->getData('affiliate_coupon_code');
         $isEnableCouponPlugin = Mage::helper('core')->isModuleEnabled('Magestore_Affiliatepluscoupon');
         $affiliateInfo = Mage::helper('affiliateplus/cookie')->getAffiliateInfo();
-        
-        if(!$orderId){  // when create a new order
+
+        if (!$orderId) {  // when create a new order
             // life time
             $customerOrderId = $order->getCustomerId();
             $accountAndProgramData = Mage::helper('affiliateplus')->getAccountAndProgramData($customerOrderId);
@@ -1080,273 +1091,203 @@ class Magestore_Affiliateplus_Model_Observer {
             $programName = $accountAndProgramData->getProgramName();
             $lifeTimeAff = $accountAndProgramData->getLifetimeAff();
             $account = $accountAndProgramData->getAccount();
-        }
-        else {  // when edit order
-                if((!$couponCode && $transactionAffiliate->getCouponCode()) || !$isEnableCouponPlugin){  
-                /* when remove coupon of old order or un-enable coupon plugin */    
-                    $accountAndProgramData = new Varien_Object(array(
-                   'program_id' => '',
-                   'program_name' => '',
-                   'account' => $account,
-                   'lifetime_aff' => $lifeTimeAff,
-                   ));
-                   $customerOrderId = $order->getCustomerId();
-                   $accountAndProgramData = Mage::helper('affiliateplus')->getAccountAndProgramData($customerOrderId);
-                   $account = $accountAndProgramData->getAccount();
-                   if($account){  // life time
-                       $programId = $accountAndProgramData->getProgramId();
-                       $programName = $accountAndProgramData->getProgramName();
-                       $lifeTimeAff = $accountAndProgramData->getLifetimeAff(); 
-                   }
-                   else{  // not life time
-                       // get information from old order
-                        $accountIdByTransaction = $transactionAffiliate->getAccountId();
-                        $account = Mage::getModel('affiliateplus/account')->load($accountIdByTransaction);
-                        $programId = $transactionAffiliate->getProgramId();
-                        $programName = $transactionAffiliate->getProgramName();
-                        if(!$programId && !$programName){
+        } else {  // when edit order
+            if ((!$couponCode && $transactionAffiliate->getCouponCode()) || !$isEnableCouponPlugin) {
+                /* when remove coupon of old order or un-enable coupon plugin */
+                $accountAndProgramData = new Varien_Object(array(
+                    'program_id' => '',
+                    'program_name' => '',
+                    'account' => $account,
+                    'lifetime_aff' => $lifeTimeAff,
+                ));
+                $customerOrderId = $order->getCustomerId();
+                $accountAndProgramData = Mage::helper('affiliateplus')->getAccountAndProgramData($customerOrderId);
+                $account = $accountAndProgramData->getAccount();
+                if ($account) {  // life time
+                    $programId = $accountAndProgramData->getProgramId();
+                    $programName = $accountAndProgramData->getProgramName();
+                    $lifeTimeAff = $accountAndProgramData->getLifetimeAff();
+                } else {  // not life time
+                    // get information from old order
+                    $accountIdByTransaction = $transactionAffiliate->getAccountId();
+                    $account = Mage::getModel('affiliateplus/account')->load($accountIdByTransaction);
+                    $programId = $transactionAffiliate->getProgramId();
+                    $programName = $transactionAffiliate->getProgramName();
+                    if (!$programId && !$programName) {
                         // if program id = null and program = null =>  get information from session    
-                            $programData = Mage::getSingleton('checkout/session')->getProgramData();
-                             if($programData){
-                                $programId = $programData->getData('program_id');
-                                $programName = $programData->getData('name');
-                             }
-                        }
-                   }
-              }
-                else{
-                    $programData = Mage::getSingleton('checkout/session')->getProgramData();
-                    if (!$couponCode) {
-                        if($programData){
+                        $programData = Mage::getSingleton('checkout/session')->getProgramData();
+                        if ($programData) {
                             $programId = $programData->getData('program_id');
                             $programName = $programData->getData('name');
                         }
-                        $accountIdByTransaction = $transactionAffiliate->getAccountId();
-                        $account = Mage::getModel('affiliateplus/account')->load($accountIdByTransaction);
                     }
                 }
+            } else {
+                $programData = Mage::getSingleton('checkout/session')->getProgramData();
+                if (!$couponCode) {
+                    if ($programData) {
+                        $programId = $programData->getData('program_id');
+                        $programName = $programData->getData('name');
+                    }
+                    $accountIdByTransaction = $transactionAffiliate->getAccountId();
+                    $account = Mage::getModel('affiliateplus/account')->load($accountIdByTransaction);
+                }
             }
+        }
         /* end process code */
 
-            $baseDiscount = $order->getBaseAffiliateplusDiscount();
-            //$maxCommission = $order->getBaseGrandTotal() - $order->getBaseShippingAmount();
-            // Before calculate commission
-            $commissionObj = new Varien_Object(array(
-                'commission' => 0,
-                'default_commission' => true,
-                'order_item_ids' => array(),
-                'order_item_names' => array(),
-                'commission_items' => array(),
-                'extra_content' => array(),
-                'tier_commissions' => array(),
-            ));
-            if(!$isEnableCouponPlugin || !Mage::helper('core')->isModuleEnabled('Magestore_Affiliatepluscoupon'))
-            {
-                 $session = Mage::getSingleton('checkout/session');
-                 $session->unsAffiliateCouponCode();
-            }
-            if ($couponCode && $isEnableCouponPlugin) {
-                $affiliateInfo = Mage::helper('affiliateplus/cookie')->getAffiliateInfo();
-                foreach ($affiliateInfo as $info)
+        $baseDiscount = $order->getBaseAffiliateplusDiscount();
+        //$maxCommission = $order->getBaseGrandTotal() - $order->getBaseShippingAmount();
+        // Before calculate commission
+        $commissionObj = new Varien_Object(array(
+            'commission' => 0,
+            'default_commission' => true,
+            'order_item_ids' => array(),
+            'order_item_names' => array(),
+            'commission_items' => array(),
+            'extra_content' => array(),
+            'tier_commissions' => array(),
+        ));
+        if (!$isEnableCouponPlugin || !Mage::helper('core')->isModuleEnabled('Magestore_Affiliatepluscoupon')) {
+            $session = Mage::getSingleton('checkout/session');
+            $session->unsAffiliateCouponCode();
+        }
+        if ($couponCode && $isEnableCouponPlugin) {
+            $affiliateInfo = Mage::helper('affiliateplus/cookie')->getAffiliateInfo();
+            foreach ($affiliateInfo as $info)
                 if ($info['account']) {
                     $account = $info['account'];
                     break;
                 }
-                if($account->getUsingCoupon()){
-                    $program = $account->getUsingProgram();
-                    if($program){
-                        $programId = $program->getId();
-                        $programName = $program->getName();
-                    }
-                    else{
-                        $programId = 0;
-                        $programName = 'Affiliate Program';
-                    }
-                }
-            }
-            if(!$account)
-                return $this;
-              // Log affiliate tracking referal - only when has sales
-            if ($this->_getConfigHelper()->getCommissionConfig('life_time_sales')) {
-                $tracksCollection = Mage::getResourceModel('affiliateplus/tracking_collection');
-                if ($order->getCustomerId()) {
-                    $tracksCollection->getSelect()
-                            ->where("customer_id = {$order->getCustomerId()} OR customer_email = ?", $order->getCustomerEmail());
+            if ($account->getUsingCoupon()) {
+                $program = $account->getUsingProgram();
+                if ($program) {
+                    $programId = $program->getId();
+                    $programName = $program->getName();
                 } else {
-                    $tracksCollection->addFieldToFilter('customer_email', $order->getCustomerEmail());
-                }
-                if (!$tracksCollection->getSize()) {
-                    try {
-                        Mage::getModel('affiliateplus/tracking')->setData(array(
-                            'account_id' => $account->getId(),
-                            'customer_id' => $order->getCustomerId(),
-                            'customer_email' => $order->getCustomerEmail(),
-                            'created_time' => now()
-                        ))->save();
-                    } catch (Exception $e) {
-                        
-                    }
+                    $programId = 0;
+                    $programName = 'Affiliate Program';
                 }
             }
-            Mage::dispatchEvent('affiliateplus_calculate_commission_before_edit', array(
-                   'order' => $order,
-                   'program_id' => $programId,
-                   'commission_obj' => $commissionObj,
-                   'account' => $account,
-             ));
-            $storeId = Mage::getSingleton('adminhtml/session_quote')->getStoreId();
-            $commissionType = $this->_getConfigHelper()->getCommissionConfig('commission_type',$storeId);
-            $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('commission',$storeId));
-            if (($orderId && Mage::helper('affiliateplus/cookie')->getNumberOrdered() > 1) || (!$orderId && Mage::helper('affiliateplus/cookie')->getNumberOrdered())) {
-                if ($this->_getConfigHelper()->getCommissionConfig('use_secondary',$storeId)) {
-                    $commissionType = $this->_getConfigHelper()->getCommissionConfig('secondary_type',$storeId);
-                    $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('secondary_commission',$storeId));
+        }
+        if (!$account)
+            return $this;
+        // Log affiliate tracking referal - only when has sales
+        if ($this->_getConfigHelper()->getCommissionConfig('life_time_sales')) {
+            $tracksCollection = Mage::getResourceModel('affiliateplus/tracking_collection');
+            if ($order->getCustomerId()) {
+                $tracksCollection->getSelect()
+                        ->where("customer_id = {$order->getCustomerId()} OR customer_email = ?", $order->getCustomerEmail());
+            } else {
+                $tracksCollection->addFieldToFilter('customer_email', $order->getCustomerEmail());
+            }
+            if (!$tracksCollection->getSize()) {
+                try {
+                    Mage::getModel('affiliateplus/tracking')->setData(array(
+                        'account_id' => $account->getId(),
+                        'customer_id' => $order->getCustomerId(),
+                        'customer_email' => $order->getCustomerEmail(),
+                        'created_time' => now()
+                    ))->save();
+                } catch (Exception $e) {
+                    
                 }
             }
-            $commission = $commissionObj->getCommission();
-            $orderItemIds = $commissionObj->getOrderItemIds();
-            $orderItemNames = $commissionObj->getOrderItemNames();
-            $commissionItems = $commissionObj->getCommissionItems();
-            $extraContent = $commissionObj->getExtraContent();
-            $tierCommissions = $commissionObj->getTierCommissions();
+        }
+        Mage::dispatchEvent('affiliateplus_calculate_commission_before_edit', array(
+            'order' => $order,
+            'program_id' => $programId,
+            'commission_obj' => $commissionObj,
+            'account' => $account,
+        ));
+        $storeId = Mage::getSingleton('adminhtml/session_quote')->getStoreId();
+        $commissionType = $this->_getConfigHelper()->getCommissionConfig('commission_type', $storeId);
+        $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('commission', $storeId));
+        if (($orderId && Mage::helper('affiliateplus/cookie')->getNumberOrdered() > 1) || (!$orderId && Mage::helper('affiliateplus/cookie')->getNumberOrdered())) {
+            if ($this->_getConfigHelper()->getCommissionConfig('use_secondary', $storeId)) {
+                $commissionType = $this->_getConfigHelper()->getCommissionConfig('secondary_type', $storeId);
+                $commissionValue = floatval($this->_getConfigHelper()->getCommissionConfig('secondary_commission', $storeId));
+            }
+        }
+        $commission = $commissionObj->getCommission();
+        $orderItemIds = $commissionObj->getOrderItemIds();
+        $orderItemNames = $commissionObj->getOrderItemNames();
+        $commissionItems = $commissionObj->getCommissionItems();
+        $extraContent = $commissionObj->getExtraContent();
+        $tierCommissions = $commissionObj->getTierCommissions();
 
-            $defaultItemIds = array();
-            $defaultItemNames = array();
-            $defaultAmount = 0;
-            $defCommission = 0;
-             /* set Condition Edit By Jack */
-                // if(isset($count) && $count == 0 && count($extraContent) == 0)
-                  //  return $this;
-             /* */
-            /* Changed By Adam to customize function: Commission for whole cart 22/07/2014 */
-            // Calculate the total price of items ~~ baseSubtotal
-            $baseItemsPrice = 0;
+        $defaultItemIds = array();
+        $defaultItemNames = array();
+        $defaultAmount = 0;
+        $defCommission = 0;
+        /* set Condition Edit By Jack */
+        // if(isset($count) && $count == 0 && count($extraContent) == 0)
+        //  return $this;
+        /* */
+        /* Changed By Adam to customize function: Commission for whole cart 22/07/2014 */
+        // Calculate the total price of items ~~ baseSubtotal
+        $baseItemsPrice = 0;
+        foreach ($order->getAllItems() as $item) {
+            if ($item->getParentItemId()) {
+                continue;
+            }
+
+            // Kiem tra xem item da tinh trong program nao chua, neu roi thi ko tinh nua
+            if (in_array($item->getId(), $commissionItems)) {
+                continue;
+            }
+            if ($item->getHasChildren() && $item->isChildrenCalculated()) {
+
+                foreach ($item->getChildrenItems() as $child) {
+                    $baseItemsPrice += $item->getQtyOrdered() * ($child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount());
+                    //$baseItemsPrice += $item->getQtyOrdered() * ($child->getQty() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount());
+                }
+            } elseif ($item->getProduct()) {
+
+                $baseItemsPrice += $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+            }
+        }
+        if ($commissionValue && $commissionObj->getDefaultCommission()) {
+            if ($commissionType == 'percentage') {
+                if ($commissionValue > 100)
+                    $commissionValue = 100;
+                if ($commissionValue < 0)
+                    $commissionValue = 0;
+            }
+
             foreach ($order->getAllItems() as $item) {
+                $affiliateplusCommissionItem = '';
                 if ($item->getParentItemId()) {
                     continue;
                 }
-
-                // Kiem tra xem item da tinh trong program nao chua, neu roi thi ko tinh nua
                 if (in_array($item->getId(), $commissionItems)) {
                     continue;
                 }
+
                 if ($item->getHasChildren() && $item->isChildrenCalculated()) {
-
+                    // $childHasCommission = false;
                     foreach ($item->getChildrenItems() as $child) {
-                        $baseItemsPrice += $item->getQtyOrdered() * ($child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount());
-                        //$baseItemsPrice += $item->getQtyOrdered() * ($child->getQty() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount());
-                    }
-                } elseif ($item->getProduct()) {
-
-                    $baseItemsPrice += $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
-                }
-            }
-            if ($commissionValue && $commissionObj->getDefaultCommission()) {
-                if ($commissionType == 'percentage') {
-                    if ($commissionValue > 100)
-                        $commissionValue = 100;
-                    if ($commissionValue < 0)
-                        $commissionValue = 0;
-                }
-
-                foreach ($order->getAllItems() as $item) {
-                    $affiliateplusCommissionItem = '';
-                    if ($item->getParentItemId()) {
-                        continue;
-                    }
-                    if (in_array($item->getId(), $commissionItems)) {
-                        continue;
-                    }
-
-                    if ($item->getHasChildren() && $item->isChildrenCalculated()) {
-                        // $childHasCommission = false;
-                        foreach ($item->getChildrenItems() as $child) {
-                            $affiliateplusCommissionItem = '';
-                            if ($this->_getConfigHelper()->getCommissionConfig('affiliate_type') == 'profit')
-                                $baseProfit = $child->getBasePrice() - $child->getBaseCost();
-                            else
-                                $baseProfit = $child->getBasePrice();
-                            $baseProfit = $child->getQtyOrdered() * $baseProfit - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
-                            if ($baseProfit <= 0)
-                                continue;
-
-                            // $childHasCommission = true;
-                            /* Changed By Adam: Commission for whole cart 22/07/2014 */
-                            if ($commissionType == "cart_fixed") {
-                                $commissionValue = min($commissionValue, $baseItemsPrice);
-                                $itemPrice = $child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
-                                $itemCommission = $itemPrice * $commissionValue / $baseItemsPrice;
-                                $defaultCommission = min($itemPrice * $commissionValue / $baseItemsPrice, $baseProfit);
-                            } elseif ($commissionType == 'fixed')
-                                $defaultCommission = min($child->getQtyOrdered() * $commissionValue, $baseProfit);
-                            elseif ($commissionType == 'percentage')
-                                $defaultCommission = $baseProfit * $commissionValue / 100;
-                            $affiliateplusCommissionItem .= $defaultCommission.",";
-                            $commissionObj = new Varien_Object(array(
-                                'profit' => $baseProfit,
-                                'commission' => $defaultCommission,
-                                'tier_commission' => array(),
-                                'base_item_price' => $baseItemsPrice, // Added By Adam 22/07/2014
-                                'affiliateplus_commission_item' => $affiliateplusCommissionItem,
-                            ));
-                            Mage::dispatchEvent('affiliateplus_calculate_tier_commission', array(
-                                'item' => $child,
-                                'account' => $account,
-                                'commission_obj' => $commissionObj
-                            ));
-
-                            if ($commissionObj->getTierCommission())
-                                $tierCommissions[$child->getId()] = $commissionObj->getTierCommission();
-                            $commission += $commissionObj->getCommission();
-                            $child->setAffiliateplusCommission($commissionObj->getCommission());
-                            $child->setAffiliateplusCommissionItem($commissionObj->getAffiliateplusCommissionItem());
-                            $defCommission += $commissionObj->getCommission();
-                            $defaultAmount += $child->getBasePrice();
-                            // Changed by Adam 15/10/2014
-                            // $orderItemIds[] = $child->getProduct()->getId();
-                            $orderItemIds[] = $child->getProductId();
-                            $orderItemNames[] = $child->getName();
-                            // Changed by Adam 15/10/2014
-                            // $defaultItemIds[] = $child->getProduct()->getId();
-                            $defaultItemIds[] = $child->getProductId();
-                            $defaultItemNames[] = $child->getName();
-                        }
-                        // if ($childHasCommission) {
-                        // $orderItemIds[] = $item->getProduct()->getId();
-                        // $orderItemNames[] = $item->getName();
-                        // $defaultItemIds[] = $item->getProduct()->getId();
-                        // $defaultItemNames[] = $item->getName();
-                        // }
-                    } else {
+                        $affiliateplusCommissionItem = '';
                         if ($this->_getConfigHelper()->getCommissionConfig('affiliate_type') == 'profit')
-                            $baseProfit = $item->getBasePrice() - $item->getBaseCost();
+                            $baseProfit = $child->getBasePrice() - $child->getBaseCost();
                         else
-                            $baseProfit = $item->getBasePrice();
-                      //Zend_Debug::dump($item->getBaseAffiliateplusAmount());die;
-                        $baseProfit = $item->getQtyOrdered() * $baseProfit - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+                            $baseProfit = $child->getBasePrice();
+                        $baseProfit = $child->getQtyOrdered() * $baseProfit - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
                         if ($baseProfit <= 0)
                             continue;
 
-                        // Changed by Adam 15/10/2014: Call to a member function getId() on a non-object in C:\xampp\htdocs\project\magento1.5.0.1\app\code\local\Magestore\Affiliateplus\Model\Observer.php on line 1315
-                        // $orderItemIds[] = $item->getProduct()->getId();
-                        $orderItemIds[] = $item->getProduct() ? $item->getProduct()->getId() : $item->getProductId();
-                        $orderItemNames[] = $item->getName();
-                        
-                        // Changed by Adam 15/10/2014
-                        $defaultItemIds[] = $item->getProduct() ? $item->getProduct()->getId() : $item->getProductId();
-                        $defaultItemNames[] = $item->getName();
-
-                        /* Changed BY Adam 22/07/2014 */
-                        if ($commissionType == 'cart_fixed') {
+                        // $childHasCommission = true;
+                        /* Changed By Adam: Commission for whole cart 22/07/2014 */
+                        if ($commissionType == "cart_fixed") {
                             $commissionValue = min($commissionValue, $baseItemsPrice);
-                            $itemPrice = $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+                            $itemPrice = $child->getQtyOrdered() * $child->getBasePrice() - $child->getBaseDiscountAmount() - $child->getBaseAffiliateplusAmount();
                             $itemCommission = $itemPrice * $commissionValue / $baseItemsPrice;
                             $defaultCommission = min($itemPrice * $commissionValue / $baseItemsPrice, $baseProfit);
                         } elseif ($commissionType == 'fixed')
-                            $defaultCommission = min($item->getQtyOrdered() * $commissionValue, $baseProfit);
+                            $defaultCommission = min($child->getQtyOrdered() * $commissionValue, $baseProfit);
                         elseif ($commissionType == 'percentage')
                             $defaultCommission = $baseProfit * $commissionValue / 100;
-                        $affiliateplusCommissionItem .= $defaultCommission.",";
+                        $affiliateplusCommissionItem .= $defaultCommission . ",";
                         $commissionObj = new Varien_Object(array(
                             'profit' => $baseProfit,
                             'commission' => $defaultCommission,
@@ -1355,89 +1296,155 @@ class Magestore_Affiliateplus_Model_Observer {
                             'affiliateplus_commission_item' => $affiliateplusCommissionItem,
                         ));
                         Mage::dispatchEvent('affiliateplus_calculate_tier_commission', array(
-                            'item' => $item,
+                            'item' => $child,
                             'account' => $account,
                             'commission_obj' => $commissionObj
                         ));
 
                         if ($commissionObj->getTierCommission())
-                            $tierCommissions[$item->getId()] = $commissionObj->getTierCommission();
+                            $tierCommissions[$child->getId()] = $commissionObj->getTierCommission();
                         $commission += $commissionObj->getCommission();
-                        $item->setAffiliateplusCommission($commissionObj->getCommission());
-                        // Changed By Adam 14/08/2014: Invoice tung phan
-                        $item->setAffiliateplusCommissionItem($commissionObj->getAffiliateplusCommissionItem());
+                        $child->setAffiliateplusCommission($commissionObj->getCommission());
+                        $child->setAffiliateplusCommissionItem($commissionObj->getAffiliateplusCommissionItem());
                         $defCommission += $commissionObj->getCommission();
-                        $defaultAmount += $item->getBasePrice();
+                        $defaultAmount += $child->getBasePrice();
+                        // Changed by Adam 15/10/2014
+                        // $orderItemIds[] = $child->getProduct()->getId();
+                        $orderItemIds[] = $child->getProductId();
+                        $orderItemNames[] = $child->getName();
+                        // Changed by Adam 15/10/2014
+                        // $defaultItemIds[] = $child->getProduct()->getId();
+                        $defaultItemIds[] = $child->getProductId();
+                        $defaultItemNames[] = $child->getName();
                     }
-                }
-            }
-             /* if remove coupon, then return Edit By Jack */
-            $currentCouponCode = $transactionAffiliate->getCouponCode();
-            if(($currentCouponCode && !Mage::getSingleton('checkout/session')->getData('affiliate_coupon_code') && !$baseDiscount) || $account->getStatus() == 2)
-                $commission = 0;
-            //set Commission Value
-            Mage::getSingleton('adminhtml/session_quote')->setCommission($commission);
-            /* end if */
-            if (!$baseDiscount && !$commission)
-                return $this;
-            // Create transaction 
-            $storeId = Mage::getSingleton('adminhtml/session_quote')->getStore()->getId();
-                $transactionData = array(
-                    'account_id' => $account->getId(),
-                    'account_name' => $account->getName(),
-                    'account_email' => $account->getEmail(),
-                    'customer_id' => $order->getCustomerId(), // $customer->getId(),
-                    'customer_email' => $order->getCustomerEmail(), // $customer->getEmail(),
-                    'order_id' => $order->getId(),
-                    'order_number' => $order->getIncrementId(),
-                    'order_item_ids' => implode(',', $orderItemIds),
-                    'order_item_names' => implode(',', $orderItemNames),
-                    'total_amount' => $order->getBaseSubtotal(),
-                    'discount' => $baseDiscount,
-                    'commission' => $commission,
-                    'created_time' => now(),
-                    'status' => '2',
-                    'store_id' => $storeId,
-                    'extra_content' => $extraContent,
-                    'tier_commissions' => $tierCommissions,
-                    'default_item_ids' => $defaultItemIds,
-                    'default_item_names' => $defaultItemNames,
-                    'default_commission' => $defCommission,
-                    'default_amount' => $defaultAmount,
-                    'type' => 3,
-                    'program_id' => $programId,
-                    'program_name' => $programName,
-                    'coupon_code' => Mage::getSingleton('checkout/session')->getData('affiliate_coupon_code'),
-                );
-            $transaction = Mage::getModel('affiliateplus/transaction')->setData($transactionData)->setId(null);
-            $transactionLatest = Mage::getModel('affiliateplus/transaction')
-                            ->getCollection()->getLastItem();
+                    // if ($childHasCommission) {
+                    // $orderItemIds[] = $item->getProduct()->getId();
+                    // $orderItemNames[] = $item->getName();
+                    // $defaultItemIds[] = $item->getProduct()->getId();
+                    // $defaultItemNames[] = $item->getName();
+                    // }
+                } else {
+                    if ($this->_getConfigHelper()->getCommissionConfig('affiliate_type') == 'profit')
+                        $baseProfit = $item->getBasePrice() - $item->getBaseCost();
+                    else
+                        $baseProfit = $item->getBasePrice();
+                    //Zend_Debug::dump($item->getBaseAffiliateplusAmount());die;
+                    $baseProfit = $item->getQtyOrdered() * $baseProfit - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+                    if ($baseProfit <= 0)
+                        continue;
 
-            try {
-                if ($transactionLatest->getOrderNumber() != $transactionData['order_number']) {
-                    $transaction->save();
-                    if ($transaction->getIsChangedData())
-                        $transaction->save();
-                    if(!$affiliateInfo)
-                        $affiliateInfo = '';
-                    Mage::dispatchEvent('affiliateplus_recalculate_commission', array(
-                        'transaction' => $transaction,
-                        'order' => $order,
-                        'affiliate_info' => $affiliateInfo,
+                    // Changed by Adam 15/10/2014: Call to a member function getId() on a non-object in C:\xampp\htdocs\project\magento1.5.0.1\app\code\local\Magestore\Affiliateplus\Model\Observer.php on line 1315
+                    // $orderItemIds[] = $item->getProduct()->getId();
+                    $orderItemIds[] = $item->getProduct() ? $item->getProduct()->getId() : $item->getProductId();
+                    $orderItemNames[] = $item->getName();
+
+                    // Changed by Adam 15/10/2014
+                    $defaultItemIds[] = $item->getProduct() ? $item->getProduct()->getId() : $item->getProductId();
+                    $defaultItemNames[] = $item->getName();
+
+                    /* Changed BY Adam 22/07/2014 */
+                    if ($commissionType == 'cart_fixed') {
+                        $commissionValue = min($commissionValue, $baseItemsPrice);
+                        $itemPrice = $item->getQtyOrdered() * $item->getBasePrice() - $item->getBaseDiscountAmount() - $item->getBaseAffiliateplusAmount();
+                        $itemCommission = $itemPrice * $commissionValue / $baseItemsPrice;
+                        $defaultCommission = min($itemPrice * $commissionValue / $baseItemsPrice, $baseProfit);
+                    } elseif ($commissionType == 'fixed')
+                        $defaultCommission = min($item->getQtyOrdered() * $commissionValue, $baseProfit);
+                    elseif ($commissionType == 'percentage')
+                        $defaultCommission = $baseProfit * $commissionValue / 100;
+                    $affiliateplusCommissionItem .= $defaultCommission . ",";
+                    $commissionObj = new Varien_Object(array(
+                        'profit' => $baseProfit,
+                        'commission' => $defaultCommission,
+                        'tier_commission' => array(),
+                        'base_item_price' => $baseItemsPrice, // Added By Adam 22/07/2014
+                        'affiliateplus_commission_item' => $affiliateplusCommissionItem,
                     ));
-                    Mage::dispatchEvent('affiliateplus_created_transaction', array(
-                        'transaction' => $transaction,
-                        'order' => $order,
+                    Mage::dispatchEvent('affiliateplus_calculate_tier_commission', array(
+                        'item' => $item,
+                        'account' => $account,
+                        'commission_obj' => $commissionObj
                     ));
-                    $transaction->sendMailNewTransactionToAccount();
-                    $transaction->sendMailNewTransactionToSales();
+
+                    if ($commissionObj->getTierCommission())
+                        $tierCommissions[$item->getId()] = $commissionObj->getTierCommission();
+                    $commission += $commissionObj->getCommission();
+                    $item->setAffiliateplusCommission($commissionObj->getCommission());
+                    // Changed By Adam 14/08/2014: Invoice tung phan
+                    $item->setAffiliateplusCommissionItem($commissionObj->getAffiliateplusCommissionItem());
+                    $defCommission += $commissionObj->getCommission();
+                    $defaultAmount += $item->getBasePrice();
                 }
-            } catch (Exception $e) {
-                // Exception
             }
+        }
+        /* if remove coupon, then return Edit By Jack */
+        $currentCouponCode = $transactionAffiliate->getCouponCode();
+        if (($currentCouponCode && !Mage::getSingleton('checkout/session')->getData('affiliate_coupon_code') && !$baseDiscount) || $account->getStatus() == 2)
+            $commission = 0;
+        //set Commission Value
+        Mage::getSingleton('adminhtml/session_quote')->setCommission($commission);
+        /* end if */
+        if (!$baseDiscount && !$commission)
+            return $this;
+        // Create transaction 
+        $storeId = Mage::getSingleton('adminhtml/session_quote')->getStore()->getId();
+        $transactionData = array(
+            'account_id' => $account->getId(),
+            'account_name' => $account->getName(),
+            'account_email' => $account->getEmail(),
+            'customer_id' => $order->getCustomerId(), // $customer->getId(),
+            'customer_email' => $order->getCustomerEmail(), // $customer->getEmail(),
+            'order_id' => $order->getId(),
+            'order_number' => $order->getIncrementId(),
+            'order_item_ids' => implode(',', $orderItemIds),
+            'order_item_names' => implode(',', $orderItemNames),
+            'total_amount' => $order->getBaseSubtotal(),
+            'discount' => $baseDiscount,
+            'commission' => $commission,
+            'created_time' => now(),
+            'status' => '2',
+            'store_id' => $storeId,
+            'extra_content' => $extraContent,
+            'tier_commissions' => $tierCommissions,
+            'default_item_ids' => $defaultItemIds,
+            'default_item_names' => $defaultItemNames,
+            'default_commission' => $defCommission,
+            'default_amount' => $defaultAmount,
+            'type' => 3,
+            'program_id' => $programId,
+            'program_name' => $programName,
+            'coupon_code' => Mage::getSingleton('checkout/session')->getData('affiliate_coupon_code'),
+        );
+        $transaction = Mage::getModel('affiliateplus/transaction')->setData($transactionData)->setId(null);
+        $transactionLatest = Mage::getModel('affiliateplus/transaction')
+                        ->getCollection()->getLastItem();
+
+        try {
+            if ($transactionLatest->getOrderNumber() != $transactionData['order_number']) {
+                $transaction->save();
+                if ($transaction->getIsChangedData())
+                    $transaction->save();
+                if (!$affiliateInfo)
+                    $affiliateInfo = '';
+                Mage::dispatchEvent('affiliateplus_recalculate_commission', array(
+                    'transaction' => $transaction,
+                    'order' => $order,
+                    'affiliate_info' => $affiliateInfo,
+                ));
+                Mage::dispatchEvent('affiliateplus_created_transaction', array(
+                    'transaction' => $transaction,
+                    'order' => $order,
+                ));
+                $transaction->sendMailNewTransactionToAccount();
+                $transaction->sendMailNewTransactionToSales();
+            }
+        } catch (Exception $e) {
+            // Exception
+        }
     }
 
     /* end create new transaction  */
+
     public function orderSaveAfter($observer) {
         // Changed By Adam 28/07/2014
         if (!Mage::helper('affiliateplus')->isAffiliateModuleEnabled())
@@ -1447,7 +1454,7 @@ class Magestore_Affiliateplus_Model_Observer {
 
         // Return money on affiliate balance
         if ($order->getData('state') == Mage_Sales_Model_Order::STATE_CANCELED) {
-            
+
             $paymentMethod = Mage::getModel('affiliateplus/payment_credit')->load($order->getId(), 'order_id');
             if ($paymentMethod->getId() && $paymentMethod->getBasePaidAmount() - $paymentMethod->getBaseRefundAmount() > 0
             ) {
@@ -1474,9 +1481,9 @@ class Magestore_Affiliateplus_Model_Observer {
 
         $configOrderStatus = $this->_getConfigHelper()->getCommissionConfig('updatebalance_orderstatus', $storeId);
         $configOrderStatus = $configOrderStatus ? $configOrderStatus : 'processing';
-        
+
         if ($order->getStatus() == $configOrderStatus) {
-            
+
 //            die(1);
             $transaction = Mage::getModel('affiliateplus/transaction')->load($order->getIncrementId(), 'order_number');
             // Complete Transaction or hold transaction
@@ -1487,17 +1494,17 @@ class Magestore_Affiliateplus_Model_Observer {
         }
         $cancelStatus = explode(',', $this->_getConfigHelper()->getCommissionConfig('cancel_transaction_orderstatus', $storeId));
         if (in_array($order->getStatus(), $cancelStatus)) {
-            
+
 //                die(2);
             $transaction = Mage::getModel('affiliateplus/transaction')->load($order->getIncrementId(), 'order_number');
             // Cancel Transaction
             return $transaction->cancel();
         }
-        
+
         /* call back function createNewTransaction() - Edit By Jack */
         $actionName = Mage::app()->getRequest()->getActionName();
         $controllerName = Mage::app()->getRequest()->getControllerName();
-        if(($actionName == 'cancel' && $controllerName == 'sales_order') || ($actionName == 'save' && $controllerName == 'sales_order_invoice')|| ($actionName == 'save' && $controllerName == 'sales_order_shipment'))
+        if (($actionName == 'cancel' && $controllerName == 'sales_order') || ($actionName == 'save' && $controllerName == 'sales_order_invoice') || ($actionName == 'save' && $controllerName == 'sales_order_shipment'))
             return $this;
         if (Mage::helper('affiliateplus')->isAdmin())
             $this->createNewTransaction($order);
@@ -1513,6 +1520,7 @@ class Magestore_Affiliateplus_Model_Observer {
             if ($paypalCart) {
                 $salesEntity = $paypalCart->getSalesEntity();
                 $totalDiscount = 0;
+
                 if ($salesEntity->getBaseAffiliateplusDiscount())
                     $totalDiscount = $salesEntity->getBaseAffiliateplusDiscount();
                 else
@@ -1521,6 +1529,17 @@ class Magestore_Affiliateplus_Model_Observer {
                             $totalDiscount = $address->getBaseAffiliateplusDiscount();
                 if ($totalDiscount)
                     $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, abs((float) $totalDiscount), Mage::helper('affiliateplus')->__('Affiliate Discount'));
+
+                /* Changed By Adam 16/04/2015 */
+                $totalCredit = 0;
+                if ($salesEntity->getBaseAffiliateCredit())
+                    $totalCredit = $salesEntity->getBaseAffiliateCredit();
+                else
+                    foreach ($salesEntity->getAddressesCollection() as $address)
+                        if ($address->getBaseAffiliateCredit())
+                            $totalCredit = $address->getBaseAffiliateCredit();
+                if ($totalCredit)
+                    $paypalCart->updateTotal(Mage_Paypal_Model_Cart::TOTAL_DISCOUNT, abs((float) $totalCredit), Mage::helper('affiliateplus')->__('Paid by Affiliate Credit'));
             }
         } else {
             $salesEntity = $observer->getSalesEntity();
@@ -1539,6 +1558,24 @@ class Magestore_Affiliateplus_Model_Observer {
                         'name' => Mage::helper('affiliateplus')->__('Affiliate Discount'),
                         'qty' => 1,
                         'amount' => -(abs((float) $totalDiscount)),
+                    ));
+                    $additional->setItems($items);
+                }
+
+                /* Changed By Adam 16/04/2015 */
+                $totalCredit = 0;
+                if ($salesEntity->getBaseAffiliateCredit())
+                    $totalCredit = $salesEntity->getBaseAffiliateCredit();
+                else
+                    foreach ($salesEntity->getAddressesCollection() as $address)
+                        if ($address->getBaseAffiliateCredit())
+                            $totalCredit = $address->getBaseAffiliateCredit();
+                if ($totalCredit) {
+                    $items = $additional->getItems();
+                    $items[] = new Varien_Object(array(
+                        'name' => Mage::helper('affiliateplus')->__('Affiliate Discount'),
+                        'qty' => 1,
+                        'amount' => -(abs((float) $totalCredit)),
                     ));
                     $additional->setItems($items);
                 }
@@ -1571,7 +1608,19 @@ class Magestore_Affiliateplus_Model_Observer {
                 }
             }
         }
-        $account = Mage::getModel('affiliateplus/account')->getCollection()->addFieldToFilter('account_id', $accountCode)->getFirstItem();
+        // Changed By Adam 12/06/2015 fix issue can't detect affiliate when customer click on the affiliate link on Facebook
+        if(strpos($accountCode, "?")) {
+            $code = explode("?", $accountCode);
+            $accountCode = $code[0];
+        }
+        
+        // Changed By Adam 08/05/2015 fix loi tu lay identify code cua affiliate khac
+        if(Mage::getStoreConfig('affiliateplus/general/url_param_value') == 2) {
+            $account = Mage::getModel('affiliateplus/account')->getCollection()->addFieldToFilter('account_id', $accountCode)->getFirstItem();
+        } else {
+            $account = Mage::getModel('affiliateplus/account')->getCollection()->addFieldToFilter('identify_code', $accountCode)->getFirstItem();
+        }
+        
         if ($account->getId())
             $accountCode = $account->getIdentifyCode();
         //end editing
@@ -1601,8 +1650,8 @@ class Magestore_Affiliateplus_Model_Observer {
         $storeId = Mage::app()->getStore()->getId();
         if (!$storeId)
             return $this;
-        $account->setStoreId($storeId);
-        $account = Mage::getModel('affiliateplus/account')->loadByIdentifyCode($accountCode);
+        
+        $account = Mage::getModel('affiliateplus/account')->setStoreId($storeId)->loadByIdentifyCode($accountCode);
         if (!$account->getId() || ($account->getStatus() != 1))
             return $this;
 
@@ -1674,7 +1723,15 @@ class Magestore_Affiliateplus_Model_Observer {
             $account->setName($customer->getName());
             $account->setEmail($customer->getEmail());
             $account->save();
-        } elseif (Mage::getStoreConfig('affiliateplus/account/auto_create_affiliate') && ($request->getActionName() != 'createPost') && ($request->getModuleName() != 'affiliates')) { //check if this is affiliate create form or not
+        } 
+        // Changed By Adam 11/05/2015: Fix issue when admin create affiliate account in back-end, using the email of existed customer (enable function Auto create Affiliate account when Customer registers)
+        elseif (Mage::getStoreConfig('affiliateplus/account/auto_create_affiliate') && ($request->getActionName() != 'createPost') && ($request->getModuleName() != 'affiliates') && !Mage::app()->getStore()->isAdmin()) { //check if this is affiliate create form or not
+            try {
+                Mage::helper('affiliateplus/account')->createAffiliateAccount('', '', $customer, $request->getPost('notification'), '', '');
+            } catch (Exception $e) {
+                return $this;
+            }
+        } elseif (Mage::getStoreConfig('affiliateplus/account/auto_create_affiliate') && ($request->getActionName() != 'createPost') && ($request->getModuleName() != 'affiliateplusadmin') && Mage::app()->getStore()->isAdmin()) { //check if this is affiliate create form or not
             try {
                 Mage::helper('affiliateplus/account')->createAffiliateAccount('', '', $customer, $request->getPost('notification'), '', '');
             } catch (Exception $e) {
@@ -1690,12 +1747,12 @@ class Magestore_Affiliateplus_Model_Observer {
      * @return Magestore_Affiliateplus_Model_Observer
      */
     public function creditmemoSaveAfter($observer) {
-        
+
         // Changed By Adam 28/07/2014
         if (!Mage::helper('affiliateplus')->isAffiliateModuleEnabled())
             return;
         $creditmemo = $observer->getCreditmemo();
-        
+
         if ($creditmemo->getState() != Mage_Sales_Model_Order_Creditmemo::STATE_REFUNDED) {
             return $this;
         }
@@ -1706,13 +1763,13 @@ class Magestore_Affiliateplus_Model_Observer {
         if (!$this->_getConfigHelper()->getCommissionConfig('decrease_commission_creditmemo', $storeId)) {
             return $this;
         }
-        
+
         $order = $creditmemo->getOrder();
         $cancelStatus = explode(',', $this->_getConfigHelper()->getCommissionConfig('cancel_transaction_orderstatus', $storeId));
         $transaction = Mage::getModel('affiliateplus/transaction')->load($order->getIncrementId(), 'order_number');
-        
+
         if (in_array('closed', $cancelStatus) && !$order->canCreditmemo()) {
-            
+
             //            edit by viet
             $transaction->reduce($creditmemo);
             //            end by viet
@@ -1730,7 +1787,7 @@ class Magestore_Affiliateplus_Model_Observer {
      * @return type
      */
     public function creditmemoRefund($creditmemo) {
-        
+
         // Changed By Adam 28/07/2014
         if (!Mage::helper('affiliateplus')->isAffiliateModuleEnabled())
             return;
@@ -1842,6 +1899,16 @@ class Magestore_Affiliateplus_Model_Observer {
                 
             }
         }
+    }
+    
+    //Changed By Adam 01/06/2015: Add jquey on top to avoid conflict
+    public function prepareLayoutBefore($observer){
+        $block = $observer->getEvent()->getBlock();
+        if ("head" == $block->getNameInLayout()) {
+            $file  = '/magestore/jquery-1.11.2.min.js';
+            $block->addJs($file);
+        }
+        return $this;
     }
 
     //hainh 13-05-2014
