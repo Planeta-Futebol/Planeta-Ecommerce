@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Magestore_Affiliateplusprogram>
-            <version>0.4.2</version>            <!--Update By Adam-->
+            <version>0.4.3</version>            <!--Update By Adam-->
         </Magestore_Affiliateplusprogram>
     </modules>
     <frontend>
@@ -213,6 +213,16 @@
             </affiliateplusprogram>
         </helpers>
         <events>
+			<!-- Changed By Adam -->
+			<customer_save_after>
+                <observers>
+                    <affiliateplusprogram>
+                        <type>singleton</type>
+                        <class>affiliateplusprogram/observer</class>
+                        <method>accountSaveAfter</method>
+                    </affiliateplusprogram>
+                </observers>
+            </customer_save_after>
             <affiliateplus_account_save_after>
                 <observers>
                     <affiliateplusprogram>
