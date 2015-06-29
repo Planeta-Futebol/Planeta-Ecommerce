@@ -136,7 +136,12 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
             return;
         }
         $affiliateplusAccount = $observer->getEvent()->getAffiliateplusAccount();
-        if ($affiliateplusAccount->hasData('account_program')) {
+        if(!$affiliateplusAccount || ($affiliateAccount && !$affiliateAccount->getId())) {
+			$customer = $observer->getEvent()->getCustomer();
+			$affiliateplusAccount = Mage::getModel('affiliateplus/account')->loadByCustomer($customer);
+		}	
+			
+        if ($affiliateplusAccount && $affiliateplusAccount->hasData('account_program')) {
             $joinPrograms = array();
             parse_str($affiliateplusAccount->getAccountProgram(), $joinPrograms);
             $joinPrograms = array_keys($joinPrograms);
@@ -284,6 +289,25 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                 return $this;
             }
         return $this;
+    }
+	
+	/**
+     * Changed By Adam: 06/11/2014: Fix loi hidden tax
+     * @param type $price
+     * @param type $rate
+     * @return type
+     */
+    public function calTax($price, $rate) {
+        return $this->round(Mage::getSingleton('tax/calculation')->calcTaxAmount($price, $rate, true, false));
+    }
+
+    /**
+     * Changed By Adam: 06/11/2014: Fix loi hidden tax
+     * @param type $price
+     * @return type
+     */
+    public function round($price) {
+        return Mage::getSingleton('tax/calculation')->round($price);
     }
 
     public function addressCollectTotal($observer) {
@@ -657,6 +681,7 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
         );
         $discountObj = $observer->getEvent()->getDiscountObj();
         $allInfo = Mage::helper('affiliateplus')->processDataWhenEditOrder();
+        $account = null;	//Changed by Adam to solve the problem of Undefined variable: account when create order
         if (count($allInfo)) {
             if (isset($allInfo['account_info']))
                 $account = $allInfo['account_info'];
@@ -1361,7 +1386,9 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                         $child->setAffiliateplusCommissionItem($commissionObject->getAffiliateplusCommissionItem());
                         if (!isset($extraContent[$program->getId()]['total_amount']))
                             $extraContent[$program->getId()]['total_amount'] = 0;
-                        $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice();
+                        // Changed By Adam: 19/09/2014: Fix loi sai total amount o program transaction khi mua 1 san pham qty lon hon 1
+//                            $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice();
+                            $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice() * $child->getQtyOrdered();
                         if (!isset($extraContent[$program->getId()]['commission']))
                             $extraContent[$program->getId()]['commission'] = 0;
                         $extraContent[$program->getId()]['commission'] += $commissionObject->getCommission();
@@ -1452,7 +1479,9 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                     $extraContent[$program->getId()]['order_item_names'][] = $item->getName();
                     if (!isset($extraContent[$program->getId()]['total_amount']))
                         $extraContent[$program->getId()]['total_amount'] = 0;
-                    $extraContent[$program->getId()]['total_amount'] += $item->getBasePrice();
+                    // Changed By Adam: 19/09/2014: Fix loi sai total amount o program transaction khi mua 1 san pham qty lon hon 1
+//                            $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice();
+                        $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice() * $child->getQtyOrdered();
                     if (!isset($extraContent[$program->getId()]['commission']))
                         $extraContent[$program->getId()]['commission'] = 0;
                     $extraContent[$program->getId()]['commission'] += $commissionObject->getCommission();

@@ -11,16 +11,15 @@
   </div>
   <div class="block-content">
     <ul class="wk_cont_ul">
-<!--
-      <li <?php //echo strpos($magentoCurrentUrl,'dashboard')? "class=current":"";?>>
-      <?php //if(strpos($magentoCurrentUrl,'dashboard')) { ?>
-        <strong><?php //echo $helper->__('Painel') ?></strong>
-      <?php //} else { ?>
-        <a href="<?php //echo $this->getUrl('stock/stockaccount/dashboard'); ?>">
-          <?php //echo $helper->__('Painel') ?>
+      <li <?php echo strpos($magentoCurrentUrl,'dashboard')? "class=current":"";?>>
+      <?php if(strpos($magentoCurrentUrl,'dashboard')) { ?>
+        <strong><?php echo $helper->__('Painel') ?></strong>
+      <?php } else { ?>
+        <a href="<?php echo $this->getUrl('stock/stockaccount/dashboard'); ?>">
+          <?php echo $helper->__('Painel') ?>
         </a>
-      <?php //} ?>
-      </li> -->
+      <?php } ?>
+      </li>
       <li <?php echo strpos($magentoCurrentUrl,'myproductslist')? "class=current":"";?>>
       <?php if(strpos($magentoCurrentUrl,'myproductslist')){ ?>
         <strong><?php echo $helper->__('Meu Estoque') ?></strong>
