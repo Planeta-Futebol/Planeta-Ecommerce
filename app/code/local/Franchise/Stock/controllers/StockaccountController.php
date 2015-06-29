@@ -7,6 +7,21 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->renderLayout();
   }
 
+  public function dashboardAction() {
+    if(($this->getRequest()->isPost()) && (!$this->_validateFormKey())) {
+      return $this->_redirect('stock/stockaccount/dashboard/');
+    }
+
+    $this->loadLayout(array('default', 'stock_account_dashboard'));
+    $this->_initLayoutMessages('customer/session');
+    $this->_initLayoutMessages('catalog/session');
+    $this->getLayout()
+      ->getBlock('head')
+      ->setTitle( Mage::helper('stock')->__('Painel'));
+
+    $this->renderLayout();
+  }
+
   public function myproductslistAction() {
     if(($this->getRequest()->isPost()) && (!$this->_validateFormKey())) {
       return $this->_redirect('stock/stockaccount/myproductslist/');
@@ -17,8 +32,7 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->_initLayoutMessages('catalog/session');
     $this->getLayout()
       ->getBlock('head')
-      ->setTitle( Mage::helper('stock')
-        ->__('Meu Estoque'));
+      ->setTitle( Mage::helper('stock')->__('Meu Estoque'));
 
     $this->renderLayout();
   }
@@ -33,8 +47,7 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->_initLayoutMessages('catalog/session');
     $this->getLayout()
       ->getBlock('head')
-      ->setTitle( Mage::helper('stock')
-        ->__('Comissões'));
+      ->setTitle( Mage::helper('stock')->__('Comissões'));
 
     $this->renderLayout();
   }
@@ -72,8 +85,7 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->_initLayoutMessages('catalog/session');
     $this->getLayout()
       ->getBlock('head')
-      ->setTitle( Mage::helper('stock')
-      ->__('Relatório de vendas'));
+      ->setTitle( Mage::helper('stock')->__('Relatório de vendas'));
 
     $this->renderLayout();
   }
@@ -99,8 +111,7 @@ class Franchise_Stock_StockaccountController extends Mage_Customer_AccountContro
     $this->_initLayoutMessages('catalog/session');
     $this->getLayout()
       ->getBlock('head')
-      ->setTitle( Mage::helper('stock')
-      ->__('Relatório Financeiro'));
+      ->setTitle( Mage::helper('stock')->__('Relatório Financeiro'));
 
     $this->renderLayout();
   }
