@@ -1,134 +1,190 @@
 <?php
-  $helper= Mage::helper('stock');
-  $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
-  if($roleId > 1) {
-    $_productCollection=$this->getCollection();
-    $_helper = $this->helper('catalog/output');
+	$roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
-    $coupons = $this->getCoupons();
-    $overview = $this->getOverviewData();
+
+	if ($roleId <= 1) {
+
+		echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
+		exit;
+	}
+
+	$helper = Mage::helper('stock');
+
+	$_productCollection = $this->getCollection();
+
+	$_helper = $this->helper('catalog/output');
+
+	$coupons = $this->getCoupons();
+
+	$overview = $this->getOverviewData();
+
 ?>
-  <div class="fieldset">
-    <div class="page-title">
-      <h1><?php echo $helper->__('Painel Franquia') ?></h1>
-    </div>
-    <strong> <?php echo $helper->__('Olá, ').$username.'! '; ?> </strong><br>
-    <?php echo $helper->__('Aqui é possível ver um resumo das suas informações de estoque, comissões e vendas'); ?>
-    <div class="comission-head" style="margin-top: 10px; margin-bottom: 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding-top: 15px; padding-bottom: 15px;">
-      <div style="float: left; width: 40%">
-        <strong>Tipo de franqueado: </strong>
-        <?php echo $this->getFranchiseType(); ?>
-      </div>
-      <div style="font-size: 16px">
-        <strong>Cupom varejo: </strong>
-        <?php //echo $coupons['customer']; ?>
-        <strong> | Cupom franquia: </strong>
-        <?php //echo $coupons['franchise']; ?>
-      </div>
-    </div>
-    <div class="overview">
-      <form method="post" id="frsearch" enctype="multipart/form-data" action="">
-        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
-        <label><strong><?php echo $this->__('Desempenho de: '); ?></strong></label>
-        <select name="franchise" id="franchise">
-          <option value="1" selected="selected"><?php echo $this->__('Hoje')?></option>
-          <option value="7"><?php echo $this->__('7 dias')?></option>
-          <option value="30"><?php echo $this->__('30 dias')?></option>
-          <option value="0"><?php echo $this->__('')?></option>
-        </select>
-        <input type="submit" name="submit" id="submit" value="OK"/>
-      </form>
-      <div class="blocks" style="margin-top: 10px;">
-        <div class="first-block" style="background-color: #3e3e3e; color: #fff; width: 18%; heigth: 100%; padding: 3px; float: left">
-          <span class="ov-value" style="color: #9fce41; font-size: 20px; font-weight: bold"> <?php echo 'R$ 9.900,00';//$overview['stockvalue']; ?> </span><br><br>
-          <?php echo $helper->__('Total potencial de venda'); ?><br>
-          <?php echo $helper->__('(Valor do estoque atual)'); ?>
-        </div>
-        <div class="block" style="margin-left: 1.6%; background-color: #e7e7e7; width: 18%; height: 75px; padding: 3px; float: left">
-          <span class="ov-value"style="color: #9fce41; font-size: 20px; font-weight: bold"> <?php echo 'R$ 30.000,00'//$overview['purchase']; ?> </span><br><br>
-          <?php echo $helper->__('Total de compra'); ?>
-        </div>
-        <div class="block" style="margin-left: 1.6%; background-color: #e7e7e7; width: 18%; height: 75px; padding: 3px; float: left">
-          <span class="ov-value"style="color: #9fce41; font-size: 20px; font-weight: bold"> <?php echo 'R$ 30.000,00'//$overview['purchase']; ?> </span><br><br>
-          <?php echo $helper->__('Total de crédito'); ?>
-        </div>
-        <div class="block" style="margin-left: 1.6%; background-color: #e7e7e7; width: 18%; height: 75px; padding: 3px; float: left">
-          <span class="ov-value"style="color: #9fce41; font-size: 20px; font-weight: bold"> <?php echo 'R$ 30.000,00'//$overview['purchase']; ?> </span><br><br>
-          <?php echo $helper->__('Total de vendas'); ?>
-        </div>
-        <div class="block" style="margin-left: 1.6%; background-color: #e7e7e7; width: 18%; height: 75px; padding: 3px; float: left">
-          <span class="ov-value"style="color: #9fce41; font-size: 20px; font-weight: bold"> <?php echo 'R$ 30.000,00'//$overview['purchase']; ?> </span><br><br>
-          <?php echo $helper->__('Total de lucro'); ?>
-        </div>
-      </div>
-    </div>
-    <div class="">
-      <div class="" style="width: 49%; float: left; margin-bottom: 10px; margin-right: 2%">
-        <table cellspacing="0" style= "border:0">
-          <thead>
-            <tr><td><span style="font-size: 13px; font-weight: bold"><?php echo $helper->__('Estoque')?></span></td></tr>
-            <tr><td><?php echo $helper->__('Produtos com menos estoque')?></td></tr>
-          <thead>
-          <tbody>
-            <?php foreach($empty_stock as $item): ?>
-              <tr style="padding: 5px">
-              <td> <?php echo $item->getName();?> </td>
-              <td> <?php echo $helper->__('Quantidade: ').$item->getAmount(); ?> </td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
 
-      <div class="" style="width: 49%; float: left; margin-bottom: 10px">
-        <table cellspacing="0" style= "border:0">
-          <thead>
-            <tr><td><span style="font-size: 13px; font-weight: bold"><?php echo $helper->__('Comissões')?></span></td></tr>
-            <tr><td><?php echo $helper->__('Produtos com menos estoque')?></td></tr>
-          <thead>
-          <tbody>
-            <tr>
-              <td> Nome do produto </td>
-              <td> Quantidade: 0 </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="" style="width: 49%; float: left; margin-right: 2%; border-top: 1px solid #ccc; padding-top: 10px;">
-        <table cellspacing="0" style= "border:0">
-          <thead>
-            <tr><td><span style="font-size: 13px; font-weight: bold"><?php echo $helper->__('Vendas')?></span></td></tr>
-            <tr><td><?php echo $helper->__('Produtos com menos estoque')?></td></tr>
-          <thead>
-          <tbody>
-            <tr>
-              <td> Nome do produto </td>
-              <td> Quantidade: 0 </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="" style="width: 49%; float: left; border-top: 1px solid #ccc; padding-top: 10px;">
-        <table cellspacing="0" style= "border:0">
-          <thead>
-            <tr><td><span style="font-size: 13px; font-weight: bold"><?php echo $helper->__('Lucro')?></span></td></tr>
-            <tr><td><?php echo $helper->__('Produtos com menos estoque')?></td></tr>
-          <thead>
-          <tbody>
-            <tr>
-              <td> Nome do produto </td>
-              <td> Quantidade: 0 </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-<?php
-  } else {
-    echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
-  }
-?>
+<div class="fieldset">
+	<div class="page-title">
+		<h1><?php echo $helper->__('Painel Franquia') ?></h1>
+	</div>
+	<div>
+		<div>
+			<strong><?php echo $helper->__('Olá, ') . $this->getData('nameCustomer') . '!'; ?></strong>
+		</div>
+		<div>
+			<?php echo $helper->__('Aqui é possível ver um resumo das suas informações de estoque, comissões e vendas'); ?>
+		</div>
+	</div>
+	<div class="comission-head">
+		<div class="ch-fr-type">
+			<strong>Tipo de franqueado: </strong>
+			<?php echo $this->getFranchiseType() . 'teste'; ?>
+		</div>
+		<div class="ch-fr-cupom">
+			<strong>Cupom varejo: </strong>
+			<?php //echo $coupons['customer']; ?>
+			<strong> | Cupom franquia: </strong>
+			<?php //echo $coupons['franchise']; ?>
+		</div>
+	</div>
+	<div class="overview">
+		<form method="post" id="frsearch" enctype="multipart/form-data" action="">
+			<input type="hidden" name="form_key"
+				   value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"/>
+			<label for="franchise">
+				<strong><?php echo $this->__('Desempenho de: '); ?></strong>
+			</label>
+			<select name="franchise" id="franchise">
+				<option value="1" selected="selected"><?php echo $this->__('Hoje') ?></option>
+				<option value="7"><?php echo $this->__('7 dias') ?></option>
+				<option value="30"><?php echo $this->__('30 dias') ?></option>
+				<option value="0"><?php echo $this->__('') ?></option>
+			</select>
+			<input type="submit" name="submit" id="submit" value="OK"/>
+		</form>
+		<div class="blocks">
+			<div class="block">
+				<div class="block-value">
+					<span class="ov-value"><?php echo 'R$ 9.900,00'; ?></span>
+				</div>
+				<div class="block-texts">
+					<div>
+						<?php echo $helper->__('Total potencial de venda'); ?>
+					</div>
+					<div>
+						<?php echo $helper->__('(Valor do estoque atual)'); ?>
+					</div>
+				</div>
+			</div>
+			<div class="block">
+				<div class="block-value">
+					<span class="ov-value"><?php echo 'R$ 30.000,00' ?></span>
+				</div>
+				<div class="block-texts">
+					<?php echo $helper->__('Total de compra'); ?>
+				</div>
+			</div>
+			<div class="block">
+				<div class="block-value">
+					<span class="ov-value"><?php echo 'R$ 30.000,00' ?></span>
+				</div>
+				<div class="block-texts">
+					<?php echo $helper->__('Total de crédito'); ?>
+				</div>
+			</div>
+			<div class="block">
+				<div class="block-value">
+					<span class="ov-value"><?php echo 'R$ 30.000,00' ?></span>
+				</div>
+				<div class="block-texts">
+					<?php echo $helper->__('Total de vendas'); ?>
+				</div>
+			</div>
+			<div class="block">
+				<div class="block-value">
+					<span class="ov-value"><?php echo 'R$ 30.000,00' ?></span>
+				</div>
+				<div class="block-texts">
+					<?php echo $helper->__('Total de lucro'); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overview-sales-table">
+		<div class="detais-sales-table stock-table">
+			<table cellspacing="0">
+				<thead>
+					<tr>
+						<td>
+							<span class="title-details-sale-sable"><?php echo $helper->__('Estoque') ?></span>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+					</tr>
+				<thead>
+				<tbody>
+					<?php foreach ($empty_stock as $item): ?>
+						<tr style="padding: 5px">
+							<td> <?php echo $item->getName(); ?> </td>
+							<td> <?php echo $helper->__('Quantidade: ') . $item->getAmount(); ?> </td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+		<div class="detais-sales-table comissions-able">
+			<table cellspacing="0">
+				<thead>
+					<tr>
+						<td><span class="title-details-sale-sable"><?php echo $helper->__('Comissões') ?></span>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+					</tr>
+				<thead>
+				<tbody>
+					<tr>
+						<td> Nome do produto</td>
+						<td> Quantidade: 0</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="detais-sales-table sales-table">
+			<table cellspacing="0">
+				<thead>
+					<tr>
+						<td><span class="title-details-sale-sable"><?php echo $helper->__('Vendas') ?></span></td>
+					</tr>
+					<tr>
+						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+					</tr>
+				<thead>
+				<tbody>
+					<tr>
+						<td> Nome do produto</td>
+						<td> Quantidade: 0</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="detais-sales-table profit-table">
+			<table cellspacing="0">
+				<thead>
+					<tr>
+						<td><span class="title-details-sale-sable"><?php echo $helper->__('Lucro') ?></span></td>
+					</tr>
+					<tr>
+						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+					</tr>
+				<thead>
+				<tbody>
+					<tr>
+						<td> Nome do produto</td>
+						<td> Quantidade: 0</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
