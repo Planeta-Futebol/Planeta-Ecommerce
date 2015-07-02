@@ -16,6 +16,7 @@
 
 			$this->setData('nameCustomer', $nameCustomer);
 			$this->setData('nameFranchise', $dashboard->getNameFranchise());
+			$this->setData('fullPotentialSales', $dashboard->getFullPotentialSales());
 
 
 		}

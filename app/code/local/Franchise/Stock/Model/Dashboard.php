@@ -55,7 +55,19 @@
 		 */
 		public function getFullPotentialSales()
 		{
+			$products = $this->productFranchise->getFrCollection($this->customerId);
 
+			$fullPotentialSales = 0;
+
+			foreach ($products as $product){
+				$stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
+				$priceProduct = $product->getSpecialPrice();
+				$quantityProduct = (int) $stockItem->getData('qty');
+
+				$fullPotentialSales += $priceProduct * $quantityProduct;
+			}
+
+			return $fullPotentialSales;
 		}
 
 		/**
