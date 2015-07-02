@@ -1,24 +1,11 @@
 <?php
-
+	$helper= Mage::helper('stock');
 	$roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
-
-	if ($roleId <= 1) {
-
-		echo $helper->__("<h2 class='wk_new_msg'>Para se tornar um franqueado entre em contato.</h2>");
-		exit;
+	if($roleId <= 1) {
+		$_productCollection = $this->getCollection();
+		$_helper = $this->helper('catalog/output');
 	}
-
-	$helper = Mage::helper('stock');
-
-	$_productCollection = $this->getCollection();
-
-	$_helper = $this->helper('catalog/output');
-
-	$coupons = $this->getCoupons();
-
-	$overview = $this->getOverviewData();
-
 ?>
 
 <div class="fieldset">
@@ -36,7 +23,7 @@
 	<div class="comission-head">
 		<div class="ch-fr-type">
 			<strong>Tipo de franqueado: </strong>
-			<?php echo $this->getFranchiseType() . 'teste'; ?>
+			<?php echo $this->getData('nameFranchise'); ?>
 		</div>
 		<div class="ch-fr-cupom">
 			<strong>Cupom varejo: </strong>
@@ -112,77 +99,77 @@
 		<div class="detais-sales-table stock-table">
 			<table cellspacing="0">
 				<thead>
-					<tr>
-						<td>
-							<span class="title-details-sale-sable"><?php echo $helper->__('Estoque') ?></span>
-						</td>
-					</tr>
-					<tr>
-						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-					</tr>
+				<tr>
+					<td>
+						<span class="title-details-sale-sable"><?php echo $helper->__('Estoque') ?></span>
+					</td>
+				</tr>
+				<tr>
+					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+				</tr>
 				<thead>
 				<tbody>
-					<?php foreach ($empty_stock as $item): ?>
-						<tr style="padding: 5px">
-							<td> <?php echo $item->getName(); ?> </td>
-							<td> <?php echo $helper->__('Quantidade: ') . $item->getAmount(); ?> </td>
-						</tr>
-					<?php endforeach; ?>
+				<?php foreach ($empty_stock as $item): ?>
+					<tr style="padding: 5px">
+						<td> <?php echo $item->getName(); ?> </td>
+						<td> <?php echo $helper->__('Quantidade: ') . $item->getAmount(); ?> </td>
+					</tr>
+				<?php endforeach; ?>
 				</tbody>
 			</table>
 		</div>
 		<div class="detais-sales-table comissions-able">
 			<table cellspacing="0">
 				<thead>
-					<tr>
-						<td><span class="title-details-sale-sable"><?php echo $helper->__('Comissões') ?></span>
-						</td>
-					</tr>
-					<tr>
-						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-					</tr>
+				<tr>
+					<td><span class="title-details-sale-sable"><?php echo $helper->__('Comissões') ?></span>
+					</td>
+				</tr>
+				<tr>
+					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+				</tr>
 				<thead>
 				<tbody>
-					<tr>
-						<td> Nome do produto</td>
-						<td> Quantidade: 0</td>
-					</tr>
+				<tr>
+					<td> Nome do produto</td>
+					<td> Quantidade: 0</td>
+				</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="detais-sales-table sales-table">
 			<table cellspacing="0">
 				<thead>
-					<tr>
-						<td><span class="title-details-sale-sable"><?php echo $helper->__('Vendas') ?></span></td>
-					</tr>
-					<tr>
-						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-					</tr>
+				<tr>
+					<td><span class="title-details-sale-sable"><?php echo $helper->__('Vendas') ?></span></td>
+				</tr>
+				<tr>
+					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+				</tr>
 				<thead>
 				<tbody>
-					<tr>
-						<td> Nome do produto</td>
-						<td> Quantidade: 0</td>
-					</tr>
+				<tr>
+					<td> Nome do produto</td>
+					<td> Quantidade: 0</td>
+				</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="detais-sales-table profit-table">
 			<table cellspacing="0">
 				<thead>
-					<tr>
-						<td><span class="title-details-sale-sable"><?php echo $helper->__('Lucro') ?></span></td>
-					</tr>
-					<tr>
-						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-					</tr>
+				<tr>
+					<td><span class="title-details-sale-sable"><?php echo $helper->__('Lucro') ?></span></td>
+				</tr>
+				<tr>
+					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+				</tr>
 				<thead>
 				<tbody>
-					<tr>
-						<td> Nome do produto</td>
-						<td> Quantidade: 0</td>
-					</tr>
+				<tr>
+					<td> Nome do produto</td>
+					<td> Quantidade: 0</td>
+				</tr>
 				</tbody>
 			</table>
 		</div>

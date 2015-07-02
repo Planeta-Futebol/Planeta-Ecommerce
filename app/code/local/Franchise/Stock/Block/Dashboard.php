@@ -8,12 +8,14 @@
 
 			$nameCustomer = Mage::getSingleton('customer/session')->getCustomer()->getName();
 
-			/** @var Franchise_Stock_Model_Dashboard $model */
-			$model = Mage::getModel('stock/dashboard');
 
-			$model->getFullPotentialSales();
+			/** @var Franchise_Stock_Model_Dashboard $dashboard */
+			$dashboard = Mage::getModel('stock/dashboard');
+
+			$dashboard->getFullPotentialSales();
 
 			$this->setData('nameCustomer', $nameCustomer);
+			$this->setData('nameFranchise', $dashboard->getNameFranchise());
 
 
 		}
