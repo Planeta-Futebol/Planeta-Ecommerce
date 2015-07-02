@@ -12,11 +12,11 @@
 			/** @var Franchise_Stock_Model_Dashboard $dashboard */
 			$dashboard = Mage::getModel('stock/dashboard');
 
-			$dashboard->getFullPotentialSales();
-
 			$this->setData('nameCustomer', $nameCustomer);
 			$this->setData('nameFranchise', $dashboard->getNameFranchise());
 			$this->setData('fullPotentialSales', $dashboard->getFullPotentialSales());
+			$this->setData('fullSalesPrice', $dashboard->getFullSalesPrice());
+			$this->setData('fullProfits', $dashboard->getFullProfits());
 
 
 		}

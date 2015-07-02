@@ -32,6 +32,20 @@
 		 */
 		private $nameFranchise;
 
+		/**
+		 * Represents total franchisee's profits.
+		 *
+		 * @var int
+		 */
+		private $fullProfits = 0;
+
+		/**
+		 * Represents total franchisee's sales.
+		 *
+		 * @var int
+		 */
+		private $fullSalesPrice = 0;
+
 		public function __construct()
 		{
 
@@ -45,6 +59,8 @@
 
 			$typeFranchise = Mage::getModel("customer/group")->load($groupCustomerId, 'customer_group_id');
 			$this->nameFranchise = $typeFranchise->getData('customer_group_code');
+
+			$this->initFullSalesAndProfits();
 
 		}
 
@@ -68,6 +84,48 @@
 			}
 
 			return $fullPotentialSales;
+		}
+
+
+		/**
+		 * Retrieves all sales of the franchisee currently logged in.
+		 * Calculates profits and then sets the $fullSalesPrice figures and $fullProfits.
+		 *
+		 * @access private
+		 * @return void
+		 */
+		private function initFullSalesAndProfits()
+		{
+			$products = Mage::getModel('stock/saleperpartner')->getCollection()
+				->addFieldToFilter('userid', array('eq' => $this->customerId));
+
+			foreach ($products as $product){
+
+				$productPrice = $product->getPrice_bought();
+				$salesPrice = $product->getPrice_sold();
+				$quantity = $product->getData('qty_sold');
+				$profit = ($salesPrice - $productPrice) * $quantity;
+
+				$this->fullProfits += $profit;
+				$this->fullSalesPrice += $salesPrice * $quantity;
+			}
+		}
+
+		/**
+		 * @return int
+		 */
+		public function getFullSalesPrice()
+		{
+
+			return $this->fullSalesPrice;
+		}
+
+		/**
+		 * @return int
+		 */
+		public function getFullProfits()
+		{
+			return $this->fullProfits;
 		}
 
 		/**

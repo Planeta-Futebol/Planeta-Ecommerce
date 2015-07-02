@@ -79,7 +79,7 @@
 			</div>
 			<div class="block">
 				<div class="block-value">
-					<span class="ov-value"><?php echo 'R$ 30.000,00' ?></span>
+					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullSalesPrice')); ?></span>
 				</div>
 				<div class="block-texts">
 					<?php echo $helper->__('Total de vendas'); ?>
@@ -87,7 +87,7 @@
 			</div>
 			<div class="block">
 				<div class="block-value">
-					<span class="ov-value"><?php echo 'R$ 30.000,00' ?></span>
+					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullProfits')); ?></span>
 				</div>
 				<div class="block-texts">
 					<?php echo $helper->__('Total de lucro'); ?>
