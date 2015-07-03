@@ -77,10 +77,10 @@
 
 			foreach ($products as $product){
 				$stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
-				$priceProduct = $product->getSpecialPrice();
+				$priceSalesProduct = $product->getMsrp();
 				$quantityProduct = (int) $stockItem->getData('qty');
 
-				$fullPotentialSales += $priceProduct * $quantityProduct;
+				$fullPotentialSales += $priceSalesProduct * $quantityProduct;
 			}
 
 			return $fullPotentialSales;
