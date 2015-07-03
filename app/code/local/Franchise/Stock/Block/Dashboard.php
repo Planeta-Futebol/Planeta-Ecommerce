@@ -17,7 +17,7 @@
 			$this->setData('fullPotentialSales', $dashboard->getFullPotentialSales());
 			$this->setData('fullSalesPrice', $dashboard->getFullSalesPrice());
 			$this->setData('fullProfits', $dashboard->getFullProfits());
-
+			$this->setData('productStockItem', $dashboard->getProductStockItem());
 
 		}
 

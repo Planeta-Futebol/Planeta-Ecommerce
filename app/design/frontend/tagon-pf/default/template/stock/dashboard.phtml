@@ -6,6 +6,26 @@
 		$_productCollection = $this->getCollection();
 		$_helper = $this->helper('catalog/output');
 	}
+
+	$arrProductStockItem = $this->getData('productStockItem');
+
+	$productStockItemTable = "";
+	foreach ($arrProductStockItem as $item){
+
+		$nameProductStockItem = $item['name'];
+		$quantityProductStockItem = $item['quantity'];
+		$descriptionQuantity = $helper->__('Quantidade: ');
+
+		$productStockItemTable .= <<< "STOCK_ITEM"
+			<tr>
+				<td>$nameProductStockItem</td>
+				<td>$descriptionQuantity</td>
+				<td quantity="$quantityProductStockItem">$quantityProductStockItem</td>
+			</tr>\n
+STOCK_ITEM;
+
+	}
+
 ?>
 
 <div class="fieldset">
@@ -97,37 +117,26 @@
 	</div>
 	<div class="overview-sales-table">
 		<div class="detais-sales-table stock-table">
-			<table cellspacing="0">
-				<thead>
-				<tr>
-					<td>
-						<span class="title-details-sale-sable"><?php echo $helper->__('Estoque') ?></span>
-					</td>
-				</tr>
-				<tr>
-					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-				</tr>
-				<thead>
+			<div class="thearde-stock-table">
+				<div class="title-details-sale-sable"><span><?php echo $helper->__('Estoque') ?></span></div>
+				<div><?php echo $helper->__('Produtos com menos estoque') ?></div>
+			</div>
+			<table>
 				<tbody>
-				<?php foreach ($empty_stock as $item): ?>
-					<tr style="padding: 5px">
-						<td> <?php echo $item->getName(); ?> </td>
-						<td> <?php echo $helper->__('Quantidade: ') . $item->getAmount(); ?> </td>
-					</tr>
-				<?php endforeach; ?>
+					<?php echo $productStockItemTable; ?>
 				</tbody>
 			</table>
 		</div>
 		<div class="detais-sales-table comissions-able">
 			<table cellspacing="0">
 				<thead>
-				<tr>
-					<td><span class="title-details-sale-sable"><?php echo $helper->__('Comissões') ?></span>
-					</td>
-				</tr>
-				<tr>
-					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-				</tr>
+					<tr>
+						<td><span class="title-details-sale-sable"><?php echo $helper->__('Comissões') ?></span>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+					</tr>
 				<thead>
 				<tbody>
 				<tr>

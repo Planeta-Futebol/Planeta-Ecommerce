@@ -7,6 +7,8 @@
 	 *
 	 *
 	 * Class Franchise_Stock_Model_Dashboard
+	 *
+	 * @author Ronildo dos Santos
 	 */
 	class Franchise_Stock_Model_Dashboard
 	{
@@ -110,6 +112,48 @@
 				$this->fullSalesPrice += $salesPrice * $quantity;
 			}
 		}
+
+
+		/**
+		 * Retrieves the franchisee's products with the lowest stock,
+		 * assembles an array of name and quantity and returns to the caller.
+		 *
+		 *
+		 * @return array
+		 */
+		public function getProductStockItem()
+		{
+			$collection = Mage::getModel('stock/product')->getCollection();
+
+			$collection->addFieldToFilter('userid', array('eq' => $this->customerId));
+
+			$collection->getSelect()
+				->join(
+					array('stock_item' => 'cataloginventory_stock_item'),
+					'main_table.stockproductid = stock_item.product_id'
+				)
+				->order('qty')
+				->limit(5);
+
+			$arrProductStockItem = array();
+			$key = 0;
+
+			foreach($collection as $product){
+				$catalogProduct = Mage::getModel('catalog/product')->load($product->getProduct_id());
+
+				$arrProductStockItem[$key] = array(
+					'name' => $catalogProduct->getData('name'),
+					'quantity' => (int) $product->getData('qty')
+
+				);
+
+				$key++;
+			}
+
+			return $arrProductStockItem;
+		}
+
+
 
 		/**
 		 * @return int

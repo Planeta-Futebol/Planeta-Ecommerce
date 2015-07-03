@@ -52,8 +52,48 @@
     width: 49%;
     float: left;
 
+    .thearde-stock-table{
+      margin-bottom: 5px;
+
+      .title-details-sale-sable{
+        font-size: 16px;
+        font-weight: bold;
+        padding-bottom: 5px;
+      }
+    }
+
     table{
       border: 0;
+      width: 100%;
+
+      tbody {
+
+        tr {
+
+          &:nth-child(2n+1){
+            background-color: #e7e7e7;
+          }
+
+          td {
+            padding: 5px 0px;
+
+            &:nth-child(2) {
+              text-align: right;
+            }
+
+            &:last-child {
+              padding: 5px;
+              text-align: center;
+            }
+          }
+
+          td[quantity="0"]{
+            color: #cc1a07;
+          }
+
+        }
+      }
+
     }
 
     &.stock-table{
@@ -76,9 +116,5 @@
       padding-top: 10px;
     }
 
-    .title-details-sale-sable{
-      font-size: 13px;
-      font-weight: bold;
-    }
   }
 }

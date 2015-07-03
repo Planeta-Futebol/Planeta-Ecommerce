@@ -35,8 +35,26 @@
 .overview-sales-table .detais-sales-table {
   width: 49%;
   float: left; }
+  .overview-sales-table .detais-sales-table .thearde-stock-table {
+    margin-bottom: 5px; }
+    .overview-sales-table .detais-sales-table .thearde-stock-table .title-details-sale-sable {
+      font-size: 16px;
+      font-weight: bold;
+      padding-bottom: 5px; }
   .overview-sales-table .detais-sales-table table {
-    border: 0; }
+    border: 0;
+    width: 100%; }
+    .overview-sales-table .detais-sales-table table tbody tr:nth-child(2n+1) {
+      background-color: #e7e7e7; }
+    .overview-sales-table .detais-sales-table table tbody tr td {
+      padding: 5px 0px; }
+      .overview-sales-table .detais-sales-table table tbody tr td:nth-child(2) {
+        text-align: right; }
+      .overview-sales-table .detais-sales-table table tbody tr td:last-child {
+        padding: 5px;
+        text-align: center; }
+    .overview-sales-table .detais-sales-table table tbody tr td[quantity="0"] {
+      color: #cc1a07; }
   .overview-sales-table .detais-sales-table.stock-table {
     margin-bottom: 10px;
     margin-right: 2%; }
@@ -49,8 +67,5 @@
   .overview-sales-table .detais-sales-table.profit-table {
     border-top: 1px solid #ccc;
     padding-top: 10px; }
-  .overview-sales-table .detais-sales-table .title-details-sale-sable {
-    font-size: 13px;
-    font-weight: bold; }
 
 /*# sourceMappingURL=scss-stock.css.map */
