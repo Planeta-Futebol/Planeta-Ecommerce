@@ -19,6 +19,7 @@
 			$this->setData('fullProfits', $dashboard->getFullProfits());
 			$this->setData('productStockItem', $dashboard->getProductStockItem());
 			$this->setData('productMoreSold', $dashboard->getProductMoreSold());
+			$this->setData('productMoreProfit', $dashboard->getProductMoreProfit());
 
 		}
 

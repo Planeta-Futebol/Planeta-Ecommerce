@@ -35,13 +35,31 @@ STOCK_ITEM;
 		$quantityProductMoreSold = $item['quantity'];
 		$descriptionQuantity = $helper->__('Quantidade: ');
 
-		$productMoreSoldTable .= <<< "STOCK_ITEM"
+		$productMoreSoldTable .= <<< "SOLD_ITEM"
 			<tr>
 				<td>$nameProductMoreSold</td>
 				<td>$descriptionQuantity</td>
 				<td>$quantityProductMoreSold</td>
 			</tr>\n
-STOCK_ITEM;
+SOLD_ITEM;
+
+	}
+
+
+	$arrProductMoreProfit = $this->getData('productMoreProfit');
+
+	$productMoreProfitTable = "";
+	foreach ($arrProductMoreProfit as $item){
+
+		$nameProductMoreProfit = $item['name'];
+		$valueProductMoreProfit = $item['profit'];
+
+		$productMoreProfitTable .= <<< "PROFIT_ITEM"
+			<tr>
+				<td>$nameProductMoreProfit</td>
+				<td>$valueProductMoreProfit</td>
+			</tr>\n
+PROFIT_ITEM;
 
 	}
 
@@ -177,20 +195,13 @@ STOCK_ITEM;
 			</table>
 		</div>
 		<div class="detais-sales-table profit-table">
-			<table cellspacing="0">
-				<thead>
-				<tr>
-					<td><span class="title-details-sale-sable"><?php echo $helper->__('Lucro') ?></span></td>
-				</tr>
-				<tr>
-					<td><?php echo $helper->__('Produtos com menos') ?></td>
-				</tr>
-				<thead>
+			<div class="thearde-stock-table">
+				<div class="title-details-sale-sable"><span><?php echo $helper->__('Lucro') ?></span></div>
+				<div><?php echo $helper->__('Produtos que geram mais lucros') ?></div>
+			</div>
+			<table>
 				<tbody>
-				<tr>
-					<td> Nome do produto</td>
-					<td> Quantidade: 0</td>
-				</tr>
+					<?php echo $productMoreProfitTable;	?>
 				</tbody>
 			</table>
 		</div>

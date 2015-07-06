@@ -185,6 +185,42 @@
 			return $arrProductMoreSold;
 		}
 
+		public function getProductMoreProfit()
+		{
+			$collection = Mage::getModel('stock/saleperpartner')->getCollection();
+
+			$collection->addFieldToFilter('userid', array('eq' => $this->customerId));
+
+			$collection->getSelect()
+				->join(
+					array('stock_item' => 'cataloginventory_stock_item'),
+					'main_table.stockprodid = stock_item.product_id',
+					array(
+						'profit' =>'((price_sold - price_bought) * qty_sold)',
+						'stock_item.*'
+					)
+				)
+				->order('profit DESC')
+				->limit(5);
+
+			$arrProductMoreProfit = array();
+			$key = 0;
+
+			foreach($collection as $product){
+				$catalogProduct = Mage::getModel('catalog/product')->load($product->getProduct_id());
+
+				$arrProductMoreProfit[$key] = array(
+					'name' => $catalogProduct->getData('name'),
+					'profit' => (float) $product->getData('profit')
+
+				);
+
+				$key++;
+			}
+
+			return $arrProductMoreProfit;
+		}
+
 
 
 		/**
