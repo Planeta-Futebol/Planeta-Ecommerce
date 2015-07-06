@@ -20,7 +20,7 @@
 			$this->setData('productStockItem', $dashboard->getProductStockItem());
 			$this->setData('productMoreSold', $dashboard->getProductMoreSold());
 			$this->setData('productMoreProfit', $dashboard->getProductMoreProfit());
-
+			$this->setData('fullPurchases', $dashboard->getFullPurchases());
 		}
 
 		protected function _prepareLayout()

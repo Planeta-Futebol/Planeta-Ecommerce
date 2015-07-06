@@ -21,8 +21,6 @@
 
 			$this->_initLayoutMessages('catalog/session');
 
-			//$this->_getCustomer()->
-
 			$this->getLayout()
 				->getBlock('head')
 				->setTitle(Mage::helper('stock')->__('Painel'));

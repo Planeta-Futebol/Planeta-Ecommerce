@@ -1,5 +1,5 @@
 <?php
-	$helper= Mage::helper('stock');
+	$helper = Mage::helper('stock');
 	$roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
 	if($roleId <= 1) {
@@ -52,7 +52,7 @@ SOLD_ITEM;
 	foreach ($arrProductMoreProfit as $item){
 
 		$nameProductMoreProfit = $item['name'];
-		$valueProductMoreProfit = $item['profit'];
+		$valueProductMoreProfit = Mage::helper('core')->currency($item['profit']);
 
 		$productMoreProfitTable .= <<< "PROFIT_ITEM"
 			<tr>
@@ -120,7 +120,7 @@ PROFIT_ITEM;
 			</div>
 			<div class="block">
 				<div class="block-value">
-					<span class="ov-value"><?php echo 'R$ 30.000,00' ?></span>
+					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPurchases')); ?></span>
 				</div>
 				<div class="block-texts">
 					<?php echo $helper->__('Total de compra'); ?>
@@ -155,7 +155,7 @@ PROFIT_ITEM;
 	<div class="overview-sales-table">
 		<div class="detais-sales-table stock-table">
 			<div class="thearde-stock-table">
-				<div class="title-details-sale-sable"><span><?php echo $helper->__('Estoque') ?></span></div>
+				<div class="title-details-sale-sable"><span><?php echo $helper->__('Estoque'); ?></span></div>
 				<div><?php echo $helper->__('Produtos com menos estoque') ?></div>
 			</div>
 			<table>
@@ -165,16 +165,11 @@ PROFIT_ITEM;
 			</table>
 		</div>
 		<div class="detais-sales-table comissions-able">
-			<table cellspacing="0">
-				<thead>
-					<tr>
-						<td><span class="title-details-sale-sable"><?php echo $helper->__('Comissões') ?></span>
-						</td>
-					</tr>
-					<tr>
-						<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-					</tr>
-				<thead>
+			<div class="thearde-stock-table">
+				<div class="title-details-sale-sable"><span><?php echo $helper->__('Comissões'); ?></span></div>
+				<div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
+			</div>
+			<table>
 				<tbody>
 				<tr>
 					<td> Nome do produto</td>
@@ -185,7 +180,7 @@ PROFIT_ITEM;
 		</div>
 		<div class="detais-sales-table sales-table">
 			<div class="thearde-stock-table">
-				<div class="title-details-sale-sable"><span><?php echo $helper->__('Vendas') ?></span></div>
+				<div class="title-details-sale-sable"><span><?php echo $helper->__('Vendas'); ?></span></div>
 				<div><?php echo $helper->__('Produtos mais vendidos') ?></div>
 			</div>
 			<table>
@@ -196,7 +191,7 @@ PROFIT_ITEM;
 		</div>
 		<div class="detais-sales-table profit-table">
 			<div class="thearde-stock-table">
-				<div class="title-details-sale-sable"><span><?php echo $helper->__('Lucro') ?></span></div>
+				<div class="title-details-sale-sable"><span><?php echo $helper->__('Lucro'); ?></span></div>
 				<div><?php echo $helper->__('Produtos que geram mais lucros') ?></div>
 			</div>
 			<table>

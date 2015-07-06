@@ -153,6 +153,11 @@
 			return $arrProductStockItem;
 		}
 
+		/**
+		 * Returns the top selling products
+		 *
+		 * @return array
+		 */
 		public function getProductMoreSold()
 		{
 			$collection = Mage::getModel('stock/saleperpartner')->getCollection();
@@ -185,6 +190,12 @@
 			return $arrProductMoreSold;
 		}
 
+
+		/**
+		 * Returns products that generate more profits
+		 *
+		 * @return array
+		 */
 		public function getProductMoreProfit()
 		{
 			$collection = Mage::getModel('stock/saleperpartner')->getCollection();
@@ -221,6 +232,27 @@
 			return $arrProductMoreProfit;
 		}
 
+
+		/**
+		 * Returns the total purchases based on firm orders.
+		 *
+		 * @return float
+		 */
+		public function getFullPurchases()
+		{
+			$collection = Mage::getModel('sales/order')->getCollection();
+
+			$collection->addFieldToFilter('customer_id', array('eq' => $this->customerId));
+
+			$collection->getSelect();
+
+			$fullPurchases = 0;
+			foreach($collection as $purchases){
+				$fullPurchases += $purchases->getData('grand_total');
+			}
+
+			return $fullPurchases;
+		}
 
 
 		/**
