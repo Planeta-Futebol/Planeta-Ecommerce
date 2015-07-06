@@ -26,6 +26,25 @@ STOCK_ITEM;
 
 	}
 
+	$arrProductMoreSold = $this->getData('productMoreSold');
+
+	$productMoreSoldTable = "";
+	foreach ($arrProductMoreSold as $item){
+
+		$nameProductMoreSold = $item['name'];
+		$quantityProductMoreSold = $item['quantity'];
+		$descriptionQuantity = $helper->__('Quantidade: ');
+
+		$productMoreSoldTable .= <<< "STOCK_ITEM"
+			<tr>
+				<td>$nameProductMoreSold</td>
+				<td>$descriptionQuantity</td>
+				<td>$quantityProductMoreSold</td>
+			</tr>\n
+STOCK_ITEM;
+
+	}
+
 ?>
 
 <div class="fieldset">
@@ -147,20 +166,13 @@ STOCK_ITEM;
 			</table>
 		</div>
 		<div class="detais-sales-table sales-table">
-			<table cellspacing="0">
-				<thead>
-				<tr>
-					<td><span class="title-details-sale-sable"><?php echo $helper->__('Vendas') ?></span></td>
-				</tr>
-				<tr>
-					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
-				</tr>
-				<thead>
+			<div class="thearde-stock-table">
+				<div class="title-details-sale-sable"><span><?php echo $helper->__('Vendas') ?></span></div>
+				<div><?php echo $helper->__('Produtos mais vendidos') ?></div>
+			</div>
+			<table>
 				<tbody>
-				<tr>
-					<td> Nome do produto</td>
-					<td> Quantidade: 0</td>
-				</tr>
+					<?php echo $productMoreSoldTable; ?>
 				</tbody>
 			</table>
 		</div>
@@ -171,7 +183,7 @@ STOCK_ITEM;
 					<td><span class="title-details-sale-sable"><?php echo $helper->__('Lucro') ?></span></td>
 				</tr>
 				<tr>
-					<td><?php echo $helper->__('Produtos com menos estoque') ?></td>
+					<td><?php echo $helper->__('Produtos com menos') ?></td>
 				</tr>
 				<thead>
 				<tbody>

@@ -153,6 +153,38 @@
 			return $arrProductStockItem;
 		}
 
+		public function getProductMoreSold()
+		{
+			$collection = Mage::getModel('stock/saleperpartner')->getCollection();
+
+			$collection->addFieldToFilter('userid', array('eq' => $this->customerId));
+
+			$collection->getSelect()
+				->join(
+					array('stock_item' => 'cataloginventory_stock_item'),
+					'main_table.stockprodid = stock_item.product_id'
+				)
+				->order('qty_sold DESC')
+				->limit(5);
+
+			$arrProductMoreSold = array();
+			$key = 0;
+
+			foreach($collection as $product){
+				$catalogProduct = Mage::getModel('catalog/product')->load($product->getProduct_id());
+
+				$arrProductMoreSold[$key] = array(
+					'name' => $catalogProduct->getData('name'),
+					'quantity' => (int) $product->getData('qty_sold')
+
+				);
+
+				$key++;
+			}
+
+			return $arrProductMoreSold;
+		}
+
 
 
 		/**
