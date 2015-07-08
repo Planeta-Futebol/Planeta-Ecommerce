@@ -63,6 +63,24 @@ PROFIT_ITEM;
 
 	}
 
+
+	$arrGenerateMoreCommission = $this->getData('generateMoreCommision');
+
+	$generateMoreCommissionTable = "";
+	foreach ($arrGenerateMoreCommission as $commission){
+
+		$name = $commission['name'];
+		$valueCommission = Mage::helper('core')->currency($commission['commission']);
+
+		$generateMoreCommissionTable .= <<< "COMMISSION"
+			<tr>
+				<td>$name</td>
+				<td>$valueCommission</td>
+			</tr>\n
+COMMISSION;
+
+	}
+
 ?>
 
 <div class="fieldset">
@@ -171,10 +189,7 @@ PROFIT_ITEM;
 			</div>
 			<table>
 				<tbody>
-				<tr>
-					<td> Nome do produto</td>
-					<td> Quantidade: 0</td>
-				</tr>
+					<?php echo $generateMoreCommissionTable; ?>
 				</tbody>
 			</table>
 		</div>

@@ -21,6 +21,8 @@
 			$this->setData('productMoreSold', $dashboard->getProductMoreSold());
 			$this->setData('productMoreProfit', $dashboard->getProductMoreProfit());
 			$this->setData('fullPurchases', $dashboard->getFullPurchases());
+			$this->setData('generateMoreCommision', $dashboard->getGenerateMoreCommission());
+
 		}
 
 		protected function _prepareLayout()

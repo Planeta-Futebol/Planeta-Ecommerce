@@ -254,6 +254,30 @@
 			return $fullPurchases;
 		}
 
+		public function getGenerateMoreCommission()
+		{
+			$existedAccount = Mage::getModel('affiliateplus/account')->loadByCustomerId($this->customerId);
+
+			$collection = Mage::getModel('affiliateplus/transaction')->getCollection();
+			$collection->addFieldToFilter('account_id', array('in' => $existedAccount->getId()));
+
+			$arrFullCommission = array();
+			$key = 0;
+			foreach($collection as $commissions) {
+				$commission = $commissions->getCommission();
+				$customer = Mage::getModel('customer/customer')->load($commissions->getCustomer_id());
+
+				$fullName = $customer->getData('firstname') . " " . $customer->getData('lastname');
+
+				$arrFullCommission[$key] = array(
+					'commission' => $commission,
+					'name' => $fullName
+				);
+			}
+
+			return $arrFullCommission;
+		}
+
 
 		/**
 		 * @return int
