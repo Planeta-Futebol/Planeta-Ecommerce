@@ -77,6 +77,10 @@
           td {
             padding: 5px 0px;
 
+            &:first-child{
+              width: 385px;
+            }
+
             &:nth-child(2) {
               text-align: right;
             }

@@ -261,6 +261,11 @@
 			$collection = Mage::getModel('affiliateplus/transaction')->getCollection();
 			$collection->addFieldToFilter('account_id', array('in' => $existedAccount->getId()));
 
+			$collection->getSelect()
+				->order('commission DESC')
+				->limit(5);
+
+
 			$arrFullCommission = array();
 			$key = 0;
 			foreach($collection as $commissions) {

@@ -48,6 +48,8 @@
       background-color: #e7e7e7; }
     .overview-sales-table .detais-sales-table table tbody tr td {
       padding: 5px 0px; }
+      .overview-sales-table .detais-sales-table table tbody tr td:first-child {
+        width: 385px; }
       .overview-sales-table .detais-sales-table table tbody tr td:nth-child(2) {
         text-align: right; }
       .overview-sales-table .detais-sales-table table tbody tr td:last-child {
