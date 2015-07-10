@@ -283,6 +283,28 @@
 			return $arrFullCommission;
 		}
 
+		public function getCouponsAffiliate()
+		{
+			$existedAccount = Mage::getModel('affiliateplus/account')->loadByCustomerId($this->customerId);
+
+			$collection = Mage::getModel('affiliatepluscoupon/coupon')->getCollection();
+			$collection->addFieldToFilter('account_id', array('in' => $existedAccount->getId()));
+			$collection->addFieldToFilter('program_id', array('neq' => 0 ));
+
+			$collection->getSelect()->order('program_id');
+
+			$arrCouponAffiliate = array();
+			$key = 0;
+
+			foreach( $collection as $coupon ){
+				$arrCouponAffiliate[$key] = $coupon->getCoupon_code();
+				$key++;
+			}
+
+			return $arrCouponAffiliate;
+		}
+
+
 
 		/**
 		 * @return int

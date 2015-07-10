@@ -81,6 +81,8 @@ COMMISSION;
 
 	}
 
+	$arrCouponsAffiliate = $this->getData('couponsAffiliate');
+
 ?>
 
 <div class="fieldset">
@@ -102,9 +104,9 @@ COMMISSION;
 		</div>
 		<div class="ch-fr-cupom">
 			<strong>Cupom varejo: </strong>
-			<?php //echo $coupons['customer']; ?>
+			<?php echo (isset($arrCouponsAffiliate[0])) ? $arrCouponsAffiliate[0] : null; ?>
 			<strong> | Cupom franquia: </strong>
-			<?php //echo $coupons['franchise']; ?>
+			<?php echo (isset($arrCouponsAffiliate[1])) ? $arrCouponsAffiliate[1] : null; ?>
 		</div>
 	</div>
 	<div class="overview">
