@@ -304,7 +304,18 @@
 			return $arrCouponAffiliate;
 		}
 
+		public function getCreditAffiliatePlus()
+		{
+			$balance = Mage::helper('affiliateplus/account')->getAccount()->getBalance();
+			$balance = Mage::app()->getStore()->convertPrice($balance);
 
+			$checkout = Mage::getSingleton('checkout/session');
+			if ($checkout->getAffiliateCredit() > 0) {
+				$balance -= $checkout->getAffiliateCredit();
+			}
+
+			return Mage::app()->getStore()->formatPrice($balance);
+		}
 
 		/**
 		 * @return int

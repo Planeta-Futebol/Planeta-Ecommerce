@@ -23,6 +23,7 @@
 			$this->setData('fullPurchases', $dashboard->getFullPurchases());
 			$this->setData('generateMoreCommision', $dashboard->getGenerateMoreCommission());
 			$this->setData('couponsAffiliate', $dashboard->getCouponsAffiliate());
+			$this->setData('affiliateCredit', $dashboard->getCreditAffiliatePlus());
 
 		}
 
