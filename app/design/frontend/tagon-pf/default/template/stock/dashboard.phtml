@@ -176,7 +176,10 @@ COMMISSION;
 		<div class="detais-sales-table stock-table">
 			<div class="thearde-stock-table">
 				<div class="title-details-sale-sable"><span><?php echo $helper->__('Estoque'); ?></span></div>
-				<div><?php echo $helper->__('Produtos com menos estoque') ?></div>
+				<div>
+					<span><?php echo $helper->__('Produtos com menos estoque') ?></span>
+					<a class="fl-right" href="<?php echo $this->getUrl('stock/stockaccount/myproductslist/'); ?>">Lançar estoque</a>
+				</div>
 			</div>
 			<table>
 				<tbody>

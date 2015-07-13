@@ -70,4 +70,9 @@
     border-top: 1px solid #ccc;
     padding-top: 10px; }
 
+.fl-right {
+  float: right;
+  font-weight: bold;
+  color: #222 !important; }
+
 /*# sourceMappingURL=scss-stock.css.map */
