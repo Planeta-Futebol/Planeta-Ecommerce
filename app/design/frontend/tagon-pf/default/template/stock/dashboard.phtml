@@ -110,22 +110,22 @@ COMMISSION;
 		</div>
 	</div>
 	<div class="overview">
-		<form method="post" id="frsearch" enctype="multipart/form-data" action="">
+		<form method="post" id="frsearch" enctype="multipart/form-data">
 			<input type="hidden" name="form_key"
 				   value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"/>
 			<label for="franchise">
 				<strong><?php echo $this->__('Desempenho de: '); ?></strong>
 			</label>
-			<select name="franchise" id="franchise">
-				<option value="1" selected="selected"><?php echo $this->__('Hoje') ?></option>
+			<select name="interval" id="interval">
+				<option value="0"  selected="selected"><?php echo $this->__('Total') ?></option>
+				<option value="1"><?php echo $this->__('Hoje') ?></option>
 				<option value="7"><?php echo $this->__('7 dias') ?></option>
 				<option value="30"><?php echo $this->__('30 dias') ?></option>
-				<option value="0"><?php echo $this->__('') ?></option>
 			</select>
 			<input type="submit" name="submit" id="submit" value="OK"/>
 		</form>
 		<div class="blocks">
-			<div class="block">
+			<div class="block fix-value">
 				<div class="block-value">
 					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPotentialSales')); ?></span>
 				</div>
@@ -138,6 +138,14 @@ COMMISSION;
 					</div>
 				</div>
 			</div>
+			<div class="block fix-value">
+				<div class="block-value">
+					<span class="ov-value"><?php echo $this->getData('affiliateCredit'); ?></span>
+				</div>
+				<div class="block-texts">
+					<?php echo $helper->__('Total de crédito'); ?>
+				</div>
+			</div>
 			<div class="block">
 				<div class="block-value">
 					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPurchases')); ?></span>
@@ -146,14 +154,7 @@ COMMISSION;
 					<?php echo $helper->__('Total de compra'); ?>
 				</div>
 			</div>
-			<div class="block">
-				<div class="block-value">
-					<span class="ov-value"><?php echo $this->getData('affiliateCredit'); ?></span>
-				</div>
-				<div class="block-texts">
-					<?php echo $helper->__('Total de crédito'); ?>
-				</div>
-			</div>
+
 			<div class="block">
 				<div class="block-value">
 					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullSalesPrice')); ?></span>

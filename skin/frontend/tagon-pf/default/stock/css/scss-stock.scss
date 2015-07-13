@@ -40,9 +40,12 @@
     }
 
     &:first-child{
+      margin-left: 0;
+    }
+
+    &.fix-value{
       background-color: #3e3e3e;
       color: #fff; width: 18%;
-      margin-left: 0;
     }
   }
 }

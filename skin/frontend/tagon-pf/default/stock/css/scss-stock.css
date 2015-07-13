@@ -27,10 +27,11 @@
         font-size: 20px;
         font-weight: bold; }
     .blocks .block:first-child {
+      margin-left: 0; }
+    .blocks .block.fix-value {
       background-color: #3e3e3e;
       color: #fff;
-      width: 18%;
-      margin-left: 0; }
+      width: 18%; }
 
 .overview-sales-table .detais-sales-table {
   width: 49%;

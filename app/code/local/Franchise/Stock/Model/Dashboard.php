@@ -34,19 +34,11 @@
 		 */
 		private $nameFranchise;
 
-		/**
-		 * Represents total franchisee's profits.
-		 *
-		 * @var int
-		 */
-		private $fullProfits = 0;
+		const INTERVAL_TODAY = 0;
 
-		/**
-		 * Represents total franchisee's sales.
-		 *
-		 * @var int
-		 */
-		private $fullSalesPrice = 0;
+		const INTERVAL_SEVEN_DAYS = 7;
+
+		const INTERVAL_THIRTY_DAYS = 30;
 
 		public function __construct()
 		{
@@ -61,8 +53,6 @@
 
 			$typeFranchise = Mage::getModel("customer/group")->load($groupCustomerId, 'customer_group_id');
 			$this->nameFranchise = $typeFranchise->getData('customer_group_code');
-
-			$this->initFullSalesAndProfits();
 
 		}
 
@@ -89,28 +79,51 @@
 		}
 
 
-		/**
-		 * Retrieves all sales of the franchisee currently logged in.
-		 * Calculates profits and then sets the $fullSalesPrice figures and $fullProfits.
-		 *
-		 * @access private
-		 * @return void
-		 */
-		private function initFullSalesAndProfits()
+		public function getFullSalesPrice( $intervalDays = null )
 		{
-			$products = Mage::getModel('stock/saleperpartner')->getCollection()
+			$collection = Mage::getModel('stock/saleperpartner')->getCollection()
 				->addFieldToFilter('userid', array('eq' => $this->customerId));
 
-			foreach ($products as $product){
+			if(!is_null($intervalDays)) {
+				$collection->getSelect()->where("sale_at BETWEEN date(NOW()) AND DATE_SUB(date(NOW()), INTERVAL $intervalDays DAY)");
+			}
+
+			$fullSalesPrice = 0;
+			foreach ($collection as $product){
+
+				$salesPrice = $product->getPrice_sold();
+				$quantity = $product->getData('qty_sold');
+
+				$fullSalesPrice += $salesPrice * $quantity;
+			}
+
+			return $fullSalesPrice;
+		}
+
+
+		public function getFullProfits( $intervalDays = null )
+		{
+			$collection = Mage::getModel('stock/saleperpartner')->getCollection()
+				->addFieldToFilter('userid', array('eq' => $this->customerId));
+
+
+			if(!is_null($intervalDays)) {
+				$collection->getSelect()->where("sale_at BETWEEN date(NOW()) AND DATE_SUB(date(NOW()), INTERVAL $intervalDays DAY)");
+			}
+
+			$fullProfits = 0;
+			foreach ($collection as $product){
 
 				$productPrice = $product->getPrice_bought();
 				$salesPrice = $product->getPrice_sold();
 				$quantity = $product->getData('qty_sold');
 				$profit = ($salesPrice - $productPrice) * $quantity;
 
-				$this->fullProfits += $profit;
-				$this->fullSalesPrice += $salesPrice * $quantity;
+				$fullProfits += $profit;
+
 			}
+
+			return $fullProfits;
 		}
 
 
@@ -153,16 +166,21 @@
 			return $arrProductStockItem;
 		}
 
+
 		/**
 		 * Returns the top selling products
 		 *
 		 * @return array
 		 */
-		public function getProductMoreSold()
+		public function getProductMoreSold( $intervalDays = null )
 		{
 			$collection = Mage::getModel('stock/saleperpartner')->getCollection();
 
 			$collection->addFieldToFilter('userid', array('eq' => $this->customerId));
+
+			if(!is_null($intervalDays)) {
+				$collection->getSelect()->where("sale_at BETWEEN date(NOW()) AND DATE_SUB(date(NOW()), INTERVAL $intervalDays DAY)");
+			}
 
 			$collection->getSelect()
 				->join(
@@ -196,11 +214,15 @@
 		 *
 		 * @return array
 		 */
-		public function getProductMoreProfit()
+		public function getProductMoreProfit( $intervalDays = null )
 		{
 			$collection = Mage::getModel('stock/saleperpartner')->getCollection();
 
 			$collection->addFieldToFilter('userid', array('eq' => $this->customerId));
+
+			if(!is_null($intervalDays)) {
+				$collection->getSelect()->where("sale_at BETWEEN date(NOW()) AND DATE_SUB(date(NOW()), INTERVAL $intervalDays DAY)");
+			}
 
 			$collection->getSelect()
 				->join(
@@ -238,13 +260,15 @@
 		 *
 		 * @return float
 		 */
-		public function getFullPurchases()
+		public function getFullPurchases( $intervalDays = null )
 		{
 			$collection = Mage::getModel('sales/order')->getCollection();
 
 			$collection->addFieldToFilter('customer_id', array('eq' => $this->customerId));
 
-			$collection->getSelect();
+			if(!is_null($intervalDays)) {
+				$collection->getSelect()->where("created_at BETWEEN date(NOW()) AND DATE_SUB(date(NOW()), INTERVAL $intervalDays DAY)");
+			}
 
 			$fullPurchases = 0;
 			foreach($collection as $purchases){
@@ -254,17 +278,20 @@
 			return $fullPurchases;
 		}
 
-		public function getGenerateMoreCommission()
+		public function getGenerateMoreCommission( $intervalDays = null )
 		{
 			$existedAccount = Mage::getModel('affiliateplus/account')->loadByCustomerId($this->customerId);
 
 			$collection = Mage::getModel('affiliateplus/transaction')->getCollection();
 			$collection->addFieldToFilter('account_id', array('in' => $existedAccount->getId()));
 
+			if(!is_null($intervalDays)) {
+				$collection->getSelect()->where("created_time BETWEEN date(NOW()) AND DATE_SUB(date(NOW()), INTERVAL $intervalDays DAY)");
+			}
+
 			$collection->getSelect()
 				->order('commission DESC')
 				->limit(5);
-
 
 			$arrFullCommission = array();
 			$key = 0;
@@ -318,28 +345,10 @@
 		}
 
 		/**
-		 * @return int
-		 */
-		public function getFullSalesPrice()
-		{
-
-			return $this->fullSalesPrice;
-		}
-
-		/**
-		 * @return int
-		 */
-		public function getFullProfits()
-		{
-			return $this->fullProfits;
-		}
-
-		/**
 		 * @return string
 		 */
 		public function getNameFranchise()
 		{
 			return $this->nameFranchise;
 		}
-
 	}
