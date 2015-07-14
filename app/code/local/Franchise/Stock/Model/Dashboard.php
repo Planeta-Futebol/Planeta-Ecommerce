@@ -5,16 +5,20 @@
 	 * class non-entity model, only makes use of pre-established entities
 	 * to collect the relevant data to be displayed on the general panel franchisee.
 	 *
+	 * Importantly, this class uses in some of his methods call the native
+	 * functions of MySql data pack, if the bank is changed,
+	 * the methods must be rewritten to ensure full operation.
+	 *
 	 *
 	 * Class Franchise_Stock_Model_Dashboard
 	 *
 	 * @author Ronildo dos Santos
+	 * @version 1.0
 	 */
 	class Franchise_Stock_Model_Dashboard
 	{
 		/**
 		 * Customer references the ID currently logged in.
-		 *
 		 *
 		 * @var int
 		 */
@@ -34,12 +38,31 @@
 		 */
 		private $nameFranchise;
 
+		/**
+		 * It represents an interval of days, today.
+		 *
+		 * @var int
+		 */
 		const INTERVAL_TODAY = 0;
 
+		/**
+		 * It represents a seven-day interval
+		 *
+		 * @var int
+		 */
 		const INTERVAL_SEVEN_DAYS = 7;
 
+		/**
+		 * It represents a thirty-day interval
+		 *
+		 * @var int
+		 */
 		const INTERVAL_THIRTY_DAYS = 30;
 
+		/**
+		 * Retrieves the User ID logged in, your name and Products in stock of his franchise.
+		 *
+		 */
 		public function __construct()
 		{
 
@@ -78,7 +101,13 @@
 			return $fullPotentialSales;
 		}
 
-
+		/**
+		 * Returns the total sales value for a certain number of days,
+		 * if $intervalDays is omitted returns the total value of sales.
+		 *
+		 * @param null|int $intervalDays
+		 * @return int
+		 */
 		public function getFullSalesPrice( $intervalDays = null )
 		{
 			$collection = Mage::getModel('stock/saleperpartner')->getCollection()
@@ -101,6 +130,13 @@
 		}
 
 
+		/**
+		 * Retrieves the profits in a certain number of days, if $intervalDays
+		 * is omitted, retrieves the total profit.
+		 *
+		 * @param null|int $intervalDays
+		 * @return int
+		 */
 		public function getFullProfits( $intervalDays = null )
 		{
 			$collection = Mage::getModel('stock/saleperpartner')->getCollection()
@@ -130,7 +166,6 @@
 		/**
 		 * Retrieves the franchisee's products with the lowest stock,
 		 * assembles an array of name and quantity and returns to the caller.
-		 *
 		 *
 		 * @return array
 		 */
@@ -168,7 +203,9 @@
 
 
 		/**
-		 * Returns the top selling products
+		 * Returns the five best-selling products in a certain number of days,
+		 * if $intervalDays is omitted, returns the five
+		 * best-selling products of all the period.
 		 *
 		 * @return array
 		 */
@@ -210,7 +247,8 @@
 
 
 		/**
-		 * Returns products that generate more profits
+		 * Returns the five products that generate more profits in a certain number of days,
+		 * if $intervalDays is omitted, returns the five products that generate more profits.
 		 *
 		 * @return array
 		 */
@@ -254,11 +292,12 @@
 			return $arrProductMoreProfit;
 		}
 
-
 		/**
-		 * Returns the total purchases based on firm orders.
+		 * Returns the total purchases based on concluded requests for a range of days,
+		 * if $intervalDays is omitted, returns the total purchases.
 		 *
-		 * @return float
+		 * @param null|int $intervalDays
+		 * @return int
 		 */
 		public function getFullPurchases( $intervalDays = null )
 		{
@@ -278,6 +317,13 @@
 			return $fullPurchases;
 		}
 
+		/**
+		 * Returns the five largest comições generators for a range of days, if
+		 * $intervalDays is omitdo returns the five largest comições generators,
+		 *
+		 * @param null $intervalDays
+		 * @return array
+		 */
 		public function getGenerateMoreCommission( $intervalDays = null )
 		{
 			$existedAccount = Mage::getModel('affiliateplus/account')->loadByCustomerId($this->customerId);
@@ -310,6 +356,11 @@
 			return $arrFullCommission;
 		}
 
+		/**
+		 * Returns the franchise and retail coupons.
+		 *
+		 * @return array
+		 */
 		public function getCouponsAffiliate()
 		{
 			$existedAccount = Mage::getModel('affiliateplus/account')->loadByCustomerId($this->customerId);
@@ -331,6 +382,11 @@
 			return $arrCouponAffiliate;
 		}
 
+		/**
+		 * Returns the total of the affiliate credits.
+		 *
+		 * @return string
+		 */
 		public function getCreditAffiliatePlus()
 		{
 			$balance = Mage::helper('affiliateplus/account')->getAccount()->getBalance();
@@ -345,6 +401,8 @@
 		}
 
 		/**
+		 * Returns the name of franchise
+		 *
 		 * @return string
 		 */
 		public function getNameFranchise()
