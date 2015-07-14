@@ -10,13 +10,15 @@
 	$arrProductStockItem = $this->getData('productStockItem');
 
 	$productStockItemTable = "";
-	foreach ($arrProductStockItem as $item){
 
-		$nameProductStockItem = $item['name'];
-		$quantityProductStockItem = $item['quantity'];
-		$descriptionQuantity = $helper->__('Quantidade: ');
+	if(count($arrProductStockItem) > 0) {
+		foreach ($arrProductStockItem as $item) {
 
-		$productStockItemTable .= <<< "STOCK_ITEM"
+			$nameProductStockItem = $item['name'];
+			$quantityProductStockItem = $item['quantity'];
+			$descriptionQuantity = $helper->__('Quantidade: ');
+
+			$productStockItemTable .= <<< "STOCK_ITEM"
 			<tr>
 				<td>$nameProductStockItem</td>
 				<td>$descriptionQuantity</td>
@@ -24,23 +26,40 @@
 			</tr>\n
 STOCK_ITEM;
 
+		}
+	}else{
+		$productStockItemTable = <<< "STOCK_ITEM"
+			<div class="notice-msg detais-notice-msg">
+				Ainda não existem dados a serem exibidos
+			</div>
+STOCK_ITEM;
+
 	}
 
 	$arrProductMoreSold = $this->getData('productMoreSold');
 
-	$productMoreSoldTable = "";
-	foreach ($arrProductMoreSold as $item){
+	if(count($arrProductMoreSold) > 0) {
+		$productMoreSoldTable = "";
+		foreach ($arrProductMoreSold as $item) {
 
-		$nameProductMoreSold = $item['name'];
-		$quantityProductMoreSold = $item['quantity'];
-		$descriptionQuantity = $helper->__('Quantidade: ');
+			$nameProductMoreSold = $item['name'];
+			$quantityProductMoreSold = $item['quantity'];
+			$descriptionQuantity = $helper->__('Quantidade: ');
 
-		$productMoreSoldTable .= <<< "SOLD_ITEM"
+			$productMoreSoldTable .= <<< "SOLD_ITEM"
 			<tr>
 				<td>$nameProductMoreSold</td>
 				<td>$descriptionQuantity</td>
 				<td>$quantityProductMoreSold</td>
 			</tr>\n
+SOLD_ITEM;
+
+		}
+	}else{
+		$productMoreSoldTable = <<< "SOLD_ITEM"
+			<div class="notice-msg detais-notice-msg">
+				Ainda não existem dados a serem exibidos
+			</div>
 SOLD_ITEM;
 
 	}
@@ -49,16 +68,27 @@ SOLD_ITEM;
 	$arrProductMoreProfit = $this->getData('productMoreProfit');
 
 	$productMoreProfitTable = "";
-	foreach ($arrProductMoreProfit as $item){
 
-		$nameProductMoreProfit = $item['name'];
-		$valueProductMoreProfit = Mage::helper('core')->currency($item['profit']);
+	if(count($arrProductMoreProfit) > 0) {
 
-		$productMoreProfitTable .= <<< "PROFIT_ITEM"
+		foreach ($arrProductMoreProfit as $item) {
+
+			$nameProductMoreProfit = $item['name'];
+			$valueProductMoreProfit = Mage::helper('core')->currency($item['profit']);
+
+			$productMoreProfitTable .= <<< "PROFIT_ITEM"
 			<tr>
 				<td>$nameProductMoreProfit</td>
 				<td>$valueProductMoreProfit</td>
 			</tr>\n
+PROFIT_ITEM;
+		}
+
+	}else{
+		$productMoreProfitTable = <<< "PROFIT_ITEM"
+			<div class="notice-msg detais-notice-msg">
+				Ainda não existem dados a serem exibidos
+			</div>
 PROFIT_ITEM;
 
 	}
@@ -67,21 +97,31 @@ PROFIT_ITEM;
 	$arrGenerateMoreCommission = $this->getData('generateMoreCommision');
 
 	$generateMoreCommissionTable = "";
-	foreach ($arrGenerateMoreCommission as $commission){
+	if(count($arrGenerateMoreCommission) > 0) {
+		foreach ($arrGenerateMoreCommission as $commission) {
 
-		$name = $commission['name'];
-		$valueCommission = Mage::helper('core')->currency($commission['commission']);
+			$name = $commission['name'];
+			$valueCommission = Mage::helper('core')->currency($commission['commission']);
 
-		$generateMoreCommissionTable .= <<< "COMMISSION"
+			$generateMoreCommissionTable .= <<< "COMMISSION"
 			<tr>
 				<td>$name</td>
 				<td>$valueCommission</td>
 			</tr>\n
 COMMISSION;
+		}
+	}else{
+		$generateMoreCommissionTable = <<< "COMMISSION"
+			<div class="notice-msg detais-notice-msg">
+				Ainda não existem dados a serem exibidos
+			</div>
+COMMISSION;
 
 	}
 
 	$arrCouponsAffiliate = $this->getData('couponsAffiliate');
+
+	$arrComboBoxSelected = $this->getData('comboBoxSelected');
 
 ?>
 
@@ -117,10 +157,10 @@ COMMISSION;
 				<strong><?php echo $this->__('Desempenho de: '); ?></strong>
 			</label>
 			<select name="interval" id="interval">
-				<option value="0"  selected="selected"><?php echo $this->__('Total') ?></option>
-				<option value="1"><?php echo $this->__('Hoje') ?></option>
-				<option value="7"><?php echo $this->__('7 dias') ?></option>
-				<option value="30"><?php echo $this->__('30 dias') ?></option>
+				<option value="0" <?php echo $arrComboBoxSelected[0]; ?>><?php echo $this->__('Total') ?></option>
+				<option value="1" <?php echo $arrComboBoxSelected[1]; ?>><?php echo $this->__('Hoje') ?></option>
+				<option value="7" <?php echo $arrComboBoxSelected[7]; ?>><?php echo $this->__('7 dias') ?></option>
+				<option value="30" <?php echo $arrComboBoxSelected[30]; ?>><?php echo $this->__('30 dias') ?></option>
 			</select>
 			<input type="submit" name="submit" id="submit" value="OK"/>
 		</form>
