@@ -1,24 +1,24 @@
 <?php
-	$helper = Mage::helper('stock');
-	$roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+$helper = Mage::helper('stock');
+$roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
-	if($roleId <= 1) {
-		$_productCollection = $this->getCollection();
-		$_helper = $this->helper('catalog/output');
-	}
+if ($roleId <= 1) {
+    $_productCollection = $this->getCollection();
+    $_helper = $this->helper('catalog/output');
+}
 
-	$arrProductStockItem = $this->getData('productStockItem');
+$arrProductStockItem = $this->getData('productStockItem');
 
-	$productStockItemTable = "";
+$productStockItemTable = "";
 
-	if(count($arrProductStockItem) > 0) {
-		foreach ($arrProductStockItem as $item) {
+if (count($arrProductStockItem) > 0) {
+    foreach ($arrProductStockItem as $item) {
 
-			$nameProductStockItem = $item['name'];
-			$quantityProductStockItem = $item['quantity'];
-			$descriptionQuantity = $helper->__('Quantidade: ');
+        $nameProductStockItem = $item['name'];
+        $quantityProductStockItem = $item['quantity'];
+        $descriptionQuantity = $helper->__('Quantidade: ');
 
-			$productStockItemTable .= <<< "STOCK_ITEM"
+        $productStockItemTable .= <<< "STOCK_ITEM"
 			<tr>
 				<td>$nameProductStockItem</td>
 				<td>$descriptionQuantity</td>
@@ -26,27 +26,27 @@
 			</tr>\n
 STOCK_ITEM;
 
-		}
-	}else{
-		$productStockItemTable = <<< "STOCK_ITEM"
+    }
+} else {
+    $productStockItemTable = <<< "STOCK_ITEM"
 			<div class="notice-msg detais-notice-msg">
 				Ainda não existem dados a serem exibidos
 			</div>
 STOCK_ITEM;
 
-	}
+}
 
-	$arrProductMoreSold = $this->getData('productMoreSold');
+$arrProductMoreSold = $this->getData('productMoreSold');
 
-	if(count($arrProductMoreSold) > 0) {
-		$productMoreSoldTable = "";
-		foreach ($arrProductMoreSold as $item) {
+if (count($arrProductMoreSold) > 0) {
+    $productMoreSoldTable = "";
+    foreach ($arrProductMoreSold as $item) {
 
-			$nameProductMoreSold = $item['name'];
-			$quantityProductMoreSold = $item['quantity'];
-			$descriptionQuantity = $helper->__('Quantidade: ');
+        $nameProductMoreSold = $item['name'];
+        $quantityProductMoreSold = $item['quantity'];
+        $descriptionQuantity = $helper->__('Quantidade: ');
 
-			$productMoreSoldTable .= <<< "SOLD_ITEM"
+        $productMoreSoldTable .= <<< "SOLD_ITEM"
 			<tr>
 				<td>$nameProductMoreSold</td>
 				<td>$descriptionQuantity</td>
@@ -54,212 +54,213 @@ STOCK_ITEM;
 			</tr>\n
 SOLD_ITEM;
 
-		}
-	}else{
-		$productMoreSoldTable = <<< "SOLD_ITEM"
+    }
+} else {
+    $productMoreSoldTable = <<< "SOLD_ITEM"
 			<div class="notice-msg detais-notice-msg">
 				Ainda não existem dados a serem exibidos
 			</div>
 SOLD_ITEM;
 
-	}
+}
 
 
-	$arrProductMoreProfit = $this->getData('productMoreProfit');
+$arrProductMoreProfit = $this->getData('productMoreProfit');
 
-	$productMoreProfitTable = "";
+$productMoreProfitTable = "";
 
-	if(count($arrProductMoreProfit) > 0) {
+if (count($arrProductMoreProfit) > 0) {
 
-		foreach ($arrProductMoreProfit as $item) {
+    foreach ($arrProductMoreProfit as $item) {
 
-			$nameProductMoreProfit = $item['name'];
-			$valueProductMoreProfit = Mage::helper('core')->currency($item['profit']);
+        $nameProductMoreProfit = $item['name'];
+        $valueProductMoreProfit = Mage::helper('core')->currency($item['profit']);
 
-			$productMoreProfitTable .= <<< "PROFIT_ITEM"
+        $productMoreProfitTable .= <<< "PROFIT_ITEM"
 			<tr>
 				<td>$nameProductMoreProfit</td>
 				<td>$valueProductMoreProfit</td>
 			</tr>\n
 PROFIT_ITEM;
-		}
+    }
 
-	}else{
-		$productMoreProfitTable = <<< "PROFIT_ITEM"
+} else {
+    $productMoreProfitTable = <<< "PROFIT_ITEM"
 			<div class="notice-msg detais-notice-msg">
 				Ainda não existem dados a serem exibidos
 			</div>
 PROFIT_ITEM;
 
-	}
+}
 
 
-	$arrGenerateMoreCommission = $this->getData('generateMoreCommision');
+$arrGenerateMoreCommission = $this->getData('generateMoreCommision');
 
-	$generateMoreCommissionTable = "";
-	if(count($arrGenerateMoreCommission) > 0) {
-		foreach ($arrGenerateMoreCommission as $commission) {
+$generateMoreCommissionTable = "";
+if (count($arrGenerateMoreCommission) > 0) {
+    foreach ($arrGenerateMoreCommission as $commission) {
 
-			$name = $commission['name'];
-			$valueCommission = Mage::helper('core')->currency($commission['commission']);
+        $name = $commission['name'];
+        $valueCommission = Mage::helper('core')->currency($commission['commission']);
 
-			$generateMoreCommissionTable .= <<< "COMMISSION"
+        $generateMoreCommissionTable .= <<< "COMMISSION"
 			<tr>
 				<td>$name</td>
 				<td>$valueCommission</td>
 			</tr>\n
 COMMISSION;
-		}
-	}else{
-		$generateMoreCommissionTable = <<< "COMMISSION"
+    }
+} else {
+    $generateMoreCommissionTable = <<< "COMMISSION"
 			<div class="notice-msg detais-notice-msg">
 				Ainda não existem dados a serem exibidos
 			</div>
 COMMISSION;
 
-	}
+}
 
-	$arrCouponsAffiliate = $this->getData('couponsAffiliate');
+$arrCouponsAffiliate = $this->getData('couponsAffiliate');
 
-	$arrComboBoxSelected = $this->getData('comboBoxSelected');
+$arrComboBoxSelected = $this->getData('comboBoxSelected');
 
 ?>
 
 <div class="fieldset">
-	<div class="page-title">
-		<h1><?php echo $helper->__('Painel Franquia') ?></h1>
-	</div>
-	<div>
-		<div>
-			<strong><?php echo $helper->__('Olá, ') . $this->getData('nameCustomer') . '!'; ?></strong>
-		</div>
-		<div>
-			<?php echo $helper->__('Aqui é possível ver um resumo das suas informações de estoque, comissões e vendas'); ?>
-		</div>
-	</div>
-	<div class="comission-head">
-		<div class="ch-fr-type">
-			<strong>Tipo de franqueado: </strong>
-			<?php echo $this->getData('nameFranchise'); ?>
-		</div>
-		<div class="ch-fr-cupom">
-			<strong>Cupom varejo: </strong>
-			<?php echo (isset($arrCouponsAffiliate[0])) ? $arrCouponsAffiliate[0] : null; ?>
-			<strong> | Cupom franquia: </strong>
-			<?php echo (isset($arrCouponsAffiliate[1])) ? $arrCouponsAffiliate[1] : null; ?>
-		</div>
-	</div>
-	<div class="overview">
-		<form method="post" id="frsearch" enctype="multipart/form-data">
-			<input type="hidden" name="form_key"
-				   value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"/>
-			<label for="franchise">
-				<strong><?php echo $this->__('Desempenho de: '); ?></strong>
-			</label>
-			<select name="interval" id="interval">
-				<option value="0" <?php echo $arrComboBoxSelected[0]; ?>><?php echo $this->__('Total') ?></option>
-				<option value="1" <?php echo $arrComboBoxSelected[1]; ?>><?php echo $this->__('Hoje') ?></option>
-				<option value="7" <?php echo $arrComboBoxSelected[7]; ?>><?php echo $this->__('7 dias') ?></option>
-				<option value="30" <?php echo $arrComboBoxSelected[30]; ?>><?php echo $this->__('30 dias') ?></option>
-			</select>
-			<input type="submit" name="submit" id="submit" value="OK"/>
-		</form>
-		<div class="blocks">
-			<div class="block fix-value">
-				<div class="block-value">
-					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPotentialSales')); ?></span>
-				</div>
-				<div class="block-texts">
-					<div>
-						<?php echo $helper->__('Total potencial de venda'); ?>
-					</div>
-					<div>
-						<?php echo $helper->__('(Valor do estoque atual)'); ?>
-					</div>
-				</div>
-			</div>
-			<div class="block fix-value">
-				<div class="block-value">
-					<span class="ov-value"><?php echo $this->getData('affiliateCredit'); ?></span>
-				</div>
-				<div class="block-texts">
-					<?php echo $helper->__('Total de crédito'); ?>
-				</div>
-			</div>
-			<div class="block">
-				<div class="block-value">
-					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPurchases')); ?></span>
-				</div>
-				<div class="block-texts">
-					<?php echo $helper->__('Total de compra'); ?>
-				</div>
-			</div>
+    <div class="page-title">
+        <h1><?php echo $helper->__('Painel Franquia') ?></h1>
+    </div>
+    <div>
+        <div>
+            <strong><?php echo $helper->__('Olá, ') . $this->getData('nameCustomer') . '!'; ?></strong>
+        </div>
+        <div>
+            <?php echo $helper->__('Aqui é possível ver um resumo das suas informações de estoque, comissões e vendas'); ?>
+        </div>
+    </div>
+    <div class="comission-head">
+        <div class="ch-fr-type">
+            <strong>Tipo de franqueado: </strong>
+            <?php echo $this->getData('nameFranchise'); ?>
+        </div>
+        <div class="ch-fr-cupom">
+            <strong>Cupom varejo: </strong>
+            <?php echo (isset($arrCouponsAffiliate[0])) ? $arrCouponsAffiliate[0] : null; ?>
+            <strong> | Cupom franquia: </strong>
+            <?php echo (isset($arrCouponsAffiliate[1])) ? $arrCouponsAffiliate[1] : null; ?>
+        </div>
+    </div>
+    <div class="overview">
+        <form method="post" id="frsearch" enctype="multipart/form-data">
+            <input type="hidden" name="form_key"
+                   value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"/>
+            <label for="franchise">
+                <strong><?php echo $this->__('Desempenho de: '); ?></strong>
+            </label>
+            <select name="interval" id="interval">
+                <option value="0" <?php echo $arrComboBoxSelected[0]; ?>><?php echo $this->__('Total') ?></option>
+                <option value="1" <?php echo $arrComboBoxSelected[1]; ?>><?php echo $this->__('Hoje') ?></option>
+                <option value="7" <?php echo $arrComboBoxSelected[7]; ?>><?php echo $this->__('7 dias') ?></option>
+                <option value="30" <?php echo $arrComboBoxSelected[30]; ?>><?php echo $this->__('30 dias') ?></option>
+            </select>
+            <input type="submit" name="submit" id="submit" value="OK"/>
+        </form>
+        <div class="blocks">
+            <div class="block fix-value">
+                <div class="block-value">
+                    <span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPotentialSales')); ?></span>
+                </div>
+                <div class="block-texts">
+                    <div>
+                        <?php echo $helper->__('Total potencial de venda'); ?>
+                    </div>
+                    <div>
+                        <?php echo $helper->__('(Valor do estoque atual)'); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="block fix-value">
+                <div class="block-value">
+                    <span class="ov-value"><?php echo $this->getData('affiliateCredit'); ?></span>
+                </div>
+                <div class="block-texts">
+                    <?php echo $helper->__('Total de crédito'); ?>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-value">
+                    <span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPurchases')); ?></span>
+                </div>
+                <div class="block-texts">
+                    <?php echo $helper->__('Total de compra'); ?>
+                </div>
+            </div>
 
-			<div class="block">
-				<div class="block-value">
-					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullSalesPrice')); ?></span>
-				</div>
-				<div class="block-texts">
-					<?php echo $helper->__('Total de vendas'); ?>
-				</div>
-			</div>
-			<div class="block">
-				<div class="block-value">
-					<span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullProfits')); ?></span>
-				</div>
-				<div class="block-texts">
-					<?php echo $helper->__('Total de lucro'); ?>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="overview-sales-table">
-		<div class="detais-sales-table stock-table">
-			<div class="thearde-stock-table">
-				<div class="title-details-sale-sable"><span><?php echo $helper->__('Estoque'); ?></span></div>
-				<div>
-					<span><?php echo $helper->__('Produtos com menos estoque') ?></span>
-					<a class="fl-right" href="<?php echo $this->getUrl('stock/stockaccount/myproductslist/'); ?>">Lançar estoque</a>
-				</div>
-			</div>
-			<table>
-				<tbody>
-					<?php echo $productStockItemTable; ?>
-				</tbody>
-			</table>
-		</div>
-		<div class="detais-sales-table comissions-able">
-			<div class="thearde-stock-table">
-				<div class="title-details-sale-sable"><span><?php echo $helper->__('Comissões'); ?></span></div>
-				<div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
-			</div>
-			<table>
-				<tbody>
-					<?php echo $generateMoreCommissionTable; ?>
-				</tbody>
-			</table>
-		</div>
-		<div class="detais-sales-table sales-table">
-			<div class="thearde-stock-table">
-				<div class="title-details-sale-sable"><span><?php echo $helper->__('Vendas'); ?></span></div>
-				<div><?php echo $helper->__('Produtos mais vendidos') ?></div>
-			</div>
-			<table>
-				<tbody>
-					<?php echo $productMoreSoldTable; ?>
-				</tbody>
-			</table>
-		</div>
-		<div class="detais-sales-table profit-table">
-			<div class="thearde-stock-table">
-				<div class="title-details-sale-sable"><span><?php echo $helper->__('Lucro'); ?></span></div>
-				<div><?php echo $helper->__('Produtos que geram mais lucros') ?></div>
-			</div>
-			<table>
-				<tbody>
-					<?php echo $productMoreProfitTable;	?>
-				</tbody>
-			</table>
-		</div>
-	</div>
+            <div class="block">
+                <div class="block-value">
+                    <span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullSalesPrice')); ?></span>
+                </div>
+                <div class="block-texts">
+                    <?php echo $helper->__('Total de vendas'); ?>
+                </div>
+            </div>
+            <div class="block">
+                <div class="block-value">
+                    <span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullProfits')); ?></span>
+                </div>
+                <div class="block-texts">
+                    <?php echo $helper->__('Total de lucro'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overview-sales-table">
+        <div class="detais-sales-table stock-table">
+            <div class="thearde-stock-table">
+                <div class="title-details-sale-sable"><span><?php echo $helper->__('Estoque'); ?></span></div>
+                <div>
+                    <span><?php echo $helper->__('Produtos com menos estoque') ?></span>
+                    <a class="fl-right" href="<?php echo $this->getUrl('stock/stockaccount/myproductslist/'); ?>">Lançar
+                        estoque</a>
+                </div>
+            </div>
+            <table>
+                <tbody>
+                <?php echo $productStockItemTable; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="detais-sales-table comissions-able">
+            <div class="thearde-stock-table">
+                <div class="title-details-sale-sable"><span><?php echo $helper->__('Comissões'); ?></span></div>
+                <div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
+            </div>
+            <table>
+                <tbody>
+                <?php echo $generateMoreCommissionTable; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="detais-sales-table sales-table">
+            <div class="thearde-stock-table">
+                <div class="title-details-sale-sable"><span><?php echo $helper->__('Vendas'); ?></span></div>
+                <div><?php echo $helper->__('Produtos mais vendidos') ?></div>
+            </div>
+            <table>
+                <tbody>
+                <?php echo $productMoreSoldTable; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="detais-sales-table profit-table">
+            <div class="thearde-stock-table">
+                <div class="title-details-sale-sable"><span><?php echo $helper->__('Lucro'); ?></span></div>
+                <div><?php echo $helper->__('Produtos que geram mais lucros') ?></div>
+            </div>
+            <table>
+                <tbody>
+                <?php echo $productMoreProfitTable; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
