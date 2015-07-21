@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Franchise_Customer>
+			<version>1.0.0.0</version>
+		</Franchise_Customer>
+	</modules>
+	<global>
+
+		<models>
+			<franchise_customer>
+				<class>Franchise_Customer_Model</class>
+			</franchise_customer>
+		</models>
+
+		<events>
+			<customer_register_success>
+				<observers>
+					<franchise_customer>
+						<class>franchise_customer/observer</class>
+						<method>setOptionFranchise</method>
+						<type>singleton</type>
+					</franchise_customer>
+				</observers>
+			</customer_register_success>
+		</events>
+	</global>
+</config>
