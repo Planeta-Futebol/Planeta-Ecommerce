@@ -5,6 +5,5 @@ class Franchise_Customer_Model_Observer
     {
         $customer = $observer->getEvent()->getCustomer();
 
-        Mage::log("observer funcionando", null, "observer.log");
     }
 }
