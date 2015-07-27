@@ -1,0 +1,28 @@
+.fieldset{
+  font-family: 'Crete Round';
+  padding: 0px !important;
+  margin: 0px;
+  font-size: 14px;
+
+  strong{
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
+
+.sac{
+  .subtitler-sac {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .row-sac {
+    font-size: 16px;
+    margin: 15px 0px;
+
+    .sac-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+}
