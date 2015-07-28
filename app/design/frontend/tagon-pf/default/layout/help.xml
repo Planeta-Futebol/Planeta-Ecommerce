@@ -8,6 +8,9 @@
 			<action method="addCss">
 				<stylesheet>css/scss-help.css</stylesheet>
 			</action>
+			<action method="addJs">
+				<stylesheet>js/faq.js</stylesheet>
+			</action>
 		</reference>
 
 		<update handle="customer_account"/>
