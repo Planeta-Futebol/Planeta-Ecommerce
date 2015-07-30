@@ -9,7 +9,7 @@
 	<global>
 		<fieldsets>
 			<customer_account>
-				<option><create>1</create><update>1</update><name>1</name></option>
+				<franchiseoption><create>1</create><update>1</update><name>1</name></franchiseoption>
 			</customer_account>
 		</fieldsets>
 	</global>

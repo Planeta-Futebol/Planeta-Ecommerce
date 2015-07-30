@@ -1,6 +1,6 @@
 <?php
 
-class Help_Customer_Block_Faq extends Inic_Faq_Block_Frontend_List
+class Franchise_Customer_Block_Faq extends Inic_Faq_Block_Frontend_List
 {
     public function __construct()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class Franchise_Group_Model_Entity_Option extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Franchise_Group_Model_Entity_Franchiseoption extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
 
     /**

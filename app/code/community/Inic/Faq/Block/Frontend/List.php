@@ -18,7 +18,7 @@ class Inic_Faq_Block_Frontend_List extends Mage_Core_Block_Template
 {
 	protected $_faqCollection;
 	protected $_faqfrequentCollection;
-	
+
 	protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {

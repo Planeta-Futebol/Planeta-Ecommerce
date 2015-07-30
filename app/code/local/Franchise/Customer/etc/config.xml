@@ -5,24 +5,42 @@
 			<version>1.0.0.0</version>
 		</Franchise_Customer>
 	</modules>
-	<global>
 
+	<global>
 		<models>
 			<franchise_customer>
 				<class>Franchise_Customer_Model</class>
 			</franchise_customer>
 		</models>
-
-		<events>
-			<customer_register_success>
-				<observers>
-					<franchise_customer>
-						<class>franchise_customer/observer</class>
-						<method>setOptionFranchise</method>
-						<type>singleton</type>
-					</franchise_customer>
-				</observers>
-			</customer_register_success>
-		</events>
 	</global>
+
+    <frontend>
+        <routers>
+            <customer>
+                <args>
+                    <modules>
+                        <franchise_customer before="Mage_Customer">Franchise_Customer</franchise_customer>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+
+        <layout>
+            <updates>
+                <custome>
+                    <file>franchise_customer.xml</file>
+                </custome>
+            </updates>
+        </layout>
+
+    </frontend>
+
+    <global>
+        <blocks>
+            <franchise_customer>
+                <class>Franchise_Customer_Block</class>
+            </franchise_customer>
+        </blocks>
+    </global>
+
 </config>

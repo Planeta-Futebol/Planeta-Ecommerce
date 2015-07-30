@@ -1,7 +1,7 @@
 <?php
 require_once("Mage/Customer/controllers/AccountController.php");
 
-class Help_Customer_AccountController extends Mage_Customer_AccountController
+class Franchise_Customer_AccountController extends Mage_Customer_AccountController
 {
 
     public function faqAction()

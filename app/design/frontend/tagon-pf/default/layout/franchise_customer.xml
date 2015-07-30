@@ -20,7 +20,7 @@
 		</reference>
 
 		<reference name="content">
-			<block type="help_customer/faq" name="customer_faq" template="customer/account/faq.phtml" />
+			<block type="franchise_customer/faq" name="customer_faq" template="customer/account/faq.phtml" />
 		</reference>
 
 	</customer_account_faq>
