@@ -57,7 +57,7 @@
       <a href="#" class="level-top no-link"><span>Times</span></a>
       <ul class="level0">
         <?php foreach ($times as $value): ?>
-          <?php if ($value) : ?><li><a href="/loja/produtos/escolha-o-time/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+          <?php if ($value) : ?><li><a href="/produtos/escolha-o-time/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
         <?php endforeach ?>
       </ul>
     </li>
@@ -65,7 +65,7 @@
       <a href="#" class="level-top no-link"><span>Produtos</span></a>
       <ul class="level0">
         <?php foreach ($tipo_produtos as $value): ?>
-          <?php if ($value) : ?><li><a href="/loja/produtos/tipo-de-produto/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+          <?php if ($value) : ?><li><a href="/produtos/tipo-de-produto/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
         <?php endforeach ?>
       </ul>
     </li>
@@ -73,7 +73,7 @@
       <a href="#" class="level-top no-link"><span>Vestuario</span></a>
       <ul class="level0">
         <?php foreach ($vestuarios as $value): ?>
-          <?php if ($value) : ?><li><a href="/loja/produtos/vestuário/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+          <?php if ($value) : ?><li><a href="/produtos/vestuário/<?php echo preg_replace('/\s/i', '-', strtolower($value)); ?>"><?php echo $value; ?></a></li><?php endif; ?>
         <?php endforeach ?>
       </ul>
     </li>
@@ -81,18 +81,18 @@
       <a href="#" class="level-top no-link"><span>Coleções</span></a>
       <ul class="level0">
         <?php foreach ($colecoes as $value): ?>
-          <?php if ($value) : ?><li><a href="/loja/produtos/cole%C3%A7%C3%B5es/<?php echo strtolower($value); ?>"><?php echo $value; ?></a></li><?php endif; ?>
+          <?php if ($value) : ?><li><a href="/produtos/cole%C3%A7%C3%B5es/<?php echo strtolower($value); ?>"><?php echo $value; ?></a></li><?php endif; ?>
         <?php endforeach ?>
       </ul>
     </li>
     <li class="level0 nav-4 level-top parent">
-      <a href="/loja/novidades" class="level-top"><span>Novidades</span></a>
+      <a href="/novidades" class="level-top"><span>Novidades</span></a>
     </li>
     <li class="level0 nav-5 level-top parent">
-      <a href="/loja/promocoes" class="level-top"><span>Promoções</span></a>
+      <a href="/promocoes" class="level-top"><span>Promoções</span></a>
     </li>
     <li class="level0 nav-6 level-top parent">
-      <a href="/loja/mais-vendidos" class="level-top"><span>Mais Vendidos</span></a>
+      <a href="/mais-vendidos" class="level-top"><span>Mais Vendidos</span></a>
     </li>
   </ul>
 </div>
