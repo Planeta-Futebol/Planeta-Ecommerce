@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<config>
+	<modules>
+		<Help_Customer>
+			<version>1.0.0.0</version>
+		</Help_Customer>
+	</modules>
+	<frontend>
+		<routers>
+			<customer>
+				<args>
+					<modules>
+						<help_customer before="Mage_Customer">Help_Customer</help_customer>
+					</modules>
+				</args>
+			</customer>
+		</routers>
+
+		<layout>
+			<updates>
+				<custome>
+					<file>help.xml</file>
+				</custome>
+			</updates>
+		</layout>
+
+	</frontend>
+
+	<global>
+		<blocks>
+			<help_customer>
+				<class>Help_Customer_Block</class>
+			</help_customer>
+		</blocks>
+	</global>
+
+</config>

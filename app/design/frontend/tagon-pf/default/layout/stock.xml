@@ -1,98 +1,106 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-  <customer_account>
-    <reference name="head">
-      <action method="addCss">
-        <stylesheet>stock/css/stock.css</stylesheet>
-      </action>
-    </reference>
-    <reference name="left">
-      <block type="core/template" name="stocknavigation" template="stock/navigation.phtml" before="-" />
-    </reference>
-  </customer_account>
-  <stock_account_dashboard>
-    <reference name="head">
-      <action method="addCss">
-        <stylesheet>stock/css/stock.css</stylesheet>
-      </action>
-      <action method="addCss">
-        <stylesheet>stock/css/jquery-ui.css</stylesheet>
-      </action>
-		<action method="addCss">
-        	<stylesheet>stock/css/scss-stock.css</stylesheet>
-      </action>
-    </reference>
-    <update handle="customer_account" />
-    <reference name="content">
-      <block type="stock/dashboard" name="stock_dashboard" template="stock/dashboard.phtml" />
-    </reference>
-  </stock_account_dashboard>
-  <stock_account_productlist>
-    <reference name="head">
-      <action method="addCss">
-        <stylesheet>stock/css/stock.css</stylesheet>
-      </action>
-      <action method="addCss">
-        <stylesheet>stock/css/jquery-ui.css</stylesheet>
-      </action>
-    </reference>
-    <update handle="customer_account" />
-    <reference name="content">
-      <block type="stock/collection" name="stock_myproductslist" template="stock/myproductlist.phtml" />
-    </reference>
-  </stock_account_productlist>
-  <stock_account_commission>
-    <reference name="head">
-      <action method="addCss">
-        <stylesheet>stock/css/stock.css</stylesheet>
-      </action>
-      <action method="addCss">
-        <stylesheet>stock/css/jquery-ui.css</stylesheet>
-      </action>
-    </reference>
-    <update handle="customer_account" />
-    <reference name="content">
-      <block type="stock/commission" name="stock_commission" template="stock/commission.phtml" />
-    </reference>
-  </stock_account_commission>
-  <stock_account_saleperpartner>
-    <reference name="head">
-      <action method="addCss">
-        <stylesheet>stock/css/stock.css</stylesheet>
-      </action>
-      <action method="addCss">
-        <stylesheet>stock/css/jquery-ui.css</stylesheet>
-      </action>
-    </reference>
-    <update handle="customer_account" />
-    <reference name="content">
-      <block type="stock/Saleperpartner" name="stock_saleperpartner" template="stock/saleperpartner.phtml" />
-      <block type="stock/Saleperpartner" name="stock_sales" template="stock/sales.phtml" />
-      <block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml" />
-      <block type="stock/Saleperpartner" name="stock_commissionsreport" template="stock/comissionsreport.phtml" />
-    </reference>
-  </stock_account_saleperpartner>
-  <stock_account_financialchart>
-    <reference name="head">
-      <action method="addCss">
-        <stylesheet>stock/css/stock.css</stylesheet>
-      </action>
-      <action method="addCss">
-        <stylesheet>stock/css/jquery-ui.css</stylesheet>
-      </action>
-      <action method="addCss">
-        <stylesheet>stock/css/morris.css</stylesheet>
-      </action>
-      <action method="addJs">
-        <script>stock/js/raphael-min.js</script>
-      </action>
-      <action method="addJs">
-        <script>stock/js/morris.js</script>
-      </action>
-    </reference>
-    <update handle="customer_account" />
-    <reference name="content">
-      <block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml" />
-    </reference>
-  </stock_account_financialchart>
+	<customer_account>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>stock/css/stock.css</stylesheet>
+			</action>
+		</reference>
+		<reference name="left">
+			<block type="core/template" name="stocknavigation" template="stock/navigation.phtml" before="-"/>
+		</reference>
+	</customer_account>
+
+
+	<stock_account_dashboard>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>stock/css/stock.css</stylesheet>
+			</action>
+			<action method="addCss">
+				<stylesheet>stock/css/jquery-ui.css</stylesheet>
+			</action>
+			<action method="addCss">
+				<stylesheet>stock/css/scss-stock.css</stylesheet>
+			</action>
+		</reference>
+		<update handle="customer_account"/>
+
+		<reference name="content">
+			<block type="stock/dashboard" name="stock_dashboard" template="stock/dashboard.phtml"/>
+		</reference>
+
+
+	</stock_account_dashboard>
+
+
+
+	<stock_account_productlist>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>stock/css/stock.css</stylesheet>
+			</action>
+			<action method="addCss">
+				<stylesheet>stock/css/jquery-ui.css</stylesheet>
+			</action>
+		</reference>
+		<update handle="customer_account"/>
+		<reference name="content">
+			<block type="stock/collection" name="stock_myproductslist" template="stock/myproductlist.phtml"/>
+		</reference>
+	</stock_account_productlist>
+	<stock_account_commission>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>stock/css/stock.css</stylesheet>
+			</action>
+			<action method="addCss">
+				<stylesheet>stock/css/jquery-ui.css</stylesheet>
+			</action>
+		</reference>
+		<update handle="customer_account"/>
+		<reference name="content">
+			<block type="stock/commission" name="stock_commission" template="stock/commission.phtml"/>
+		</reference>
+	</stock_account_commission>
+	<stock_account_saleperpartner>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>stock/css/stock.css</stylesheet>
+			</action>
+			<action method="addCss">
+				<stylesheet>stock/css/jquery-ui.css</stylesheet>
+			</action>
+		</reference>
+		<update handle="customer_account"/>
+		<reference name="content">
+			<block type="stock/Saleperpartner" name="stock_saleperpartner" template="stock/saleperpartner.phtml"/>
+			<block type="stock/Saleperpartner" name="stock_sales" template="stock/sales.phtml"/>
+			<block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml"/>
+			<block type="stock/Saleperpartner" name="stock_commissionsreport" template="stock/comissionsreport.phtml"/>
+		</reference>
+	</stock_account_saleperpartner>
+	<stock_account_financialchart>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>stock/css/stock.css</stylesheet>
+			</action>
+			<action method="addCss">
+				<stylesheet>stock/css/jquery-ui.css</stylesheet>
+			</action>
+			<action method="addCss">
+				<stylesheet>stock/css/morris.css</stylesheet>
+			</action>
+			<action method="addJs">
+				<script>stock/js/raphael-min.js</script>
+			</action>
+			<action method="addJs">
+				<script>stock/js/morris.js</script>
+			</action>
+		</reference>
+		<update handle="customer_account"/>
+		<reference name="content">
+			<block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml"/>
+		</reference>
+	</stock_account_financialchart>
 </layout>

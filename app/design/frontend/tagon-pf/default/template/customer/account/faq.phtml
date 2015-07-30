@@ -1,0 +1,89 @@
+<?php
+    $helper = Mage::helper('stock');
+
+    $faqListData = null;
+
+    if ($this->hasFaq() && $this->hasFrequent() ){
+
+        $icoQ = $this->__('Q');
+        $icoA = $this->__('A');
+
+        foreach ($this->getFrequentFaqCollection() as $faqItem){
+
+            $question = $this->htmlEscape($faqItem->getQuestion());
+            $aswer = Mage::helper('faq')->filter($faqItem->getAnswer());
+
+            $faqListData .= <<< "FAQDATA"
+                <table class="faq-listdata-table">
+                    <tbody>
+                    <tr class="faq-question">
+                        <td width="5%"><span class="label important">$icoQ</span></td>
+                        <td><strong>$question<strong></td>
+                    </tr>
+                    <tr class="faq-answer" style="display:none;">
+                        <td><span class="label success">$icoA</span></td>
+                        <td>$aswer</td>
+                    </tr>
+                    </tbody>
+                </table>
+FAQDATA;
+        }
+    }
+?>
+
+<div class="dashboard">
+    <div class="fieldset">
+        <div class="page-title">
+            <h1><?php echo $helper->__('Ajuda') ?></h1>
+        </div>
+        <div class="welcome-msg">
+            <div>
+                <strong><?php echo $helper->__('Atendimento online')?></strong>
+            </div>
+            <div>
+                <p>
+                <?php echo $helper->__('Possuimos um atendimento online das 10:00 até as 18:00 de
+                segunda a sexta, clicque aqui e seja atendido ou deixe a sua mensagem.'); ?>
+                </p>
+            </div>
+        </div>
+        <div class="col2-set">
+            <div class="sac">
+                <div class="subtitler-sac">SAC</div>
+                <div class="content-sac">
+                    <div class="row-sac">
+                        <div class="row-sac-title">Telefone:</div>
+                        <div class="row-sac-content">Fixo 11 3743 8663 - Atendimento das 09:00 até as 20:00</div>
+                        <div class="row-sac-content">Vivo 11 94387 1817  - Atendimento das 09:00 até as 20:00</div>
+                        <div class="row-sac-content">Claro 11 94569 5656 - Atendimento das 09:00 até as 20:00</div>
+                        <div class="row-sac-content">Tim 11 95954 3699 - Atendimento das 09:00 até as 20:00</div>
+                        <div class="row-sac-content">Oi	11 96254 3193 - Atendimento das 09:00 até as 20:00</div>
+                    </div>
+                    <div class="row-sac">
+                        <div class="row-sac-title">Email</div>
+                        <div class="row-sac-content">contato@planetafutebol.com.br</div>
+                    </div>
+                    <div class="row-sac">
+                        <div class="row-sac-title">Endereço:</div>
+                        <div class="row-sac-content">Rua Jandiatuba, 630 - cj. 438 - bloco B - Morumbi - São Paulo - SP - CEP 05716-150</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="faq-ask">
+            <div class="page-title">
+                <h2><?php echo $this->__('Frequently Asked Questions'); ?></h2>
+            </div>
+            <div class="faq-frequent-container">
+                <?php echo $faqListData; ?>
+            </div>
+            <script type="text/javascript">
+                $$('.faq-question').each(function(element) {
+                    element.observe('click', function(){
+                        this.next().toggle();
+                    });
+                })
+            </script>
+        </div>
+    </div>
+</div>
