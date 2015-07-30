@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Franchise_Group>
+			<version>0.1.1</version>
+		</Franchise_Group>
+	</modules>
+
+	<global>
+		<fieldsets>
+			<customer_account>
+				<option><create>1</create><update>1</update><name>1</name></option>
+			</customer_account>
+		</fieldsets>
+	</global>
+
+	<global>
+
+		<models>
+			<group>
+				<class>Franchise_Group_Model</class>
+			</group>
+		</models>
+
+		<resources>
+			<group_setup>
+				<setup>
+					<module>Franchise_Group</module>
+					<class>Mage_Customer_Model_Entity_Setup</class>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+			</group_setup>
+			<group_write>
+				<connection>
+					<use>core_write</use>
+				</connection>
+			</group_write>
+			<group_read>
+				<connection>
+					<use>core_read</use>
+				</connection>
+			</group_read>
+		</resources>
+
+		<helpers>
+			<group>
+				<class>Franchise_Group_Helper</class>
+			</group>
+		</helpers>
+	</global>
+</config>
