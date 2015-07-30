@@ -8,7 +8,11 @@ class Magestore_Bannerslider_Block_Default extends Mage_Core_Block_Template {
 
     public function getBlockData() {
         if (!$this->hasData('block_data')) {
-            $bannerslider_id = $this->getBannersliderId();
+
+            $groupCustomerId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
+            $bannerslider_id = ( $groupCustomerId <= 1 ) ? 1 : 2;
+            
             if ($bannerslider_id) {
                 $block_data = Mage::getModel('bannerslider/bannerslider')->load($bannerslider_id);
             } else {

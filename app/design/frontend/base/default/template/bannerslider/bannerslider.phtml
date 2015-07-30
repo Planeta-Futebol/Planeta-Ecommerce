@@ -78,17 +78,24 @@ $url = $this->getUrl('bannerslider/index/impress');
         <?php if ($block['show_title'] == 0): ?>
             <div class="magestore-bannerslider-title" style="font: bold 12px/16px Arial, Helvetica, sans-serif;text-transform: uppercase;color: #e26703;"><strong><span><?php echo $block['title']; ?></span></strong></div>
         <?php endif; ?>
-        <div class="magestore-bannerslider">
-            <?php if ($block->getStyleContent() == "1"): ?>
-                <div class="magestore-bannerslider-custom">
-                    <?php echo $block->getCustomCode(); ?>
+            <div class="default-slider-block">
+                <div class="magestore-bannerslider default-slider">
+                    <?php if ($block->getStyleContent() == "1"): ?>
+                        <div class="magestore-bannerslider-custom">
+                            <?php echo $block->getCustomCode(); ?>
+                        </div>
+                    <?php elseif ($block->getStyleContent() == "0"): ?>
+                        <div class="magestore-bannerslider-standard">
+                            <?php echo $this->returntemplateSlider($block->getStyleSlide(), $result) ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            <?php elseif ($block->getStyleContent() == "0"): ?>
-                <div class="magestore-bannerslider-standard">
-                    <?php echo $this->returntemplateSlider($block->getStyleSlide(), $result) ?>
-                </div>    
-            <?php endif; ?>
-        </div>
+                <div class="home-right">
+                    <a href="/franquia.php">
+                        <img src="http://media.planetafutebol.com.br/media/wysiwyg/pagayo/pt001/home-topbox.png" alt="" />
+                    </a>
+                </div>
+            </div>
         <?php
         foreach ($banners as $banner) {
             $banner_ids[$banner["banner_id"]] = $banner["banner_id"];
