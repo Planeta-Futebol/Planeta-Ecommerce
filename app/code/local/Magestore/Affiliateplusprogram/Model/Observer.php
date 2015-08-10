@@ -195,7 +195,32 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                 $newProgram->setProgramId($autoJoinProgram->getId())->setId(null)->save();
             }
             Mage::getModel('affiliateplusprogram/joined')->updateJoined(null, $affiliateplusAccount->getId());
-        }
+        } elseif($affiliateplusAccount && !$affiliateplusAccount->hasData('account_program')) {
+			$oldProgramCollection = Mage::getResourceModel('affiliateplusprogram/account_collection')
+                    ->addFieldToFilter('account_id', $affiliateplusAccount->getId())
+					;
+			$programIds = array();
+			foreach($oldProgramCollection as $old) {
+				$programIds[] = $old->getProgramId(); 
+			}
+			
+			$newProgram = Mage::getModel('affiliateplusprogram/account')
+                    ->setAccountId($affiliateplusAccount->getId())
+                    ->setJoined(now());
+            $autoJoinPrograms = Mage::getResourceModel('affiliateplusprogram/program_collection')
+                    ->addFieldToFilter('autojoin', 1)
+					;
+			if(count($programIds)) {
+                    $autoJoinPrograms->addFieldToFilter('program_id', array('nin'=>$programIds))
+					;
+			}
+			// $autoJoinPrograms->printlogquery(true);die('x');
+			foreach ($autoJoinPrograms as $autoJoinProgram) {
+                $autoJoinProgram->setNumAccount($autoJoinProgram->getNumAccount() + 1)->orgSave();
+                $newProgram->setProgramId($autoJoinProgram->getId())->setId(null)->save();
+				Mage::getModel('affiliateplusprogram/joined')->updateJoined($autoJoinProgram->getId(), $affiliateplusAccount->getId());
+            }
+		}
         return $this;
     }
 
