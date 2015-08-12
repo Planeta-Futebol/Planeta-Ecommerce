@@ -36,11 +36,11 @@ STOCK_ITEM;
 
 }
 
-$arrProductMoreSold = $this->getData('productMoreSold');
+$arrTopSellingProducts = $this->getData('productMoreSold');
 
-if (count($arrProductMoreSold) > 0) {
+if (count($arrTopSellingProducts) > 0) {
     $productMoreSoldTable = "";
-    foreach ($arrProductMoreSold as $item) {
+    foreach ($arrTopSellingProducts as $item) {
 
         $nameProductMoreSold = $item['name'];
         $quantityProductMoreSold = $item['quantity'];
