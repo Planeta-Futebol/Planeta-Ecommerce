@@ -36,7 +36,7 @@ class Franchise_Stock_Model_Dashboard
      *
      * @var string
      */
-    private $nameFranchise;
+    private $franchiseType;
 
     /**
      * It represents an interval of days, today.
@@ -75,7 +75,7 @@ class Franchise_Stock_Model_Dashboard
         $groupCustomerId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
         $typeFranchise = Mage::getModel("customer/group")->load($groupCustomerId, 'customer_group_id');
-        $this->nameFranchise = $typeFranchise->getData('customer_group_code');
+        $this->franchiseType = $typeFranchise->getData('customer_group_code');
 
     }
 
@@ -405,8 +405,8 @@ class Franchise_Stock_Model_Dashboard
      *
      * @return string
      */
-    public function getNameFranchise()
+    public function getFranchiseType()
     {
-        return $this->nameFranchise;
+        return $this->franchiseType;
     }
 }

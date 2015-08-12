@@ -13,7 +13,7 @@ class Franchise_Stock_Block_Dashboard extends Mage_Core_Block_Template
         $dashboard = Mage::getModel('stock/dashboard');
 
         $this->setData('nameCustomer', $nameCustomer);
-        $this->setData('nameFranchise', $dashboard->getNameFranchise());
+        $this->setData('franchiseType', $dashboard->getFranchiseType());
         $this->setData('fullPotentialSales', $dashboard->getFullPotentialSales());
         $this->setData('couponsAffiliate', $dashboard->getCouponsAffiliate());
         $this->setData('affiliateCredit', $dashboard->getCreditAffiliatePlus());
