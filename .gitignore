@@ -25,3 +25,5 @@ Thumbs.db
 !var/package/
 !var/backups/
 !var/app/
+
+/.idea/*

@@ -10,6 +10,23 @@
       <block type="core/template" name="stocknavigation" template="stock/navigation.phtml" before="-" />
     </reference>
   </customer_account>
+  <stock_account_dashboard>
+    <reference name="head">
+      <action method="addCss">
+        <stylesheet>stock/css/stock.css</stylesheet>
+      </action>
+      <action method="addCss">
+        <stylesheet>stock/css/jquery-ui.css</stylesheet>
+      </action>
+		<action method="addCss">
+        	<stylesheet>stock/css/scss-stock.css</stylesheet>
+      </action>
+    </reference>
+    <update handle="customer_account" />
+    <reference name="content">
+      <block type="stock/dashboard" name="stock_dashboard" template="stock/dashboard.phtml" />
+    </reference>
+  </stock_account_dashboard>
   <stock_account_productlist>
     <reference name="head">
       <action method="addCss">

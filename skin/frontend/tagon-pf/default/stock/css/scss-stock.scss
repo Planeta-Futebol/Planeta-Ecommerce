@@ -1,0 +1,140 @@
+.comission-head{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  .ch-fr-type{
+    float: left;
+    width: 40%;
+  }
+
+  .ch-fr-cupom{
+    font-size: 16px;
+  }
+}
+
+
+.blocks{
+  margin-top: 10px;
+
+  .block{
+    margin-left: 1.6%;
+    background-color: #e7e7e7;
+    width: 18%;
+    height: 75px;
+    padding: 3px;
+    float: left;
+
+    .block-value{
+      margin-bottom: 15px;
+
+      .ov-value{
+        color: #9fce41;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    &:first-child{
+      margin-left: 0;
+    }
+
+    &.fix-value{
+      background-color: #3e3e3e;
+      color: #fff; width: 18%;
+    }
+  }
+}
+
+.overview-sales-table{
+  .detais-sales-table{
+    width: 49%;
+    float: left;
+
+    .thearde-stock-table{
+      margin-bottom: 5px;
+
+      .title-details-sale-sable{
+        font-size: 16px;
+        font-weight: bold;
+        padding-bottom: 5px;
+      }
+    }
+
+    table{
+      border: 0;
+      width: 100%;
+
+      tbody {
+
+        tr {
+
+          &:nth-child(2n+1){
+            background-color: #e7e7e7;
+          }
+
+          td {
+            padding: 5px 0px;
+
+            &:first-child{
+              width: 385px;
+            }
+
+            &:nth-child(2) {
+              text-align: right;
+            }
+
+            &:last-child {
+              padding: 5px;
+              text-align: center;
+            }
+          }
+
+          td[quantity="0"]{
+            color: #cc1a07;
+          }
+
+        }
+      }
+
+    }
+
+    &.stock-table{
+      margin-bottom: 10px;
+      margin-right: 2%;
+    }
+
+    &.comissions-able{
+      margin-bottom: 10px;
+    }
+
+    &.sales-table{
+      margin-right: 2%;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+
+    &.profit-table{
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+
+  }
+}
+
+.fl-right{
+  float: right;
+  font-weight: bold;
+  color: #222 !important;
+}
+
+.notice-msg {
+  &.detais-notice-msg {
+    background-position: 10px 6px !important;
+    min-height: 0px !important;
+    text-align: center;
+  }
+}
