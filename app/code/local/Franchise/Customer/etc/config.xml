@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Franchise_Customer>
+			<version>1.0.0.0</version>
+		</Franchise_Customer>
+	</modules>
+
+	<global>
+		<models>
+			<franchise_customer>
+				<class>Franchise_Customer_Model</class>
+			</franchise_customer>
+		</models>
+	</global>
+
+    <frontend>
+        <routers>
+            <customer>
+                <args>
+                    <modules>
+                        <franchise_customer before="Mage_Customer">Franchise_Customer</franchise_customer>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+
+        <layout>
+            <updates>
+                <custome>
+                    <file>franchise_customer.xml</file>
+                </custome>
+            </updates>
+        </layout>
+
+    </frontend>
+
+    <global>
+        <blocks>
+            <franchise_customer>
+                <class>Franchise_Customer_Block</class>
+            </franchise_customer>
+        </blocks>
+    </global>
+
+</config>
