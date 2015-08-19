@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+        <stock_adminhtml_admindash_index>
+        <reference name="content">
+            <block type="stock/adminhtml_admindash" name="admindash" />
+        </reference>
+        </stock_adminhtml_admindash_index>
+</layout>
