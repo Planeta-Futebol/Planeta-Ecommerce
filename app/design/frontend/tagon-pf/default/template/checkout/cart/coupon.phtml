@@ -36,7 +36,7 @@
               <?php if ($lifetime): ?>
               <br>
               <label> <?php echo $this->__('Voce já possui um plano de desconto permanente!')?>
-              <?php else: ?>
+              <?php endif ?>
               <label for="coupon_code"><?php echo $this->__('Enter your coupon code if you have one.') ?></label>
               <input type="hidden" name="remove" id="remove-coupone" value="0" />
               <div class="input-box">
@@ -48,7 +48,6 @@
                       &nbsp; <button type="button" title="<?php echo $this->__('Cancel Coupon') ?>" class="button" onclick="discountForm.submit(true)" value="<?php echo $this->__('Cancel Coupon') ?>"><span><span><?php echo $this->__('Cancel Coupon') ?></span></span></button>
                   <?php endif;?>
               </div>
-              <?php endif; ?>
           </div>
       </div>
   </form>
