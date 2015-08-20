@@ -6,7 +6,7 @@ class Franchise_Stock_Block_Commission extends Mage_Catalog_Block_Product_Abstra
     $customerData = Mage::getSingleton('customer/session')->getCustomer();
     $existedAccount = Mage::getModel('affiliateplus/account')->loadByCustomerId($customerData->getId());
     $accountid = $existedAccount->getId();
-    $transactionInfo = Mage::getModel('affiliateplus/transaction')->getCollection();
+    $transactionInfo = Mage::getModel('affiliateplus/tracking')->getCollection();
     $transactionInfo->addFieldToFilter('account_id', array('in' => $accountid));
     $this->setCollection($transactionInfo);
   }

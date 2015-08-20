@@ -13,13 +13,13 @@ class Franchise_Stock_Adminhtml_FranchiseController extends Mage_Adminhtml_Contr
       ->setOrder('sale_at');
     $lastsales->getSelect()->limit(5);
 
-    // franchise sales data
-    $collection = Mage::getModel("stock/Saleperpartner")->getCollection()
-      ->setOrder('sale_at');
-
-    if (!empty($post) and $post['franchise']!=0) {
-      $collection->addFieldToFilter('userid', array('eq'=>$post['franchise']));
-    }
+    //// franchise sales data
+    //$collection = Mage::getModel("stock/Saleperpartner")->getCollection()
+    //  ->setOrder('sale_at');
+    //
+    //if (!empty($post) and $post['franchise']!=0) {
+    //  $collection->addFieldToFilter('userid', array('eq'=>$post['franchise']));
+    //}
 
     /* TODO: Make it work
      * $collection->getSelect()->join( array('franchise_data'=> $collection->getTable('customer/customer')),
@@ -37,13 +37,13 @@ class Franchise_Stock_Adminhtml_FranchiseController extends Mage_Adminhtml_Contr
     }
 
     $salesinfo = array('totalvalue'=>$totalsales, 'average'=>($totalsales/$salescount));
-
+    /* TODO: fill Users, Lastsales and Salesinfo */
     $block = $this->getLayout()->createBlock('stock/admindashboard');
     $block->setUsers($users->load());
     $block->setLastsales($lastsales->load());
-    $block->setCollection($collection);
+    //$block->setCollection($collection);
     $block->setSalesinfo($salesinfo);
-    $block->preparePager();
+    //$block->preparePager();
     $block->setTemplate("stock/dashboard.phtml");
 
     $this->_initAction();

@@ -4,50 +4,139 @@
 
   if($roleId > 1){
     $_commissionCollection=$this->getCollection();
+    $customerData = Mage::getSingleton('customer/session')->getCustomer();
+    $customerd = $customerData->getId();
 ?>
   <div class="fieldset">
     <div class="page-title">
-      <h1><?php echo $helper->__('Comissões') ?></h1>
+      <h1><?php echo $helper->__('Commission') ?></h1>
     </div>
+
     <div class="productlist frproductlist commlist">
       <?php if(!$_commissionCollection->count()): ?>
+        <div class="clearfr"></div>
         <p class="note-msg noprodsfr"><?php echo $this->__('Nenhum resultado encontrado.') ?></p>
       <?php endif; ?>
       <div class= "frpagewrap">
         <div class="pager-top">
-          <div class="pagerhead-content">
-            <?php echo $this->__('Lista de clientes afiliados'); ?>
-          </div>
+          <div class="couponid">
+            <?php
+              $collection = Mage::getModel('affiliatepluscoupon/coupon')->getCollection();
+              $account = Mage::getModel('affiliateplus/account')->loadByCustomerId($customerd);
+              $accountid = $account->getId();
+              $collection->addFieldToFilter('account_id', $accountid);
+
+              if($collection->count()) {
+                foreach ($collection as $item) {
+                  $programname = $item->getProgram_name();
+                  $fprint = 1;
+
+                  switch ($programname) {
+                    case("Franchise-affiliate"):
+                      $progdesc = "<strong>Cupom para Franqueados:</strong> ";
+                      break;
+                    case("Customer-affiliate"):
+                      $progdesc = "<strong>Cupom para Varejo:</strong> ";
+                      break;
+                    default:
+                      $fprint = 0;
+                      break;
+                  }
+
+                  if ($fprint) {
+                    echo $progdesc.$item->getCoupon_code()."<br/>";
+                  }
+                }
+              }
+            ?>
+          </div> <!--couponid-->
+          <div class="for_sharing" style="display: block;">
+            <?php
+              $block = Mage::app()->getLayout()->createBlock('Magestore_AffiliateplusReferFriend_Block_Refer');
+              $defaultsharcontent = $block->getDefaultSharingContent();
+              $getPersonalUrl = $block->getPersonalUrl();
+              $getJsonEmail = $block->getJsonEmail();
+            ?>
+            <form id="affiliate-facebook-form" method="post">
+              <ul class="form-list" style="display:none;">
+                <li>
+                  <label for="affiliate-facebook-content"><?php echo $this->__("Compartilhar no Facebook") ?>:</label>
+                  <div class="input-box">
+                    <div id="fb-root"></div>
+                    <textarea id="affiliate-facebook-content" class="required-entry"><?php echo $defaultsharcontent; ?></textarea>
+                  </div>
+                </li>
+              </ul>
+              <div class="buttons-set">
+                <div class="fb-share-button" data-href="<?php echo $defaultsharcontent; ?>" data-layout="icon"></div>
+              </div>
+            </form>
+            <ul class="form-list" style="display: none;">
+              <li>
+                <label for="affiliate-twitter-content"><?php echo $this->__("Your  tweet (use the suggestion or write your own)") ?>:</label>
+                <div class="input-box">
+                  <textarea id="affiliate-twitter-content" class="required-entry"><?php echo $defaultsharcontent; ?></textarea>
+                </div>
+              </li>
+            </ul>
+            <div class="buttons-set twittershare">
+              <button class = "button button-config" title="<?php echo $this->__('Tweet') ?>" onclick="affiliateTweet();">
+                <span><span><img width="31px" height="24px" src="<?php echo $this->getSkinUrl('images/twitter-logo.jpg'); ?>"/></span></span>
+              </button>
+            </div>
+            <!--for email-->
+            <form id="affiliate-email-form" method="post" action="<?php echo $this->getUrl('*/*/email') ?>">
+              <ul class="form-list">
+                <li>
+                  <?php
+                    $mailbody = $block->getEmailFormData()->getEmailContent() ? $block->getEmailFormData()->getEmailContent() : $block->getDefaultEmailContent();
+                    $spacereplacebody =  str_replace("&","%26",(str_replace("","%20","$mailbody")));
+                  ?>
+                  <a href="mailto:<?php echo $customerData->getEmail();?>?subject=Planeta%20Futebol%20-%20Programa%20de%20afiliados&body=<?php echo $spacereplacebody;?>">
+                    <img width="31px" height="28px" src="<?php echo $this->getSkinUrl('images/mail_icon.png'); ?>"/>
+                  </a>
+                </li>
+              </ul>
+            </form>
+          </div> <!--for_sharing-->
           <?php echo $this->getPagerHtml();?>
         </div>
       </div>
       <ol class="maintree">
-        <li class="singlerow headtree" style="height:40px">
+        <li class="singlerow headtree">
           <ul>
-            <li class="fli">Nome</li>
+            <li class="fli">Name</li>
             <li>Email</li>
-            <li>Telefone</li>
-            <li class="lli">Tipo de usuário</li>
+            <li>Telephone</li>
+            <li class="lli">Type of user</li>
           </ul>
         </li>
         <?php
           $i=1;
-
           foreach($_commissionCollection as $collectio) {
             $customerid = $collectio->getCustomer_id();
-            $customerDat = Mage::getModel('customer/customer')->load($customerid)->getData();
-            $commission = $collectio->getCommission();
-            $customer = Mage::getModel('customer/customer')->load($customerid);
-            $groupid = $customer->getGroupId();
+            //$customerid = $collectio->getCustomer_id();
+            $customerDat = Mage::getModel('customer/customer')->load($customerid);
+            $customerdataa = $customerDat->getData();
+            $addressdata = Mage::getModel('customer/address')->load($customerDat->default_billing)->getData();
+            $groupid = $customerDat->getGroupId();
             $group = Mage::getModel('customer/group')->load($groupid)->getCustomerGroupCode();
         ?>
           <li class="singlerow">
-            <ul class="subli" id="commission_<?php echo $i;?>">
+            <ul class="subli" id="salesim_<?php echo $i;?>">
               <li class="fli">
-                <?php echo $customerDat['firstname']." ".$customerDat['lastname']; ?>
+                <?php echo $customerdataa['firstname']." ".$customerdataa['lastname']; ?>
               </li>
-              <li><?php echo $customerDat['email']; ?></li>
-              <li>-</li>
+              <li><?php echo $customerdataa['email']; ?></li>
+              <li>
+                <?php
+                  if(!empty($addressdata)) {
+                    echo $addressdata['telephone'];
+                  } else{ 
+                    echo "-";
+                  }
+                ?>
+              </li>
               <li class="lli">
                 <?php echo $group; ?>
               </li>
@@ -67,6 +156,68 @@
   <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery.js"></script>
   <script type="text/javascript">
     jQuery.noConflict();
+  </script>
+  <script type="text/javascript">
+    function affiliateTweet() {
+      var tweetUrl = 'https://twitter.com/intent/tweet?original_referer=<?php echo urlencode($getPersonalUrl) ?>source=tweetbutton&text=';
+      tweetUrl += encodeURIComponent($('affiliate-twitter-content').value);
+      popWin(tweetUrl, 'tweet', getPopupPosition(480, 320) + ',resizable=yes,scrollbars=yes');
+    }
+
+    function getPopupPosition(width, height) {
+      var screenX = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft;
+      var screenY = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop;
+      var outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth;
+      var outerHeight = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.body.clientHeight - 22);
+      var left = parseInt(screenX + ((outerWidth - width) / 2), 10);
+      var top = parseInt(screenY + ((outerHeight - height) / 2.5), 10);
+      return 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top;
+    }
+  </script>
+  <script src='http://connect.facebook.net/en_US/all.js'></script>
+  <script type="text/javascript">
+    //<![CDATA[
+    var facebookForm = new VarienForm('affiliate-facebook-form', true);
+
+    FB.init({appId: '<?php echo Mage::helper('affiliateplus/config')->getReferConfig('fbapp_id') ?>', status: true, cookie: true});
+
+    function postOnFacebook() {
+      if (facebookForm.validator.validate()) {
+        var params = Form.serializeElements($('affiliate-facebook-form').select('input, select, textarea'));
+        var url = '<?php echo $this->getUrl("affiliates/refer/test") ?>';
+        var message = $('affiliate-facebook-content').value
+        // calling the API ...
+        if (message) {
+          // alert(message);
+          var obj = {
+              method: 'feed',
+              link: $('personal_affiliate_url').href,
+              description: message
+          };
+          function callback(response){
+            if (response && response.post_id) {
+                $('affiliate-facebook-msg').show();
+            }
+            else {
+                alert('This message hasn\'t been posted successfully!');
+            }
+          }
+          FB.ui(obj, callback);
+        }
+      }
+    }
+    //]]>
+  </script>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id))
+          return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/sdk.js#xfbml=1&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
   </script>
 <?php
   }else{
