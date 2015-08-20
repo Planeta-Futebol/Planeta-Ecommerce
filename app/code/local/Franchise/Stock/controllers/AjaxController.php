@@ -24,4 +24,3 @@ class Franchise_Stock_AjaxController extends Mage_Core_Controller_Front_Action
     die;
   }
 }
-?>
