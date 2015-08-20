@@ -81,7 +81,6 @@ die('ok');
                 </div>
                 <?php echo $this->getChildHtml('extra_buttons') ?>
 
-	    
             <?php elseif (!$_product->isSaleable()): ?>
                 <div class="add-to-box">
                     <?php echo $this->getChildHtml('addto') ?>
@@ -106,7 +105,7 @@ die('ok');
             <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
         <?php endif;?>
     </form>
-    
+
     <script type="text/javascript">
     //<![CDATA[
         var productAddToCartForm = new VarienForm('product_addtocart_form');
@@ -159,32 +158,32 @@ die('ok');
     //]]>
     </script>
     </div>
-    
+
     <?php if($like_product==1){ ?>
     <div class="mp_like">
-	<p id="liker" style="background: #9c3 none repeat scroll 0 0; border: 1px solid #9c3; color: #fff; cursor: pointer; font-size: 15px; font-weight: bold;padding: 5px 8px;text-align: center;width: 87px;">
-	    Like it
-	(<?php echo $_product->getp_like_count();?>)
-	</p>
-	
-	<script type="text/javascript">
-	    jQuery(document).ready(function()
-	    {
-		jQuery("#liker").click(function()
-		{
-		    <?php
-			$count=$_product->getp_like_count();
-			$count = $count+1;
-			$product = Mage::getModel('catalog/product')->load($_product->getId());
-			$product->setp_like_count($count);
-			$product->getResource()->saveAttribute($product, 'p_like_count');
-		    ?>
-		    location.reload();
-		});
-	    });
-	</script>
-    </div>
-    <?php } ?>
+      <p id="liker" style="background: #9c3 none repeat scroll 0 0; border: 1px solid #9c3; color: #fff; cursor: pointer; font-size: 15px; font-weight: bold;padding: 5px 8px;text-align: center;width: 87px;">
+      Gostei
+      (<?php echo $_product->getp_like_count();?>)
+      </p>
+  
+  <script type="text/javascript">
+      jQuery(document).ready(function()
+      {
+    jQuery("#liker").click(function()
+    {
+        <?php
+      $count=$_product->getp_like_count();
+      $count = $count+1;
+      $product = Mage::getModel('catalog/product')->load($_product->getId());
+      $product->setp_like_count($count);
+      $product->getResource()->saveAttribute($product, 'p_like_count');
+        ?>
+        location.reload();
+    });
+      });
+  </script>
+  </div>
+  <?php } ?>
     
     <div class="product-collateral">
 <?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
