@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config>
+    <admin>
+        <!--
+            Here we are telling the Magento router to look for the controllers in the Super_Awesome_controllers_Adminhtml before we look in the
+            Mage_Adminhtml module for all urls that begin with /admin/controller_name
+         -->
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <awesome before="Mage_Adminhtml">Super_Awesome_Adminhtml</awesome>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <models>
+        <awesome>
+            <class>Super_Awesome_Model</class>
+            <resourceModel>awesome_mysql4</resourceModel>
+        </awesome>
+        <awesome_mysql4>
+            <class>Super_Awesome_Model_Mysql4</class>
+            <entities>
+                <simple>
+                    <table>super_awesome_example_simple</table>
+                </simple>
+            </entities>
+        </awesome_mysql4>
+    </models>
+
+    <resources>
+        <awesome_setup>
+            <setup>
+                <module>Super_Awesome</module>
+            </setup>
+            <connection>
+                <use>core_setup</use>
+            </connection>
+        </awesome_setup>
+        <awesome_write>
+            <connection>
+                <use>core_write</use>
+            </connection>
+        </awesome_write>
+        <awesome_read>
+            <connection>
+                <use>core_read</use>
+            </connection>
+        </awesome_read>
+    </resources>
+
+</config>

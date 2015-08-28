@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Super_Awesome>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Super_Awesome>
+  </modules>
+</config> 
