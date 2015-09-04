@@ -16,6 +16,9 @@ class Franchise_Stock_Block_Saleperpartner extends Mage_Core_Block_Template
 
     $collection = Mage::getModel("stock/Saleperpartner")->getCollection();
     $collection->addFieldToFilter('userid',array('eq'=>$userid));
+
+
+
     $collection->getSelect()->joinLeft(
         array('cust' => $collection->getTable('catalog/product')),
         'cust.entity_id = main_table.stockprodid', array('*'));
@@ -34,6 +37,9 @@ class Franchise_Stock_Block_Saleperpartner extends Mage_Core_Block_Template
               "main_table.stockprodid = $alias.entity_id AND $alias.attribute_id={$attribute->getId()}",
               array('name' => 'value'));
     }
+
+
+
 
     if(!empty($fromdate) && !empty($todate)) {
       $collection->addFieldToFilter('sale_at', array(

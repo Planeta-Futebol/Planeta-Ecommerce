@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Wcl_ReportNewOrders>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Wcl_ReportNewOrders>
+    </modules>
+</config>

@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Wcl_ReportNewOrders>
+            <version>0.1.0</version>
+        </Wcl_ReportNewOrders>
+    </modules>
+    <admin>
+        <routers>
+            <!--
+            Tell router to look in Wcl_ReportNewOrders_controllers
+            when the url /admin/reportneworders is used -->
+            <reportneworders>
+                <use>admin</use>
+                <args>
+                    <module>Wcl_ReportNewOrders</module>
+                    <frontName>reportneworders</frontName>
+                </args>
+            </reportneworders>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <report>
+                <children>
+                    <reportneworders translate="title" module="reportneworders">
+                        <!-- This is the name to be displayed in the admin panel under Reports -->
+                        <title>Faturamento x Periodo</title>
+                        <!--
+                        Specify the controller and location, using the router (defined above),
+                        followed by the controller.
+                        I.e.  Wcl_Reportneworders_controllers_Adminhtml_ReportnewordersController.php -->
+                        <action>reportneworders/adminhtml_reportneworders</action>
+                    </reportneworders>
+                </children>
+            </report>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <reportneworders translate="title" module="reportneworders">
+                                    <!-- This is the name shown in the Admin role resources -->
+                                    <title>Faturamento x Periodo</title>
+                                    <action>reportneworders/adminhtml_reportneworders</action>
+                                </reportneworders>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <reportneworders>
+                    <file>wcl_reportneworders.xml</file>
+                </reportneworders>
+            </updates>
+        </layout>
+    </adminhtml>
+
+
+
+    <global>
+        <models>
+            <reportneworders>
+                <class>Wcl_ReportNewOrders_Model</class>
+                <resourceModel>reportneworders</resourceModel>
+            </reportneworders>
+        </models>
+        <resources>
+            <reportneworders_setup>
+                <setup>
+                    <module>Wcl_ReportNewOrders</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </reportneworders_setup>
+            <reportneworders_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </reportneworders_write>
+            <reportneworders_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </reportneworders_read>
+        </resources>
+        <blocks>
+            <reportneworders>
+                <class>Wcl_ReportNewOrders_Block</class>
+            </reportneworders>
+        </blocks>
+        <helpers>
+            <reportneworders>
+                <class>Wcl_ReportNewOrders_Helper</class>
+            </reportneworders>
+        </helpers>
+    </global>
+</config>

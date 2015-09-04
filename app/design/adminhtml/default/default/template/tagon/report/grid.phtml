@@ -1,134 +1,24 @@
 <?php
-$numberOfResult = 0;
+/**
+ * Template for Mage_Block_Adminhtml_Report_Grid
+ *
+ *  getId()
+ *  getCollection()
+ *  getColumns()
+ *  getPagerVisibility()
+ *  getVarNamePage()
+ */
 $numColumns = sizeof($this->getColumns());
-
-
-/** @var Wcl_ReportNewOrders_Helper_Data $helper */
-$helper = Mage::helper('reportneworders');
-
-$filters = $helper->getFilters();
-
-
-$arrOptionsSelectedTypeSalesman = array(
-    0 => '',
-    1 => ''
-);
-
-
-if(isset($filters['report_type_salesman'])){
-    $arrOptionsSelectedTypeSalesman[$filters['report_type_salesman']] = 'selected';
-}
-
-$selectTypeSalesman = <<< "SELECT_TYPE_SALESMAN"
-    <select class="input-text no-changes required-entry"
-    type="text" id="report_type_salesman"
-    name="report_type_salesman"
-    >
-        <option value="0" {$arrOptionsSelectedTypeSalesman[0]}>E-Commerce</option>
-        <option value="1" {$arrOptionsSelectedTypeSalesman[1]}>Franquia</option>
-    </select>
-SELECT_TYPE_SALESMAN;
-
-$tipo_produtos = $helper->getAttributesUsed('tipo_produto');
-$times = $helper->getAttributesUsed('time');
-$vestuarios = $helper->getAttributesUsed('vestuario');
-$colecoes = $helper->getAttributesUsed('colecoes');
-
-$optionsSelectTypeProducts = '<option value="0" >Todos</option>';
-
-foreach($tipo_produtos as $p){
-
-    $option_id = 'tipo_produto-' . $p['option_id'];
-    $name      = $p['name'];
-
-    $selected = ((int)$filters['report_type_products'] == (int) $p['option_id']) ? 'selected' : null;
-
-    $optionsSelectTypeProducts .= <<< "OPTIONS_SELECT_TYPE_PRODUCT"
-        <option value="{$option_id}" {$selected}>{$name}</option>\n
-OPTIONS_SELECT_TYPE_PRODUCT;
-
-}
-
-foreach($times as $t){
-
-    $option_id = 'time-' . $t['option_id'];
-    $name      = $t['name'];
-
-    $selected = ((int)$filters['report_type_products'] == (int) $t['option_id']) ? 'selected' : null;
-
-    $optionsSelectTypeProducts .= <<< "OPTIONS_SELECT_TYPE_PRODUCT"
-        <option value="{$option_id}" {$selected}>{$name}</option>\n
-OPTIONS_SELECT_TYPE_PRODUCT;
-
-}
-
-foreach($vestuarios as $v){
-
-    $option_id = 'vestuario-' . $v['option_id'];
-    $name      = $v['name'];
-
-    $selected = ((int)$filters['report_type_products'] == (int) $v['option_id']) ? 'selected' : null;
-
-    $optionsSelectTypeProducts .= <<< "OPTIONS_SELECT_TYPE_PRODUCT"
-        <option value="{$option_id}" {$selected}>{$name}</option>\n
-OPTIONS_SELECT_TYPE_PRODUCT;
-
-}
-
-foreach($colecoes as $c){
-
-    $option_id = 'colecoes-' . $c['option_id'];
-    $name      = $c['name'];
-
-    $selected = ((int)$filters['report_type_products'] == (int) $c['option_id']) ? 'selected' : null;
-
-    $optionsSelectTypeProducts .= <<< "OPTIONS_SELECT_TYPE_PRODUCT"
-        <option value="{$option_id}" {$selected}>{$name}</option>\n
-OPTIONS_SELECT_TYPE_PRODUCT;
-
-}
-
-$selectTypeProducts = <<< "SELECT_TYPE_PRODUCTS"
-    <select class="input-text no-changes required-entry"
-    type="text" id="report_type_products"
-    name="report_type_products"
-    >
-        {$optionsSelectTypeProducts}
-    </select>
-SELECT_TYPE_PRODUCTS;
-
-$states = Mage::getModel('directory/region')->getResourceCollection()->addCountryFilter('BR');
-
-$optionsSelectStates = '<option value="0" >Todos</option>';
-
-foreach ($states as $state) {
-
-    $name = $state->getName();
-    $region_id = $state->getRegion_id();
-
-    $selected = ($filters['report_district'] == $region_id) ? 'selected' : null;
-
-    $optionsSelectStates .= <<< "OPTIONS_SELECT_STATE"
-        <option value="{$region_id}" {$selected}>{$name}</option>\n
-OPTIONS_SELECT_STATE;
-
-}
-
-$selectStates = <<< "SELECT_TYPE_STATES"
-    <select class="input-text no-changes required-entry"
-    type="text" id="report_district"
-    name="report_district"
-    >
-        {$optionsSelectStates}
-    </select>
-SELECT_TYPE_STATES;
-
 ?>
+
+<h1>teste my personal report</h1>
+
 <?php if($this->getCollection()): ?>
     <?php if($this->canDisplayContainer()): ?>
         <?php if($this->getGridHeader()): ?>
         <div class="content-header">
             <table cellspacing="0">
+                Testandoooo
                 <tr>
                     <td style="width:50%;"><h2><?php echo $this->getGridHeader(); ?></h2></td>
                 </tr>
@@ -153,33 +43,8 @@ SELECT_TYPE_STATES;
                 </div>
 
                 <div class="f-left">
-                    <div><?php echo $this->__('To') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="period_date_to" name="report_to" value="<?php echo $this->getFilter('report_to') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" title="<?php echo $this->__('Select Date') ?>" id="period_date_to_trig" alt="<?php echo $this->__('Select Date') ?>" class="v-middle"/>&nbsp;&nbsp;</div>
-                    <div id="period_date_from_advaice"></div>
-                </div>
-
-
-                <div class="f-left">
-                    <div><?php echo $this->__('Filtrar por') ?>:&nbsp;
-                        <?php echo $selectTypeSalesman; ?>
-                        &nbsp;&nbsp;
-                    </div>
-                    <div id="period_date_from_advaice"></div>
-                </div>
-
-                <div class="f-left">
-                    <div><?php echo $this->__('Filtrar produtos por') ?>:&nbsp;
-                        <?php echo $selectTypeProducts; ?>
-                        &nbsp;&nbsp;
-                    </div>
-                    <div id="period_date_from_advaice"></div>
-                </div>
-
-                <div class="f-left">
-                    <div><?php echo $this->__('Filtrar estados por') ?>:&nbsp;
-                        <?php echo $selectStates; ?>
-                        &nbsp;&nbsp;
-                    </div>
-                    <div id="period_date_from_advaice"></div>
+                    <div><?php echo $this->__('To') ?>:&nbsp;<input  class="input-text no-changes required-entry" type="text" id="period_date_to" name="report_to"  value="<?php echo $this->getFilter('report_to') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" class="v-middle" title="<?php echo $this->__('Select Date') ?>"id="period_date_to_trig" alt="<?php echo $this->__('Select Date') ?>"/>&nbsp;&nbsp;</div>
+                    <div id="period_date_to_advaice"></div>
                 </div>
 
                 <div class="f-left">
@@ -251,7 +116,6 @@ SELECT_TYPE_STATES;
             <?php $report=$this->getReport($_item['start'], $_item['end']) ?>
             <?php $rows=count($report) ?>
             <?php if ($rows > 0 ): ?>
-            <?php $numberOfResult++ ?>
             <td rowspan="<?php echo $rows + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0) ?>"><?php echo $_index ?></td>
                 <?php $i=0;foreach ($report as $_subIndex=>$_subItem): ?>
                     <?php if($i>0): ?>
@@ -274,24 +138,18 @@ SELECT_TYPE_STATES;
                     <?php endforeach; ?>
                 </tr>
                 <?php endif; ?>
+            <?php else: ?>
+                <td><?php echo $_index ?></td>
+                <td colspan="<?php echo $numColumns ?>" class="empty-text <?php echo $this->getEmptyTextClass() ?> last"><?php echo $this->getEmptyText() ?></td>
             <?php endif; ?>
             </tr>
         <?php endforeach; ?>
-
-        <?php if ($numberOfResult <= 0): ?>
-            <tr>
-                <td class="empty-text <?php echo $this->getEmptyTextClass() ?>" colspan="<?php echo $numColumns + 1 ?>"><?php echo $this->getEmptyText() ?></td>
-            </tr>
-        <?php endif; ?>
-
         <?php elseif ($this->getEmptyText()): ?>
             <tr>
               <td class="empty-text <?php echo $this->getEmptyTextClass() ?>" colspan="<?php echo $numColumns + 1 ?>"><?php echo $this->getEmptyText() ?></td>
             </tr>
         <?php endif; ?>
-
         </tbody>
-
         <?php if ($this->getCountTotals() && $this->getCollection()->getSize()): ?>
         <tfoot>
             <tr><th><?php echo $this->getTotalText() ?></th>
@@ -301,7 +159,6 @@ SELECT_TYPE_STATES;
             </tr>
          </tfoot>
         <?php endif; ?>
-
     </table>
     </div>
 <?php if($this->canDisplayContainer()): ?>
