@@ -49,16 +49,31 @@
             <div class="product-name">
                 <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
             </div>
+	    <?php
+		$storeId = Mage::app()->getStore()->getStoreId();
+		$productid = $_product->getId();
+		$like_product = Mage::getResourceModel('catalog/product')->getAttributeRawValue($productid,'experimental_prod', $storeId);
+		if($like_product==1)
+		{
+		?>
+		    
+		<?php
+		}
+	    ?>
 
-            <?php if ($this->canEmailToFriend()): ?>
-                <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
-            <?php endif; ?>
+	    <?php if ($this->canEmailToFriend()): ?>
+			    <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+	    <?php endif; ?>
 
-            <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
-            <?php echo $this->getChildHtml('alert_urls') ?>
-            <?php echo $this->getChildHtml('product_type_data') ?>
-            <?php echo $this->getTierPriceHtml() ?>
-            <?php echo $this->getChildHtml('extrahint') ?>
+	    <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+	    <?php echo $this->getChildHtml('alert_urls') ?>
+	    <?php echo $this->getChildHtml('product_type_data') ?>
+	    <?php echo $this->getTierPriceHtml() ?>
+	    <?php echo $this->getChildHtml('extrahint') ?>
+
+	    <div class="showlastunits">
+	    <p class="color" style="color: #ff0000; font-size: 14px; font-weight: bold; height:24px;"></p>
+	    </div>
 
             <?php if (!$this->hasOptions()):?>
                 <div class="add-to-box">
@@ -68,6 +83,8 @@
                     <?php echo $this->getChildHtml('addto') ?>
                 </div>
                 <?php echo $this->getChildHtml('extra_buttons') ?>
+
+	    
             <?php elseif (!$_product->isSaleable()): ?>
                 <div class="add-to-box">
                     <?php echo $this->getChildHtml('addto') ?>
@@ -92,6 +109,7 @@
             <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
         <?php endif;?>
     </form>
+    
     <script type="text/javascript">
     //<![CDATA[
         var productAddToCartForm = new VarienForm('product_addtocart_form');
@@ -144,17 +162,99 @@
     //]]>
     </script>
     </div>
-
+    
+    <?php
+	$lastunit = Mage::getStoreConfig('stock_options/backend_group/last_unit_instructions');
+	$prodtype = $_product->getTypeID();
+	if($prodtype=='configurable')
+	{
+	    echo '<ul class="configtype" style="display:none;">';
+	    $prod=$_product->load($prod_id);
+	    $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($prod);
+	    $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+	    $total_qty=0;
+	    foreach($col as $sprod){
+		$sprod=$_product->load($sprod->getId());
+		$prodnam = $sprod->getName();
+		$qty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($sprod)->getQty());
+		
+		$configurableAttributes = $_product->getTypeInstance(true)->getConfigurableAttributes($_product);
+		foreach ($configurableAttributes as $attribute) {
+		    $productAttribute   = $attribute->getProductAttribute();
+		    $productAttributeId = $productAttribute->getId();
+		    $attributeValue     = $sprod->getData($productAttribute->getAttributeCode());
+		    echo '<li><input type="hidden" id="config_'.$attributeValue.'" qty="'.$qty.'" value="'.$attributeValue.'"/></li>';
+		}
+	    }
+	    echo "</ul>";
+	    echo '<input type="hidden" id="lastunitlimit" class="lastunitlimit" value="'.$lastunit.'"/>';
+    ?>
+    
+	    <script type="text/javascript">
+		jQuery(".super-attribute-select").on("change", function()
+		{
+		    var selectoption = jQuery(this).find(":selected").attr('value');
+		    var lastunitlimit = jQuery(".lastunitlimit").attr('value');
+		    jQuery("ul.configtype li").each(function()
+		    {
+			var qty = parseInt(jQuery(this).find('input').attr('qty'));
+			var vals = jQuery(this).find('input').attr('value');
+			if (vals==selectoption) {
+			    if(qty <= lastunitlimit){
+				jQuery(".showlastunits p").html("Last "+qty+" unit(s) left.");
+			    }
+			    else{
+				jQuery(".showlastunits p").html("");
+			    }
+			}
+		    });
+		});
+	    </script>
+	
+  <?php
+	} 
+  ?>
+    
+    <?php if($like_product==1){ ?>
+		
+    <div class="mp_like">
+	<p onclick="likcl('<?php echo $_product->getp_like_count(); ?>')" id="liker" style="background: #9c3 none repeat scroll 0 0; border: 1px solid #9c3; color: #fff; cursor: pointer; font-size: 15px; font-weight: bold;padding: 5px 8px;text-align: center;width: 87px;">
+			Like it
+	(<?php echo $_product->getp_like_count();?>)
+	</p>
+	<p id="likeres"></p>
+			
+	<script type="text/javascript">
+	//<![CDATA[   
+	    function likcl(liker)
+	    {
+		var size = liker;
+		var productid = <?php echo $_product->getId(); ?>;
+		new Ajax.Request('/stock/ajax/index', { method: 'post', parameters: {likec:size, productid:productid},
+		    onSuccess: function(transport) {
+			//console.log('ok');
+			var json = transport.responseText.evalJSON(true);
+			if(json.state == true) {
+				location.reload();
+			}
+		    }
+		});
+	    }
+	  //]]> 
+	</script>
+  </div>
+  <?php } ?>
+    
     <div class="product-collateral">
-<?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
+	<?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
         <div class="box-collateral <?php echo "box-{$alias}"?>">
             <?php if ($title = $this->getChildData($alias, 'title')):?>
             <h2><?php echo $this->escapeHtml($title); ?></h2>
             <?php endif;?>
             <?php echo $html; ?>
         </div>
-<?php endforeach;?>
-        <?php echo $this->getChildHtml('upsell_products') ?>
-        <?php echo $this->getChildHtml('product_additional_data') ?>
+	<?php endforeach;?>
+    <?php echo $this->getChildHtml('upsell_products') ?>
+    <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>
 </div>
