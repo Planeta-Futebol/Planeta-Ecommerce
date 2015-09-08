@@ -57,11 +57,11 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
 
         $helper->setFilters($this->_filters);
 
-        //if(!$data['report_type_salesman'] > 0){
+        if(!$data['report_type_salesman'] > 0){
             $this->getCollection()->initReport('reportneworders/reportneworders');
-        //}else{
-            //$this->getCollection()->initReport('reportneworders/reportfranchiseesorders');
-        //}
+        }else{
+            $this->getCollection()->initReport('reportneworders/reportfranchiseesorders');
+        }
 
 
         return $this;

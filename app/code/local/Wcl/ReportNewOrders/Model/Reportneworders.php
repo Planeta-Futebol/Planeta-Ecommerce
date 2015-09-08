@@ -22,7 +22,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
      * @param string $to
      * @return Mage_Reports_Model_Resource_Product_Collection
      */
-    public function addOrderedQty( $from = '', $to = '' )
+    public function getReportData( $from = '', $to = '' )
     {
 
         $adapter = $this->getConnection();
@@ -66,12 +66,6 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         array()
                 );
 
-
-        if ((int)$this->filters['report_type_salesman'] > 0) {
-            $select = $this->filterByFranchisees($select, $orderTableAliasName);
-        }
-
-
         if(!is_null($this->filters['report_district']) && (int) $this->filters['report_district'] != 0){
             $select = $this->filterByDistrict($select, $orderTableAliasName, $this->filters['report_district']);
         }
@@ -112,27 +106,6 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
 
         return $this;
     }
-
-    protected function filterByFranchisees( Varien_Db_Select $select, $tableToJoin )
-    {
-
-        $franchiseesTableAlias = $this->getConnection()->quoteIdentifier('cust');
-
-        $franchiseesJoinCondition = array(
-                $tableToJoin . ".customer_id = {$franchiseesTableAlias}.entity_id",
-        );
-
-        $select->join(
-                array('cust' => 'customer_entity'),
-                implode($franchiseesJoinCondition),
-                array(
-                        'group' => 'group_id'
-                )
-        )->where("{$franchiseesTableAlias}.group_id >= 2");
-
-        return $select;
-    }
-
 
     protected function filterByAttibuteProduct( Varien_Db_Select $select, $attribute, $value )
     {
@@ -209,7 +182,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
 
         $this->addAttributeToSelect('name')
                 ->addAttributeToSelect('increment_id')
-                ->addOrderedQty($from, $to)
+                ->getReportData($from, $to)
                 ->setOrder('sku', self::SORT_ORDER_ASC);
 
         Mage::log('SQL: ' . $this->getSelect()->__toString());
