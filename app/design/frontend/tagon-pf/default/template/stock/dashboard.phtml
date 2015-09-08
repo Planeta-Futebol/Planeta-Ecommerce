@@ -18,20 +18,20 @@ if (count($arrProductStockItem) > 0) {
         $quantityProductStockItem = $item['quantity'];
         $descriptionQuantity = $helper->__('Quantidade: ');
 
-        $productStockItemTable .= <<< "STOCK_ITEM"
-			<tr>
-				<td>$nameProductStockItem</td>
-				<td>$descriptionQuantity</td>
-				<td quantity="$quantityProductStockItem">$quantityProductStockItem</td>
-			</tr>\n
+      $productStockItemTable .= <<< "STOCK_ITEM"
+    <tr>
+      <td>$nameProductStockItem</td>
+      <td>$descriptionQuantity</td>
+      <td quantity="$quantityProductStockItem">$quantityProductStockItem</td>
+    </tr>\n
 STOCK_ITEM;
 
-    }
+  }
 } else {
     $productStockItemTable = <<< "STOCK_ITEM"
-			<div class="notice-msg detais-notice-msg">
-				Ainda não existem dados a serem exibidos
-			</div>
+      <div class="notice-msg detais-notice-msg">
+        Ainda não existem dados a serem exibidos
+      </div>
 STOCK_ITEM;
 
 }
@@ -47,19 +47,19 @@ if (count($arrTopSellingProducts) > 0) {
         $descriptionQuantity = $helper->__('Quantidade: ');
 
         $productMoreSoldTable .= <<< "SOLD_ITEM"
-			<tr>
-				<td>$nameProductMoreSold</td>
-				<td>$descriptionQuantity</td>
-				<td>$quantityProductMoreSold</td>
-			</tr>\n
+      <tr>
+        <td>$nameProductMoreSold</td>
+        <td>$descriptionQuantity</td>
+        <td>$quantityProductMoreSold</td>
+      </tr>\n
 SOLD_ITEM;
 
     }
 } else {
     $productMoreSoldTable = <<< "SOLD_ITEM"
-			<div class="notice-msg detais-notice-msg">
-				Ainda não existem dados a serem exibidos
-			</div>
+      <div class="notice-msg detais-notice-msg">
+        Ainda não existem dados a serem exibidos
+      </div>
 SOLD_ITEM;
 
 }
@@ -77,18 +77,18 @@ if (count($arrProductMoreProfit) > 0) {
         $valueProductMoreProfit = Mage::helper('core')->currency($item['profit']);
 
         $productMoreProfitTable .= <<< "PROFIT_ITEM"
-			<tr>
-				<td>$nameProductMoreProfit</td>
-				<td>$valueProductMoreProfit</td>
-			</tr>\n
+      <tr>
+        <td>$nameProductMoreProfit</td>
+        <td>$valueProductMoreProfit</td>
+      </tr>\n
 PROFIT_ITEM;
     }
 
 } else {
     $productMoreProfitTable = <<< "PROFIT_ITEM"
-			<div class="notice-msg detais-notice-msg">
-				Ainda não existem dados a serem exibidos
-			</div>
+      <div class="notice-msg detais-notice-msg">
+        Ainda não existem dados a serem exibidos
+      </div>
 PROFIT_ITEM;
 
 }
@@ -104,17 +104,17 @@ if (count($arrGenerateMoreCommission) > 0) {
         $valueCommission = Mage::helper('core')->currency($commission['commission']);
 
         $generateMoreCommissionTable .= <<< "COMMISSION"
-			<tr>
-				<td>$name</td>
-				<td>$valueCommission</td>
-			</tr>\n
+      <tr>
+        <td>$name</td>
+        <td>$valueCommission</td>
+      </tr>\n
 COMMISSION;
     }
 } else {
     $generateMoreCommissionTable = <<< "COMMISSION"
-			<div class="notice-msg detais-notice-msg">
-				Ainda não existem dados a serem exibidos
-			</div>
+      <div class="notice-msg detais-notice-msg">
+        Ainda não existem dados a serem exibidos
+      </div>
 COMMISSION;
 
 }
@@ -127,7 +127,7 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
 
 <div class="fieldset">
     <div class="page-title">
-        <h1><?php echo $helper->__('Painel Franquia') ?></h1>
+        <h1><?php echo $helper->__('Painel Geral') ?></h1>
     </div>
     <div>
         <div>
@@ -139,14 +139,8 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
     </div>
     <div class="comission-head">
         <div class="ch-fr-type">
-            <strong>Tipo de franqueado: </strong>
+            <strong>Categoria de cliente: </strong>
             <?php echo $this->getData('franchiseType'); ?>
-        </div>
-        <div class="ch-fr-cupom">
-            <strong>Cupom varejo: </strong>
-            <?php echo (isset($arrCouponsAffiliate[0])) ? $arrCouponsAffiliate[0] : null; ?>
-            <strong> | Cupom franquia: </strong>
-            <?php echo (isset($arrCouponsAffiliate[1])) ? $arrCouponsAffiliate[1] : null; ?>
         </div>
     </div>
     <div class="overview">
@@ -178,6 +172,7 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
                     </div>
                 </div>
             </div>
+            <?php if(isset($arrCouponsAffiliate[0])): ?>
             <div class="block fix-value">
                 <div class="block-value">
                     <span class="ov-value"><?php echo $this->getData('affiliateCredit'); ?></span>
@@ -186,6 +181,7 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
                     <?php echo $helper->__('Total de crédito'); ?>
                 </div>
             </div>
+            <?php endif; ?>
             <div class="block">
                 <div class="block-value">
                     <span class="ov-value"><?php echo Mage::helper('core')->currency($this->getData('fullPurchases')); ?></span>
@@ -216,7 +212,7 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
     <div class="overview-sales-table">
         <div class="detais-sales-table stock-table">
             <div class="thearde-stock-table">
-                <div class="title-details-sale-sable"><span><?php echo $helper->__('Estoque'); ?></span></div>
+                <div class="title-details-sale-table"><span><?php echo $helper->__('Estoque'); ?></span></div>
                 <div>
                     <span><?php echo $helper->__('Produtos com menos estoque') ?></span>
                     <a class="fl-right" href="<?php echo $this->getUrl('stock/stockaccount/myproductslist/'); ?>">Lançar
@@ -229,20 +225,9 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
                 </tbody>
             </table>
         </div>
-        <div class="detais-sales-table comissions-able">
-            <div class="thearde-stock-table">
-                <div class="title-details-sale-sable"><span><?php echo $helper->__('Comissões'); ?></span></div>
-                <div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
-            </div>
-            <table>
-                <tbody>
-                <?php echo $generateMoreCommissionTable; ?>
-                </tbody>
-            </table>
-        </div>
         <div class="detais-sales-table sales-table">
             <div class="thearde-stock-table">
-                <div class="title-details-sale-sable"><span><?php echo $helper->__('Vendas'); ?></span></div>
+                <div class="title-details-sale-table"><span><?php echo $helper->__('Vendas'); ?></span></div>
                 <div><?php echo $helper->__('Produtos mais vendidos') ?></div>
             </div>
             <table>
@@ -253,12 +238,23 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
         </div>
         <div class="detais-sales-table profit-table">
             <div class="thearde-stock-table">
-                <div class="title-details-sale-sable"><span><?php echo $helper->__('Lucro'); ?></span></div>
+                <div class="title-details-sale-table"><span><?php echo $helper->__('Lucro'); ?></span></div>
                 <div><?php echo $helper->__('Produtos que geram mais lucros') ?></div>
             </div>
             <table>
                 <tbody>
                 <?php echo $productMoreProfitTable; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="detais-sales-table comissions-table">
+            <div class="thearde-stock-table">
+                <div class="title-details-sale-table"><span><?php echo $helper->__('Comissões'); ?></span></div>
+                <div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
+            </div>
+            <table>
+                <tbody>
+                <?php echo $generateMoreCommissionTable; ?>
                 </tbody>
             </table>
         </div>
