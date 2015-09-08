@@ -22,7 +22,7 @@ if(isset($filters['report_type_salesman'])){
 $selectTypeSalesman = <<< "SELECT_TYPE_SALESMAN"
     <select class="input-text no-changes required-entry"
     type="text" id="report_type_salesman"
-    name="report_type_salesman"
+    name="report_type_salesman" onchange="additionalFilters();"
     >
         <option value="0" {$arrOptionsSelectedTypeSalesman[0]}>E-Commerce</option>
         <option value="1" {$arrOptionsSelectedTypeSalesman[1]}>Franquia</option>
@@ -123,6 +123,9 @@ $selectStates = <<< "SELECT_TYPE_STATES"
     </select>
 SELECT_TYPE_STATES;
 
+
+$fullTotal = 0;
+
 ?>
 <?php if($this->getCollection()): ?>
     <?php if($this->canDisplayContainer()): ?>
@@ -166,7 +169,7 @@ SELECT_TYPE_STATES;
                     <div id="period_date_from_advaice"></div>
                 </div>
 
-                <div class="f-left">
+                <div class="f-left additional-filters">
                     <div><?php echo $this->__('Filtrar produtos por') ?>:&nbsp;
                         <?php echo $selectTypeProducts; ?>
                         &nbsp;&nbsp;
@@ -174,7 +177,7 @@ SELECT_TYPE_STATES;
                     <div id="period_date_from_advaice"></div>
                 </div>
 
-                <div class="f-left">
+                <div class="f-left additional-filters">
                     <div><?php echo $this->__('Filtrar estados por') ?>:&nbsp;
                         <?php echo $selectStates; ?>
                         &nbsp;&nbsp;
@@ -253,6 +256,9 @@ SELECT_TYPE_STATES;
             <?php if ($rows > 0 ): ?>
             <?php $numberOfResult++ ?>
             <td rowspan="<?php echo $rows + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0) ?>"><?php echo $_index ?></td>
+
+                    <?php $subTotalValue = 0; ?>
+
                 <?php $i=0;foreach ($report as $_subIndex=>$_subItem): ?>
                     <?php if($i>0): ?>
                     <tr>
@@ -260,23 +266,76 @@ SELECT_TYPE_STATES;
                     <?php $i++; ?>
                     <?php $j=0;foreach ($this->getColumns() as $_column): ?>
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
-                            <?php echo (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;') ?>
+
+                            <?php
+                                $_html = $_column->getRowField($_subItem);
+
+
+
+                                if( $j == $numColumns ){
+
+                                    $subTotalValue += $_html;
+
+
+                                    echo Mage::helper('core')->currency($_html);
+                                }elseif( ($j + 1) == $numColumns ){
+                                    echo Mage::helper('core')->currency($_html);
+                                }else{
+                                    echo ($_html != '' ? $_html : '&nbsp;');
+                                }
+
+                            ?>
+
                         </td>
                     <?php endforeach; ?>
                     </tr>
                 <?php endforeach; ?>
-                <?php if($this->getCountTotals() && $rows > 0 && $this->getSubtotalVisibility()): ?>
-                <tr>
+                <tr class="subtotal">
+
+                    <td>
+                        <?php echo $this->getSubtotalText(); ?>
+                    </td>
+
+
+                    <?php $numColumnsSubTotal =  $numColumns;?>
+
                     <?php $j=0;foreach ($this->getColumns() as $_column): ?>
-                        <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?> subtotal">
-                            <?php echo ($j==1)?$this->getSubtotalText():$_column->getRowField($this->getTotals()) ?>
+                        <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==($numColumnsSubTotal)?'last':'' ?>">
+
+                            <?php
+                                if($j == $numColumnsSubTotal){
+                                    $fullTotal += $subTotalValue;
+                                    echo Mage::helper('core')->currency($subTotalValue);
+                                }
+                            ?>
                         </td>
                     <?php endforeach; ?>
                 </tr>
                 <?php endif; ?>
-            <?php endif; ?>
-            </tr>
         <?php endforeach; ?>
+
+        <?php if ($numberOfResult >0 ):?>
+            <tr class="fullTotal">
+
+                <td>
+                    <?php echo "Total"; ?>
+                </td>
+
+
+                <?php $numColumnsSubTotal =  $numColumns;?>
+
+                <?php $j=0;foreach ($this->getColumns() as $_column): ?>
+                    <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==($numColumnsSubTotal)?'last':'' ?>">
+
+                        <?php
+                        if($j == $numColumnsSubTotal){
+                            echo Mage::helper('core')->currency($fullTotal);
+                        }
+                        ?>
+                    </td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endif; ?>
 
         <?php if ($numberOfResult <= 0): ?>
             <tr>
@@ -353,5 +412,111 @@ SELECT_TYPE_STATES;
     }
 //]]>
 </script>
+
 <?php endif; ?>
 <?php endif; ?>
+
+<script type="text/javascript">
+//<![CDATA[
+
+additionalFilters();
+
+function additionalFilters(){
+    var e = document.getElementById("report_type_salesman");
+    var f = e.options[e.selectedIndex].value;
+
+    if( f == 1 ){
+        hideFilters();
+    }else{
+        showFilters();
+    }
+}
+
+function addClass(element, value) {
+    // Regex terms
+    var rclass = /[\t\r\n\f]/g,
+            rnotwhite = (/\S+/g);
+
+    var classes,
+            cur,
+            curClass,
+            finalValue,
+            proceed = typeof value === "string" && value;
+
+    if (!proceed) return element;
+
+    classes = (value || "").match(rnotwhite) || [];
+
+    cur = element.nodeType === 1
+    && (element.className
+            ? (" " + element.className + " ").replace(rclass, " ")
+            : " "
+    );
+
+    if (!cur) return element;
+
+    var j = 0;
+
+    while ((curClass = classes[j++])) {
+
+        if (cur.indexOf(" " + curClass + " ") < 0) {
+
+            cur += curClass + " ";
+
+        }
+
+    }
+
+    // only assign if different to avoid unneeded rendering.
+    finalValue = cur.trim();
+
+    if (element.className !== finalValue) {
+
+        element.className = finalValue;
+
+    }
+
+    return element;
+}
+
+function removeClass(element, classname) {
+    var reg = new RegExp('(\\s|^)'+classname+'(\\s|$)');
+    element.className=element.className.replace(reg,' ');
+}
+
+function hideFilters(){
+    var filters = document.getElementsByClassName("additional-filters");
+
+    for(var i = 0; i < filters.length; ++i){
+
+        addClass(filters[i], 'hide');
+    }
+}
+
+function showFilters(){
+    var filters = document.getElementsByClassName("additional-filters");
+
+    for(var i = 0; i < filters.length; ++i){
+
+        removeClass(filters[i], 'hide');
+    }
+}
+
+
+//]]>
+</script>
+
+<style type="text/css">
+
+    tr.subtotal {
+        background-color: rgba(196, 224, 197, 0.6) !important;
+    }
+
+    tr.fullTotal {
+        background-color: rgba(143, 191, 140, 0.54) !important;
+    }
+
+    .hide{
+        display: none;
+    }
+</style>
