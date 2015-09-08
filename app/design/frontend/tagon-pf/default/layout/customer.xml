@@ -49,9 +49,7 @@ Default layout, loads most of the pages
     <default>
         <!-- Mage_Customer -->
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="customer"><label>Fale Conosco</label><url>contacts</url><title>Fale Conosco</title><prepare>true</prepare><urlParams/><position>97</position></action>
-            <action method="addLink" translate="label title" module="customer"><label>Fornecedores</label><url>fornecedores</url><title>Fornecedores</title><prepare>true</prepare><urlParams/><position>199</position></action>
-            <action method="addLink" translate="label title" module="customer"><label>Franquias</label><url>franquia.html</url><title>Conheça as Franquias</title><prepare>true</prepare><urlParams/><position>200</position></action>
+            <action method="addLink" translate="label title" module="customer"><label>Fale Conosco</label><url>contacts</url><title>Fale Conosco</title><prepare>true</prepare><urlParams/><position>10</position></action>
         </reference>
     </default>
 
@@ -75,8 +73,8 @@ Load this update on every page when customer is logged out
             <block type="customer/form_login" name="customer_form_mini_login" before="-" template="customer/form/mini.login.phtml"/>
         </reference>-->
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="customer"><label>Log In</label><url helper="customer/getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>10</position></action>
-            <action method="addLink" translate="label title" module="customer"><label>Cadastrar</label><url helper="customer/getRegisterUrl"/><title>Cadastre-se</title><prepare/><urlParams/><position>10</position></action>
+            <action method="addLink" translate="label title" module="customer"><label>Log In</label><url helper="customer/getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>90</position></action>
+            <action method="addLink" translate="label title" module="customer"><label>Cadastrar</label><url helper="customer/getRegisterUrl"/><title>Cadastre-se</title><prepare/><urlParams/><position>80</position></action>
         </reference>
         <remove name="reorder"></remove>
     </customer_logged_out>
