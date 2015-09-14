@@ -448,10 +448,11 @@ Validation.addAllThese([
 	return Cerebrum.Telencephalon.validaCPFouCNPJ(v,0);
 }],
 
-['validate-street-address', 'Endereço inválido, preencha no formato requerido: Rua Nome da Rua, 123<br>Obs. É obrigatório informar após o logradouro o delimitador virgula + espaço + até 5 números ou + complemento', function(v) {
+['validate-street-address', 'Endereço inválido, preencha no formato requerido: Rua Nome da Rua, 123<br>Obs. É obrigatório informar após o logradouro o delimitador virgula + espaço + até 5 números ou + complemento<br>Caso seu logradouro não tenha número, preencha com zero, então preencha no seguinte formato: Rua Nome da Rua, 0', function(v) {
 	//return Validation.get('IsEmpty').test(v) || /(^[\w\s][^0-9|,]*)(((,\s|(N|n)º\s)([0-9/]+))|(\s?([0-9/]+)))+(.*?)$/.test(v);
 	// http://regex101.com/
-	return Validation.get('IsEmpty').test(v) || /^([\w\s][^|]*)(,\s)([0-9]{1,5})([\W\w\s]*)/.test(v);
+	return Validation.get('IsEmpty').test(v) || /^([\w\s][^|]*)(,\s)([0-9]{1,5})([\W\w\s]*)/.test(v);// Comentando esse trecho devido o caso de logradouro sem numero - ticket 6214, descomentei por achar a solução documentada no ticket 6647
+	return true;
 }],
 
 ['validate-telefone-br', 'Formato para Telefone inválido, preencha no formato requerido: (99) 9999-9999', function(v) {
@@ -1189,18 +1190,50 @@ function FIX_IWD_OnepageCheckout_shipping_payment() {
 
 	console.log('FIX: IWD_OnepageCheckout - Ao selecionar determinado método de entrega ou de pagamento é feito a atualização dos blocos "Payments e Review" dessa forma deve funcionar a exibição dos Descontos e/ou Juros e valores das parcelas');
 
+	//
+
 	showDimmer();
 	beginRequestEventHandler();
 
-	var interval_IWD = setInterval(function(){
+	//
+
+	//numArgs = arguments.length;
+	//listArgs = arguments;
+	//console.log(numArgs);
+	//console.log(listArgs);
+
+	//
+
+	var interval_IWD_1 = setInterval(function(){
 
 		console.log(checkout.loadWaiting);
 
 		if(checkout.loadWaiting == false){
 
-			console.log('FIX: IWD_OnepageCheckout - checkout.update');
+			console.log('FIX: IWD_OnepageCheckout - checkout.update - 1');
 
-			clearInterval(interval_IWD);
+			clearInterval(interval_IWD_1);
+
+			checkout.update({
+			'payment-method': 1,
+			'review': 1
+			});
+
+		}
+
+	}, 1000);
+
+	//
+
+	var interval_IWD_2 = setInterval(function(){
+
+		console.log(checkout.loadWaiting);
+
+		if(checkout.loadWaiting == false){
+
+			console.log('FIX: IWD_OnepageCheckout - checkout.update - 2');
+
+			clearInterval(interval_IWD_2);
 
 			checkout.update({
 			'payment-method': 1,
@@ -1216,14 +1249,21 @@ function FIX_IWD_OnepageCheckout_shipping_payment() {
 
 	}, 1000);
 
+
+	//
+
 }
 
 function FIX_IWD_OnepageCheckout_installments() {
 
 	console.log('FIX: IWD_OnepageCheckout - Ao selecionar determinada parcela do método de pagamento é feito a atualização do bloco "Review" dessa forma deve funcionar a exibição do Juros');
 
+	//
+
 	showDimmer();
 	beginRequestEventHandler();
+
+	//
 
 	console.log('FIX: IWD_OnepageCheckout - checkout.update');
 
@@ -1236,6 +1276,8 @@ function FIX_IWD_OnepageCheckout_installments() {
 		hideDimmer();
 		endRequestEventHandler();
 	}, 1000);
+
+	//
 
 }
 
