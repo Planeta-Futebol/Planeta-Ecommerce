@@ -1,6 +1,6 @@
 <?php
 
-class Wcl_ReportNewOrders_Adminhtml_ReportnewordersController extends Mage_Adminhtml_Controller_Action
+class Wcl_ReportNewOrders_Adminhtml_ReportNewOrdersController extends Mage_Adminhtml_Controller_Action
 {
 
     protected function _initAction() {

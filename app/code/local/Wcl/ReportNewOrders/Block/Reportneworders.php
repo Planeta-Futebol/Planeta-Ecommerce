@@ -1,6 +1,6 @@
 <?php
 
-class Wcl_ReportNewOrders_Block_Reportneworders extends Mage_Core_Block_Template
+class Wcl_ReportNewOrders_Block_ReportNewOrders extends Mage_Core_Block_Template
 {
 
     public function _prepareLayout() {
