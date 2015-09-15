@@ -4,7 +4,7 @@
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   padding-top: 15px;
-  padding-bottom: 15px; }
+  padding-bottom: 30px; }
   .comission-head .ch-fr-type {
     float: left;
     width: 40%; }
@@ -38,7 +38,7 @@
   float: left; }
   .overview-sales-table .detais-sales-table .thearde-stock-table {
     margin-bottom: 5px; }
-    .overview-sales-table .detais-sales-table .thearde-stock-table .title-details-sale-sable {
+    .overview-sales-table .detais-sales-table .thearde-stock-table .title-details-sale-table {
       font-size: 16px;
       font-weight: bold;
       padding-bottom: 5px; }
@@ -61,13 +61,13 @@
   .overview-sales-table .detais-sales-table.stock-table {
     margin-bottom: 10px;
     margin-right: 2%; }
-  .overview-sales-table .detais-sales-table.comissions-able {
-    margin-bottom: 10px; }
-  .overview-sales-table .detais-sales-table.sales-table {
-    margin-right: 2%;
+  .overview-sales-table .detais-sales-table.comissions-table {
     border-top: 1px solid #ccc;
     padding-top: 10px; }
+  .overview-sales-table .detais-sales-table.sales-table {
+    margin-bottom: 10px; }
   .overview-sales-table .detais-sales-table.profit-table {
+    margin-right: 2%;
     border-top: 1px solid #ccc;
     padding-top: 10px; }
 
