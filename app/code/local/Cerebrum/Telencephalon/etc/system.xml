@@ -174,13 +174,10 @@
 					<show_in_store>1</show_in_store>
                 	<expanded>1</expanded>
 					<fields>
-				      	<active_sql_log translate="label" module="telencephalon">
-							<label>Ativar Logs Database</label>
-                            <comment>
-                                <![CDATA[<a href="http://goo.gl/7tSZV" target="_blank">http://goo.gl/7tSZV</a>]]>
-                            </comment>
+				      	<debug translate="label" module="telencephalon">
+							<label>debug</label>
                             <tooltip>
-                                <![CDATA[Ativando essa opção deve ser armazenado em banco de dados os processos executados pelo módulo Cerebrum_Telencephalon]]>
+                                <![CDATA[Ativando essa opção deve ser armazenado o arquivo em /var/log]]>
                             </tooltip>
 							<frontend_type>select</frontend_type>
 							<source_model>adminhtml/system_config_source_yesno</source_model>
@@ -188,7 +185,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 					  		<show_in_store>1</show_in_store>
-					    </active_sql_log>
+					    </debug>
 						<script_ebit translate="label" module="telencephalon">
 							<label>Informe aqui o script disponibilizado pela e-bit</label>
                             <comment>
@@ -1767,6 +1764,31 @@
                         </heading_init>
 
 
+                        <allowed_methods translate="label">
+                            <label>Serviços</label>
+                            <comment>
+                                <![CDATA[]]>
+                            </comment>
+                            <frontend_type>multiselect</frontend_type>
+							<source_model>telencephalon/adminhtml_source_carrier_jamef_methods</source_model>
+                            <sort_order>98</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <tooltip>Serviços que estarão disponíveis, lembre-se de usar os serviços correspondentes a fonte configurada.</tooltip>
+                        </allowed_methods>
+                        <tipo_produto translate="label">
+                            <label>Tipo de Produto a ser transportado</label>
+                            <comment>
+                                <![CDATA[]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+							<source_model>telencephalon/adminhtml_source_carrier_jamef_tipoproduto</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </tipo_produto>
                         <remetente_cnpj translate="label">
                             <label>CNPJ</label>
                             <comment>
@@ -1793,6 +1815,17 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </filial_coleta_jamef>
+                        <municipio_origem translate="label">
+                            <label>Municipio de origem</label>
+                            <comment>
+                                <![CDATA[]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>119</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </municipio_origem>
                         <estado_emissao translate="label">
                             <label>Estado de emissão</label>
                             <comment>
@@ -2871,6 +2904,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <depends><buypage>redecard</buypage></depends>
                         </url_cima>
 						<card_types translate="label" module="telencephalon">
 							<label>Card Types</label>
@@ -2964,6 +2998,25 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </generate_inovice>
+						<auto_capture translate="label" module="telencephalon">
+							<label>Auto Capture</label>
+                            <comment>
+                                <![CDATA[]]>
+                            </comment>
+                            <tooltip>
+                                <![CDATA[
+                                <b>true</b> - Captura Automática (as transações Autorizadas serão capturadas automaticamente)<br>
+                                <b>false</b> - Captura Posterior (O lojista deve capturar a transação em até 5 dias.)
+                                ]]>
+                            </tooltip>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>270</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+					  		<show_in_store>1</show_in_store>
+                            <depends><buypage>loja</buypage></depends>
+					    </auto_capture>
 
 
                         <heading_end translate="label" module="telencephalon">
@@ -7174,7 +7227,7 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
                         </specificcountry>
 			  	     </fields>
                 </cerebrum_pagseguro>
-		      	<cerebrum_pagseguro_transparente translate="label" module="telencephalon">                
+		      	<!-- <cerebrum_pagseguro_transparente translate="label" module="telencephalon">                
 					<label>PagSeguro Transparente - (powered by CEREBRUM) "Em Desenvolvimento"</label>
 					<sort_order>261</sort_order>
 					<show_in_default>1</show_in_default>
@@ -7351,7 +7404,7 @@ Quando ativado será gerado a fatura de forma automática quando a transação d
                             <can_be_empty>1</can_be_empty>
                         </specificcountry>
 			  	     </fields>
-                </cerebrum_pagseguro_transparente>
+                </cerebrum_pagseguro_transparente> -->
 		      	<cerebrum_pagador translate="label" module="telencephalon">                
 					<label>Pagador BRASPAG® - (powered by CEREBRUM)</label>
 					<sort_order>280</sort_order>

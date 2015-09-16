@@ -365,3 +365,6 @@ Yes,Sim
 "Documento duplicado, em uso pelo cliente (%s %s) id (%s)","Documento duplicado, em uso pelo cliente (%s %s) id (%s)"
 "Operation Successful","Operação bem sucedida"
 "Tools","Ferramentas"
+"payment_info_transaction_cerebrum_boleto_itau","Transação"
+"payment_info_clickhere_cerebrum_boleto_itau","Clique aqui"
+"payment_info_after_cerebrum_boleto_itau",""
