@@ -49,6 +49,8 @@
             <h2 class="legend"><?php echo $this->__('Personal Information') ?></h2>
             <ul class="form-list">
                 <li>
+
+                    <?php /*
                     <div class="field">
                         <label for="franchiseoption" class="required"><?php echo $this->__('Opção de Franquia') ?><em>*</em></label>
                         <div class="input-box">
@@ -60,6 +62,8 @@
                             </select>
                         </div>
                     </div>
+
+                     */ ?>
                     <div class="field">
                         <label for="tipopessoa" class="required"><em>*</em>Tipo de Pessoa</label>
                         <div class="input-box">
@@ -104,7 +108,7 @@
                             <?php echo $_dob->setDate($this->getFormData()->getDob())->toHtml() ?>
                         <?php endif ?>
                     </div>
-                    <div class="field">
+                    <div class="field gender-field">
                         <?php if ($_gender->isEnabled()): ?>
                             <?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?>
                         <?php endif ?>
@@ -221,66 +225,37 @@
                     </li>
                 <?php endif ?>
                 <?php echo $this->getChildHtml('form.additional.info'); ?>
-                <?php //echo $this->getChildHtml('persistent.remember.me'); ?>
             </ul>
             <?php echo $this->getChildHtml('persistent.remember.me.tooltip'); ?>
         </div>
         <div class="fieldset dadoscomplementares" style="display: none">
-            <h2 class="legend"><?php echo $this->__('Dados Complementares') ?></h2>
+            <h2 class="legend"><?php echo $this->__('Referências Comerciais') ?></h2>
             <ul class="form-list">
                 <li class="fields">
                     <div class="field">
-                        <label for="escolaridade" class="required">Grau de escolaridade</label>
+                        <label for="referencia-1" class="required">Razão Social</label>
                         <div class="input-box">
-                            <input type="text" name="escolaridade" value="" title="Grau de escolaridade" class="input-text" />
+                            <input type="text" name="referenceone" value="" class="input-text" />
                         </div>
                     </div>
                     <div class="field">
-                        <label for="formacao" class="required">Formação / Curso</label>
+                        <label for="referencia-1" class="required">Telefone</label>
                         <div class="input-box">
-                            <input type="text" name="formacao" value="" title="Formação / Curso" class="input-text" />
-                        </div>
-                    </div>
-                </li>
-                <li class="fields">
-                    <div class="field">
-                        <label for="conhecimento_negocio" class="required">Como tomou conhecimento desse Negócio?</label>
-                        <div class="input-box">
-                            <input type="text" name="conhecimento_negocio" value="" class="input-text" />
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="atracao_franquia" class="required">O que mais te atraiu para franquia Planeta Futebol?</label>
-                        <div class="input-box">
-                            <input type="text" name="atracao_franquia" value="" class="input-text" />
+                            <input type="text" name="phoneone" value="" class="input-text" />
                         </div>
                     </div>
                 </li>
                 <li class="fields">
                     <div class="field">
-                        <label for="franquia_principal_fonte_renda" class="required">A Franquia será sua principal fonte de renda?</label>
+                        <label for="referencia-2" class="required">Razão Social</label>
                         <div class="input-box">
-                            <input type="text" name="franquia_principal_fonte_renda" value="" class="input-text" />
+                            <input type="text" name="referencetwo" value="" class="input-text" />
                         </div>
                     </div>
                     <div class="field">
-                        <label for="tera_socio_franquia" class="required">Você terá um sócio?</label>
+                        <label for="referencia-2" class="required">Telefone</label>
                         <div class="input-box">
-                            <input type="text" name="tera_socio_franquia" value="" class="input-text" />
-                        </div>
-                    </div>
-                </li>
-                <li class="fields">
-                    <div class="field">
-                        <label for="estado_cidade_franquia" class="required">Qual estado(s) e cidade(s) em que pretende montar a Franquia?</label>
-                        <div class="input-box">
-                            <input type="text" name="estado_cidade_franquia" value="" class="input-text" />
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="qual_time_torce" class="required">Qual time você torce?</label>
-                        <div class="input-box">
-                            <input type="text" name="qual_time_torce" value="" class="input-text" />
+                            <input type="text" name="phonetwo" value="" class="input-text" />
                         </div>
                     </div>
                 </li>
@@ -298,12 +273,34 @@
     <script type="text/javascript">
         //<![CDATA[
 
-        jQuery("#franchiseoption").change(function() {
+        jQuery("#tipopessoa").change(function() {
             var $val = jQuery(this).val();
-            if($val == 1){
-                jQuery('.dadoscomplementares').hide();
-            } else {
+            if($val == 'Pessoa Jurídica'){
+
+                jQuery('.name').hide();
+                jQuery('.name-lastname').hide();
+                jQuery('.nascimento').hide();
+                jQuery('.gender-field').hide();
+                jQuery('.social').fadeIn('fast');
+
+                jQuery('.abertura').fadeIn('fast');
                 jQuery('.dadoscomplementares').fadeIn('fast');
+
+                jQuery('#firstname').addClass('name-firstname-expanded');
+
+            } else {
+
+                jQuery('.name').fadeIn('fast');
+                jQuery('.name-lastname').fadeIn('fast');
+                jQuery('.nascimento').fadeIn('fast');
+                jQuery('.gender-field').fadeIn('fast');
+                jQuery('.social').hide();
+                jQuery('.abertura').hide();
+
+                jQuery('#firstname').removeClass('name-firstname-expanded');
+                jQuery('.dadoscomplementares').hide();
+
+
             }
         });
 
@@ -314,3 +311,17 @@
         //]]>
     </script>
 </div>
+<style>
+    .name-firstname-expanded{
+        width: 530px !important;
+    }
+    
+    .social{
+        display: none;
+
+    }
+
+    .abertura{
+        display: none;
+    }
+</style>

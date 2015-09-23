@@ -1,56 +1,56 @@
 <?xml version="1.0"?>
 <config>
 	<modules>
-		<Franchise_Group>
+		<Wizard_Customer>
 			<version>0.1.1</version>
-		</Franchise_Group>
+		</Wizard_Customer>
 	</modules>
 
 	<global>
 		<fieldsets>
 			<customer_account>
-				<franchiseoption>
+				<referenceone>
                     <create>1</create>
                     <update>1</update>
                     <name>1</name>
-                </franchiseoption>
+                </referenceone>
 			</customer_account>
 		</fieldsets>
 	</global>
 
 	<global>
-		<models>
-			<group>
-				<class>Franchise_Group_Model</class>
-			</group>
-		</models>
+        <models>
+            <customer>
+                <class>Wizard_Customer_Model</class>
+            </customer>
+        </models>
 
 		<resources>
-			<group_setup>
+			<customer_setup>
 				<setup>
-					<module>Franchise_Group</module>
+					<module>Wizard_Customer</module>
 					<class>Mage_Customer_Model_Entity_Setup</class>
 				</setup>
 				<connection>
 					<use>core_setup</use>
 				</connection>
-			</group_setup>
-			<group_write>
+			</customer_setup>
+			<customer_write>
 				<connection>
 					<use>core_write</use>
 				</connection>
-			</group_write>
-			<group_read>
+			</customer_write>
+			<customer_read>
 				<connection>
 					<use>core_read</use>
 				</connection>
-			</group_read>
+			</customer_read>
 		</resources>
 
 		<helpers>
-			<group>
-				<class>Franchise_Group_Helper</class>
-			</group>
+			<customer>
+				<class>Wizard_Customer_Helper</class>
+			</customer>
 		</helpers>
 	</global>
 </config>
