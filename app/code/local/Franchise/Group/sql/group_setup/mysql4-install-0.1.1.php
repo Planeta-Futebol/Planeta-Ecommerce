@@ -29,6 +29,22 @@ $setup->addAttribute('customer', 'referenceone', array(
         'visible_on_front' => 1,
 ));
 
+/**
+ * Add a field to store a number phone to first commercial reference
+ *
+ */
+$setup->addAttribute('customer', 'phoneone', array(
+
+        'type' => 'varchar',
+        'input' => 'text',
+        'label' => 'Telefone 1',
+        'global' => 1,
+        'visible' => 1,
+        'required' => 0,
+        'user_defined' => 1,
+        'default' => '0',
+        'visible_on_front' => 1,
+));
 
 /**
  * Add a field to store the second commercial reference
@@ -47,26 +63,6 @@ $setup->addAttribute('customer', 'referencetwo', array(
         'visible_on_front' => 1,
 ));
 
-
-/**
- * Add a field to store a number phone to first commercial reference
- *
- */
-$setup->addAttribute('customer', 'phoneone', array(
-
-        'type' => 'varchar',
-        'input' => 'text',
-        'label' => 'Telefone 1',
-        'global' => 1,
-        'visible' => 1,
-        'required' => 0,
-        'user_defined' => 1,
-        'default' => '0',
-        'visible_on_front' => 1,
-));
-
-
-
 /**
  * Add a field to store a number phone to second commercial reference
  *
@@ -84,6 +80,15 @@ $setup->addAttribute('customer', 'phonetwo', array(
         'visible_on_front' => 1,
 ));
 
+$setup->removeAttribute('customer', 'qual_time_torce');
+$setup->removeAttribute('customer', 'tera_socio_franquia');
+$setup->removeAttribute('customer', 'estado_cidade_franquia');
+$setup->removeAttribute('customer', 'franquia_principal_fonte_renda');
+$setup->removeAttribute('customer', 'atracao_franquia');
+$setup->removeAttribute('customer', 'conhecimento_negocio');
+$setup->removeAttribute('customer', 'formacao');
+$setup->removeAttribute('customer', 'escolaridade');
+
 if (version_compare(Mage::getVersion(), '1.4.2', '>='))
 {
 
@@ -91,8 +96,6 @@ if (version_compare(Mage::getVersion(), '1.4.2', '>='))
             ->getAttribute('customer', 'referenceone')
             ->setData('used_in_forms', array('adminhtml_customer', 'customer_account_create'))
             ->save();
-
-
 
     Mage::getSingleton('eav/config')
             ->getAttribute('customer', 'referencetwo')
@@ -104,13 +107,10 @@ if (version_compare(Mage::getVersion(), '1.4.2', '>='))
             ->setData('used_in_forms', array('adminhtml_customer', 'customer_account_create'))
             ->save();
 
-
-
     Mage::getSingleton('eav/config')
             ->getAttribute('customer', 'phonetwo')
             ->setData('used_in_forms', array('adminhtml_customer', 'customer_account_create'))
             ->save();
-
 }
 
 $installer->endSetup();
