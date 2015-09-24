@@ -1,4 +1,10 @@
 <?php
+/**
+ * This file adds new fields to the User base, allowing also be viewed and changed in the admin.
+ *
+ * @author Ronildo dos Santos
+ * @date 24/08/2015
+ */
 
 $installer = $this;
 
@@ -6,6 +12,10 @@ $installer->startSetup();
 
 $setup = Mage::getModel('customer/entity_setup', 'core_setup');
 
+/**
+ * Add a field to store the first commercial reference
+ *
+ */
 $setup->addAttribute('customer', 'referenceone', array(
 
         'type' => 'varchar',
@@ -20,7 +30,10 @@ $setup->addAttribute('customer', 'referenceone', array(
 ));
 
 
-
+/**
+ * Add a field to store the second commercial reference
+ *
+ */
 $setup->addAttribute('customer', 'referencetwo', array(
 
         'type' => 'varchar',
@@ -35,7 +48,10 @@ $setup->addAttribute('customer', 'referencetwo', array(
 ));
 
 
-
+/**
+ * Add a field to store a number phone to first commercial reference
+ *
+ */
 $setup->addAttribute('customer', 'phoneone', array(
 
         'type' => 'varchar',
@@ -51,6 +67,10 @@ $setup->addAttribute('customer', 'phoneone', array(
 
 
 
+/**
+ * Add a field to store a number phone to second commercial reference
+ *
+ */
 $setup->addAttribute('customer', 'phonetwo', array(
 
         'type' => 'varchar',
