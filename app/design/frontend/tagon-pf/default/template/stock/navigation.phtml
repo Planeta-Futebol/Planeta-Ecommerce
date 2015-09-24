@@ -4,6 +4,9 @@
   $helper=Mage::helper('stock');
 
   if($roleId>1) {
+
+      /** @var Franchise_Stock_Model_Dashboard $dashboard */
+      $dashboard = Mage::getModel('stock/dashboard');
 ?>
 <div class="block block-account">
   <div class="block-title">
@@ -39,6 +42,9 @@
       <?php } ?>
       </li>
 
+
+       <?php if( count($dashboard->getCouponsAffiliate()) > 0 ):  ?>
+
       <li  <?php echo strpos($magentoCurrentUrl,'commission')? "class=current":"";?>>
       <?php if(strpos($magentoCurrentUrl,'commission')){ ?>
         <strong><?php echo $helper->__('Meus Clientes') ?></strong>
@@ -58,6 +64,7 @@
         </a>
       <?php } ?>
       </li>
+          <?php endif; ?>
 
     </ul>
   </div>
