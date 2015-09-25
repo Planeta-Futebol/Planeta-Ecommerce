@@ -9,13 +9,31 @@
 	<global>
 		<fieldsets>
 			<customer_account>
-				<franchiseoption><create>1</create><update>1</update><name>1</name></franchiseoption>
+				<referenceone>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </referenceone>
+                <referencetwo>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </referencetwo>
+				<phoneone>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </phoneone>
+                <phonetwo>
+                    <create>1</create>
+                    <update>1</update>
+                    <name>1</name>
+                </phonetwo>
 			</customer_account>
 		</fieldsets>
 	</global>
 
 	<global>
-
 		<models>
 			<group>
 				<class>Franchise_Group_Model</class>
