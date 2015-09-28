@@ -139,4 +139,7 @@ jQuery(document).ready(function(){
     };
 
     jQuery('#isento').change(checkIsento);
+
+    jQuery('.phones').mask('99 9999-9999');
+
 });
