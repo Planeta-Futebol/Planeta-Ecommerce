@@ -38,7 +38,7 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
                 $data['report_to'] = $date->toString($this->getLocale()->getDateFormat('short'));
             }
 
-            if((int) $data['report_type_products'] !== 0) {
+            if($data['report_type_products'] != '0') {
                 $arrTypeAndGroupProducts = explode('-', $data['report_type_products']);
 
                 $data['report_group_products'] = $arrTypeAndGroupProducts[0];
