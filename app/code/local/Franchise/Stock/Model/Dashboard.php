@@ -36,7 +36,7 @@ class Franchise_Stock_Model_Dashboard
      *
      * @var string
      */
-    private $nameFranchise;
+    private $franchiseType;
 
     /**
      * It represents an interval of days, today.
@@ -75,7 +75,7 @@ class Franchise_Stock_Model_Dashboard
         $groupCustomerId = Mage::getSingleton('customer/session')->getCustomerGroupId();
 
         $typeFranchise = Mage::getModel("customer/group")->load($groupCustomerId, 'customer_group_id');
-        $this->nameFranchise = $typeFranchise->getData('customer_group_code');
+        $this->franchiseType = $typeFranchise->getData('customer_group_code');
 
     }
 
@@ -84,7 +84,7 @@ class Franchise_Stock_Model_Dashboard
      *
      * @return int
      */
-    public function getFullPotentialSales()
+    public function getTotalPotentialSales()
     {
         $products = $this->productFranchise->getFrCollection($this->customerId);
 
@@ -108,7 +108,7 @@ class Franchise_Stock_Model_Dashboard
      * @param null|int $intervalDays
      * @return int
      */
-    public function getFullSalesPrice( $intervalDays = null )
+    public function getTotalSalesPrice( $intervalDays = null )
     {
         $collection = Mage::getModel('stock/saleperpartner')->getCollection()
                 ->addFieldToFilter('userid', array('eq' => $this->customerId));
@@ -137,7 +137,7 @@ class Franchise_Stock_Model_Dashboard
      * @param null|int $intervalDays
      * @return int
      */
-    public function getFullProfits( $intervalDays = null )
+    public function getTotalProfits( $intervalDays = null )
     {
         $collection = Mage::getModel('stock/saleperpartner')->getCollection()
                 ->addFieldToFilter('userid', array('eq' => $this->customerId));
@@ -209,7 +209,7 @@ class Franchise_Stock_Model_Dashboard
      *
      * @return array
      */
-    public function getProductMoreSold( $intervalDays = null )
+    public function getTopSellingProducts( $intervalDays = null )
     {
         $collection = Mage::getModel('stock/saleperpartner')->getCollection();
 
@@ -227,13 +227,13 @@ class Franchise_Stock_Model_Dashboard
                 ->order('qty_sold DESC')
                 ->limit(5);
 
-        $arrProductMoreSold = array();
+        $arrTopSellingProducts = array();
         $key = 0;
 
         foreach ($collection as $product) {
             $catalogProduct = Mage::getModel('catalog/product')->load($product->getProduct_id());
 
-            $arrProductMoreSold[$key] = array(
+            $arrTopSellingProducts[$key] = array(
                     'name' => $catalogProduct->getData('name'),
                     'quantity' => (int)$product->getData('qty_sold')
 
@@ -242,7 +242,7 @@ class Franchise_Stock_Model_Dashboard
             $key++;
         }
 
-        return $arrProductMoreSold;
+        return $arrTopSellingProducts;
     }
 
 
@@ -252,7 +252,7 @@ class Franchise_Stock_Model_Dashboard
      *
      * @return array
      */
-    public function getProductMoreProfit( $intervalDays = null )
+    public function getBestProfitableProducts( $intervalDays = null )
     {
         $collection = Mage::getModel('stock/saleperpartner')->getCollection();
 
@@ -299,7 +299,7 @@ class Franchise_Stock_Model_Dashboard
      * @param null|int $intervalDays
      * @return int
      */
-    public function getFullPurchases( $intervalDays = null )
+    public function getTotalPurchase( $intervalDays = null )
     {
         $collection = Mage::getModel('sales/order')->getCollection();
 
@@ -405,8 +405,8 @@ class Franchise_Stock_Model_Dashboard
      *
      * @return string
      */
-    public function getNameFranchise()
+    public function getFranchiseType()
     {
-        return $this->nameFranchise;
+        return $this->franchiseType;
     }
 }

@@ -4,10 +4,13 @@
   $helper=Mage::helper('stock');
 
   if($roleId>1) {
+
+      /** @var Franchise_Stock_Model_Dashboard $dashboard */
+      $dashboard = Mage::getModel('stock/dashboard');
 ?>
 <div class="block block-account">
   <div class="block-title">
-    <strong><span><?php echo $helper->__('Franquia') ?></span></strong>
+    <strong><span><?php echo $helper->__('Menu Principal') ?></span></strong>
   </div>
   <div class="block-content">
     <ul class="wk_cont_ul">
@@ -39,25 +42,29 @@
       <?php } ?>
       </li>
 
+
+       <?php if( count($dashboard->getCouponsAffiliate()) > 0 ):  ?>
+
       <li  <?php echo strpos($magentoCurrentUrl,'commission')? "class=current":"";?>>
       <?php if(strpos($magentoCurrentUrl,'commission')){ ?>
-        <strong><?php echo $helper->__('Comissões') ?></strong>
+        <strong><?php echo $helper->__('Meus Clientes') ?></strong>
       <?php } else { ?>
         <a href="<?php echo $this->getUrl('stock/stockaccount/commission'); ?>">
-          <?php echo $helper->__('Comissões') ?>
+          <?php echo $helper->__('Meus Clientes') ?>
         </a>
       <?php } ?>
       </li>
 
       <li  <?php echo strpos($magentoCurrentUrl,'affiliatepluscoupon/index/index')? "class=current":"";?>>
       <?php if(strpos($magentoCurrentUrl,'affiliatepluscoupon/index/index')){ ?>
-        <strong><?php echo $helper->__('Cupons') ?></strong>
+        <strong><?php echo $helper->__('Código do Representante') ?></strong>
       <?php } else { ?>
         <a href="<?php echo $this->getUrl('affiliatepluscoupon/index/index'); ?>">
-          <?php echo $helper->__('Cupons') ?>
+          <?php echo $helper->__('Código do representante') ?>
         </a>
       <?php } ?>
       </li>
+          <?php endif; ?>
 
     </ul>
   </div>

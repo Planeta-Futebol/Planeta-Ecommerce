@@ -13,8 +13,8 @@ class Franchise_Stock_Block_Dashboard extends Mage_Core_Block_Template
         $dashboard = Mage::getModel('stock/dashboard');
 
         $this->setData('nameCustomer', $nameCustomer);
-        $this->setData('nameFranchise', $dashboard->getNameFranchise());
-        $this->setData('fullPotentialSales', $dashboard->getFullPotentialSales());
+        $this->setData('franchiseType', $dashboard->getFranchiseType());
+        $this->setData('fullPotentialSales', $dashboard->getTotalPotentialSales());
         $this->setData('couponsAffiliate', $dashboard->getCouponsAffiliate());
         $this->setData('affiliateCredit', $dashboard->getCreditAffiliatePlus());
         $this->setData('productStockItem', $dashboard->getProductStockItem());
@@ -23,11 +23,11 @@ class Franchise_Stock_Block_Dashboard extends Mage_Core_Block_Template
 
         switch ($intervalDays) {
             case 1:
-                $this->setData('fullSalesPrice', $dashboard->getFullSalesPrice($dashboard::INTERVAL_TODAY));
-                $this->setData('fullProfits', $dashboard->getFullProfits($dashboard::INTERVAL_TODAY));
-                $this->setData('productMoreSold', $dashboard->getProductMoreSold($dashboard::INTERVAL_TODAY));
-                $this->setData('productMoreProfit', $dashboard->getProductMoreProfit($dashboard::INTERVAL_TODAY));
-                $this->setData('fullPurchases', $dashboard->getFullPurchases($dashboard::INTERVAL_TODAY));
+                $this->setData('fullSalesPrice', $dashboard->getTotalSalesPrice($dashboard::INTERVAL_TODAY));
+                $this->setData('fullProfits', $dashboard->getTotalProfits($dashboard::INTERVAL_TODAY));
+                $this->setData('productMoreSold', $dashboard->getTopSellingProducts($dashboard::INTERVAL_TODAY));
+                $this->setData('productMoreProfit', $dashboard->getBestProfitableProducts($dashboard::INTERVAL_TODAY));
+                $this->setData('fullPurchases', $dashboard->getTotalPurchase($dashboard::INTERVAL_TODAY));
                 $this->setData('generateMoreCommision', $dashboard->getGenerateMoreCommission($dashboard::INTERVAL_TODAY));
 
                 $arrComboBoxSelected = array(
@@ -42,11 +42,11 @@ class Franchise_Stock_Block_Dashboard extends Mage_Core_Block_Template
                 break;
 
             case 7:
-                $this->setData('fullSalesPrice', $dashboard->getFullSalesPrice($dashboard::INTERVAL_SEVEN_DAYS));
-                $this->setData('fullProfits', $dashboard->getFullProfits($dashboard::INTERVAL_SEVEN_DAYS));
-                $this->setData('productMoreSold', $dashboard->getProductMoreSold($dashboard::INTERVAL_SEVEN_DAYS));
-                $this->setData('productMoreProfit', $dashboard->getProductMoreProfit($dashboard::INTERVAL_SEVEN_DAYS));
-                $this->setData('fullPurchases', $dashboard->getFullPurchases($dashboard::INTERVAL_SEVEN_DAYS));
+                $this->setData('fullSalesPrice', $dashboard->getTotalSalesPrice($dashboard::INTERVAL_SEVEN_DAYS));
+                $this->setData('fullProfits', $dashboard->getTotalProfits($dashboard::INTERVAL_SEVEN_DAYS));
+                $this->setData('productMoreSold', $dashboard->getTopSellingProducts($dashboard::INTERVAL_SEVEN_DAYS));
+                $this->setData('productMoreProfit', $dashboard->getBestProfitableProducts($dashboard::INTERVAL_SEVEN_DAYS));
+                $this->setData('fullPurchases', $dashboard->getTotalPurchase($dashboard::INTERVAL_SEVEN_DAYS));
                 $this->setData('generateMoreCommision', $dashboard->getGenerateMoreCommission($dashboard::INTERVAL_SEVEN_DAYS));
 
                 $arrComboBoxSelected = array(
@@ -61,11 +61,11 @@ class Franchise_Stock_Block_Dashboard extends Mage_Core_Block_Template
                 break;
 
             case 30:
-                $this->setData('fullSalesPrice', $dashboard->getFullSalesPrice($dashboard::INTERVAL_THIRTY_DAYS));
-                $this->setData('fullProfits', $dashboard->getFullProfits($dashboard::INTERVAL_THIRTY_DAYS));
-                $this->setData('productMoreSold', $dashboard->getProductMoreSold($dashboard::INTERVAL_THIRTY_DAYS));
-                $this->setData('productMoreProfit', $dashboard->getProductMoreProfit($dashboard::INTERVAL_THIRTY_DAYS));
-                $this->setData('fullPurchases', $dashboard->getFullPurchases($dashboard::INTERVAL_THIRTY_DAYS));
+                $this->setData('fullSalesPrice', $dashboard->getTotalSalesPrice($dashboard::INTERVAL_THIRTY_DAYS));
+                $this->setData('fullProfits', $dashboard->getTotalProfits($dashboard::INTERVAL_THIRTY_DAYS));
+                $this->setData('productMoreSold', $dashboard->getTopSellingProducts($dashboard::INTERVAL_THIRTY_DAYS));
+                $this->setData('productMoreProfit', $dashboard->getBestProfitableProducts($dashboard::INTERVAL_THIRTY_DAYS));
+                $this->setData('fullPurchases', $dashboard->getTotalPurchase($dashboard::INTERVAL_THIRTY_DAYS));
                 $this->setData('generateMoreCommision', $dashboard->getGenerateMoreCommission($dashboard::INTERVAL_THIRTY_DAYS));
 
                 $arrComboBoxSelected = array(
@@ -79,11 +79,11 @@ class Franchise_Stock_Block_Dashboard extends Mage_Core_Block_Template
                 break;
 
             default:
-                $this->setData('fullSalesPrice', $dashboard->getFullSalesPrice());
-                $this->setData('fullProfits', $dashboard->getFullProfits());
-                $this->setData('productMoreSold', $dashboard->getProductMoreSold());
-                $this->setData('productMoreProfit', $dashboard->getProductMoreProfit());
-                $this->setData('fullPurchases', $dashboard->getFullPurchases());
+                $this->setData('fullSalesPrice', $dashboard->getTotalSalesPrice());
+                $this->setData('fullProfits', $dashboard->getTotalProfits());
+                $this->setData('productMoreSold', $dashboard->getTopSellingProducts());
+                $this->setData('productMoreProfit', $dashboard->getBestProfitableProducts());
+                $this->setData('fullPurchases', $dashboard->getTotalPurchase());
                 $this->setData('generateMoreCommision', $dashboard->getGenerateMoreCommission());
 
                 $arrComboBoxSelected = array(

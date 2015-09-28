@@ -2,32 +2,39 @@
 <config>
   <tabs>
     <franchise translate="label" module="stock">
-      <label>Franchise</label>
+      <label>Last Units Plugin</label>
       <sort_order>99999</sort_order>
     </franchise>
   </tabs>
   <sections>
-    <stock>
+    <stock_options translate="label" module="stock">
+      <label>Last Units Settings</label>
+      <tab>franchise</tab>
+      <frontend_type>text</frontend_type>
+      <sort_order>1000</sort_order>
+      <show_in_default>1</show_in_default>
+      <show_in_website>1</show_in_website>
+      <show_in_store>1</show_in_store>
       <groups>
-        <!--<backend translate="label" module="stock">
-          <label>Backend</label>
-          <frontend_type>text</frontend_type>
-          <sort_order>50</sort_order>
+        <backend_group translate="label">
+          <label>Last Units Stock settings</label>
+          <sort_order>10</sort_order>
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
           <fields>
-            <short_desc_instructions translate="label">
-              <label>Short Description Instructions</label>
-              <frontend_type>textarea</frontend_type>
-              <sort_order>50</sort_order>
+            <last_unit_instructions translate="label">
+              <label>Last Units Stock limit</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>0</sort_order>
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>1</show_in_store>
-            </short_desc_instructions>
+              <comment>Products with an amount below or equal to this value will display the warning.</comment>
+            </last_unit_instructions>
           </fields>
-        </backend>-->
+        </backend_group>
       </groups>
-    </stock>
+    </stock_options>
   </sections>
 </config>

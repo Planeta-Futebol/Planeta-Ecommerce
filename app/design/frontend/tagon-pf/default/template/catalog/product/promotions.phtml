@@ -23,9 +23,13 @@ $_helper = $this->helper('catalog/output');
 
 <?php $_collectionSize = $_productCollection->count() ?>
 <?php $_columnCount = 4; ?>
+
+<?php if($_collectionSize): ?>
 <div class="page-title">
   <h2><a href="/loja/promocoes"><?php echo $this->__('Promoções') ?></a></h2>
 </div>
+<?php endif ?>
+
 <div class="category-products">
   <?php $i=0; foreach ($_productCollection as $_product): ?>
   <?php if ($i++%$_columnCount==0): ?>
@@ -33,19 +37,57 @@ $_helper = $this->helper('catalog/output');
     <?php endif ?>
     <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
           <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(299); ?>" width="100%" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
-        <div class="item-bottom">
+        <div class="item-bottom" style="position: relative;">
           <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
 
-          <?php echo Mage_Catalog_Block_Product::getPriceHtml($_product, true) ?>
           <?php
             $groupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-            if($groupId > 1) :
+            $storeId = Mage::app()->getStore()->getStoreId();
+            $productid = $_product->getId();
+            $like_product = Mage::getResourceModel('catalog/product')->getAttributeRawValue($productid,'experimental_prod', $storeId);
+            if($like_product==0)
+            {
+              //if product is not experimental product then only show add to cart button.
+              echo Mage_Catalog_Block_Product::getPriceHtml($_product, true);
+              if($groupId > 1) :
           ?>
           <div class='preco_sugerido'>
             Preço sugerido para venda:
             <span><?php echo Mage::helper('core')->currency($_product->getMsrp(),true,false); ?></span>
           </div>
           <?php endif; ?>
+          <div class="lastunits" style="position: absolute; top:-28px; left: 8px;">
+            <?php
+              $prodtype = $_product->getTypeID();
+              $lastunit = Mage::getStoreConfig('stock_options/backend_group/last_unit_instructions');
+              $qqty = 0;
+              if($prodtype=='configurable')
+              {
+                $prod = $_product->load($prod_id);
+                $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($prod);
+                $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+                $total_qty=0;
+                foreach($col as $sprod){
+                  $sprod=$_product->load($sprod->getId());
+                  $prodnam = $sprod->getName();
+                  $qty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($sprod)->getQty());
+                  $qqty = $qty + $qqty;
+                }
+                if($qqty<=$lastunit)
+                {
+                  echo "<span>ultimas unidades</span>";
+                }
+              }
+              else
+              {
+                $pqty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty());
+                if($pqty<=$lastunit)
+                {
+                  echo "<span>ultimas unidades</span>";
+                }
+              }
+            ?>
+          </div>
           <div class="actions">
             <?php if($_product->isSaleable()): ?>
               <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $_product->getProductUrl() ?>')"><span><span>
@@ -55,6 +97,9 @@ $_helper = $this->helper('catalog/output');
               <?php endif; ?>
             </div>
           </div>
+        <?php }else{ ?>
+          <a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Buy Now'); ?></a>
+          <?php } ?>
 
         </li>
         <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
@@ -72,3 +117,8 @@ $_helper = $this->helper('catalog/output');
       decorateGeneric($$('ul.products-grid'), ['odd','even','first','last']);
     </script>
   </div>
+<style>
+    .lastunits span{
+        background-color: #098d44; padding: 6px; color: #ffffff;
+    }
+</style>

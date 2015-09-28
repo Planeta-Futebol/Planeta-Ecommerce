@@ -68,9 +68,10 @@
           </select>
           <input type="submit" name="submit" id="submit" value="OK"/>
         </form>
-        <?php echo $this->getPagerHtml(); ?>
       </div>
       <div class="grid np">
+        <?php echo $this->getPagerHtml(); ?>
+        <?php if($sales->getSize()): ?>
         <table cellspacing="0" style="border:0" id="franchise_table">
           <thead>
             <tr class="headings">
@@ -101,7 +102,7 @@
               <tr>
                 <td><?php echo $franchise->getEmail();?></td>
                 <td><?php echo $mainproduct->getName();?></td>
-                <td><?php echo $qty?></td>
+                <td><?php echo $qty;?></td>
                 <td><?php echo Mage::helper('core')->currency($productprice);?></td>
                 <td><?php echo Mage::helper('core')->currency($salesprice);?></td>
                 <td><?php echo Mage::helper('core')->currency($profit);?></td>
@@ -109,6 +110,10 @@
             <?php } ?>
           </tbody>
         </table>
+        <a style="float:right; padding: 0 11px 0 0;" href="<?php echo Mage::helper('adminhtml')->getUrl("stock/adminhtml_admindash/index", array()); ?>">View More</a>
+        <?php else: ?>
+        <p><?php echo $this->__('The collection is empty.'); ?></p>
+        <?php endif ?>
       </div>
     </div>
 

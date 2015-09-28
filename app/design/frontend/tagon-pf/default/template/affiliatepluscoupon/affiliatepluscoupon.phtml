@@ -35,7 +35,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
     <div class="page-title">
 
-        <h1><?php echo $this->__('Coupon Code') ?></h1>
+        <h1><?php echo $this->__('Código do Representante') ?></h1>
 
     </div>
 
@@ -43,7 +43,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
         <li class="success-msg">
 
-            <?php echo $this->__('Divulgue os códigos de cupom abaixo.') ?>
+            <?php echo $this->__('Utilize o código abaixo na primeira compra do seu cliente.') ?>
 
             <?php echo $this->__('Você receberá comissão em cima de todas as compras de clientes que os utilizarem.') ?>
 
@@ -75,7 +75,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
                         <strong>
 
-                            <?php echo 'Cupom: '.$program->getCouponCode() ?>
+                            <?php echo 'Código do representante: '.$program->getCouponCode() ?>
 
                         </strong>
 
@@ -115,7 +115,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
                             <tr>
 
-                                <td class = "td-left"><?php echo $this->__('Tipo de Comissão') ?>:&nbsp;</td>
+                                <td class = "td-left"><?php echo $this->__('Valor de Comissão') ?>:&nbsp;</td>
 
                                 <td class = "td-right"><?php echo $commission = sprintf("%.0f", $program->getCommission()).'%';?></td>
 

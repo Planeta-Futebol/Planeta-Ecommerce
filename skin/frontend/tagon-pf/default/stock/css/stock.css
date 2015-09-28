@@ -274,3 +274,16 @@ ul.tabrl li.active {
    top: 10px;
    font-weight: bold;
 }
+.fb-share-button {
+   transform: scale(2.0);
+   -ms-transform: scale(2.0);
+   -webkit-transform: scale(2.0);
+   -o-transform: scale(2.0);
+   -moz-transform: scale(2.0);
+   transform-origin: top left;
+   -ms-transform-origin: top left;
+   -webkit-transform-origin: top left;
+   -moz-transform-origin: top left;
+   -webkit-transform-origin: top left;
+}
+

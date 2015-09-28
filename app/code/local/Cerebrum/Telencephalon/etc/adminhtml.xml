@@ -107,11 +107,11 @@
 										<action>adminhtml/telencephalon2_log</action>
 										<sort_order>10</sort_order>
 									</file>
-									<database translate="title" module="telencephalon">
+									<!--<database translate="title" module="telencephalon">
 										<title>Telencephalon</title>
 										<action>adminhtml/telencephalon_log</action>
 										<sort_order>20</sort_order>
-									</database>
+									</database>-->
 								</children>
 							</log>
 						</children>
@@ -194,11 +194,11 @@
 							<action>adminhtml/telencephalon2_log</action>
 							<sort_order>10</sort_order>
 						</file>
-						<database translate="title" module="telencephalon">
+						<!--<database translate="title" module="telencephalon">
 							<title>Telencephalon</title>
 							<action>adminhtml/telencephalon_log</action>
 							<sort_order>20</sort_order>
-						</database>
+						</database>-->
 					</children>
 				</log>
 				<ping translate="title" module="telencephalon">

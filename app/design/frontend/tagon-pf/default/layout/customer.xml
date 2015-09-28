@@ -49,9 +49,7 @@ Default layout, loads most of the pages
     <default>
         <!-- Mage_Customer -->
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="customer"><label>Fale Conosco</label><url>contacts</url><title>Fale Conosco</title><prepare>true</prepare><urlParams/><position>97</position></action>
-            <action method="addLink" translate="label title" module="customer"><label>Fornecedores</label><url>fornecedores</url><title>Fornecedores</title><prepare>true</prepare><urlParams/><position>199</position></action>
-            <action method="addLink" translate="label title" module="customer"><label>Franquias</label><url>franquia.html</url><title>Conheça as Franquias</title><prepare>true</prepare><urlParams/><position>200</position></action>
+            <action method="addLink" translate="label title" module="customer"><label>Fale Conosco</label><url>contacts</url><title>Fale Conosco</title><prepare>true</prepare><urlParams/><position>10</position></action>
         </reference>
     </default>
 
@@ -75,8 +73,8 @@ Load this update on every page when customer is logged out
             <block type="customer/form_login" name="customer_form_mini_login" before="-" template="customer/form/mini.login.phtml"/>
         </reference>-->
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="customer"><label>Log In</label><url helper="customer/getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>10</position></action>
-            <action method="addLink" translate="label title" module="customer"><label>Cadastrar</label><url helper="customer/getRegisterUrl"/><title>Cadastre-se</title><prepare/><urlParams/><position>10</position></action>
+            <action method="addLink" translate="label title" module="customer"><label>Log In</label><url helper="customer/getLoginUrl"/><title>Log In</title><prepare/><urlParams/><position>90</position></action>
+            <action method="addLink" translate="label title" module="customer"><label>Cadastrar</label><url helper="customer/getRegisterUrl"/><title>Cadastre-se</title><prepare/><urlParams/><position>80</position></action>
         </reference>
         <remove name="reorder"></remove>
     </customer_logged_out>
@@ -230,11 +228,11 @@ Customer account pages, rendered for all tabs in dashboard
 
         <reference name="left">
             <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
-				<action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
-				<action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
-				<action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
-				<action method="addLink" translate="label" module="customer"><name>account_faq</name><path>customer/account/faq/</path><label>Ajuda</label></action>
-			</block>
+                <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
+                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
+                <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
+                <action method="addLink" translate="label" module="customer"><name>account_faq</name><path>customer/account/faq/</path><label>Ajuda</label></action>
+            </block>
             <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml">
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>

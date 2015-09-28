@@ -103,4 +103,7 @@
 			<block type="stock/Financialchart" name="stock_financialchart" template="stock/financialchart.phtml"/>
 		</reference>
 	</stock_account_financialchart>
+  <stock_ajax_index>
+    <block type="stock/stock" name="stock_ajax" template="stock/viewajax.phtml" />
+  </stock_ajax_index>
 </layout>
