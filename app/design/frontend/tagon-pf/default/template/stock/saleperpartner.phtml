@@ -3,6 +3,8 @@
   $helper= Mage::helper('stock');
 
   if($roleId>1){
+    /** @var Franchise_Stock_Model_Dashboard $dashboard */
+    $dashboard = Mage::getModel('stock/dashboard');
 ?>
   <div class="page-title">
     <h1><?php echo $helper->__('Relatórios') ?></h1>
@@ -11,9 +13,11 @@
     <ul class="tabrl">
       <li class="tabi active firsttab tabs" tabid="salesreportlist"><p>Vendas</p></li>
       <li class="tabi tabs" tabid="financialgraph"><p>Financeiro</p></li>
+      <?php if(count($dashboard->getCouponsAffiliate()) > 0): ?>
       <li class="tabi tabs lasttab" tabid="commissionslist">
         <p><a href="<?php echo $this->getUrl('affiliateplus/index/listTransaction'); ?>">Comissões</a></p>
       </li>
+      <?php endif; ?>
     </ul>
     <div style="clear: both;"></div>
   </div>
