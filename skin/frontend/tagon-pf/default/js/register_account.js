@@ -140,6 +140,10 @@ jQuery(document).ready(function(){
 
     jQuery('#isento').change(checkIsento);
 
-    jQuery('.phones').mask('99 9999-9999');
+    jQuery('.phones').inputmask({
+		mask: ['(99) 9999-9999', '(99) 99999-9999'],
+		keepStatic: true,
+		autoUnmask: true
+	});
 
 });
