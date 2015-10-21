@@ -59,26 +59,20 @@ $_productCollection->addAttributeToSelect('*')
               if($prodtype=='configurable')
               {
                 $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($_product);
-                $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
-                $total_qty=0;
-                foreach($col as $sprod){
-                  $sprod=$_product->load($sprod->getId());
-                  $prodnam = $sprod->getName();
-                  $qty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($sprod)->getQty());
-                  $qqty = $qty + $qqty;
+                $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();    
+                $itemsinstock = 0;
+                foreach ($_product->getTypeInstance(true)->getUsedProducts ( null, $_product) as $simple) {
+                    $stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($simple)->getQty();
+                    $stock = round($stock,2);
+                    $itemsinstock+= $stock;
                 }
-                if($qqty<=$lastunit)
-                {
-                  //echo "<p style='color:red;'>Last ".$qqty." unit(s) left.<p>";
+                
+                if($itemsinstock<=$lastunit){
                   echo "<span>ultimas unidades</span>";
                 }
-              }
-              else
-              {
+              } else {
                 $pqty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty());
-                if($pqty<=$lastunit)
-                {
-                  //echo "<p style='color:red;'>Last ".$pqty." unit(s) left.</p>";
+                if($pqty<=$lastunit) {
                   echo "<span>ultimas unidades</span>";
                 }
               }
