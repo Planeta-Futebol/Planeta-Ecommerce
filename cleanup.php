@@ -80,4 +80,5 @@ function clean_var_directory() {
     
     foreach($dirs as $dir) {
         exec('rm -rf '.$dir);
-  
+    }
+}
