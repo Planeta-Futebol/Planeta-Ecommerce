@@ -58,8 +58,7 @@ $_productCollection->addAttributeToSelect('*')
               $qqty = 0;
               if($prodtype=='configurable')
               {
-                $prod = $_product->load($prod_id);
-                $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($prod);
+                $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($_product);
                 $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
                 $total_qty=0;
                 foreach($col as $sprod){
