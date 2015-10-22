@@ -63,26 +63,21 @@ $_helper = $this->helper('catalog/output');
               $qqty = 0;
               if($prodtype=='configurable')
               {
-                $prod = $_product->load($prod_id);
-                $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($prod);
-                $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
-                $total_qty=0;
-                foreach($col as $sprod){
-                  $sprod=$_product->load($sprod->getId());
-                  $prodnam = $sprod->getName();
-                  $qty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($sprod)->getQty());
-                  $qqty = $qty + $qqty;
+                $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($_product);
+                $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();    
+                $itemsinstock = 0;
+                foreach ($_product->getTypeInstance(true)->getUsedProducts ( null, $_product) as $simple) {
+                    $stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($simple)->getQty();
+                    $stock = round($stock,2);
+                    $itemsinstock+= $stock;
                 }
-                if($qqty<=$lastunit)
-                {
+                
+                if($itemsinstock<=$lastunit){
                   echo "<span>ultimas unidades</span>";
                 }
-              }
-              else
-              {
+              } else {
                 $pqty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty());
-                if($pqty<=$lastunit)
-                {
+                if($pqty<=$lastunit) {
                   echo "<span>ultimas unidades</span>";
                 }
               }
@@ -90,7 +85,7 @@ $_helper = $this->helper('catalog/output');
           </div>
           <div class="actions">
             <?php if($_product->isSaleable()): ?>
-              <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $_product->getProductUrl() ?>')"><span><span>
+              <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo Mage::helper('checkout/cart')->getAddUrl($_product) ?>')"><span><span>
                 <?php echo $this->__('Add to Cart') ?> <img src="<?php echo $this->getSkinUrl('/images/cart-white.png'); ?>"/></span></span></button>
               <?php else: ?>
                 <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>

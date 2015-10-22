@@ -88,14 +88,14 @@
 			  </enable_devinc_gomobile> 
 			</observers> 
 		  </admin_system_config_changed_section_gomobile> 
-		  <admin_system_config_changed_section_ajaxcart> 
+		  <admin_system_config_changed_section_ajaxcartx> 
 			<observers> 
-			  <enable_devinc_ajaxcart> 
+			  <enable_devinc_ajaxcartx> 
 				<class>license/module</class> 
-				<method>enableDevincAjaxcart</method> 
-			  </enable_devinc_ajaxcart> 
+				<method>enableDevincAjaxcartx</method> 
+			  </enable_devinc_ajaxcartx> 
 			</observers> 
-		  </admin_system_config_changed_section_ajaxcart> 
+		  </admin_system_config_changed_section_ajaxcartx> 
           <core_block_abstract_to_html_after>
               <observers>
                   <license_update>

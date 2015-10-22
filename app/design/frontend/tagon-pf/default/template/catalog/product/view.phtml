@@ -166,26 +166,24 @@
     <?php
   $lastunit = Mage::getStoreConfig('stock_options/backend_group/last_unit_instructions');
   $prodtype = $_product->getTypeID();
-  if($prodtype=='configurable')
-  {
-      echo '<ul class="configtype" style="display:none;">';
-      $prod=$_product->load($prod_id);
-      $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($prod);
-      $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
-      $total_qty=0;
-      foreach($col as $sprod){
-    $sprod=$_product->load($sprod->getId());
-    $prodnam = $sprod->getName();
-    $qty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($sprod)->getQty());
-    
-    $configurableAttributes = $_product->getTypeInstance(true)->getConfigurableAttributes($_product);
-    foreach ($configurableAttributes as $attribute) {
-        $productAttribute   = $attribute->getProductAttribute();
-        $productAttributeId = $productAttribute->getId();
-        $attributeValue     = $sprod->getData($productAttribute->getAttributeCode());
-        echo '<li><input type="hidden" id="config_'.$attributeValue.'" qty="'.$qty.'" value="'.$attributeValue.'"/></li>';
-    }
+  if($prodtype=='configurable'){
+    echo '<ul class="configtype" style="display:none;">';
+    $conf = Mage::getModel('catalog/product_type_configurable')->setProduct($_product);
+    $col = $conf->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+    $total_qty=0;
+    foreach($col as $sprod){
+      $sprod=$_product->load($sprod->getId());
+      $prodnam = $sprod->getName();
+      $qty = intval(Mage::getModel('cataloginventory/stock_item')->loadByProduct($sprod)->getQty());
+      
+      $configurableAttributes = $_product->getTypeInstance(true)->getConfigurableAttributes($_product);
+      foreach ($configurableAttributes as $attribute) {
+          $productAttribute   = $attribute->getProductAttribute();
+          $productAttributeId = $productAttribute->getId();
+          $attributeValue     = $sprod->getData($productAttribute->getAttributeCode());
+          echo '<li><input type="hidden" id="config_'.$attributeValue.'" qty="'.$qty.'" value="'.$attributeValue.'"/></li>';
       }
+    }
       echo "</ul>";
       echo '<input type="hidden" id="lastunitlimit" class="lastunitlimit" value="'.$lastunit.'"/>';
     ?>
@@ -211,9 +209,7 @@
     });
       </script>
   
-  <?php
-  } 
-  ?>
+  <?php } ?>
     
     <?php if($like_product==1){ ?>
     
