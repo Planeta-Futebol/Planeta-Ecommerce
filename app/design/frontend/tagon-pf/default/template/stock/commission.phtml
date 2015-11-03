@@ -68,7 +68,9 @@
                 </li>
               </ul>
               <div class="buttons-set">
-                <div class="fb-share-button" data-href="<?php echo $defaultsharcontent; ?>" data-layout="icon"></div>
+                <a href="http://www.facebook.com/share.php?u=www.planetafutebol.com.br&title=<?php echo $defaultsharcontent; ?>">
+                  <img width="31px" height="24px" src="<?php echo $this->getSkinUrl('images/facebook-icon-black.png'); ?>"/>
+                </a>
               </div>
             </form>
             <ul class="form-list" style="display: none;">
@@ -81,7 +83,7 @@
             </ul>
             <div class="buttons-set twittershare">
               <button class = "button button-config" title="<?php echo $this->__('Tweet') ?>" onclick="affiliateTweet();">
-                <span><span><img width="31px" height="24px" src="<?php echo $this->getSkinUrl('images/twitter-logo.jpg'); ?>"/></span></span>
+                <span><span><img width="31px" height="24px" src="<?php echo $this->getSkinUrl('images/twitter-icon-black.png'); ?>"/></span></span>
               </button>
             </div>
             <!--for email-->
@@ -93,7 +95,7 @@
                     $spacereplacebody =  str_replace("&","%26",(str_replace("","%20","$mailbody")));
                   ?>
                   <a href="mailto:<?php echo $customerData->getEmail();?>?subject=Planeta%20Futebol%20-%20Programa%20de%20afiliados&body=<?php echo $spacereplacebody;?>">
-                    <img width="31px" height="28px" src="<?php echo $this->getSkinUrl('images/mail_icon.png'); ?>"/>
+                    <img width="31px" height="28px" src="<?php echo $this->getSkinUrl('images/email-icon-black.png'); ?>"/>
                   </a>
                 </li>
               </ul>
@@ -206,6 +208,11 @@
         }
       }
     }
+
+    jQuery('.buttons-set').click(function(){
+
+    });
+
     //]]>
   </script>
   <script>
