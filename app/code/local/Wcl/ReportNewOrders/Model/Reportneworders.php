@@ -28,6 +28,8 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
         $adapter = $this->getConnection();
         $orderTableAliasName = $adapter->quoteIdentifier('order');
 
+        $productTableName = Mage::getSingleton('core/resource')->getTableName('catalog/product');
+
         $orderJoinCondition = array(
                 $orderTableAliasName . '.entity_id = order_items.order_id',
                 $adapter->quoteInto("{$orderTableAliasName}.state = ?", Mage_Sales_Model_Order::STATE_PROCESSING),
@@ -90,7 +92,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
 
         $select->joinLeft(
 
-                        array('p' => 'catalog_product_flat_4'),
+                        array('p' => $productTableName),
                         'p.sku = order_items.sku',
                         array(
                                 'size' => 'COALESCE(p.attribute_set_id, p.attribute_set_id, p.attribute_set_id)'
