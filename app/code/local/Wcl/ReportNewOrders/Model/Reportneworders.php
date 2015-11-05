@@ -90,7 +90,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
 
         $select->joinLeft(
 
-                        array('p' => 'catalog_product_flat_4'),
+                        array('p' => 'catalog_product_flat_1'),
                         'p.sku = order_items.sku',
                         array(
                                 'size' => 'COALESCE(p.attribute_set_id, p.attribute_set_id, p.attribute_set_id)'
