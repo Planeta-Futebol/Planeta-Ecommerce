@@ -117,7 +117,6 @@
           $i=1;
           foreach($_commissionCollection as $collectio) {
             $customerid = $collectio->getCustomer_id();
-            //$customerid = $collectio->getCustomer_id();
             $customerDat = Mage::getModel('customer/customer')->load($customerid);
             $customerdataa = $customerDat->getData();
             $addressdata = Mage::getModel('customer/address')->load($customerDat->default_billing)->getData();
