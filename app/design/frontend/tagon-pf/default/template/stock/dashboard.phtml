@@ -247,7 +247,8 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
                 </tbody>
             </table>
         </div>
-        <div class="detais-sales-table comissions-table">
+        <?php if(count($arrCouponsAffiliate) > 0): ?>
+            <div class="detais-sales-table comissions-table">
             <div class="thearde-stock-table">
                 <div class="title-details-sale-table"><span><?php echo $helper->__('Comissões'); ?></span></div>
                 <div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
@@ -258,5 +259,6 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
                 </tbody>
             </table>
         </div>
+        <?php endif; ?>
     </div>
 </div>
