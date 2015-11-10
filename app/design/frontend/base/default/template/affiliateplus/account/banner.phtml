@@ -37,7 +37,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
     </div>
     <ul class="form-list">
         <li class="affiliate-page-link wide">
-            <p><?php echo $this->__('Please fill one of the links from our store such as: product URL, category URL or other pages\' URL into the text box below:') ?></p>
+            <p><?php echo $this->__('Please fill in one of the links from our store such as: product URL, category URL or other pages\' URL into the text box below:') ?></p>
             <input type="text" class="form-control" id="affiliate-page-link" name="affiliate-page-link" onkeyup="keyupChangeAffiliateLink(this, event)" />
             <button type="button" class="button button-config" title="<?php echo $this->__('Get Affiliate Link') ?>" onclick="changeAffiliateLink($('affiliate-page-link'));">
                 <span>
@@ -140,8 +140,8 @@ $replaceUrl = $replaceUrl[0] . '//' . $replaceUrl[2];
                         <strong><?php echo $this->__('Title: %s', $banner->getTitle()) ?><br />
                             <?php echo $this->__('Type: Image') ?><br />
                             <?php echo $this->__('Size: %sx%s', $banner->getWidth(), $banner->getHeight()) ?><br />
-                            <?php echo $this->__('Clicks (unique/ raw): %d/ %d', $banner->getUniClick(), $banner->getRawClick()) ?><br/>
-                            <?php echo $this->__('Impressions (unique/ raw): %d/ %d', $banner->getUniView(), $banner->getRawView()) ?><br/>
+                            <?php echo $this->__('Clicks (unique/raw): %d/ %d', $banner->getUniClick(), $banner->getRawClick()) ?><br/>
+                            <?php echo $this->__('Impressions (unique/raw): %d/ %d', $banner->getUniView(), $banner->getRawView()) ?><br/>
                             <?php echo $this->__('Link: ') ?><a <?php if ($banner->getRelNofollow()): ?>rel="nofollow"<?php endif; ?> href="<?php echo $this->getBannerUrl($banner) ?>"><?php echo Mage::helper('core/string')->truncate($this->getBannerUrl($banner), 100) ?></a></strong>
                     </div>
                     <div class="banner-image">
@@ -158,8 +158,8 @@ $replaceUrl = $replaceUrl[0] . '//' . $replaceUrl[2];
                         <strong><?php echo $this->__('Title: %s', $banner->getTitle()) ?><br />
                             <?php echo $this->__('Type: Flash') ?><br />
                             <?php echo $this->__('Size: %sx%s', $banner->getWidth(), $banner->getHeight()) ?><br />
-                            <?php echo $this->__('Clicks (unique/ raw): %d/ %d', $banner->getUniClick(), $banner->getRawClick()) ?><br/>
-                            <?php echo $this->__('Impressions (unique/ raw): %d/ %d', $banner->getUniView(), $banner->getRawView()) ?><br/>
+                            <?php echo $this->__('Clicks (unique/raw): %d/ %d', $banner->getUniClick(), $banner->getRawClick()) ?><br/>
+                            <?php echo $this->__('Impressions (unique/raw): %d/ %d', $banner->getUniView(), $banner->getRawView()) ?><br/>
                             <?php echo $this->__('Link: ') ?><a <?php if ($banner->getRelNofollow()): ?>rel="nofollow"<?php endif; ?> href="<?php echo $this->getBannerUrl($banner) ?>"><?php echo Mage::helper('core/string')->truncate($this->getBannerUrl($banner), 100) ?></a></strong>
                     </div>
                     <div class="banner-flash">
@@ -175,8 +175,8 @@ $replaceUrl = $replaceUrl[0] . '//' . $replaceUrl[2];
                     <div class="banner-text-title">
                         <strong><?php echo $this->__('Title: %s', $banner->getTitle()) ?><br />
                             <?php echo $this->__('Type: Text') ?><br />
-                            <?php echo $this->__('Clicks (unique/ raw): %d/ %d', $banner->getUniClick(), $banner->getRawClick()) ?><br/>
-                            <?php echo $this->__('Impressions (unique/ raw): %d/ %d', $banner->getUniView(), $banner->getRawView()) ?><br/>
+                            <?php echo $this->__('Clicks (unique/raw): %d/ %d', $banner->getUniClick(), $banner->getRawClick()) ?><br/>
+                            <?php echo $this->__('Impressions (unique/raw): %d/ %d', $banner->getUniView(), $banner->getRawView()) ?><br/>
                             <?php echo $this->__('Link: ') ?><a <?php if ($banner->getRelNofollow()): ?>rel="nofollow"<?php endif; ?> href="<?php echo $this->getBannerUrl($banner) ?>"><?php echo Mage::helper('core/string')->truncate($this->getBannerUrl($banner), 100) ?></a></strong>
                     </div>
                     <div class="banner-text">
@@ -194,15 +194,40 @@ $replaceUrl = $replaceUrl[0] . '//' . $replaceUrl[2];
                 <div class="banner-share">
                     <p>
                         <?php echo $this->__('Copy and paste this source code into your website or forum.') ?>
-                        <span class="share share_facebook"><a name="fb_share" share_url="<?php echo $this->htmlEscape($this->getBannerUrl($banner)) ?>"><?php echo $this->__('Share') ?></a></span>
                         <span class="share share_twitter"><a data-url="<?php echo $this->htmlEscape($this->getBannerUrl($banner)) ?>" class="twitter-share-button" data-count="horizontal"><?php echo $this->__('Tweet') ?></a></span>
                         <span class="share share_google"><g:plusone size="medium" href="<?php echo $this->htmlEscape($this->getBannerUrl($banner)) ?>"></g:plusone></span>
+                        <!--<span class="share share_facebook"><a name="fb_share" share_url="<?php echo $this->htmlEscape($this->getBannerUrl($banner)) ?>"><?php echo $this->__('Share') ?></a></span>-->
+                        <span style="background: url('<?php echo $this->getSkinUrl('css/magestore/images/facebook-color.png'); ?>') no-repeat;padding-left: 20px;float:right;" class="share share_facebook">
+                            <a onclick="postOnFacebook('<?php echo $banner->getTitle()?>','<?php echo $this->getBannerUrl($banner)?>', '<?php echo $this->getBannerSrc($banner) ?>')" title="<?php echo $this->__('Share on Facebook') ?>">
+                                <?php echo $this->__('Share') ?>
+                            </a>
+                        </span>
                     </p>
                     <p><textarea readonly="true" onclick="this.select();" class="banner-share-url" rows="4" style="width:100%"><?php echo $this->htmlEscape($bannerHtml) ?></textarea></p>
                 </div>
             </li>
         <?php endforeach ?>
     </ul>
+    <script src='//connect.facebook.net/en_US/all.js'></script>
+    <script type="text/javascript">
+            FB.init({appId: '<?php echo Mage::helper('affiliateplus/config')->getReferConfig('fbapp_id') ?>', status: true, cookie: true});
+            function postOnFacebook(caption, link, picture){
+                    var obj = {
+                            // method: 'share_open_graph', 
+                            method: 'feed', 
+                            display: 'popup',
+                            caption: caption,
+                            link: link,
+                            picture: picture,
+                    };
+                    function callback(response) {											
+                            if (response && response.post_id) $('affiliate-facebook-msg').show();
+                    }
+                    FB.ui(obj, callback);
+            }
+
+
+    </script>	
     <script type="text/javascript">
         decorateList('banner-view-list');
         (function() {
@@ -217,7 +242,7 @@ $replaceUrl = $replaceUrl[0] . '//' . $replaceUrl[2];
 <?php else : ?>
     <div>
         <p class="note-msg">
-            <?php echo $this->__('Currently there is no banner available for this program.') ?>
+            <?php echo $this->__('There are no banners available for this program.') ?>
         </p>
     </div>
 <?php endif ?>

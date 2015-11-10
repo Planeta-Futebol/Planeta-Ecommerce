@@ -32,7 +32,7 @@ class Magestore_Affiliateplus_Block_Payment_View extends Mage_Core_Block_Templat
     	return array(
 			1	=> $this->__('Pending'),
 			2	=> $this->__('Processing'),
-			3	=> $this->__('Completed'),
+			3	=> $this->__('Complete'),
             4	=> $this->__('Canceled'),
 		);
     }

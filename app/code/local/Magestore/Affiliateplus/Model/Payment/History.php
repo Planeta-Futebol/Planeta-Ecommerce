@@ -11,7 +11,7 @@ class Magestore_Affiliateplus_Model_Payment_History extends Mage_Core_Model_Abst
         $statuses = array(
             1 =>  Mage::helper('affiliateplus')->__('Pending'),
             2 =>  Mage::helper('affiliateplus')->__('Processing'),
-            3 =>  Mage::helper('affiliateplus')->__('Completed'),
+            3 =>  Mage::helper('affiliateplus')->__('Complete'),
             4 =>  Mage::helper('affiliateplus')->__('Canceled')
         );
         if (isset($statuses[$this->getStatus()])) return $statuses[$this->getStatus()];

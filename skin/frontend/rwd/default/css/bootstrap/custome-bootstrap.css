@@ -3,38 +3,68 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : 12-11-2014, 14:55:04
     Author     : MSI
 */
+ .affiliate-navigation *, .affiliate-navigation, .aff-main-content,.aff-main-content *{
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+ .affiliate-navigation *:before,.aff-main-content *:before,
+ .affiliate-navigation * *:after,.aff-main-content *:after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
 *{
-    transition:all 100ms ease-out;
-    -webkit-transition: all 100ms ease-out;
-    -moz-transition:all 100ms ease-out;
-    -o-transition: all 100ms ease-out;
+    transition:background 100ms ease-out;
+    -webkit-transition: background 100ms ease-out;
+    -moz-transition:background 100ms ease-out;
+    -o-transition: background 100ms ease-out;
 }
 .required em{
     color:#eb340a;
 }
 .form-group{float:left;width:100%;}
+.affiliate-page .aff-main-content .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
 /*Navigation*/
-.navbar-nav > li{
+.affiliate-navigation ul   li{
     float:left;
     width:100%;
 }
-.affiliate-page .navbar-default{
+.affiliate-page .affiliate-navigation{
     margin-top: 20px;
 	margin-bottom: 20px;
     background: #fff;
     padding: 0;
-    border:1px solid #e7e7e7;    
+    border:1px solid #e7e7e7;
 }
 .affiliate-page .box-account ul.send-request{
     float: left;
-    padding: 0 15px; 
+    padding: 0 15px;
 }
-.affiliate-page .navbar-nav{
+.affiliate-page .affiliate-navigation ul{
     margin:0px;
+	width:100%;
 }
 .aff-main-content{
     margin-top: 20px;
@@ -46,7 +76,6 @@ and open the template in the editor.
 }
 .affiliate-page .main{
     background:#fff;
-    box-sizing: content-box !important;
 }
 .navbar-collapse-aff .block-title-aff h2{
     color:#fff;
@@ -65,7 +94,7 @@ and open the template in the editor.
 .affiliate-page .container-fluid{
     padding:0px;
 }
-.affiliate-page .nav > li > a {
+.affiliate-page .affiliate-navigation   li   a {
     padding: 10px 50px;
     border-bottom: 1px solid #cecece;
     transition: all ease-out 300ms;
@@ -74,11 +103,11 @@ and open the template in the editor.
     -o-transition: all ease-out 300ms;
     background: none;
 }
-.affiliate-page .nav > li.last > a{
-    border-bottom: none;   
+.affiliate-page .affiliate-navigation .nav   li.last   a{
+    border-bottom: none;
 }
 
-.affiliate-page .navbar-default .navbar-nav>li>a:hover, .affiliate-page .navbar-default .navbar-nav>li>a:focus,.affiliate-page .navbar-default .navbar-nav>.active>a{
+.affiliate-page .affiliate-navigation ul li a:hover, .affiliate-page .affiliate-navigation ul li a:focus,.affiliate-page .affiliate-navigation ul .active a{
     color:#eb7705;
     background: #e7e7e7;
 }
@@ -92,7 +121,7 @@ and open the template in the editor.
 .affiliate-page .col-main{
     margin-bottom: 0;
 }
-.affiliate-page h3{
+.affiliate-page .aff-main-content h3{
     font-size: 16px;
 }
 .navbar-hidden{
@@ -106,57 +135,59 @@ and open the template in the editor.
 @media (max-width:991px){
     .aff-mobile{
         position: fixed;
-        transform: translate(-100%);
-        -ms-transform: translate(-100%); /* IE 9 */
-        -webkit-transform: translate(-100%);
+        transform: translate(-400%);
+        -ms-transform: translate(-400%);
+        -webkit-transform: translate(-400%);
         float: left;
-        left:0;
-        top:0%;
-        z-index: 99999;
+        left: 0;
+        top: 0%;
+        z-index: 9999999;
         transition: all 400ms ease-out;
         -webkit-transition: all 400ms ease-out;
         -moz-transition: all 400ms ease-out;
         -o-transition: all 400ms ease-out;
-        height:100%;
-        margin-top:0 !important;
+        height: 100%;
+        margin-top: 0!important;
     }
     .aff-mobile .navbar-hidden{
-        display:block;
+        display: block;
         position: absolute;
-        right: -41px;
-        top:50%;
-        margin-top:-25px;
+        right: -300%;
+        margin-right: -41px;
+        top: 50%;
+        margin-top: -25px;
         transition: all 400ms ease-out;
         -webkit-transition: all 400ms ease-out;
         -moz-transition: all 400ms ease-out;
         -o-transition: all 400ms ease-out;
-        width:40px;
-        height:50px;
-        float:left;
-        text-decoration:none !important;
-        background:url(../magestore/images/nav-hidding.png) no-repeat -35px center  #484848;
-        border:0;
+        width: 40px;
+        height: 50px;
+        float: left;
+        text-decoration: none!important;
+        background: url(../magestore/images/nav-hidding.png) no-repeat -35px center #484848;
+        border: 0;
         border-radius: 0 6px 6px 0;
-        opacity:0.9;
-        filter:alpha(opacity=90);
+        opacity: 0.9;
+        filter: alpha(opacity=90);
     }
     .aff-mobile.active{
         transform: translate(0%);
-        -ms-transform: translate(0%); /* IE 9 */
+        -ms-transform: translate(0%);
         -webkit-transform: translate(0%);
     }
     .aff-mobile.active .navbar-hidden{
-        background:url(../magestore/images/nav-hidding.png) no-repeat  12px center #818181;  
-        opacity:1;
-        filter:alpha(opacity=100);
+        background: url(../magestore/images/nav-hidding.png) no-repeat 12px center #818181;
+        opacity: 1;
+        filter: alpha(opacity=100);
+        right: 0;
     }
     .aff-mobile.active .container-fluid{max-height:100%;overflow:auto;}
 }
-.affiliate-page .navbar-default .navbar-toggle{
+.affiliate-page .affiliate-navigation .navbar-toggle{
     border-color: #fff;
     padding-left: 0px;
 }
-.affiliate-page .navbar-default .navbar-toggle:hover, .affiliate-page .navbar-default .navbar-toggle:focus {
+.affiliate-page .affiliate-navigation .navbar-toggle:hover, .affiliate-page .affiliate-navigation .navbar-toggle:focus {
     background-color: #fff;
 }
 
@@ -180,10 +211,7 @@ and open the template in the editor.
     text-transform: none;
 
 }
-.affiliate-page button{
-    /*    border:none !important;*/
-    //float: right;   
-    /*    margin-left: 5px;*/
+.affiliate-page .aff-main-content button{
     margin-bottom: 5px;
     margin-left: 10px;
 }
@@ -192,10 +220,6 @@ and open the template in the editor.
     margin-bottom: 0px;
 
 }
-/*.affiliate-page #advice-validate-greater-than-zero-request_amount{
-    float: left;
-    width:130px;
-}*/
 .affiliateplus_form_request .my-blance,
 .affiliateplus_form_request .request-amount-money{
     padding:0 5px;
@@ -235,7 +259,7 @@ and open the template in the editor.
     padding-left: 2px;
 }
 /*my program*/
-.affiliate-page input[type=text]{
+.affiliate-page .aff-main-content input[type=text]{
     max-width: 100%;
     width: 100%;
 }
@@ -246,12 +270,12 @@ table .affiliateplus-grid-title th{
     text-align: center;
     font-weight: 700;
 }
-.affiliate-page .table-responsive{
+.affiliate-page .aff-main-content .table-responsive{
     width: 100%;
     float: left;
     margin-top: 5px;
 }
-.affiliate-page .pager{
+.affiliate-page .aff-main-content .pager{
     float: left; // sally add
     color: #636363;
     line-height: 30px;
@@ -264,20 +288,18 @@ table .affiliateplus-grid-title th{
 
     border-bottom: none;
 }
-.affiliate-page .pager .limiter{
+.affiliate-page .aff-main-content .pager .limiter{
     float: right;
     margin: 0;
-    /*    margin-top:10px;*/
-    /*    margin-right: 2%;*/
 }
-.affiliate-page .pager .limiter label{
+.affiliate-page .aff-main-content .pager .limiter label{
     vertical-align: top;
 }
-.affiliate-page .pager .amount{
+.affiliate-page .aff-main-content  .pager .amount{
     float: left;
     margin: 0;
 }
-.affiliate-page .aff-join {
+.affiliate-page  .aff-join {
     margin:0 auto;
     float: left;
     width: 135px;
@@ -301,7 +323,7 @@ table .affiliateplus-grid-title th{
     height: 22px
 }
 
-.affiliate-page .table>thead>tr>th{
+.affiliate-page .aff-main-content .table thead tr th{
     vertical-align: middle;
     font-weight: 700;
 }
@@ -315,33 +337,33 @@ table .affiliateplus-grid-title th{
     border-radius: 4px;
     border: 1px solid #ccc;
 }
-.affiliate-page  .fieldset .legend{
+.affiliate-page .aff-main-content  .fieldset .legend{
     font-size: 14px;
     font-weight: 600;
     text-transform: none;
 }
-.affiliate-page .buttons-set{
+.affiliate-page .aff-main-content .buttons-set{
     clear: both;
     margin: 10px 0 0;
     padding-top: 10px;
     border-top: 1px solid #ededed;
     text-align: right;
 }
-.affiliate-page .input_fields_form label.left{
+.affiliate-page .aff-main-content .input_fields_form label.left{
     margin-bottom: 0px;
 }
 @media screen and (max-width: 479px){
-    .affiliate-page .buttons-set .back-link{
+    .affiliate-page .aff-main-content .buttons-set .back-link{
         display: block;
         float: left;
     }
-    .affiliate-page .buttons-set .required{
+    .affiliate-page .aff-main-content .buttons-set .required{
         display: block;
     }
     .affiliate-page .statistic-transactions .right{
         float: left !important;
     }
-    .affiliate-page .pager .limiter label{
+    .affiliate-page .aff-main-content .pager .limiter label{
         display: inline-block;
     }
 
@@ -352,12 +374,12 @@ table .affiliateplus-grid-title th{
     {
         float: left !important;
         margin-left: 0px;
-    } 
+    }
     .affiliate-page .affiliateplus_form_request .left, .affiliate-page .statistic-transactions .left{
         padding-right: 0px;
     }
 }
-.affiliate-page .pager .div-right .limiter select{
+.affiliate-page .aff-main-content .pager .div-right .limiter select{
     border: 1px solid #ccc;
 }
 /**********Commission********/
@@ -371,7 +393,7 @@ table .affiliateplus-grid-title th{
 .affiliate-page .affiliateplus_form_request #request_amount{
     margin-bottom: 5px
 }
-.affiliate-page .box-account{
+.affiliate-page .aff-main-content .box-account{
     background:#fff;
     border: 1px solid #e7e7e7;
     padding: 8px;
@@ -380,7 +402,7 @@ table .affiliateplus-grid-title th{
     float: left;
     width: 100%;
 }
-.affiliate-page .send-requests{
+.affiliate-page .aff-main-content .send-requests{
     padding: 0px;
     float: left;
     width: 100%;
@@ -400,20 +422,20 @@ table .affiliateplus-grid-title th{
     background: #e7e7e7;
     text-align: center
 }
-.affiliate-page .nav-tabs>li>a{
+.affiliate-page .aff-main-content .nav-tabs li a{
     padding: 10px 5px !important;
 }
-.affiliate-page .nav-tabs>li.active>a,.affiliate-page .nav-tabs>li.active>a:hover,.affiliate-page .nav-tabs>li.active>a:focus{
+.affiliate-page .aff-main-content .nav-tabs li.active a,.affiliate-page .aff-main-content .nav-tabs li.active a:hover,.affiliate-page .aff-main-content .nav-tabs li.active a:focus{
     background: #ccc;
 }
-.affiliate-page .nav-tabs>li>a:hover{
+.affiliate-page .aff-main-content .nav-tabs li a:hover{
     background: #eee;
 }
-.affiliate-page .pager .col-lg-8, 
+.affiliate-page .pager .col-lg-8,
 .affiliate-page .pager .col-md-8,
 .affiliate-page .pager .col-sm-8,
 .affiliate-page .pager .col-xs-8
-.affiliate-page .pager .col-lg-4, 
+.affiliate-page .pager .col-lg-4,
 .affiliate-page .pager .col-md-4,
 .affiliate-page .pager .col-sm-4,
 .affiliate-page .pager .col-xs-4
@@ -422,10 +444,10 @@ table .affiliateplus-grid-title th{
     padding-right: 0;
 }
 @media screen and (max-width: 767px){
-    .table-responsive > .table-bordered > tbody > tr:last-child > td,
-    .table-responsive > .table-bordered > tfoot > tr:last-child > td{
+    .table-responsive   .table-bordered   tbody   tr:last-child   td,
+    .table-responsive   .table-bordered   tfoot   tr:last-child   td{
         border-bottom:1px solid #ddd;
-    } 
+    }
     .affiliate-page .statistic-transactions .right{
         float: left !important;
     }
@@ -436,13 +458,13 @@ table .affiliateplus-grid-title th{
     width: 100%;
 }
 /**********Directlink************/
-.affiliate-page .pager .count-container{
+.affiliate-page .aff-main-content .pager .count-container{
     width: 100%;
 }
-.affiliate-page .direct-link-help {
+.affiliate-page .aff-main-content .direct-link-help {
     float: left;
 }
-#direct-link-form label.required {
+#direct-link-form .aff-main-content label.required {
     float: left;
 }
 
@@ -453,7 +475,7 @@ table .affiliateplus-grid-title th{
     float: right;
     margin-left: 2px;
 }
-.affiliate-page label.required em,.affiliate-page span.required em {
+.affiliate-page .aff-main-content label.required em,.affiliate-page .aff-main-content span.required em {
     display: inline-block;
     float: right;
 }
@@ -465,16 +487,16 @@ table .affiliateplus-grid-title th{
 .input-text-add-directlinks form-group{
     text-align: left;
 }
-.affiliate-page .pager .div-right{
+.affiliate-page .aff-main-content .pager .div-right{
     margin-right: 0;
 }
-.affiliate-page .nav-tabs > li{
+.affiliate-page .aff-main-content .nav-tabs   li{
     margin-top: 5px;
 }
-.affiliate-page .message{
+.affiliate-page  .message{
     padding: 0;
 }
-.affiliate-page .pager li > a{
+.affiliate-page .aff-main-content .pager li   a{
     padding: 0;
     border: none;
     border-radius: 0;
@@ -490,7 +512,7 @@ table .affiliateplus-grid-title th{
     width: 100%;
     overflow: auto;
 }
-.affiliate-page .container{
+.affiliate-page .aff-main-content .container{
     padding-right: 0;
 }
 .affiliate-page  #affiliateplusstatistic-filter{
@@ -512,12 +534,12 @@ table .affiliateplus-grid-title th{
 .affiliate-page select.status-grid{
     width: 100px;
 }
-.affiliate-page select{
+.affiliate-page .aff-main-content select{
     outline: 0;
     -webkit-appearance: menulist;
     padding:0;
 }
-.affiliate-page .form-group select{
+.affiliate-page .aff-main-content .form-group select{
     display: block;
     width: 100%;
     height: 34px;
@@ -541,11 +563,11 @@ table .affiliateplus-grid-title th{
     margin-top:10px;
     width:100%;
 }
-.affiliate-page .btn{
+.affiliate-page .aff-main-content .btn{
     opacity: 0.85;
     filter:alpha(opacity=85);
 }
-.affiliate-page .btn:hover{
+.affiliate-page .aff-main-content .btn:hover{
     opacity:1;
     filter:alpha(opacity=100);
 }
@@ -555,22 +577,22 @@ table .affiliateplus-grid-title th{
 .affiliate-page .table-responsive #sales_grid tbody pre {
     height: 40px;
 }
-.affiliate-page .account-login p.required {
+.affiliate-page .aff-main-content .account-login p.required {
     float: left;
 }
 .affiliate-page .account-login .button-config{
     float: left;
     clear: both;
 }
-.affiliate-page .pages .next:before,
-.affiliate-page .pages .previous:before{
+.affiliate-page .aff-main-content .pages .next:before,
+.affiliate-page .aff-main-content .pages .previous:before{
     content: none;
 }
 .affiliate-page #select-language{
     color:#000;
 }
-.affiliatepluswidget-index-edit button.button span,
-.affiliate-page  button.button span{
+.affiliatepluswidget-index-edit .aff-main-content button.button span,
+.affiliate-page .aff-main-content  button.button span{
     height: auto;
 }
 @media screen and (max-width: 997px){
@@ -578,9 +600,9 @@ table .affiliateplus-grid-title th{
         height: 30px;
     }
 }
-.affiliate-page .form-list li.wide .input-box{
+.affiliate-page .aff-main-content .form-list li.wide .input-box{
     width:100%;
 }
-.affiliate-page .form-list li.wide input.input-text{
+.affiliate-page .aff-main-content .form-list li.wide input.input-text{
     width: 100%;
 }

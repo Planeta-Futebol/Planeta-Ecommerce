@@ -139,7 +139,9 @@ class Magestore_Affiliateplusstatistic_Block_Frontend_Report_Action extends Mage
         
         if ($status_list = $this->getRequest()->getParam('status')){
             $status_list = explode('-', $status_list);
-            $collection->addFieldToFilter('status', array('in'=>$status_list));
+            // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+//            $collection->addFieldToFilter('status', array('in'=>$status_list));
+            $collection->getSelect()->where('status', array('in'=>$status_list));
         }
         
         $result = array();

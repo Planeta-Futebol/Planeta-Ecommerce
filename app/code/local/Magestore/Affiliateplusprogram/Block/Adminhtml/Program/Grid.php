@@ -63,7 +63,7 @@ class Magestore_Affiliateplusprogram_Block_Adminhtml_Program_Grid extends Mage_A
       ));
       
       $this->addColumn('created_date', array(
-          'header'    => Mage::helper('affiliateplusprogram')->__('Created Date'),
+          'header'    => Mage::helper('affiliateplusprogram')->__('Date Created'),
           'align'     => 'right',
           'type'      => 'date',
           'index'     => 'created_date',

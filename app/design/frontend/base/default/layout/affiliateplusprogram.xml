@@ -19,6 +19,17 @@
                 <order>15</order>
             </action>
         </reference>
+        <!--Fixed By Adam to solve the problem of missing menu when using mobile-->
+        <reference name="account_navigatorxx">
+            <action method="addLink" translate="label" module="affiliateplusprogram">
+                <name>program</name>
+                <path>affiliateplusprogram/index/index</path>
+                <label>My Programs</label>  
+                <!--hainh-->              
+                <disabled helper="affiliateplusprogram/isModuleDisabled"  />
+                <order>15</order>
+            </action>
+        </reference>
     </affiliateplus_default>
     
     <affiliateplusprogram_index_index>

@@ -15,7 +15,7 @@ class Magestore_Affiliateplus_Model_Session extends Mage_Core_Model_Session
             }
 			$this->setData('account',$account);
 			Mage::register('load_account',true);
-		}
+		} 
 		return $this->getData('account');
 	}
 	

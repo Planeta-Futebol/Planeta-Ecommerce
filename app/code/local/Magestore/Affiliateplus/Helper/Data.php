@@ -63,11 +63,6 @@ class Magestore_Affiliateplus_Helper_Data extends Mage_Core_Helper_Abstract {
         return implode('<br />', $productHtmls);
     }
 
-    public function getFrontendCustomerName($customerId) {
-      $customerData = Mage::getModel('customer/customer')->load($customerId);
-      return $customerData->getData('firstname') . ' ' . $customerData->getData('lastname');
-    }
-
     public function getStore($storeId) {
         return Mage::getModel('core/store')->load($storeId);
     }
@@ -486,8 +481,11 @@ class Magestore_Affiliateplus_Helper_Data extends Mage_Core_Helper_Abstract {
                                         ->getQuote()
                                         ->getShippingAddress()->getShippingMethod();
             }
-            if(!$currentShippingMethod)
+            if(!$currentShippingMethod) {
                 $currentShippingMethod = '';
+                return false;// Changed By Adam (13/08/2015): can't create order because can't load the shipping method.
+            }
+            
             /* reload session to show Affiliate Discount - Edit By Jack */
             echo Mage::app()->getLayout()
                             ->createBlock('core/template')

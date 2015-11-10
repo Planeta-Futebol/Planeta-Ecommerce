@@ -96,7 +96,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Form extends Mage
           22-04-2014
          */
         $fieldset->addField('referring_website', 'text', array(
-            'label' => Mage::helper('affiliateplus')->__('Referring WebSite'),
+            'label' => Mage::helper('affiliateplus')->__('Referring Website'),
             'name' => 'referring_website',
             'note' => Mage::helper('affiliateplus')->__('Enter URL of the website on which affiliates will place your banners and links.'),
         ));

@@ -51,6 +51,10 @@ class Magestore_AffiliateplusReferFriend_Model_Observer {
             $scopeId = $object->getScopeId();
             $path = 'affiliateplus/refer/url_param_array';
             $newParam = $group['general']['fields']['url_param']['value'];
+            //Changed By Adam: 01/06/2015: solve the problem of using ID parameter
+            if($newParam == 'id') {
+                throw new Exception(Mage::helper('adminhtml')->__('This parameter is not allowed because it is able to override the system\'s core default parameter. '));
+            }
             if (!$newParam || ($newParam == ''))
                 $newParam = 'acc';
             $paramList = Mage::getModel('core/config_data')->getCollection()
@@ -62,7 +66,8 @@ class Magestore_AffiliateplusReferFriend_Model_Observer {
             else {
                 $paramArray = explode(',', $paramList->getValue());
                 for ($i = 0; $i < count($paramArray); $i++) {
-                    if ($paramArray[$i] == $newParam)
+                    //Changed By Adam: 01/06/2015: solve the problem of using ID parameter
+                    if ($paramArray[$i] == $newParam || $paramArray[$i] == 'id')
                         unset($paramArray[$i]);
                 }
                 $paramArray[] = $newParam;

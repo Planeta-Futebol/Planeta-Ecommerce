@@ -85,19 +85,32 @@
 </script>
 <?php endif ?>
 
+<!-- Changed By Adam 11/05/2015: Fix issue can't disable the social icons on product page -->
+<?php
+    $list = Mage::getStoreConfig('affiliateplus/refer/show_list_refer');
+    $values = explode(",", $list);
+?>
 <div class="affiliateplus-share-product-list">
     <ul class="affiliateplus-refer">
-        <li>
-            <span class="logo-social email-logo" onclick="affEmailToFriend('<?php echo $_affiliateUrl . '&src=email' ?>',this)" title="<?php echo $this->__('Email to a Friend') ?>"></span>
-        </li>
-        <li>
-            <span class="logo-social facebook-logo" onclick="affShareOnFacebook('<?php echo $_affiliateUrl ?>')" title="<?php echo $this->__('Share on Facebook') ?>"></span>
-        </li>
-        <li>
-            <span class="logo-social twitter-logo" onclick="affShareOnTwitter('<?php echo $_affiliateUrl ?>')" title="<?php echo $this->__('Share on Twitter') ?>"></span>
-        </li>
-        <li>
-            <span class="logo-social google-logo" onclick="affShareGooglePlus('<?php echo $_affiliateUrl ?>')" title="<?php echo $this->__('Share on Google Plus') ?>"></span>
-        </li>
+        <?php if(in_array('email', $values)):?>
+            <li>
+                <span class="logo-social email-logo" onclick="affEmailToFriend('<?php echo $_affiliateUrl . '&src=email' ?>',this)" title="<?php echo $this->__('Email to a Friend') ?>"></span>
+            </li>
+        <?php endif; ?>
+        <?php if(in_array('facebook', $values)):?>
+            <li>
+                <span class="logo-social facebook-logo" onclick="affShareOnFacebook('<?php echo $_affiliateUrl ?>')" title="<?php echo $this->__('Share on Facebook') ?>"></span>
+            </li>
+        <?php endif; ?>
+        <?php if(in_array('twitter', $values)):?>
+            <li>
+                <span class="logo-social twitter-logo" onclick="affShareOnTwitter('<?php echo $_affiliateUrl ?>')" title="<?php echo $this->__('Share on Twitter') ?>"></span>
+            </li>
+        <?php endif; ?>
+        <?php if(in_array('google', $values)):?>
+            <li>
+                <span class="logo-social google-logo" onclick="affShareGooglePlus('<?php echo $_affiliateUrl ?>')" title="<?php echo $this->__('Share on Google Plus') ?>"></span>
+            </li>
+         <?php endif; ?>
     </ul>
 </div>

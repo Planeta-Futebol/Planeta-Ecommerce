@@ -120,7 +120,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
             $form->addTabAfter('tier_section', array(
                 'label' => Mage::helper('affiliatepluslevel')->__('Tier affiliates'),
                 'title' => Mage::helper('affiliatepluslevel')->__('Tier affiliates'),
-                'url' => $form->getUrl('affiliateplusleveladmin/*/tier', array('_current' => true)),
+                'url' => $form->getUrl('adminhtml/affiliatepluslevel_account/tier', array('_current' => true)),
                 'class' => 'ajax',
                     ), 'payment_section');
 
@@ -167,7 +167,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
             . Mage::helper('affiliateplus')->__('Change') . '</a>'
             . '<script type="text/javascript">
                     function showSelectTopTier() {
-                        new Ajax.Request("' . Mage::getSingleton('adminhtml/url')->getUrl('affiliateplusleveladmin/adminhtml_account/toptier', array('_current' => true)) . '", {
+                        new Ajax.Request("' . Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/affiliatepluslevel_account/toptier', array('_current' => true)) . '", {
                             parameters: {form_key: FORM_KEY, map_toptier_id: $("toptier_id").value || 0},
                             evalScripts: true,
                             onSuccess: function(transport) {
@@ -182,7 +182,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
 //            . Mage::helper('affiliateplus')->__('Change') . '</a>'
 //            . '<script type="text/javascript">
 //                    function showSelectTopTier(el) {
-//                        new Ajax.Request("' . Mage::getSingleton('adminhtml/url')->getUrl('affiliateplusleveladmin/adminhtml_account/toptier', array('_current' => true)) . '", {
+//                        new Ajax.Request("' . Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/affiliatepluslevel_account/toptier', array('_current' => true)) . '", {
 //                            parameters: {form_key: FORM_KEY, map_toptier_id: $("toptier_id").value || 0},
 //                            evalScripts: true,
 //                            onSuccess: function(transport) {
@@ -274,7 +274,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
         $form->addTabAfter('tier_section', array(
             'label' => Mage::helper('affiliatepluslevel')->__('Tier\'s transactions'),
             'title' => Mage::helper('affiliatepluslevel')->__('Tier\'s transactions'),
-            'url' => $form->getUrl('affiliateplusleveladmin/*/tier', array('_current' => true)),
+            'url' => $form->getUrl('adminhtml/affiliatepluslevel_transaction/tier', array('_current' => true)),         //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
             'class' => 'ajax',
         ));
     }
@@ -294,7 +294,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
 
         $isNew = $account->isObjectNew();
         // Changed By Adam: 22/10/2014
-        $toptier = '';
+        $toptier = null;
         if ($isNew) {
             foreach ($toptiersInfo as $code => $toptierInfo) {// get first element
                 $toptier = $toptierInfo['account'];
@@ -690,7 +690,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
                 $account->setBalance($balance)
                         ->save();
 
-                //send mail completed to tier
+                //send mail Complete to tier
                 if ($tierTransaction->getLevel() > 0)
                     $tierTransaction->sendMailUpdatedTransactionToAccount($transaction, true);
             }
@@ -789,7 +789,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
                 if ($transactionTotal)
                     $tierTransaction->setCommission($transactionTotal)->save();
 
-                //send mail completed to tier
+                //send mail Complete to tier
                 if ($tierTransaction->getLevel() > 0)
                     $tierTransaction->sendMailUpdatedTransactionToAccount($transaction, true);
             }
@@ -979,7 +979,7 @@ class Magestore_Affiliatepluslevel_Model_Observer {
                 $tierTransaction->setCommission(0)
                         ->setCommissionPlus(0)
                         ->save();
-                //send mail completed to account
+                //send mail Complete to account
                 if ($tierTransaction->getLevel() > 0)
                     $tierTransaction->sendMailUpdatedTransactionToAccount($transaction, false);
             }
@@ -1100,7 +1100,8 @@ class Magestore_Affiliatepluslevel_Model_Observer {
         /* hainh edit 25-04-2014 */
 
         if (!Mage::helper('affiliatepluslevel')->isPluginEnabled())
-            $condition = "ts.tier_id=$accountId";
+            // Changed By Adam (08/09/2015): Doesn't show transaction in frontend if admin disable tier commission plugin from back-end
+            $condition = "main_table.tier_id=$accountId";
         else
             $condition = "ts.tier_id=$accountId OR (ts.tier_id IS NULL AND main_table.account_id = $accountId )";
 

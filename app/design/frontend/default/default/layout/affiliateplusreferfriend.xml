@@ -40,8 +40,17 @@
             <action method="addLink" translate="label" module="affiliateplus">
                 <name>refers</name>
                 <path>affiliateplus/refer/index</path>
-                <label><![CDATA[Refer Friends]]>
-                </label>
+                <label><![CDATA[Refer Friends]]></label>
+                <disabled helper="affiliateplusreferfriend/disableReferFriend" />
+                <order>47</order>
+            </action>
+        </reference>
+        <!--Fixed By Adam to solve the problem of missing menu when using mobile-->
+        <reference name="account_navigatorxx">
+            <action method="addLink" translate="label" module="affiliateplus">
+                <name>refers</name>
+                <path>affiliateplus/refer/index</path>
+                <label><![CDATA[Refer Friends]]></label>
                 <disabled helper="affiliateplusreferfriend/disableReferFriend" />
                 <order>47</order>
             </action>

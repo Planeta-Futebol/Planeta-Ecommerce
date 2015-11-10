@@ -28,7 +28,7 @@ class Magestore_Affiliateplusstatistic_Block_Left_Transactionsgrid extends Mage_
 				$chartData = array_slice($chartData,0,3);
 		}
 		
-		$this->addTotal($this->__('Completed'),$chartData[0],true);
+		$this->addTotal($this->__('Complete'),$chartData[0],true);
 		$this->addTotal($this->__('Pending'),$chartData[1],true);
 		$this->addTotal($this->__('Canceled'),$chartData[2],true);
 		

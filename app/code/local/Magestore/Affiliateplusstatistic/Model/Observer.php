@@ -79,7 +79,7 @@ class Magestore_Affiliateplusstatistic_Model_Observer
                 $transactions = Mage::getResourceModel('affiliateplus/transaction_collection')
                     ->addFieldToFilter('account_id', $account->getId());
                 $transactions->getSelect()->reset(Zend_Db_Select::COLUMNS)
-                    ->where('date(created_time) >= ?', $fromDate)
+                    ->where("date(created_time) >= ?", $fromDate)               // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
                     ->columns(array(
                         'status',
                         'sales' => 'SUM(`total_amount`)',

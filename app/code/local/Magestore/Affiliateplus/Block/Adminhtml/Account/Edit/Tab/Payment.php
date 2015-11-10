@@ -76,7 +76,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Payment
 		));
 		
 		$this->addColumn($prefix.'request_time', array(
-			'header'	=> Mage::helper('catalog')->__('Requested Date'),
+			'header'	=> Mage::helper('catalog')->__('Date Requested'),
 			'type'		=> 'date',
 			'index'		=> 'request_time',
 			'align'		=> 'right',
@@ -95,7 +95,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Payment
           'options'   => array(
 				1 =>  Mage::helper('affiliateplus')->__('Pending'),
 				2 =>  Mage::helper('affiliateplus')->__('Processing'),
-				3 =>  Mage::helper('affiliateplus')->__('Completed'),
+				3 =>  Mage::helper('affiliateplus')->__('Complete'),
                 4 =>  Mage::helper('affiliateplus')->__('Canceled')
 			),
       ));

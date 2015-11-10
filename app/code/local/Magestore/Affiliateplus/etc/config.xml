@@ -2,7 +2,8 @@
 <config>
     <modules>
         <Magestore_Affiliateplus>
-            <version>0.4.2</version>
+<!--            Changed By Adam 22/05/2015: save credit into sale_flat_order_item table-->
+            <version>0.4.3</version>
         </Magestore_Affiliateplus>
     </modules>
     <frontend>
@@ -100,6 +101,16 @@
                     </affiliateplus_validator_process>
                 </observers>
             </salesrule_validator_process>
+            <!--Changed By Adam 01/06/2015: Add jquey on top to avoid conflict-->
+<!--            <core_block_abstract_prepare_layout_before>
+                <observers>
+                    <magestore_affiliateplus_add_jquery_before_prototype>
+                        <type>singleton</type>
+                        <class>affiliateplus/observer</class>
+                        <method>prepareLayoutBefore</method>
+                    </magestore_affiliateplus_add_jquery_before_prototype>
+                </observers>
+            </core_block_abstract_prepare_layout_before>-->
         </events>
         <translate>
             <modules>
@@ -112,7 +123,8 @@
         </translate>
     </frontend>
     <admin>
-        <routers>
+<!--        Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2-->
+<!--        <routers>
             <affiliateplusadmin>
                 <use>admin</use>
                 <args>
@@ -120,6 +132,16 @@
                     <frontName>affiliateplusadmin</frontName>
                 </args>
             </affiliateplusadmin>
+        </routers>-->
+        
+        <routers>
+            <adminhtml> 
+                <args> 
+                    <modules> 
+                        <Magestore_Affiliateplus after="Mage_Adminhtml">Magestore_Affiliateplus_Adminhtml</Magestore_Affiliateplus>
+                    </modules> 
+                </args> 
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>
@@ -397,11 +419,18 @@
                 <affiliateplus_commission_item>
                     <to_order_item>*</to_order_item>
                 </affiliateplus_commission_item>
+                <!--Changed By Adam 22/05/2015: save credit into sale_flat_order_item table-->
+                <affiliateplus_credit>
+                    <to_order_item>*</to_order_item>
+                </affiliateplus_credit>
+                <base_affiliateplus_credit>
+                    <to_order_item>*</to_order_item>
+                </base_affiliateplus_credit>
             </sales_convert_quote_item>
         </fieldsets>
         <events>
             <!-- hainh 13-05-2014 -->
-            <controller_front_init_before>
+            <!--<controller_front_init_before>
                 <observers>
                     <magestore_affiliateplus_observer>
                         <type>singleton</type>
@@ -409,7 +438,7 @@
                         <method>disableCache</method>
                     </magestore_affiliateplus_observer>
                 </observers>
-            </controller_front_init_before>
+            </controller_front_init_before>-->
             <!-- hainh -->
             <sales_order_load_after>
                 <observers>
