@@ -2,8 +2,8 @@
   $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
   $helper = Mage::helper('stock');
 
-  $arrTabActived[0] = ($helper->isCommissionSubmited()) ? null : 'active';
-  $arrTabActived[1] = ($helper->isCommissionSubmited()) ? 'active' : null;
+  $arrTabActived[0] = ($helper->setSearchFinancialchartSubimited()) ? null : 'active';
+  $arrTabActived[1] = ($helper->setSearchFinancialchartSubimited()) ? 'active' : null;
 
   if($roleId>1){
     /** @var Franchise_Stock_Model_Dashboard $dashboard */

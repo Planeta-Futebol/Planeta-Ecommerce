@@ -44,7 +44,7 @@
 
     jQuery(".othersalesrep_list").css("display", "none");
 
-    <?php if($helper->isCommissionSubmited()): ?>
+    <?php if($helper->setSearchFinancialchartSubimited()): ?>
     jQuery('#salesreportlist').hide();
     jQuery('#financialgraph').show();
     <?php endif; ?>
