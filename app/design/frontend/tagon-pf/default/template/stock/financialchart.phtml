@@ -1,6 +1,6 @@
 <?php
   $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-  $helper= Mage::helper('stock');
+  $helper = Mage::helper('stock');
 
   if($roleId > 1) {
     $sales_data=$this->getChartdata();
@@ -10,18 +10,17 @@
       <form method="post" id="frsearch" enctype="multipart/form-data" action="">
         <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>" />
         <label><strong>Periodo:</strong></label>
-        <input type="date" class="datie" name="fromdate" id="fromdate" value=""/>
+        <input type="date" name="fromdate" id="fromdate" value="<?php echo $this->getFromDate(); ?>"/>
         <label><strong>ate:</strong></label>
-        <input type="date" class="datie" name="todate" id="todate" value=""/>
+        <input type="date"  name="todate" id="todate" value="<?php echo $this->getToDate(); ?>"/>
         <input type="submit" name="submit" id="submit" value="OK"/>
       </form>
     </div>
     <?php if(empty($sales_data)): ?>
       <div class="clearfr"></div>
       <p class="note-msg noprodsfr"><?php echo $this->__('Nenhuma venda foi efetuada no período') ?></p>
-    <?php else: ?>
-      <div id="financialchart" class="chartblock"></div>
     <?php endif; ?>
+      <div id="financialchart" class="chartblock"></div>
   </div>
 
   <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/raphael-min.js"></script>
@@ -42,7 +41,22 @@
       hideHover: 'auto',
       grid: false
     });
+
+    jQuery(".othersalesrep_list").css("display", "none");
+
+    <?php if($helper->isCommissionSubmited()): ?>
+    jQuery('#salesreportlist').hide();
+    jQuery('#financialgraph').show();
+    <?php endif; ?>
   </script>
+
+    <style>
+      .noprodsfr{
+        max-width: 90%;
+        margin: 0 auto;
+        margin-top: 30px;
+      }
+    </style>
 
 <?php
   } else {
