@@ -1,6 +1,23 @@
 <?php
 class Franchise_Stock_Block_Financialchart extends Mage_Core_Block_Template
 {
+
+    /**
+     * Saves the data 'from' submitted to be displayed again in the frontend.
+     *
+     * @var null|string
+     *
+     */
+    private $fromDate = null;
+
+    /**
+     * Saves the data 'to' submitted to be displayed again in the frontend.
+     *
+     * @var null|string
+     *
+     */
+    private $toDate = null;
+
   public function __construct() {
     parent::__construct();
 
@@ -14,10 +31,18 @@ class Franchise_Stock_Block_Financialchart extends Mage_Core_Block_Template
     $x = 0;
 
     if (!empty($post)) {
-      $fromdate = $post['fromdate'];
-      $todate = $post['todate'];
+      $this->fromDate = $post['fromdate'];
+      $this->toDate = $post['todate'];
+
+      $fromdate = new DateTime($post['fromdate']);
+      $todate = new DateTime($post['todate']);
+
+      $helper = Mage::helper('stock');
+      $helper->setCommissionSubmited(true);
+
     } else {
       $todate = new DateTime("now");
+      $todate->add(new DateInterval('P1D'));
       $fromdate = new DateTime("now");
       $fromdate->sub(new DateInterval('P6M')); // 6 months
     }
@@ -29,6 +54,7 @@ class Franchise_Stock_Block_Financialchart extends Mage_Core_Block_Template
         'to'=>$todate->format('d F Y'),
         'date'=>true
       ));
+
 
     if ($query_sales->count()) {
       foreach ($query_sales as $sale) {
@@ -73,7 +99,27 @@ class Franchise_Stock_Block_Financialchart extends Mage_Core_Block_Template
     $this->setChartdata($collection);
   }
 
-  protected function _prepareLayout() {
+    /**
+     * Returns 'from' date to be displayed in the frontend
+     *
+     * @return string
+     */
+    public function getFromDate()
+    {
+        return $this->fromDate;
+    }
+
+    /**
+     * Returns 'to' date to be displayed in the frontend
+     *
+     * @return string
+     */
+    public function getToDate()
+    {
+        return $this->toDate;
+    }
+
+    protected function _prepareLayout() {
     parent::_prepareLayout();
     return $this;
   }
@@ -82,29 +128,4 @@ class Franchise_Stock_Block_Financialchart extends Mage_Core_Block_Template
     $block = $this->getLayout()->createBlock('stock/toolbar', microtime());
     return $block;
   }
-
-/*
-  public function getDefaultDirection() {
-    return 'asc';
-  }
-
-  public function getSortBy() {
-    return 'collection_id';
-  }
-
-  public function getMode() {
-    return $this->getChild('toolbar')->getCurrentMode();
-  }
-
-  public function getPagerHtml() {
-    return $this->getChildHtml('pager');
-  }
-
-  public function getToolbarHtml() {
-    return $this->getChildHtml('toolbar');
-  }
-
-  public function getColumnCount() {
-    return 4;
-  }*/
 }

@@ -1,6 +1,9 @@
 <?php
   $roleId = Mage::getSingleton('customer/session')->getCustomerGroupId();
-  $helper= Mage::helper('stock');
+  $helper = Mage::helper('stock');
+
+  $arrTabActived[0] = ($helper->setSearchFinancialchartSubimited()) ? null : 'active';
+  $arrTabActived[1] = ($helper->setSearchFinancialchartSubimited()) ? 'active' : null;
 
   if($roleId>1){
     /** @var Franchise_Stock_Model_Dashboard $dashboard */
@@ -11,8 +14,8 @@
   </div>
   <div class="saleswrap"> <!--fieldset-->
     <ul class="tabrl">
-      <li class="tabi active firsttab tabs" tabid="salesreportlist"><p>Vendas</p></li>
-      <li class="tabi tabs" tabid="financialgraph"><p>Financeiro</p></li>
+      <li class="tabi <?php echo $arrTabActived[0]; ?> firsttab tabs" tabid="salesreportlist"><p>Vendas</p></li>
+      <li class="tabi <?php echo $arrTabActived[1]; ?> tabs" tabid="financialgraph"><p>Financeiro</p></li>
       <?php if(count($dashboard->getCouponsAffiliate()) > 0): ?>
       <li class="tabi tabs lasttab" tabid="commissionslist">
         <p><a href="<?php echo $this->getUrl('affiliateplus/index/listTransaction'); ?>">Comissões</a></p>
@@ -23,7 +26,6 @@
   </div>
     <?php echo $this->getChildHtml('sales'); ?>
     <?php echo $this->getChildHtml('financialchart'); ?>
-    <?php //echo $this->getChildHtml('commissionsreport'); ?>
 
   <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery.js"></script>
   <script type="text/javascript" src="<?php echo $this->getSkinUrl(); ?>stock/js/jquery-ui.js"></script>
@@ -35,7 +37,6 @@
   </script>
   <script type="text/javascript">
     jQuery(document).ready(function() {
-      jQuery(".othersalesrep_list").css("display", "none");
       jQuery("li.tabs").click(function() {
         var divid = jQuery(this).attr('tabid');
         if (divid != 'commissionslist') { // retirar
