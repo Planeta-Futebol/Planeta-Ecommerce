@@ -91,5 +91,14 @@ class Magestore_Affiliateplusstatistic_IndexController extends Mage_Adminhtml_Co
         }
         $this->getResponse()->setBody($this->getLayout()->createBlock('affiliateplusstatistic/grids_referers')->toHtml());
     }
+    
+    /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
+    protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('affiliateplus');
+    }
 
 }

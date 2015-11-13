@@ -32,7 +32,7 @@ class Magestore_Affiliateplusstatistic_Block_Left_Transactions extends Magestore
 
         $this->_google_chart_params = array(
             'cht' => 'p3',
-            'chdl' => $this->__('Completed (%d)', $chartData[1])
+            'chdl' => $this->__('Complete (%d)', $chartData[1])
             . '|' . $this->__('Pending (%d)', $chartData[2])
             . '|' . $this->__('Canceled (%d)', $chartData[3]),
             'chd' => "t:$buffer",

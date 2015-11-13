@@ -60,7 +60,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
 
         $fieldset->addField('affiliate_account', 'link', array(
             'label' => Mage::helper('affiliateplus')->__('Affiliate Account'),
-            'href' => $this->getUrl('*/adminhtml_account/edit', array('_current' => true, 'id' => $data['account_id'])),
+            'href' => $this->getUrl('adminhtml/affiliateplus_account/edit', array('_current' => true, 'id' => $data['account_id'])),			//Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
             'title' => Mage::helper('affiliateplus')->__('View Affiliate Account Details'),
         ));
         $fieldset->addField('account_name', 'hidden', array(
@@ -79,10 +79,10 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
             $note = Mage::helper('affiliateplus')->__('Not including fee');
         else
             $note = Mage::helper('affiliateplus')->__('Including fee');
-        $js='';
+        $js = '';
         if (isset($data['account_balance'])) {
             $js .='<script type="text/javascript">
-                var request_amount_max ='.$data['account_balance'].';
+                var request_amount_max =' . $data['account_balance'] . ';
                 function checkAmountBalance(el){
                     el.value = parseFloat(el.value);
                     if (el.value < 0) el.value = 0;
@@ -95,7 +95,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
             'name' => 'amount',
             'class' => 'required-entry',
             'required' => true,
-            'onchange' =>'checkAmountBalance(this)',
+            'onchange' => 'checkAmountBalance(this)',
             'note' => $note,
             'after_element_html' => $js,
         );
@@ -110,38 +110,39 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
         if (isset($data['tax_amount']) && $data['tax_amount']) {
             $taxParams = $params;
             unset($taxParams['after_element_html']);
-            if (isset($taxParams['note'])) unset($taxParams['note']);
-            
+            if (isset($taxParams['note']))
+                unset($taxParams['note']);
+
             $taxParams['name'] = 'amount_incl_tax';
             $fieldset->addField('amount_incl_tax', 'text', $taxParams);
-            
+
             $taxParams['name'] = 'tax_amount';
             $taxParams['label'] = Mage::helper('affiliateplus')->__('Tax');
             $fieldset->addField('tax_amount', 'text', $taxParams);
-            
+
             $params['label'] = Mage::helper('affiliateplus')->__('Amount (Excl. Tax)');
         }
         if (isset($data['affiliateplus_account']) && $data['affiliateplus_account']) {
             $rate = Mage::helper('affiliateplus/payment_tax')->getTaxRate($data['affiliateplus_account']);
             if ($rate > 0) {
                 $taxParams = $params;
-                
+
                 $taxParams['name'] = 'amount_incl_tax';
                 $taxParams['note'] = Mage::helper('affiliateplus')->__('Including %s tax', round($rate, 2) . '%');
                 $taxParams['after_element_html'] = '
                     <script type="text/javascript">
-                        var request_amount_max ='.$data['account_balance'].';
+                        var request_amount_max =' . $data['account_balance'] . ';
                         function checkAmountBalance(el){
                             el.value = parseFloat(el.value);
                             if (el.value < 0) el.value = 0;
                             else if (el.value > request_amount_max || el.value == \'NaN\') el.value = request_amount_max;
-                            var taxRate = '.$rate.';
+                            var taxRate = ' . $rate . ';
                             var taxAmount = el.value * taxRate / (100 + taxRate);
                             taxAmount = Math.round(taxAmount * 100) / 100;
                             $(\'amount\').value = el.value - taxAmount;
                         }
                         function changeRealAmount(el) {
-                            var taxRate = '.$rate.';
+                            var taxRate = ' . $rate . ';
                             var maxRequestAmount = request_amount_max * taxRate / (100 + taxRate);
                             maxRequestAmount = Math.round(maxRequestAmount * 100) / 100;
                             
@@ -174,7 +175,6 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
 //        );
 //        if ($data['status'] >= 3)
 //            $params['disabled'] = true;
-
 //        $fieldset->addField('fee', 'text', $params);
 //		}
 
@@ -182,16 +182,16 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
 
         if (isset($data['payment_method']) && $data['payment_method'] == 'credit') {
             $fieldset->addField('credit_refund_amount', 'text', array(
-                'name'  => 'credit_refund_amount',
+                'name' => 'credit_refund_amount',
                 'label' => Mage::helper('affiliateplus')->__('Refunded'),
-                'readonly'  => true,
+                'readonly' => true,
             ));
             $fieldset->addField('order_increment_id', 'note', array(
                 'label' => Mage::helper('affiliateplus')->__('Pay for Order'),
-                'text'  => '<a title="'.Mage::helper('affiliateplus')->__('View Order')
-                        . '" href="' . Mage::getUrl('adminhtml/sales_order/view', array('order_id' => $data['credit_order_id']))
-                        . '">#'
-                        . $data['credit_order_increment_id'] . '</a>'
+                'text' => '<a title="' . Mage::helper('affiliateplus')->__('View Order')
+                . '" href="' . Mage::getUrl('adminhtml/sales_order/view', array('order_id' => $data['credit_order_id']))
+                . '">#'
+                . $data['credit_order_increment_id'] . '</a>'
             ));
         } else if (!$this->_isActivePaymentPlugin()) {
             $fieldset->addField('payment_method', 'hidden', array(
@@ -206,7 +206,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
                 $feeParams['disabled'] = true;
             }
             $fieldset->addField('fee', 'text', $feeParams);
-            
+
             $fieldset->addField('paypal_email', 'text', array(
                 'label' => Mage::helper('affiliateplus')->__('Paypal Email'),
                 'name' => 'paypal_email',
@@ -214,8 +214,8 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
                 'class' => 'required-entry',
                 'required' => true,
             ));
-            
-            if ($data['status'] < 3) {
+
+            if (isset($data['status']) && $data['status'] < 3) {
                 $fieldset->addField('pay_now', 'note', array(
                     'text' => '<button type="button" class="scalable save" onclick="saveAndPayNow()"><span>' . Mage::helper('affiliateplus')->__('Pay Now') . '</span></button>',
                     'note' => Mage::helper('affiliateplus')->__('Automatically pay out for Affiliate through the paygate')
@@ -238,6 +238,15 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
                 'values' => $this->_getPaymentHelper()->getPaymentOption(),
                 'onclick' => 'changePaymentMethod(this);',
             );
+//            Changed By Adam to solve the problem 02/05/2015: Tao withdrawal cho  Paypal sau day disable phuong thuc Paypal di thi khi vao view withdrawal se nhin thay phuong thuc khac chu ko phai la paypal nua            
+            $id = $this->getRequest()->getParam('id', null);
+            $params = array(
+                'label' => Mage::helper('affiliateplus')->__('Payment Method'),
+                'name' => 'payment_method',
+                'required' => true,
+                'values' => $this->_getPaymentHelper()->getPaymentOption($id),
+                'onclick' => 'changePaymentMethod(this);',
+            );
 
             if ((isset($data['status']) && $data['status'] >= 3) || (isset($data['is_request']) && $data['is_request'] == 1)) {
                 $params['disabled'] = true;
@@ -246,11 +255,22 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
                 $fieldset->addField('payment_method', 'hidden', array(
                     'name' => 'payment_method',
                 ));
-            }else{
+            } else {
+//                if ($this->getRequest()->getParam('id')) {
+//                    $params['disabled'] = true;
+//                }
+//                $fieldset->addField('payment_method', 'select', $params);
+                // Changed By Adam 07/05/2015 to solve the problem: tao withdrawal = offline method nhung khi complate manually thi doi thanh paypal.
                 if ($this->getRequest()->getParam('id')) {
                     $params['disabled'] = true;
+                    $fieldset->addField('temp_payment_method', 'select', $params);
+
+                    $fieldset->addField('payment_method', 'hidden', array(
+                        'name' => 'payment_method',
+                    ));
+                } else {
+                    $fieldset->addField('payment_method', 'select', $params);
                 }
-                $fieldset->addField('payment_method', 'select', $params);
             }
 
             if (isset($data['status']) && $data['status'] < 3) {
@@ -259,7 +279,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
                     'note' => Mage::helper('affiliateplus')->__('Automatic Payout for Affiliate through Paygate')
                 ));
             }
-            
+
             $feeParams = array(
                 'label' => Mage::helper('affiliateplus')->__('Fee'),
                 'name' => 'fee',
@@ -273,7 +293,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
 
             foreach ($paymentMethods as $code => $paymentMethod) {
                 $paymentFieldset = $form->addFieldset("payment_fieldset_$code", array());
-                
+
                 Mage::dispatchEvent("affiliateplus_adminhtml_payment_method_form_$code", array(
                     'form' => $form,
                     'fieldset' => $paymentFieldset,
@@ -286,7 +306,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
                         'readonly' => 'readonly',
                         'class' => 'required-entry',
                         'required' => true,
-                        'note'  => $readOnly ? null : Mage::helper('affiliateplus')->__('You can change this email address on the Edit Account page.'),
+                        'note' => $readOnly ? null : Mage::helper('affiliateplus')->__('You can change this email address on the Edit Account page.'),
                     ));
 
 //					if($methodPaypalPayment != 'api'){
@@ -343,7 +363,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
           'label' => Mage::helper('affiliateplus')->__('Status'),
           'name' => 'status',
           'values' => array(
-          array('value' => 3, 'label' => Mage::helper('affiliateplus')->__('Completed')),
+          array('value' => 3, 'label' => Mage::helper('affiliateplus')->__('Complete')),
           array('value' => 1, 'label' => Mage::helper('affiliateplus')->__('Waiting')),
           array('value' => 2, 'label' => Mage::helper('affiliateplus')->__('Processing')),
           array('value' => 4, 'label' => Mage::helper('affiliateplus')->__('Canceled')),
@@ -352,10 +372,10 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit_Tab_Form extends Mage
         $status = array(
             '1' => Mage::helper('affiliateplus')->__('Pending'),
             '2' => Mage::helper('affiliateplus')->__('Processing'),
-            '3' => Mage::helper('affiliateplus')->__('Completed'),
+            '3' => Mage::helper('affiliateplus')->__('Complete'),
             '4' => Mage::helper('affiliateplus')->__('Canceled')
         );
-//        if (/* ($methodPaypalPayment == 'api' && $data['payment_method'] == 'paypal') || */$data['status'] >= 3 /* completed */)
+//        if (/* ($methodPaypalPayment == 'api' && $data['payment_method'] == 'paypal') || */$data['status'] >= 3 /* Complete */)
 //            $params['disabled'] = true;
 
         $id = $this->getRequest()->getParam('id');

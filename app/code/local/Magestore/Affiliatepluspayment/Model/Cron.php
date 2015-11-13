@@ -303,7 +303,7 @@ class Magestore_Affiliatepluspayment_Model_Cron
         $status = array(
             1 =>  Mage::helper('affiliateplus')->__('Pending'),
             2 =>  Mage::helper('affiliateplus')->__('Processing'),
-            3 =>  Mage::helper('affiliateplus')->__('Completed'),
+            3 =>  Mage::helper('affiliateplus')->__('Complete'),
             4 =>  Mage::helper('affiliateplus')->__('Canceled')
         );
         Mage::getModel('core/email_template')

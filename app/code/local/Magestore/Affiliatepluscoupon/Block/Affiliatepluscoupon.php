@@ -8,7 +8,6 @@ class Magestore_Affiliatepluscoupon_Block_Affiliatepluscoupon extends Magestore_
 	
 	public function getListProgram(){
         $listProgram = array();
-
         if (floatval($this->_getConfigHelper()->getDiscountConfig('discount')) > 0) {
             $listProgram['default'] = new Varien_Object(array(
                 'name'				=> $this->__('Affiliate Program'),

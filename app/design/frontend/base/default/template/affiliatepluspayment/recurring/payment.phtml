@@ -220,7 +220,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 
                     </div>
 
-                    <div id="div_paypal_email"  class="field paypal-email col-lg-12 col-md-12 col-sm-12 col-xs-12" <?php if ($this->moneybookerDisplay()) { ?>style="display:none;" <?php } ?> >
+                    <div id="div_paypal_email"  class="col-lg-6 col-md-6 col-sm-12 col-xs-12 field paypal-email" <?php if ($this->moneybookerDisplay()) { ?>style="display:none;" <?php } ?> >
                         <label class="required" id="label_paypal_email" for="paypal_email"><em>*</em><?php echo $this->__('Paypal Email'); ?></label>
 
                         <input id="paypal_email" class="input-text required-entry validate-email form-control" type="text" title="<?php echo $this->__('Paypal Email'); ?>" name="paypal_email" value="<?php echo $this->getFormData('paypal_email') ?>"/>

@@ -291,7 +291,7 @@ class Magestore_Affiliatepluscoupon_Model_Observer {
         $form->addTabAfter('affiliateplus_coupon_codes', array(
             'label' => Mage::helper('affiliatepluscoupon')->__('Coupon Code'),
             'title' => Mage::helper('affiliatepluscoupon')->__('Coupon Code'),
-            'url' => $form->getUrl('affiliatepluscouponadmin/adminhtml_account/coupons', array('_current' => true)),
+            'url' => $form->getUrl('adminhtml/affiliatepluscoupon_account/coupons', array('_current' => true)),
             'class' => 'ajax',
                 ), 'form_section');
     }
@@ -483,7 +483,10 @@ class Magestore_Affiliatepluscoupon_Model_Observer {
             return $this;
         $session = Mage::getSingleton('checkout/session');
         $request = $observer['request'];
-        $order = $observer['request']['order'];
+//        Changed By Adam 04/05/2015: Khi tao order trong back-end bi loi: Notice: Undefined index: order in app/code/local/Magestore/Affiliatepluscoupon/Model/Observer.php on line 486
+//        $order = $observer['request']['order'];
+        $order = isset($request['order']) && $request['order'] ? $request['order'] : null;
+        if(!$order) return;
         if (!isset($order['coupon']))
             return $this;
         if ((!$order['coupon']['code']) || ($order['coupon']['code'] == ''))

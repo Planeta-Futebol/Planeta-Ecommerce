@@ -242,83 +242,55 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                     ?>
                     <!--end by Sally-->
                     <li id="affiliate-opc-facebook" class="section allow<?php if ($this->isActiveTab('facebook')): ?> active<?php endif ?>">
-                        <div class="step-title facebook-logo" onclick="toggleAffiliateRighbox('affiliate-opc-facebook-content')">
-                            <span class="aff-logo "><?php echo $this->__('Facebook') ?></span>
+						<div class="step-title  facebook-logo " onclick="toggleAffiliateRighbox('affiliate-opc-facebook-content')">
+                            <span class="aff-logo"><?php echo $this->__('Facebook') ?></span>
                         </div>
-                        <div id="affiliate-opc-facebook-content" class="step a-item"<?php if (!$this->isActiveTab('facebook')): ?> style="display:none;"<?php endif ?>>
-
-                            <form id="affiliate-facebook-form" method="post">
-                                <ul class="form-list">
-                                    <li>
-                                        <label for="affiliate-facebook-content"><?php echo $this->__("Share on Facebook") ?>:</label>
-                                        <div class="input-box">
-                                            <div id="fb-root"></div>
-                                            <script>(function(d, s, id) {
-                                                    var js, fjs = d.getElementsByTagName(s)[0];
-                                                    if (d.getElementById(id))
-                                                        return;
-                                                    js = d.createElement(s);
-                                                    js.id = id;
-                                                    js.src = "//connect.facebook.net/sdk.js#xfbml=1&version=v2.0";
-                                                    fjs.parentNode.insertBefore(js, fjs);
-                                                }(document, 'script', 'facebook-jssdk'));</script>
-                                            <textarea id="affiliate-facebook-content" class="required-entry"><?php echo $this->getDefaultSharingContent() ?></textarea>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="buttons-set">
-                                    <div class="fb-share-button" data-href="<?php echo $this->getDefaultSharingContent() ?>"></div>
-                                </div>
-                            </form>
-                            <p></p>
-                            <script type="text/javascript">
-                                //                    var facebookForm = new VarienForm('affiliate-facebook-form',true);
-                                //                    function postOnFacebook(){
-                                //                        if (facebookForm.validator.validate()){
-                                //                            popWin('<?php //echo $this->getFbLoginUrl()    ?>','facebook',getPopupPosition(500,270)+',resizable=yes,scrollbars=yes');
-                                //                        }
-                                //                    }
-                            </script>
-                            <script src='http://connect.facebook.net/en_US/all.js'></script>
-                            <script type="text/javascript">
-                                //<![CDATA[
-                                var facebookForm = new VarienForm('affiliate-facebook-form', true);
-
-                                FB.init({appId: '<?php echo Mage::helper('affiliateplus/config')->getReferConfig('fbapp_id') ?>', status: true, cookie: true});
-
-                                function postOnFacebook() {
-                                    if (facebookForm.validator.validate()) {
-                                        var params = Form.serializeElements($('affiliate-facebook-form').select('input, select, textarea'));
-                                        var url = '<?php echo $this->getUrl("affiliates/refer/test") ?>';
-
-                                        var message = $('affiliate-facebook-content').value
-                                        // calling the API ...
-                                        if (message) {
-                                            // alert(message);
-                                            var obj = {
-                                                method: 'feed',
-                                                link: $('personal_affiliate_url').href,
-                                                description: message
-                                            };
-
-                                            function callback(response) {
-                                                if (response && response.post_id) {
-                                                    $('affiliate-facebook-msg').show();
-                                                }
-                                                else {
-                                                    alert('This message hasn\'t been posted successfully!');
-                                                }
-                                            }
-                                            FB.ui(obj, callback);
-                                        }
-                                    }
-                                }
-
-                                //]]>
-                            </script>
-
-                        </div>
-                    </li>
+						<div id="affiliate-opc-facebook-content" class="step a-item"<?php if (!$this->isActiveTab('facebook')): ?> style="display:none;position:static;"<?php endif ?>>
+							<ul class="message" id="affiliate-facebook-msg" style="display:none">
+								<li class="success-msg">
+									<ul><li><?php echo $this->__('This message has been shared successfully.') ?></li></ul>
+								</li>
+							</ul>
+							<form id="affiliate-facebook-form" method="post">
+								<ul class="form-list">
+									<li>
+										<label for="affiliate-facebook-content"><?php echo $this->__("Share on Facebook") ?>:</label>
+										<div class="input-box">
+											<textarea id="affiliate-facebook-content" class="required-entry"><?php echo $this->getDefaultSharingContent() ?></textarea>
+										</div>
+									</li>
+								</ul>
+								<span style="background: url('http://www.pickonpay.com/skin/frontend/base/default/css/magestore/images/facebook-color.png') no-repeat;padding-left: 20px;float:right;" class="share share_facebook">
+									<a onclick="postOnFacebook()" title="<?php echo $this->__('Share on Facebook') ?>">
+										<?php echo $this->__('Share') ?>
+									</a>
+								</span>
+							</form>
+							<script src='//connect.facebook.net/en_US/all.js'></script>
+							<script type="text/javascript">
+								var facebookForm = new VarienForm('affiliate-facebook-form',true);
+								FB.init({appId: '<?php echo Mage::helper('affiliateplus/config')->getReferConfig('fbapp_id') ?>', status: true, cookie: true});
+								function postOnFacebook(){
+									if (facebookForm.validator.validate()){
+									$('affiliate-facebook-msg').hide();
+									var message = $('affiliate-facebook-content').value;
+									if (message) {
+										var obj = {
+											// method: 'share_open_graph', 
+											method: 'feed', 
+										    link: '<?php echo $this->getPersonalUrl();?>',
+											description: message,
+										};
+										function callback(response) {											
+											if (response && response.post_id) $('affiliate-facebook-msg').show();
+										}
+										FB.ui(obj, callback);
+										}
+									}
+								}
+							</script>				
+						</div>
+					</li>
                     <!--add by Sally-->
                     <?php
                 }

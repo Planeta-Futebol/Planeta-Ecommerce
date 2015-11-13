@@ -12,4 +12,4 @@ class Magestore_Affiliateplus_Model_Status extends Varien_Object
             self::STATUS_DISABLED   => Mage::helper('affiliateplus')->__('Disabled')
         );
     }
-}
+} 

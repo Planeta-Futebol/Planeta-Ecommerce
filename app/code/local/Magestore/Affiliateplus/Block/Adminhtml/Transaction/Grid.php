@@ -107,7 +107,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Transaction_Grid extends Mage_Admi
 	  	Mage::dispatchEvent('affiliateplus_adminhtml_add_column_transaction_grid', array('grid' => $this));
         
 		$this->addColumn('created_time', array(
-			'header'    => Mage::helper('affiliateplus')->__('Created Date'),
+			'header'    => Mage::helper('affiliateplus')->__('Date Created'),
 			'width'     => '150px',
 			'align'     =>'right',
 			'index'     => 'created_time',

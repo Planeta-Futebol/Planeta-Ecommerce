@@ -422,6 +422,11 @@ class Magestore_Affiliateplus_Model_Account extends Mage_Core_Model_Abstract {
         if (!Mage::helper('affiliateplus')->isAffiliateModuleEnabled())
             return;
         $storeId = $this->getStoreId();
+        // Changed By Adam 21/05/2014: Fix issue send email in English when customer signup in French
+        if (!$storeId) {
+            $customer = Mage::getModel('customer/customer')->load($this->getCustomerId());
+            $storeId = $customer->getStoreId();
+        }
         $senderEmailConfiguration = Mage::helper('affiliateplus')->getSenderContact();
         $translate = Mage::getSingleton('core/translate');
         $translate->setTranslateInline(false);

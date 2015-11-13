@@ -8,15 +8,18 @@
             <action method="addCss">
                 <styleSheet>css/magestore/affiliateplus.css</styleSheet>
             </action>
+            <action method="addCss">                
+                <styleSheet>css/bootstrap/bootstrap.min.css</styleSheet>            
+            </action>			
+            <action method="addCss">                
+                <styleSheet>css/bootstrap/custome-bootstrap.css</styleSheet>            
+            </action>
             <block type="affiliateplus/CheckIframe" name="affiliateplus_checkiframe" template="affiliateplus/checkiframe.phtml"/>
         </reference>
         <reference name="footer_links">
             <block type="affiliateplus/affiliateplus" name="affiliateplus">
                 <action method="addFooterLink" />
             </block>
-        </reference>
-        <reference name="before_body_end">
-            <block type="core/template" name="popup_affiliate" template="affiliateplus/html/popup.phtml"/>
         </reference>
     </default>
     
@@ -32,7 +35,96 @@
     </customer_account>
     
     <affiliateplus_default>
+        <!--Changed By Adam 02/10/2015: Fixed issue conflict between ajax cart, ajax product -->
+        <reference name="before_body_end">
+            <block type="core/template" name="popup_affiliate" template="affiliateplus/html/popup.phtml"/>
+        </reference>
         <update handle="page_one_column" />
+        <reference name="after_body_start">
+            <block type="affiliateplus/account_navigation" after="addbootstrap" name="account_navigatorxx" template="affiliateplus/m-navigation.phtml">
+                <action method="setNavigationTitle">
+                    <title helper="affiliateplus/account/getNavigationLabel" />
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>balance</name>
+                    <path>affiliateplus/index/paymentForm</path>
+                    <label helper="affiliateplus/account/getBalanceLabel" />
+                    <disabled helper="affiliateplus/account/accountNotLogin" />
+                    <order>6</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>home</name>
+                    <path>affiliateplus</path>
+                    <label>Affiliate Home</label>
+                    <disabled>0</disabled>
+                    <order>10</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>login</name>
+                    <path>affiliateplus/account/login</path>
+                    <label>Login</label>
+                    <disabled helper="affiliateplus/account/customerLoggedIn" />
+                    <order>20</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>register</name>
+                    <path>affiliateplus/account/register</path>
+                    <label>Signup</label>
+                    <disabled helper="affiliateplus/account/isRegistered" />
+                    <order>30</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>banners</name>
+                    <path>affiliateplus/banner/list</path>
+                    <label><![CDATA[Banners & Links]]></label>
+                    <disabled helper="affiliateplus/account/accountNotLogin" />
+                    <order>40</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>materials</name>
+                    <path>affiliateplus/index/materials</path>
+                    <label>Referring Materials</label>
+                    <disabled helper="affiliateplus/config/disableMaterials" />
+                    <order>43</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>sales</name>
+                    <path>affiliateplus/index/listTransaction</path>
+                    <label>Commissions</label>
+                    <disabled helper="affiliateplus/account/accountNotLogin" />
+                    <order>110</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>payments</name>
+                    <path>affiliateplus/index/payments</path>
+                    <!-- <label>Withdrawals</label> -->
+                    <label helper="affiliateplus/account/getWithdrawalLabel" />
+                    <disabled helper="affiliateplus/account/hideWithdrawalMenu" />
+                    <order>120</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>referrers</name>
+                    <path>affiliateplus/index/referrers</path>
+                    <label>Traffics</label>
+                    <disabled helper="affiliateplus/account/accountNotLogin" />
+                    <order>180</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>edit</name>
+                    <path>affiliateplus/account/edit</path>
+                    <label>Settings</label>
+                    <disabled helper="affiliateplus/account/accountNotLogin" />
+                    <order>190</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
+                    <name>logout</name>
+                    <path>affiliateplus/account/logout</path>
+                    <label>Logout</label>
+                    <disabled helper="affiliateplus/account/accountNotLogin" />
+                    <order>200</order>
+                </action>
+            </block>
+        </reference>
         <reference name="content">
             <block type="core/template" name="style_config" template="affiliateplus/html/style.phtml"/>
             <block type="core/template" before="-" name="addbootstrap" template="affiliateplus/html/bootstrap.phtml"/>
@@ -130,7 +222,7 @@
                 <block type="affiliateplus/account_welcome" name="account_welcome">
                     <block type="core/template" name="page_content_heading" template="cms/content_heading.phtml"/>
                 </block>
-                 <block type="affiliatepluscommission/home" name="sales_home" before="account_program" template="affiliatepluscommission/home.phtml" />
+                <!-- <block type="affiliatepluscommission/home" name="sales_home" before="account_program" template="affiliatepluscommission/home.phtml" /> -->
                 <block type="affiliateplus/account_program" name="account_program" template="affiliateplus/account/program.phtml"/> 
                 <block type="affiliateplus/account_bottom" name="account_bottom" template="affiliateplus/account/bottom.phtml" />
             </block>
@@ -150,8 +242,8 @@
     
     <affiliateplus_transaction>
         <update handle="affiliateplus_default" />
-        <reference name="head" translate="title">
-            <action method="setTitle">
+        <reference name="head">
+            <action method="setTitle" translate="title">
                 <title>Commissions</title>
             </action>
         </reference>

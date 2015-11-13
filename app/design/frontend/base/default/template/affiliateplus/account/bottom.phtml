@@ -13,20 +13,20 @@
 	<?php if(Mage::helper('affiliateplus/account')->customerNotLogin()): ?>
 		<div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
 		<button onclick="location.href='<?php echo $this->getUrl('affiliateplus/account/login') ?>'" class="form-button btn-login">
-                    <span>Login</span>
+                    <span><?php echo $this->__('Login'); ?></span>
 		</button>
 		</div>
 	<?php endif ?>
 	<?php if(Mage::helper('affiliateplus/account')->accountNotRegistered()): ?>
 	<div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
 		<button onclick="location.href='<?php echo $this->getUrl('affiliateplus/account/register') ?>'" class="form-button btn-signup">
-                    <span>Signup</span>
+                    <span><?php echo $this->__('Signup'); ?></span>
 		</button>
 		</div>
 	<?php endif ?>
 	<div class="col-button col-lg-4 col-md-4 col-sm-4 col-xs-12">
 	<button onclick="location.href='<?php echo $this->getUrl('contacts') ?>'" class="form-button btn-contact">
-            <span>Contact Us</span>
+            <span><?php echo $this->__('Contact Us'); ?></span>
             
 	</button>
             </div>

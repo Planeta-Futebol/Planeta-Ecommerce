@@ -181,9 +181,9 @@
     width: 40%;
     padding: 0;
 }
-.aff-refer{
+.affiliate-page .aff-refer{
     float: left;
-    width: 560px;
+    width: 58%;
     margin-bottom: 20px;
 }
 .fieldset-sources {
@@ -279,3 +279,5 @@
     }
 
 }
+
+#affiliate-facebook-form a{cursor:pointer;}

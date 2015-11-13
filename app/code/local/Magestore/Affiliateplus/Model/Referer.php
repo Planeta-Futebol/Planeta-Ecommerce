@@ -13,7 +13,7 @@ class Magestore_Affiliateplus_Model_Referer extends Mage_Core_Model_Abstract
     public function loadExistReferer($accountId, $referer, $storeId, $pathInfo){
     	$item = $this->getCollection()
     		->addFieldToFilter('account_id',$accountId)
-    		->addFieldToFilter('referer',$referer)
+    		->addFieldToFilter('referer',$referer) 
     		->addFieldToFilter('store_id',$storeId)
     		->addFieldToFilter('url_path',$pathInfo)
     		->getFirstItem();
