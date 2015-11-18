@@ -38,7 +38,7 @@ class Franchise_Stock_Block_Financialchart extends Mage_Core_Block_Template
       $todate = new DateTime($post['todate']);
 
       $helper = Mage::helper('stock');
-      $helper->setCommissionSubmited(true);
+      $helper->setSearchFinancialchartSubimited(true);
 
     } else {
       $todate = new DateTime("now");
@@ -59,7 +59,7 @@ class Franchise_Stock_Block_Financialchart extends Mage_Core_Block_Template
     if ($query_sales->count()) {
       foreach ($query_sales as $sale) {
         if ($i >= 30) {
-          $datetime = new DateTime($date);
+          $datetime = new DateTime();
           $collection[$x] = array(
             'totalsales'=>$totalsales,
             'totalcost'=>$totalcost,
