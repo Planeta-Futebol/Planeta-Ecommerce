@@ -27,17 +27,20 @@
 <?php
   $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
   $lifetime = Mage::helper('affiliateplus')->checkLifeTimeForOrderBackend($customerId);
+
+/**
+ * Message for indicate if user have a coupon, or can insert new.
+ *
+ * @var string
+ */
+ $labelDiscountForm = ($lifetime) ? $this->__('Voce já possui um representante!') : $this->__('Insira o código do representante.');
 ?>
 <div id="discount-coupon">
   <form id="discount-coupon-form" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
       <div class="discount">
           <h2><?php echo $this->__('Código do representante') ?></h2>
           <div class="discount-form">
-              <?php if ($lifetime): ?>
-              <br>
-              <label> <?php echo $this->__('Voce já possui um representante!')?>
-              <?php endif ?>
-              <label for="coupon_code"><?php echo $this->__('Insira o código do representante.') ?></label>
+              <label for="coupon_code"><?php echo $labelDiscountForm; ?></label>
               <input type="hidden" name="remove" id="remove-coupone" value="0" />
               <div class="input-box">
                   <input class="input-text" id="coupon_code" name="coupon_code" value="<?php echo $this->escapeHtml($this->getCouponCode()) ?>" />
