@@ -12,9 +12,10 @@
     $maxUsage = ($subtotal * 0.3);
 ?>
 <?php $_code = 'affiliateplus' ?>
-<div id="affiliate-discount">
+<?php if ($this->getFormatedBalance()): ?>
+<div id="affiliate-discount" style="display: inline-block">
   <form id="discount-affiliateplus-form" action="<?php echo $this->getUrl('affiliateplus/checkout/creditPost') ?>" method="post">
-      <div class="discount">
+      <div class="discount" style="padding: 10px">
           <h2><?php echo $this->__('Affiliate Store Credit') ?> <small>(Total: <?php echo $this->getFormatedBalance() ?>)</small></h2>
           <div class="discount-form">
               <dl id="<?php echo $_code ?>_container">
@@ -52,6 +53,7 @@
       </div>
   </form>
 </div>
+<?php endif; ?>
 <?php } ?>
 <script type="text/javascript">
 //<![CDATA[
