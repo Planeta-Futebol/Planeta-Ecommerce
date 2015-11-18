@@ -54,7 +54,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         'sku' => 'order_items.sku',
                         'type_id' => 'order_items.product_type',
                         'shipping_address_id' => 'order.shipping_address_id',
-                        'unic_price' => 'order.grand_total',
+                        'unic_price' => 'order_items.price',
                 ))
                 ->columns(array(
                         'qty_ordered' => new Zend_Db_Expr("SUM(order_items.qty_ordered)"),
