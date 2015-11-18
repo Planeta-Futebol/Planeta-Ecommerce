@@ -58,7 +58,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                 ))
                 ->columns(array(
                         'qty_ordered' => new Zend_Db_Expr("SUM(order_items.qty_ordered)"),
-                        'total_sold' => new Zend_Db_Expr("(grand_total * SUM(order_items.qty_ordered))")
+                        'total_sold' => new Zend_Db_Expr("(order_items.price * SUM(order_items.qty_ordered))")
                 ))
                 ->joinInner(
                         array('order' => $this->getTable('sales/order')),
