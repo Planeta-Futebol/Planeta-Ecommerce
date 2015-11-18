@@ -210,55 +210,59 @@ $arrComboBoxSelected = $this->getData('comboBoxSelected');
         </div>
     </div>
     <div class="overview-sales-table">
-        <div class="detais-sales-table stock-table">
-            <div class="thearde-stock-table">
-                <div class="title-details-sale-table"><span><?php echo $helper->__('Estoque'); ?></span></div>
-                <div>
-                    <span><?php echo $helper->__('Produtos com menos estoque') ?></span>
-                    <a class="fl-right" href="<?php echo $this->getUrl('stock/stockaccount/myproductslist/'); ?>">Lançar
-                        estoque</a>
+        <div class="colummn">
+            <div class="detais-sales-table stock-table">
+                <div class="thearde-stock-table">
+                    <div class="title-details-sale-table"><span><?php echo $helper->__('Estoque'); ?></span></div>
+                    <div>
+                        <span><?php echo $helper->__('Produtos com menos estoque') ?></span>
+                        <a class="fl-right" href="<?php echo $this->getUrl('stock/stockaccount/myproductslist/'); ?>">Lançar
+                            estoque</a>
+                    </div>
                 </div>
+                <table>
+                    <tbody>
+                    <?php echo $productStockItemTable; ?>
+                    </tbody>
+                </table>
             </div>
-            <table>
-                <tbody>
-                <?php echo $productStockItemTable; ?>
-                </tbody>
-            </table>
-        </div>
-        <div class="detais-sales-table sales-table">
-            <div class="thearde-stock-table">
-                <div class="title-details-sale-table"><span><?php echo $helper->__('Vendas'); ?></span></div>
-                <div><?php echo $helper->__('Produtos mais vendidos') ?></div>
+            <div class="detais-sales-table sales-table">
+                <div class="thearde-stock-table">
+                    <div class="title-details-sale-table"><span><?php echo $helper->__('Vendas'); ?></span></div>
+                    <div><?php echo $helper->__('Produtos mais vendidos') ?></div>
+                </div>
+                <table>
+                    <tbody>
+                    <?php echo $productMoreSoldTable; ?>
+                    </tbody>
+                </table>
             </div>
-            <table>
-                <tbody>
-                <?php echo $productMoreSoldTable; ?>
-                </tbody>
-            </table>
         </div>
-        <div class="detais-sales-table profit-table">
-            <div class="thearde-stock-table">
-                <div class="title-details-sale-table"><span><?php echo $helper->__('Lucro'); ?></span></div>
-                <div><?php echo $helper->__('Produtos que geram mais lucros') ?></div>
+        <div class="colummn">
+            <div class="detais-sales-table profit-table">
+                <div class="thearde-stock-table">
+                    <div class="title-details-sale-table"><span><?php echo $helper->__('Lucro'); ?></span></div>
+                    <div><?php echo $helper->__('Produtos que geram mais lucros') ?></div>
+                </div>
+                <table>
+                    <tbody>
+                    <?php echo $productMoreProfitTable; ?>
+                    </tbody>
+                </table>
             </div>
-            <table>
-                <tbody>
-                <?php echo $productMoreProfitTable; ?>
-                </tbody>
-            </table>
+            <?php if(count($arrCouponsAffiliate) > 0): ?>
+                <div class="detais-sales-table comissions-table">
+                    <div class="thearde-stock-table">
+                        <div class="title-details-sale-table"><span><?php echo $helper->__('Comissões'); ?></span></div>
+                        <div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
+                    </div>
+                    <table>
+                        <tbody>
+                        <?php echo $generateMoreCommissionTable; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
         </div>
-        <?php if(count($arrCouponsAffiliate) > 0): ?>
-            <div class="detais-sales-table comissions-table">
-            <div class="thearde-stock-table">
-                <div class="title-details-sale-table"><span><?php echo $helper->__('Comissões'); ?></span></div>
-                <div><?php echo $helper->__('Maiores geradores de comissões') ?></div>
-            </div>
-            <table>
-                <tbody>
-                <?php echo $generateMoreCommissionTable; ?>
-                </tbody>
-            </table>
-        </div>
-        <?php endif; ?>
     </div>
 </div>

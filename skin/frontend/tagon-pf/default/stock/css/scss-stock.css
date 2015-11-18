@@ -34,8 +34,8 @@
       width: 18%; }
 
 .overview-sales-table .detais-sales-table {
-  width: 49%;
-  float: left; }
+  width: 100%;
+  min-height: 150px; }
   .overview-sales-table .detais-sales-table .thearde-stock-table {
     margin-bottom: 5px; }
     .overview-sales-table .detais-sales-table .thearde-stock-table .title-details-sale-sable {
@@ -59,15 +59,17 @@
     .overview-sales-table .detais-sales-table table tbody tr td[quantity="0"] {
       color: #cc1a07; }
   .overview-sales-table .detais-sales-table.stock-table {
-    margin-bottom: 10px;
-    margin-right: 2%; }
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px; }
   .overview-sales-table .detais-sales-table.comissions-able {
     margin-bottom: 10px; }
   .overview-sales-table .detais-sales-table.sales-table {
     margin-bottom: 10px; }
   .overview-sales-table .detais-sales-table.profit-table {
-    border-top: 1px solid #ccc;
-    padding-top: 10px; }
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px; }
 
 .fl-right {
   float: right;
@@ -78,5 +80,13 @@
   background-position: 10px 6px !important;
   min-height: 0px !important;
   text-align: center; }
+
+.title-details-sale-table {
+  font-weight: bold; }
+
+.colummn {
+  float: left;
+  width: 48%;
+  padding: 0 8px; }
 
 /*# sourceMappingURL=scss-stock.css.map */
