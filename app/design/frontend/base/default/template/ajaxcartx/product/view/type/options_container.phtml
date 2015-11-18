@@ -1,22 +1,67 @@
 <script type="text/javascript">
     //update initPrices function to get/update the prices from the options popup only
     <?php if (!in_array($this->getProduct()->getTypeId(), array('bundle','grouped'))): ?>
-	if (typeof(Product) !== 'undefined') {    
-	    Product.OptionsPrice.prototype.initPrices = function initPrices() {
-	        this.containers[0] = 'product-price-' + this.productId + '_clone';
-	        this.containers[1] = 'bundle-price-' + this.productId;
-	        this.containers[2] = 'price-including-tax-' + this.productId;
-	        this.containers[3] = 'price-excluding-tax-' + this.productId;
-	        this.containers[4] = 'old-price-' + this.productId + '_clone';
-	    };
-	}
-	<?php endif; ?>
-	var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
-	
-	//remove options wrapper if product has no custom options; used when adding wishlist item to the cart from the wishlist sidebar and the qty is too high
-	<?php if (!$this->getProduct()->getTypeInstance(true)->hasOptions($this->getProduct())): ?>
-		jQueryAC('#product-options-wrapper').css({'padding': '0px', 'border-top': '0px'});
-	<?php endif; ?>
+    if (typeof(Product) !== 'undefined') {
+        Product.OptionsPrice.prototype.initPrices = function initPrices() {
+            this.containers[0] = 'product-price-' + this.productId + '_clone';
+            this.containers[1] = 'bundle-price-' + this.productId;
+            this.containers[2] = 'price-including-tax-' + this.productId;
+            this.containers[3] = 'price-excluding-tax-' + this.productId;
+            this.containers[4] = 'old-price-' + this.productId + '_clone';
+        };
+    }
+    <?php endif; ?>
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+
+    //remove options wrapper if product has no custom options; used when adding wishlist item to the cart from the wishlist sidebar and the qty is too high
+    <?php if (!$this->getProduct()->getTypeInstance(true)->hasOptions($this->getProduct())): ?>
+    jQueryAC('#product-options-wrapper').css({'padding': '0px', 'border-top': '0px'});
+    <?php endif; ?>
 </script>
-<?php echo $this->getChildHtml('', true, true);?>
+<?php
+
+/**
+ * Get the currently product.
+ */
+$product = $this->getProduct();
+
+/**
+ * Get children products (all associated children products data)
+ */
+$childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null, $product);
+
+/**
+ * Save one list of products quantity.
+ */
+$quantityProduct = null;
+
+foreach ($childProducts as $childProduct) {
+    $qty = (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($childProduct)->getQty();
+    $sku = $childProduct->getSku();
+    $sku = explode("-", $sku);
+    $sku = $sku[1];
+
+    $quantityProduct .= <<< "QTY_PRODUCT"
+        <p class="unvisible-list size-{$sku}">
+            <span style='font-weight: bold;color: #098D44'>Quantidade em estoque, $qty<span>
+        </p>\n
+QTY_PRODUCT;
+}
+
+echo $quantityProduct;
+?>
+
+<?php echo $this->getChildHtml('', true, true); ?>
 <?php echo $this->getTierPriceHtml() ?>
+
+<script type="text/javascript">
+    jQuery(document).on("change", ".super-attribute-select", function(){
+        /* setting currently changed option value to option variable */
+        var option = jQuery(this).find('option:selected').text();
+
+        jQuery(".unvisible-list").hide();
+        jQuery(".size-" + option).show();
+
+    })
+</script>
+<style>.unvisible-list{display: none}</style>
