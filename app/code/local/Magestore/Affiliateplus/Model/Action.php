@@ -19,6 +19,13 @@ class Magestore_Affiliateplus_Model_Action extends Mage_Core_Model_Abstract {
         return Mage::helper('affiliateplus/config');
     }
 
+    /**
+     * @author  Magestore Developer
+     * @param inte $type
+     * @param varchar $name
+     * @param varchar $title
+     * @return array
+     */
     public function getTrafficInfo($type, $name, $title) {
         $info = array();
         $session = Mage::getSingleton('affiliateplus/session');
@@ -56,21 +63,27 @@ class Magestore_Affiliateplus_Model_Action extends Mage_Core_Model_Abstract {
             $weekUniqueCollection = $this->getCollection()
                     ->addFieldToFilter('account_id', $account->getId())
                     ->addFieldToFilter('type', $type)
-                    ->addFieldToFilter('week(created_date, 1)', $week)
+//                    ->addFieldToFilter('week(created_date, 1)', $week)        // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
                     ->addFieldToFilter('is_unique', 1)
             ;
+            $weekUniqueCollection->getSelect()                                  // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                    ->where("week(created_date, 1)=?", $week);
+            
             $weekRawCollection = $this->getCollection()
                     ->addFieldToFilter('account_id', $account->getId())
                     ->addFieldToFilter('type', $type)
-                    ->addFieldToFilter('week(created_date, 1)', $week)
+//                    ->addFieldToFilter('week(created_date, 1)', $week)        // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
             //->addFieldToFilter('is_unique', 0)
             ;
+            $weekRawCollection->getSelect()                                     // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                    ->where("week(created_date, 1)=?", $week);
+            
             if ($this->_getHelper()->getSharingConfig('balance') == 'store') {
                 $weekUniqueCollection->addFieldToFilter('store_id', Mage::app()->getStore()->getId());
                 $weekRawCollection->addFieldToFilter('store_id', Mage::app()->getStore()->getId());
             }
             $weekRawCollection->getSelect()
-                    ->group(array('week(created_date, 1)'))
+                    ->group(array("week(created_date, 1)"))                     // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
                     ->columns(array('totals_raw' => 'SUM(totals)'));
             $weekRaw = $weekRawCollection->getFirstItem()->getTotalsRaw();
             if (!$weekRaw)
@@ -80,21 +93,27 @@ class Magestore_Affiliateplus_Model_Action extends Mage_Core_Model_Abstract {
             $monthUniqueCollection = $this->getCollection()
                     ->addFieldToFilter('account_id', $account->getId())
                     ->addFieldToFilter('type', $type)
-                    ->addFieldToFilter('month(created_date)', $month)
+//                    ->addFieldToFilter('month(created_date)', $month)         // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
                     ->addFieldToFilter('is_unique', 1)
             ;
+            $monthUniqueCollection->getSelect()                                 // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                    ->where("month(created_date)=?", $month);
+            
             $monthRawCollection = $this->getCollection()
                     ->addFieldToFilter('account_id', $account->getId())
                     ->addFieldToFilter('type', $type)
-                    ->addFieldToFilter('month(created_date)', $month)
+//                    ->addFieldToFilter('month(created_date)', $month)         // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
             //->addFieldToFilter('is_unique', 0)
             ;
+            $monthRawCollection->getSelect()                                    // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                    ->where("month(created_date)=?", $month);
+            
             if ($this->_getHelper()->getSharingConfig('balance') == 'store') {
                 $monthUniqueCollection->addFieldToFilter('store_id', Mage::app()->getStore()->getId());
                 $monthRawCollection->addFieldToFilter('store_id', Mage::app()->getStore()->getId());
             }
             $monthRawCollection->getSelect()
-                    ->group(array('month(created_date)'))
+                    ->group(array("month(created_date)"))                       // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
                     ->columns(array('totals_raw' => 'SUM(totals)'));
             $monthRaw = $monthRawCollection->getFirstItem()->getTotalsRaw();
             if (!$monthRaw)
@@ -104,21 +123,27 @@ class Magestore_Affiliateplus_Model_Action extends Mage_Core_Model_Abstract {
             $yearUniqueCollection = $this->getCollection()
                     ->addFieldToFilter('account_id', $account->getId())
                     ->addFieldToFilter('type', $type)
-                    ->addFieldToFilter('year(created_date)', $year)
+//                    ->addFieldToFilter('year(created_date)', $year)           // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
                     ->addFieldToFilter('is_unique', 1)
             ;
+            $yearUniqueCollection->getSelect()                                  // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                    ->where("year(created_date)=?", $year);
+            
             $yearRawCollection = $this->getCollection()
                     ->addFieldToFilter('account_id', $account->getId())
                     ->addFieldToFilter('type', $type)
-                    ->addFieldToFilter('year(created_date)', $year)
+//                    ->addFieldToFilter('year(created_date)', $year)           // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
             //->addFieldToFilter('is_unique', 0)
             ;
+            $yearRawCollection->getSelect()                                     // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                    ->where("year(created_date)=?", $year);
+            
             if ($this->_getHelper()->getSharingConfig('balance') == 'store') {
                 $yearUniqueCollection->addFieldToFilter('store_id', Mage::app()->getStore()->getId());
                 $yearRawCollection->addFieldToFilter('store_id', Mage::app()->getStore()->getId());
             }
             $yearRawCollection->getSelect()
-                    ->group(array('year(created_date)'))
+                    ->group(array("year(created_date)"))                        // Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
                     ->columns(array('totals_raw' => 'SUM(totals)'));
             $yearRaw = $yearRawCollection->getFirstItem()->getTotalsRaw();
             if (!$yearRaw)
@@ -152,6 +177,17 @@ class Magestore_Affiliateplus_Model_Action extends Mage_Core_Model_Abstract {
         }
     }
 
+    /**
+     * @author Magestore Developer
+     * @param int $accountId
+     * @param int $bannerId
+     * @param int $type
+     * @param int $storeId
+     * @param date $date
+     * @param varchar $ip
+     * @param varchar $domain
+     * @return \Magestore_Affiliateplus_Model_Action
+     */
     public function loadExist($accountId, $bannerId, $type, $storeId, $date, $ip, $domain) {
         $collection = $this->getCollection()
                 ->addFieldToFilter('account_id', $accountId)
@@ -168,6 +204,18 @@ class Magestore_Affiliateplus_Model_Action extends Mage_Core_Model_Abstract {
         return $this;
     }
 
+    /**
+     * @author Magestore Developer
+     * @param int $accountId
+     * @param int $bannerId
+     * @param int $type
+     * @param int $storeId
+     * @param int $isUnique
+     * @param varchar $ipAddress
+     * @param varchar $domain
+     * @param varchar $landing_page
+     * @return \Magestore_Affiliateplus_Model_Action
+     */
     public function saveAction($accountId, $bannerId, $type, $storeId, $isUnique, $ipAddress, $domain, $landing_page) {
         $date = New DateTime(now());
         $collection = $this->getCollection()
@@ -219,12 +267,27 @@ class Magestore_Affiliateplus_Model_Action extends Mage_Core_Model_Abstract {
         return $action;
     }
 
+    /**
+     * @author Magestore Developer
+     * @param varchar $domain
+     * @return varchar
+     */
     public function refineDomain($domain) {
         $parseUrl = parse_url(trim($domain));
         $domain = trim($parseUrl['host'] ? $parseUrl['host'] : array_shift(explode('/', $parseUrl['path'], 2)));
         return $domain;
     }
 
+    /**
+     * 
+     * @param varchar $ipAddress
+     * @param int $account_id
+     * @param varchar $domain
+     * @param int $banner_id
+     * @param int $type
+     * @param int $storeId
+     * @return int
+     */
     public function checkIpClick($ipAddress, $account_id, $domain, $banner_id, $type, $storeId = NULL) {
         $days = $this->_getHelper()->getActionConfig('resetclickby');
         if (!$storeId)

@@ -16,7 +16,7 @@ class Magestore_Affiliateplus_Block_Email_Report extends Mage_Core_Block_Templat
 	
 	public function getOptionLabels(){
 		return array(
-			'complete'	=> $this->__('Completed'),
+			'complete'	=> $this->__('Complete'),
 			'pending'	=> $this->__('Pending'),
 			'cancel'	=> $this->__('Canceled'),
 		);

@@ -128,7 +128,8 @@ class Magestore_Affiliatepluslevel_Block_Adminhtml_Account_Edit_Tab_Tier extends
 	
 	public function getRowUrl($row) {
 		$id = $row->getId();
-		return $this->getUrl('affiliateplusadmin/adminhtml_account/edit', array(
+                //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+		return $this->getUrl('adminhtml/affiliateplus_account/edit', array(
 			'id' => $id,
 		));
 	}

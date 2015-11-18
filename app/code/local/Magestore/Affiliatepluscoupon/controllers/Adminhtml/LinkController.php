@@ -21,4 +21,14 @@ class Magestore_Affiliatepluscoupon_Adminhtml_LinkController extends Mage_Adminh
 		if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
         $this->getResponse()->setBody($this->getLayout()->createBlock('affiliatepluscoupon/adminhtml_link_grid')->toHtml());
     }
+    
+    /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('affiliateplus/transaction/link');
+    }
 }

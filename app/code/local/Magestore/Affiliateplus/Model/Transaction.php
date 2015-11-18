@@ -92,7 +92,8 @@ class Magestore_Affiliateplus_Model_Transaction extends Mage_Core_Model_Abstract
 
         // Get Order from transaction (order_id)
         $order = Mage::getModel('sales/order')->load($this->getOrderId());
-
+        // Changed By Adam: Fix loi chua khai bao bien $storeId
+        $storeId = $this->getStoreId();
         try {
             $commission = 0;
             $transactionCommission = 0;
@@ -109,8 +110,14 @@ class Magestore_Affiliateplus_Model_Transaction extends Mage_Core_Model_Abstract
                             $affiliateplusCommissionItem = explode(",", $item->getAffiliateplusCommissionItem());
 
                             $totalComs = array_sum($affiliateplusCommissionItem);
+							$totalComs = $totalComs ? $totalComs : $item->getAffiliateplusCommission();
                             $firstComs = $affiliateplusCommissionItem[0];
-                            $commission += $firstComs * ($item->getQtyInvoiced() - $item->getQtyRefunded()) / $item->getQtyOrdered();
+							if($firstComs) {
+								$commission += $firstComs * ($item->getQtyInvoiced() - $item->getQtyRefunded()) / $item->getQtyOrdered();
+							} else {
+								$commission += $item->getAffiliateplusCommission();
+							}
+
                             $transactionCommission += $totalComs * ($item->getQtyInvoiced() - $item->getQtyRefunded()) / $item->getQtyOrdered();
                             $transactionDiscount += $item->getBaseAffiliateplusAmount() * ($item->getQtyInvoiced() - $item->getQtyRefunded()) / $item->getQtyOrdered();
                         }
@@ -130,13 +137,18 @@ class Magestore_Affiliateplus_Model_Transaction extends Mage_Core_Model_Abstract
                         $affiliateplusCommissionItem = explode(",", $item->getAffiliateplusCommissionItem());
 
                         $totalComs = array_sum($affiliateplusCommissionItem);
+						$totalComs = $totalComs ? $totalComs : $item->getAffiliateplusCommission();
                         $firstComs = $affiliateplusCommissionItem[0];
+						
                         if ($collection->getSize()) {
 
 
                             foreach ($collection as $invoiceItem) {
                                 if ($invoiceItem && $invoiceItem->getId()) {
-                                    $commission += $firstComs * $invoiceItem->getQty() / $item->getQtyOrdered();
+                                    if($firstComs) 
+										$commission += $firstComs * $invoiceItem->getQty() / $item->getQtyOrdered();
+									else 
+										$commission += $item->getAffiliateplusCommission();
 
                                     $invoiceItem->setAffiliateplusCommissionFlag(1)->save();
 
@@ -270,7 +282,7 @@ class Magestore_Affiliateplus_Model_Transaction extends Mage_Core_Model_Abstract
         if (!$this->getId())
             return $this;
         // Changed By Adam
-        if ($this->getStatus() != '2' || $this->getStatus() != '1')
+        if ($this->getStatus() != '2')
             return $this;
         // Hold transaction 
         try {
@@ -910,7 +922,7 @@ class Magestore_Affiliateplus_Model_Transaction extends Mage_Core_Model_Abstract
 
     public function getOptionArray() {
         return array(
-            '1' => Mage::helper('affiliateplus')->__('Completed')
+            '1' => Mage::helper('affiliateplus')->__('Complete')
         );
     }
 

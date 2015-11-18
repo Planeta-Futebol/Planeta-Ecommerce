@@ -150,7 +150,7 @@ class Magestore_Affiliateplusprogram_Block_Adminhtml_Program_Edit_Tab_Form exten
       
       if ($data['program_id']){
       	 $fieldset->addField('created_date', 'note', array(
-	         'label'     => Mage::helper('affiliateplusprogram')->__('Created Date'),
+	         'label'     => Mage::helper('affiliateplusprogram')->__('Date Created'),
 	         'text'      => '<strong>'.$this->formatDate($data['created_date'],'long',false).'</strong>',
 	     ));
 	     

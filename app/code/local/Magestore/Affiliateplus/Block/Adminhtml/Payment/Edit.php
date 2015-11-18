@@ -13,7 +13,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit extends Mage_Adminhtm
 
         $data = Mage::registry('payment_data');
 
-        if (isset($data['status']) && ($data['status'] == 3 || $data['status'] == 4)) { // completed payment
+        if (isset($data['status']) && ($data['status'] == 3 || $data['status'] == 4)) { // Complete payment
             $this->_removeButton('delete');
         } else {
             if (!$this->getRequest()->getParam('id')) {
@@ -95,7 +95,9 @@ class Magestore_Affiliateplus_Block_Adminhtml_Payment_Edit extends Mage_Adminhtm
             if ($methodPaypalPayment == 'api' && $data['payment_method'] == 'paypal') { // pay by API paypal
                 $paymentId = $this->getRequest()->getParam('id');
                 $accountId = $this->getRequest()->getParam('account_id');
-                $paymentUrl = $this->getUrl('affiliateplusadmin/adminhtml_payment/processpayment', array('id' => $paymentId, 'account_id' => $accountId));
+                
+                //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                $paymentUrl = $this->getUrl('adminhtml/affiliateplus_payment/processpayment', array('id' => $paymentId, 'account_id' => $accountId));
                 $alert = Mage::helper('affiliateplus')->__('Are you sure of paying out for this withdrawal?');
 
                 $this->_addButton('payment', array(

@@ -18,37 +18,21 @@
         background-color: #<?php echo Mage::getStoreConfig('affiliateplus/style_config/background_subtitle', $store_id) ?>;
         color:#<?php echo Mage::getStoreConfig('affiliateplus/style_config/sub_title_color', $store_id) ?>;
     }
-    .aff-main-content .buttons-set,
-    .aff-main-content .fieldset{
-        //border-color:#<?php echo Mage::getStoreConfig('affiliateplus/style_config/border_color', $store_id) ?>;
-    }
-    /*.affiliate-page .aff-main-content{
-        color:#<?php //echo Mage::getStoreConfig('affiliateplus/style_config/text_color', $store_id) ?>;
-    }
-    .aff-main-content .btn-warning{
-        background-color: #<?php echo Mage::getStoreConfig('affiliateplus/style_config/button_color', $store_id) ?>;
-    }
-    .aff-main-content .btn-primary{
-        background-color: #<?php echo Mage::getStoreConfig('affiliateplus/style_config/button_back_color', $store_id) ?>;
-    }
-      */
     #affiliateplus-sidebar .allow .step-title{
         background-color: #<?php echo Mage::getStoreConfig('affiliateplus/style_config/button_social_background_color', $store_id) ?>;
     }
     #affiliateplus-sidebar .step-title span.aff-logo{
         color:#<?php echo Mage::getStoreConfig('affiliateplus/style_config/button_social_color', $store_id) ?>;
     }
-    .affiliate-page .navbar-default{
+    .affiliate-page .affiliate-navigation{
         background-color: #<?php echo Mage::getStoreConfig('affiliateplus/style_config/background_navigation_color', $store_id) ?>;
-        /*border-color:#<?php //echo Mage::getStoreConfig('affiliateplus/style_config/border_navigation_color', $store_id) ?>;*/
     }
-    .affiliate-page .nav > li > a{
-        /*border-color:#<?php //echo Mage::getStoreConfig('affiliateplus/style_config/border_navigation_color', $store_id) ?>;*/
+    .affiliate-page .affiliate-navigation   li  a{
         font-size:<?php echo Mage::getStoreConfig('affiliateplus/style_config/text_font_size', $store_id) ?>px;
     }
-    .affiliate-page .navbar-default .navbar-nav>li>a:hover,
-    .affiliate-page .navbar-default .navbar-nav>li>a:focus,
-    .affiliate-page .navbar-default .navbar-nav>.active>a{
+    .affiliate-page .affiliate-navigation li a:hover,
+    .affiliate-page .affiliate-navigation li a:focus,
+    .affiliate-page .affiliate-navigation .active a{
         background-color: #<?php echo Mage::getStoreConfig('affiliateplus/style_config/active_background_navigation_color', $store_id) ?>;
         color:#<?php echo Mage::getStoreConfig('affiliateplus/style_config/active_color_navigation_color', $store_id) ?>;
     }

@@ -82,7 +82,7 @@ class Magestore_Affiliateplus_Helper_Calculation_Spending extends Mage_Core_Help
      * 
      * @param string $cacheKey
      * @param mixed $value
-     * @return Magestore_RewardPoints_Helper_Calculation_Abstract
+     * @return 
      */
     public function saveCache($cacheKey, $value = null) {
         $this->_cacheRule[$cacheKey] = $value;

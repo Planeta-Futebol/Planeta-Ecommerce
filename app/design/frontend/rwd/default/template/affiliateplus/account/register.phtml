@@ -45,7 +45,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                         </span>
                         <div id="affiliate_message_hidden_email" class="affiliate_message"></div>
                         <div class="affiliate_message" id="affiliate_message_email" style="display:none">
-    <?php echo $this->__('This username is already existed.  Please use a different one.'); ?>
+                            <?php echo $this->__('This username is already existed.  Please use a different one.'); ?>
                         </div>
                     </div>
                 </div>
@@ -58,17 +58,30 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                         </div>
                     </div>
     <?php endif ?>
+            <!--Changed By Adam 02/05/2015: fix loi CSS cho dob, tax, gender -->
                 <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
                 <?php if ($_dob->isEnabled()): ?>
-                    <li><?php echo $_dob->setDate($this->getFormData('dob'))->toHtml() ?></li>
+                    <div class="form-group">
+                        <div class="<?php echo $class_name_col; ?>">
+                            <?php echo $_dob->setDate($this->getFormData('dob'))->toHtml() ?>
+                        </div>
+                    </div>
                 <?php endif ?>
                 <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
                 <?php if ($_taxvat->isEnabled()): ?>
-                    <li><?php echo $_taxvat->setTaxvat($this->getFormData('taxvat'))->toHtml() ?></li>
+                    <div class="form-group">
+                        <div class="<?php echo $class_name_col; ?>">
+                            <?php echo $_taxvat->setTaxvat($this->getFormData('taxvat'))->toHtml() ?>
+                        </div>
+                    </div>
                 <?php endif ?>
                 <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
                 <?php if ($_gender->isEnabled()): ?>
-                    <li><?php echo $_gender->setGender($this->getFormData('gender'))->toHtml() ?></li>
+                    <div class="form-group">
+                        <div class="<?php echo $class_name_col; ?>">
+                            <?php echo $_gender->setGender($this->getFormData('gender'))->toHtml() ?>
+                        </div>
+                    </div>
                 <?php endif ?>
                 <div class="form-group">
                     <div class="<?php echo $class_name_col; ?>">
@@ -231,9 +244,9 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
             <!-- hainh 21-07-2014 -->               
             <div class="form-group">
                 <div class="<?php echo $class_name_col; ?>">
-                    <label for="referring_website"><?php echo $this->__('Referring WebSite'); ?></label>
+                    <label for="referring_website"><?php echo $this->__('Referring Website'); ?></label>
 
-                    <input id="referring_website" placeholder="<?php echo $this->__('Referring WebSite') ?>" class="input-text form-control" type="text" title="<?php echo $this->__('Referring WebSite'); ?>" name="referring_website" value=""/>
+                    <input id="referring_website" placeholder="<?php echo $this->__('Referring Website') ?>" class="input-text form-control" type="text" title="<?php echo $this->__('Referring Website'); ?>" name="referring_website" value=""/>
 
                 </div>
            
@@ -286,8 +299,8 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                     <input id="account_captcha" placeholder="<?php echo $this->__('Verification') ?>" class="input-text required-entry form-control" type="text" title="<?php echo $this->__('Captcha code') ?>" name="account_captcha" />
                 </div>
             </div>
+			<p style="float:right" class="required"><?php echo $this->__('* Required Fields') ?></p>
             <div class="buttons-set">
-                <p class="required"><?php echo $this->__('* Required Fields') ?></p>
                 <button type="submit" title="<?php echo $this->__('Save'); ?>" class="button button-config">
                     <span>
                         <span><?php echo $this->__('Save') ?></span>

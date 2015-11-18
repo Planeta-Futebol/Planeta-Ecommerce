@@ -6,7 +6,7 @@ extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 		if($row->getAccountId())
 			return sprintf('
 				<a href="%s" title="%s">%s</a>',
-				$this->getUrl('affiliateplusadmin/adminhtml_account/edit/', array('_current'=>true, 'id' => $row->getAccountId())),
+				$this->getUrl('adminhtml/affiliateplus_account/edit/', array('_current'=>true, 'id' => $row->getAccountId())),          //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
 				Mage::helper('affiliateplus')->__('View Affiliate Account Details'),
 				$row->getAccountEmail()
 			);

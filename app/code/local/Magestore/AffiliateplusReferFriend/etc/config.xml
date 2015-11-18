@@ -23,7 +23,7 @@
 <config>
     <modules>
         <Magestore_AffiliateplusReferFriend>
-            <version>0.4.2</version>
+            <version>0.4.3</version>
         </Magestore_AffiliateplusReferFriend>
     </modules>
     <frontend>
@@ -149,15 +149,15 @@ You can share your affiliate url to your friends quickly by using our online mar
 </p>
 ]]></sharing_description>
                 <email_subject><![CDATA[Good service and product]]></email_subject>
-                <email_content><![CDATA[Caro, {{friend_name}},
-Conheça a Planeta Futebol. Você vai adorar os produtos, com preços acessíveis.
-Clicando no meu link abaixo você ganhará um desconto, permanente, de 16% em todas suas compras.
+                <email_content><![CDATA[Dear {{friend_name}},
+I've been shopping at {{store_name}} and feel really happy. They provide good customer service and reasonable prices.
+If you click on my link below, you can even receive a special discount! Check it out:
 {{personal_url}}
 
 Thank you,
 {{account_name}}]]></email_content>
-                <sharing_message><![CDATA[Conheça a Planeta Futebol. Você vai adorar os produtos, com preços acessíveis. Clicando no meu link abaixo você ganhará um desconto, permanente, de 16% em todas suas compras. {{personal_url}}]]></sharing_message>
-                <twitter_message><![CDATA[Conheça os excelentes produtos da Planeta Futebol e ganhe um desconto permanente: {{personal_url}}]]></twitter_message>
+                <sharing_message><![CDATA[I've been shopping at {{store_name}} and feel really happy. They provide good customer service and reasonable prices. If you click on my link, you can even receive a special discount! Check it out: {{personal_url}}]]></sharing_message>
+                <twitter_message><![CDATA[I've been shopping at {{store_name}} and feel really happy. Check it out: {{personal_url}}]]></twitter_message>
             </refer>
         </affiliateplus>
     </default>

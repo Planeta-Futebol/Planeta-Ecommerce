@@ -16,6 +16,20 @@
                 <order>51</order>
             </action>
         </reference>
+        <!--Fixed By Adam to solve the problem of missing menu when using mobile-->
+        <reference name="account_navigatorxx">
+            <!--action method="addLink" translate="label" module="affiliateplus">
+                    <name>tiercommission</name><path>affiliatepluslevel/index/listTierTransaction</path><label>Tier Commissions</label><disabled helper="affiliateplus/account/accountNotLogin" /><order>115</order>
+            </action-->
+            <action method="addLink" translate="label" module="affiliateplus">
+                <name>tiercommission</name>
+                <path>affiliatepluslevel/index/listTier</path>
+                <label>Tier Affiliates</label>
+                <!--hainh-->
+               <disabled helper="affiliatepluslevel/isModuleDisabled"  />
+                <order>51</order>
+            </action>
+        </reference>
     </affiliateplus_default>
 	
     <affiliateplus_transaction>

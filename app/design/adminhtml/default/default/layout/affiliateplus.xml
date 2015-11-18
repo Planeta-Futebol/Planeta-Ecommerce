@@ -8,7 +8,9 @@
              <action method="addJs"><script>magestore/affiliateplus/jscolor/jscolor.js</script></action> 
         </reference>
     </default>
-    <affiliateplusadmin_adminhtml_account_index>
+    
+    <!--        Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2-->
+    <adminhtml_affiliateplus_account_index>
         <reference name="content">
             <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -17,13 +19,13 @@
             </block>
             <block type="affiliateplus/adminhtml_account" name="account" />
         </reference>
-    </affiliateplusadmin_adminhtml_account_index>
-    <affiliateplusadmin_adminhtml_account_grid>
+    </adminhtml_affiliateplus_account_index>
+    <adminhtml_affiliateplus_account_grid>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="affiliateplus/adminhtml_account_grid" name="account" />
         </block>
-    </affiliateplusadmin_adminhtml_account_grid>
-    <affiliateplusadmin_adminhtml_banner_index>
+    </adminhtml_affiliateplus_account_grid>
+    <adminhtml_affiliateplus_banner_index>
         <reference name="content">
             <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -32,25 +34,25 @@
             </block>
             <block type="affiliateplus/adminhtml_banner" name="banner" />
         </reference>
-    </affiliateplusadmin_adminhtml_banner_index>
-    <affiliateplusadmin_adminhtml_banner_grid>
+    </adminhtml_affiliateplus_banner_index>
+    <adminhtml_affiliateplus_banner_grid>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="affiliateplus/adminhtml_banner_grid" name="banner" />
         </block>
-    </affiliateplusadmin_adminhtml_banner_grid>
-    <affiliateplusadmin_adminhtml_transaction_index>
+    </adminhtml_affiliateplus_banner_grid>
+    <adminhtml_affiliateplus_transaction_index>
         <reference name="content">
             <block type="affiliateplus/adminhtml_transaction" name="transaction" />
         </reference>
-    </affiliateplusadmin_adminhtml_transaction_index>
+    </adminhtml_affiliateplus_transaction_index>
     
-    <affiliateplusadmin_adminhtml_transaction_grid>
+    <adminhtml_affiliateplus_transaction_grid>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="affiliateplus/adminhtml_transaction_grid" name="transaction" />
         </block>
-    </affiliateplusadmin_adminhtml_transaction_grid>
+    </adminhtml_affiliateplus_transaction_grid>
     
-    <affiliateplusadmin_adminhtml_payment_index>
+    <adminhtml_affiliateplus_payment_index>
         <reference name="content">
             <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -59,14 +61,14 @@
             </block>
             <block type="affiliateplus/adminhtml_payment" name="payment" />
         </reference>
-    </affiliateplusadmin_adminhtml_payment_index>
-    <affiliateplusadmin_adminhtml_payment_grid>
+    </adminhtml_affiliateplus_payment_index>
+    <adminhtml_affiliateplus_payment_grid>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="affiliateplus/adminhtml_payment_grid" name="payment" />
         </block>
-    </affiliateplusadmin_adminhtml_payment_grid>
+    </adminhtml_affiliateplus_payment_grid>
     
-    <affiliateplusadmin_adminhtml_payment_selectaccount>
+    <adminhtml_affiliateplus_payment_selectaccount>
         <reference name="content">
             <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -75,9 +77,9 @@
             </block>
             <block type="affiliateplus/adminhtml_selectaccount" name="payment_selectaccount" />
         </reference>
-    </affiliateplusadmin_adminhtml_payment_selectaccount>
+    </adminhtml_affiliateplus_payment_selectaccount>
     
-    <affiliateplusadmin_adminhtml_payment_selectaccountgrid>
+    <adminhtml_affiliateplus_payment_selectaccountgrid>
         <reference  name="content">
             <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -86,14 +88,14 @@
             </block>
             <block type="affiliateplus/adminhtml_selectaccount" name="payment_selectaccount_grid" />
         </reference>	
-    </affiliateplusadmin_adminhtml_payment_selectaccountgrid>
+    </adminhtml_affiliateplus_payment_selectaccountgrid>
     
 	
-    <affiliateplusadmin_adminhtml_transaction_view>
+    <adminhtml_affiliateplus_transaction_view>
 		
-    </affiliateplusadmin_adminhtml_transaction_view>
+    </adminhtml_affiliateplus_transaction_view>
 	
-    <affiliateplusadmin_adminhtml_account_edit>
+    <adminhtml_affiliateplus_account_edit>
         <reference name="head">
             <action method="addJs">
                 <script>magestore/affiliateplus.js</script>
@@ -109,9 +111,9 @@
         <!-- <reference name="content">
              			<block type="affiliate/affiliate" name="standard_info" after="-" template="affiliate/test.phtml" />
       		</reference> -->
-    </affiliateplusadmin_adminhtml_account_edit>
+    </adminhtml_affiliateplus_account_edit>
 	
-    <affiliateplusadmin_adminhtml_banner_edit>	
+    <adminhtml_affiliateplus_banner_edit>	
         <reference name="left">
             <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                 <action method="setUseConfirm">
@@ -119,9 +121,9 @@
                 </action>
             </block>
         </reference>
-    </affiliateplusadmin_adminhtml_banner_edit>
+    </adminhtml_affiliateplus_banner_edit>
 	
-    <affiliateplusadmin_adminhtml_account_customer>
+    <adminhtml_affiliateplus_account_customer>
         <block type="core/text_list" name="root">
             <block type="affiliateplus/adminhtml_account_edit_tab_customer" name="account.edit.tab.customer"/>
             <block type="affiliateplus/adminhtml_account_serializer" name="related_grid_serializer">
@@ -131,38 +133,38 @@
                 </action>
             </block>
         </block>	
-    </affiliateplusadmin_adminhtml_account_customer>
+    </adminhtml_affiliateplus_account_customer>
 	
-    <affiliateplusadmin_adminhtml_account_customergrid>
+    <adminhtml_affiliateplus_account_customergrid>
         <block type="core/text_list" name="root">
             <block type="affiliateplus/adminhtml_account_edit_tab_customer" name="account.edit.tab.customer"/>
         </block>
-    </affiliateplusadmin_adminhtml_account_customergrid>	
+    </adminhtml_affiliateplus_account_customergrid>	
 	
 
-    <affiliateplusadmin_adminhtml_account_transaction>
+    <adminhtml_affiliateplus_account_transaction>
         <block type="core/text_list" name="root">
             <block type="affiliateplus/adminhtml_account_edit_tab_transaction" name="account.edit.tab.transaction"/>
         </block>
-    </affiliateplusadmin_adminhtml_account_transaction>
+    </adminhtml_affiliateplus_account_transaction>
 	
-    <affiliateplusadmin_adminhtml_account_transactiongrid>
+    <adminhtml_affiliateplus_account_transactiongrid>
         <block type="core/text_list" name="root">
             <block type="affiliateplus/adminhtml_account_edit_tab_transaction" name="account.edit.tab.transaction"/>
         </block>
-    </affiliateplusadmin_adminhtml_account_transactiongrid>
+    </adminhtml_affiliateplus_account_transactiongrid>
 	
-    <affiliateplusadmin_adminhtml_account_payment>
+    <adminhtml_affiliateplus_account_payment>
         <block type="core/text_list" name="root">
             <block type="affiliateplus/adminhtml_account_edit_tab_payment" name="account.edit.tab.payment"/>
         </block>
-    </affiliateplusadmin_adminhtml_account_payment>
+    </adminhtml_affiliateplus_account_payment>
 	
-    <affiliateplusadmin_adminhtml_account_paymentgrid>
+    <adminhtml_affiliateplus_account_paymentgrid>
         <block type="core/text_list" name="root">
             <block type="affiliateplus/adminhtml_account_edit_tab_payment" name="account.edit.tab.payment"/>
         </block>
-    </affiliateplusadmin_adminhtml_account_paymentgrid>
+    </adminhtml_affiliateplus_account_paymentgrid>
 	
 	
 	

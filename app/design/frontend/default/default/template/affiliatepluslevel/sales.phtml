@@ -54,7 +54,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 					<?php $status = $this->getRequest()->getParam('status') ?>
 					<select name="status" id="commission-status" style="margin-left: 10px; width: 135px;">
 						<option value></option>
-						<option value="1" <?php if ($status == 1): ?>selected<?php endif ?>><?php echo $this->__('Completed') ?></option>
+						<option value="1" <?php if ($status == 1): ?>selected<?php endif ?>><?php echo $this->__('Complete') ?></option>
 						<option value="2" <?php if ($status == 2): ?>selected<?php endif ?>><?php echo $this->__('Pending') ?></option>
 						<option value="3" <?php if ($status == 3): ?>selected<?php endif ?>><?php echo $this->__('Canceled') ?></option>
 					</select>

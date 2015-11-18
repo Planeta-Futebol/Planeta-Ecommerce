@@ -45,7 +45,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <comment>Leave blank for default value (acc)</comment>
+                            <!--Changed By Adam: 01/06/2015: solve the problem of using ID parameter-->
+                            <comment>Please don't use parameter as id becuase it will overried default parameter of system.
+								Leave blank for default value (acc).</comment>
                         </url_param>
                         <!-- hainh 29-07-2014 -->
                         <url_param_value translate="label">

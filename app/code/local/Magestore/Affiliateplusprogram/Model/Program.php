@@ -24,30 +24,30 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
 
     public function getStoreAttributes() {
         $storeAttribute = new Varien_Object(array(
-                    'store_attribute' => array(
-                        'name',
-                        'affiliate_type',
-                        'status',
-                        'description',
-                        'commission_type',
-                        'commission',
-                        'sec_commission',
-                        'sec_commission_type',
-                        'secondary_commission',
-                        'discount_type',
-                        'discount',
-                        'sec_discount',
-                        'sec_discount_type',
-                        'secondary_discount',
-                        'customer_group_ids',
-                        'show_in_welcome',
-                        'use_tier_config',
-                        'max_level',
-                        'tier_commission',
-                        'use_sec_tier',
-                        'sec_tier_commission',
-                    )
-                ));
+            'store_attribute' => array(
+                'name',
+                'affiliate_type',
+                'status',
+                'description',
+                'commission_type',
+                'commission',
+                'sec_commission',
+                'sec_commission_type',
+                'secondary_commission',
+                'discount_type',
+                'discount',
+                'sec_discount',
+                'sec_discount_type',
+                'secondary_discount',
+                'customer_group_ids',
+                'show_in_welcome',
+                'use_tier_config',
+                'max_level',
+                'tier_commission',
+                'use_sec_tier',
+                'sec_tier_commission',
+            )
+        ));
         /** Thanhpv - add even $this->_eventPrefix . '_get_store_attributes' (2012-10-11) */
         Mage::dispatchEvent($this->_eventPrefix . '_get_store_attributes', array(
             $this->_eventObject => $this,
@@ -208,7 +208,8 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
             if (strtotime($this->getValidTo()) < strtotime(now(true)))
                 return false;
         if ($groupIds = $this->getCustomerGroupIds()) {
-            if (is_string($groupIds)) $groupIds = explode(',', $groupIds);
+            if (is_string($groupIds))
+                $groupIds = explode(',', $groupIds);
             if (isset($groupIds[0]) && $groupIds[0] == 'Array') {
                 return true;
             }
@@ -242,47 +243,60 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
         if (!$this->isAvailable())
             return false;
         //hainh edit this line 29-04-2014
-        if (($order)&&(!$order->getQuote())) {
+        if (($order) && (!$order->getQuote())) {
             $order->setQuote($order);
         }
         return $this->validate($order);
     }
-    //add by Jack
-    public function getAllProgramsByItems($productId){
-        if(Mage::getSingleton('customer/session')->getId())
-            $customerId = Mage::getSingleton('customer/session')->getId();
-        else if(Mage::getSingleton('adminhtml/session_quote')->getCustomer())
-            $customerId = Mage::getSingleton('adminhtml/session_quote')->getCustomer()->getId();
-        if(isset($customerId) && $customerId)
-            $accountId = Mage::getModel('affiliateplus/account')->getCollection()
-                       ->addFieldToFilter('customer_id',$customerId)->getFirstItem()->getId(); 
-                        
+
+    //add by Jack and Jacob
+    public function getAllProgramsByItems($productId) {
+        $affiliateInfo = Mage::helper('affiliateplus/cookie')->getAffiliateInfo();
+        $account = '';
+        foreach ($affiliateInfo as $info) {
+            if ($info['account']) {
+                $account = $info['account'];
+                break;
+            }
+        }
+        
+        $accountId = $account ? $account->getAccountId() : '';
+
+        // if(Mage::getSingleton('customer/session')->getId())
+        // $customerId = Mage::getSingleton('customer/session')->getId();
+        // else if(Mage::getSingleton('adminhtml/session_quote')->getCustomer())
+        // $customerId = Mage::getSingleton('adminhtml/session_quote')->getCustomer()->getId();
+        // if(isset($customerId) && $customerId)
+        // $accountId = Mage::getModel('affiliateplus/account')->getCollection()
+        // ->addFieldToFilter('customer_id',$customerId)->getFirstItem()->getId(); 
+
         $programs = Mage::getModel('affiliateplusprogram/program')->getCollection();
         $resource = Mage::getModel('core/resource');
-        if($accountId){
-             $programs->getSelect()
-                    ->join(array('affiliateplusprogram_account'=>$resource->getTableName('affiliateplusprogram/account')), 'affiliateplusprogram_account.program_id = main_table.program_id', array('program_id'=>'program_id', 'account_id'=>'account_id', 'joined'=>'joined'))
-                    ->where('affiliateplusprogram_account.account_id = ?',$accountId)
+        if ($accountId) {
+            $programs->getSelect()
+                    ->join(array('affiliateplusprogram_account' => $resource->getTableName('affiliateplusprogram/account')), 'affiliateplusprogram_account.program_id = main_table.program_id', array('program_id' => 'program_id', 'account_id' => 'account_id', 'joined' => 'joined'))
+                    ->where('affiliateplusprogram_account.account_id = ?', $accountId)
                     ->order('main_table.priority DESC')
                     ->order('affiliateplusprogram_account.joined DESC')
                     ->order('main_table.program_id DESC')
-                    ;
+            ;
         }
-        else{
-            $programs->getSelect()
-                    ->order('main_table.priority DESC')
-                    ->order('main_table.program_id DESC')
-                    ;
-        }
+        // else{
+        // $programs->getSelect()
+        // ->order('main_table.priority DESC')
+        // ->order('main_table.program_id DESC')
+        // ;
+        // }
         $programByItems = array();
-        foreach($programs as $program){
-            if(in_array($productId, Mage::helper('affiliateplusprogram')->getProgramProductIds($program->getId()))){
-                if($program->getStatus() == 1)
+        foreach ($programs as $program) {
+            if (in_array($productId, Mage::helper('affiliateplusprogram')->getProgramProductIds($program->getId()))) {
+                if ($program->getStatus() == 1)
                     $programByItems[] = $program->getId();
             }
         }
         return $programByItems;
     }
+
     //
     public function validateItem($item) {
         if (!$this->isAvailable())
@@ -292,13 +306,12 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
             $item = $_item;
         }
         //jack
-            if($item->getProduct())
-                    $productId = $item->getProduct()->getId();
-            else
-                    $productId = $item->getProductId();
+        if ($item->getProduct())
+            $productId = $item->getProduct()->getId();
+        else
+            $productId = $item->getProductId();
         //
-         $programByItems = $this->getAllProgramsByItems($productId);
-		 
+        $programByItems = $this->getAllProgramsByItems($productId);
         if (!in_array($productId, Mage::helper('affiliateplusprogram')->getProgramProductIds($this->getId()))) {
             if ($parentItem = $item->getParentItem()) {
                 if (!in_array($parentItem->getProduct()->getId(), Mage::helper('affiliateplusprogram')->getProgramProductIds($this->getId())))
@@ -307,19 +320,18 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
                 return false;
             }
         }
-
         //add by Jack
-		/*
-			Khi dung coupon thi khong can phai kiem tra
-		*/	
-		$session = Mage::getSingleton('checkout/session');
-		$isUseCoupon = $session->getAffiliateCouponCode();
-		if(!isset($isUseCoupon))
-		{			
-			if($this->getId() != $programByItems[0] && count($programByItems) > 1){
-				return false; 
-			}
-		}
+        /*
+          Khi dung coupon thi khong can phai kiem tra
+         */
+        $session = Mage::getSingleton('checkout/session');
+        $isUseCoupon = $session->getAffiliateCouponCode();
+        if (!isset($isUseCoupon)) {
+            // Changed By Adam 07/05/2015: 1 san pham nam trong 2 program khac nhau. affiliate chi join vao program co priority thap hon => ko chay duoc cho program co do uu tien thap hon do code cua jack. Khong thay discount o frontend
+            if (Mage::app()->getStore()->isAdmin() && $this->getId() != $programByItems[0] && count($programByItems) > 1) {
+                return false;
+            }
+        }
         //
         return $this->getActions()->validate($item);
     }
@@ -336,14 +348,13 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
         if ($this->isDeleted()) {
             return $this->delete();
         }
-        if(version_compare(Mage::getVersion(), '1.4.1.1') > 0){
-         if (!$this->_hasModelChanged()) {
-            return $this;
-         }
-        }
-        else{
-         if(!$this->hasDataChanges())
-            return $this;
+        if (version_compare(Mage::getVersion(), '1.4.1.1') > 0) {
+            if (!$this->_hasModelChanged()) {
+                return $this;
+            }
+        } else {
+            if (!$this->hasDataChanges())
+                return $this;
         }
         $this->_getResource()->beginTransaction();
         $dataCommited = false;
@@ -354,7 +365,7 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
                 $this->_afterSave();
             }
             $this->_getResource()->addCommitCallback(array($this, 'afterCommitCallback'))
-                ->commit();
+                    ->commit();
             $this->_hasDataChanges = false;
             $dataCommited = true;
         } catch (Exception $e) {
@@ -367,7 +378,7 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
         }
         return $this;
     }
-    
+
     protected function _orgBeforeSave() {
         $defaultProgram = Mage::getModel('affiliateplusprogram/program')->load($this->getId());
         if ($storeId = $this->getStoreId()) {
@@ -413,4 +424,5 @@ class Magestore_Affiliateplusprogram_Model_Program extends Mage_Rule_Model_Rule 
         }
         return $this;
     }
+
 }

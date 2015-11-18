@@ -3,7 +3,7 @@
 class Magestore_Affiliateplus_Model_Observer {
 
     /**
-     * get Config Helper
+     * get Config Helper 
      *
      * @return Magestore_Affiliateplus_Helper_Config
      */
@@ -1905,7 +1905,7 @@ class Magestore_Affiliateplus_Model_Observer {
     public function prepareLayoutBefore($observer){
         $block = $observer->getEvent()->getBlock();
         if ("head" == $block->getNameInLayout()) {
-            $file  = '/magestore/jquery-1.11.2.min.js';
+            $file  = '/magestore/jquery-1.11.1.min.js';
             $block->addJs($file);
         }
         return $this;

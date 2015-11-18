@@ -229,5 +229,14 @@ class Magestore_Affiliateplusstatistic_ReportController extends Mage_Adminhtml_C
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
+    
+    /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
+    protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('affiliateplus');
+    }
 
 }

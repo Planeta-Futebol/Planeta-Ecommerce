@@ -69,7 +69,7 @@ class Magestore_Affiliateplusprogram_Block_All extends Magestore_Affiliatepluspr
 		));
 		
 		$grid->addColumn('created_date',array(
-			'header'	=> $this->__('Created Date'),
+			'header'	=> $this->__('Date Created'),
 			'type'		=> 'date',
 			'format'	=> 'medium',
 			'index'		=> 'created_date',

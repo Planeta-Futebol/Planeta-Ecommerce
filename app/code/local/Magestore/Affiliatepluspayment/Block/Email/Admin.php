@@ -5,7 +5,7 @@ class Magestore_Affiliatepluspayment_Block_Email_Admin extends Mage_Core_Block_T
         return array(
             1 =>  Mage::helper('affiliateplus')->__('Pending'),
             2 =>  Mage::helper('affiliateplus')->__('Processing'),
-            3 =>  Mage::helper('affiliateplus')->__('Completed'),
+            3 =>  Mage::helper('affiliateplus')->__('Complete'),
             4 =>  Mage::helper('affiliateplus')->__('Canceled')
         );
     }

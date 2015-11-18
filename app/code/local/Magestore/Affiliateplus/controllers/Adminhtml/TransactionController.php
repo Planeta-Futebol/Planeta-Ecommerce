@@ -1,76 +1,81 @@
 <?php
 
-class Magestore_Affiliateplus_Adminhtml_TransactionController extends Mage_Adminhtml_Controller_Action
-{
+class Magestore_Affiliateplus_Adminhtml_TransactionController extends Mage_Adminhtml_Controller_Action {
 
-	protected function _initAction() {
-		$this->loadLayout()
-			->_setActiveMenu('affiliateplus/transaction')
-			->_addBreadcrumb(Mage::helper('adminhtml')->__('Transaction Manager'), Mage::helper('adminhtml')->__('Transaction Manager'));
-		
-		return $this;
-	}   
- 
-	public function indexAction() {
-		if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
-		$this->_title($this->__('Affiliateplus'))->_title($this->__('Manage Transactions'));
-		$this->_initAction()
-			->renderLayout();
-	}
-	
-	public function gridAction(){
-		if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
+    protected function _initAction() {
+        $this->loadLayout()
+                ->_setActiveMenu('affiliateplus/transaction')
+                ->_addBreadcrumb(Mage::helper('adminhtml')->__('Transaction Manager'), Mage::helper('adminhtml')->__('Transaction Manager'));
+
+        return $this;
+    }
+
+    public function indexAction() {
+        if (!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)) {
+            return;
+        }
+        $this->_title($this->__('Affiliateplus'))->_title($this->__('Manage Transactions'));
+        $this->_initAction()
+                ->renderLayout();
+    }
+
+    public function gridAction() {
+        if (!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)) {
+            return;
+        }
         $this->loadLayout();
         $this->renderLayout();
     }
-	
-	public function viewAction() {
-		if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
-		$id     = $this->getRequest()->getParam('id');
-		$transaction  = Mage::getModel('affiliateplus/transaction')->load($id);
-		
-		$this->_title($this->__('Affiliateplus'))->_title($this->__('Manage Transactions'))
-			->_title($this->__($transaction->getAccountName()));
-		
-		if ($transaction->getId() || $id == 0) {
-			$data = Mage::getSingleton('adminhtml/session')->getFormData(true);
-			if (!empty($data)) {
-				$transaction->setData($data);
-			}
 
-			Mage::register('transaction_data', $transaction);
-			
-			$this->loadLayout();
-			$this->_setActiveMenu('affiliateplus/transactions');
+    public function viewAction() {
+        if (!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)) {
+            return;
+        }
+        $id = $this->getRequest()->getParam('id');
+        $transaction = Mage::getModel('affiliateplus/transaction')->load($id);
 
-			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Transaction Manager'), Mage::helper('adminhtml')->__('Transaction Manager'));
-			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('New Transaction'), Mage::helper('adminhtml')->__('New Transaction'));
+        $this->_title($this->__('Affiliateplus'))->_title($this->__('Manage Transactions'))
+                ->_title($this->__($transaction->getAccountName()));
 
-			$this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        if ($transaction->getId() || $id == 0) {
+            $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
+            if (!empty($data)) {
+                $transaction->setData($data);
+            }
 
-			$this->_addContent($this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_edit'))
-				->_addLeft($this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_edit_tabs'));
-			
-			$this->renderLayout();
-			
-		} else {
-			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('affiliateplus')->__('The transaction does not exist.'));
-			$this->_redirect('*/*/');
-		}
-	}
-    
+            Mage::register('transaction_data', $transaction);
+
+            $this->loadLayout();
+            $this->_setActiveMenu('affiliateplus/transactions');
+
+            $this->_addBreadcrumb(Mage::helper('adminhtml')->__('Transaction Manager'), Mage::helper('adminhtml')->__('Transaction Manager'));
+            $this->_addBreadcrumb(Mage::helper('adminhtml')->__('New Transaction'), Mage::helper('adminhtml')->__('New Transaction'));
+
+            $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+
+            $this->_addContent($this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_edit'))
+                    ->_addLeft($this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_edit_tabs'));
+
+            $this->renderLayout();
+        } else {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('affiliateplus')->__('The transaction does not exist.'));
+            $this->_redirect('*/*/');
+        }
+    }
+
     /**
      * Cancel transaction
      */
-    public function cancelAction()
-    {
-        if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
+    public function cancelAction() {
+        if (!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)) {
+            return;
+        }
         $transactionId = $this->getRequest()->getParam('id');
         if ($transactionId > 0) {
             $model = Mage::getModel('affiliateplus/transaction');
             try {
                 $model->load($transactionId)
-                    ->cancelTransaction();
+                        ->cancelTransaction();
                 Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Transaction was canceled successfully'));
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -78,47 +83,47 @@ class Magestore_Affiliateplus_Adminhtml_TransactionController extends Mage_Admin
         }
         $this->_redirect('*/*/view', array('id' => $transactionId));
     }
-    
-    /* Changed By Adam: Change status from onhold to complete 22/07/2014*/
+
+    /* Changed By Adam: Change status from onhold to complete 22/07/2014 */
+
     public function massStatusAction() {
-        
+
         $ids = $this->getRequest()->getParam('transaction');
-        
+
         if (!is_array($ids)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select transaction(s)'));
         } else {
             $collection = Mage::getResourceModel('affiliateplus/transaction_collection');
             $collection->addFieldToFilter('transaction_id', array('in' => $ids))
-                        ->addFieldToFilter('status', 4)
-                    ;
+                    ->addFieldToFilter('status', 4)
+            ;
             $successed = 0;
             foreach ($collection as $model) {
                 try {
                     $model->unHold();
                     $successed++;
                 } catch (Exception $e) {
-                    print_r($e->getMessage()); die('z');
+                    print_r($e->getMessage());
+                    die('z');
                 }
             }
-            if($successed) {
+            if ($successed) {
                 Mage::getSingleton('adminhtml/session')->addSuccess(
-                    $this->__('Total %s of %s transaction(s) were unholded successfully.', $successed, count($ids))
+                        $this->__('Total %s of %s transaction(s) were unholded successfully.', $successed, count($ids))
                 );
             } else {
                 Mage::getSingleton('adminhtml/session')->addNotice(
-                    $this->__('There was no transaction unholded.')
+                        $this->__('There was no transaction unholded.')
                 );
             }
         }
         $this->_redirect('*/*/index');
-        
     }
 
-
-    
-    public function massCancelAction()
-    {
-        if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
+    public function massCancelAction() {
+        if (!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)) {
+            return;
+        }
         $ids = $this->getRequest()->getParam('transaction');
         if (!is_array($ids)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select transaction(s)'));
@@ -135,39 +140,40 @@ class Magestore_Affiliateplus_Adminhtml_TransactionController extends Mage_Admin
                 }
             }
             Mage::getSingleton('adminhtml/session')->addSuccess(
-                $this->__('Total %s of %s transaction(s) were canceled successfully.', $successed, count($ids))
+                    $this->__('Total %s of %s transaction(s) were canceled successfully.', $successed, count($ids))
             );
         }
         $this->_redirect('*/*/index');
     }
-    
-    public function exportCsvAction()
-    {
-		if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
-        $fileName   = 'transaction.csv';
-        $content    = $this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_grid')
-            ->getCsv();
+
+    public function exportCsvAction() {
+        if (!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)) {
+            return;
+        }
+        $fileName = 'transaction.csv';
+        $content = $this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_grid')
+                ->getCsv();
 
         $this->_sendUploadResponse($fileName, $content);
     }
 
-    public function exportXmlAction()
-    {
-		if(!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)){ return; }
-        $fileName   = 'transaction.xml';
-        $content    = $this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_grid')
-            ->getXml();
+    public function exportXmlAction() {
+        if (!Mage::helper('magenotification')->checkLicenseKeyAdminController($this)) {
+            return;
+        }
+        $fileName = 'transaction.xml';
+        $content = $this->getLayout()->createBlock('affiliateplus/adminhtml_transaction_grid')
+                ->getXml();
 
         $this->_sendUploadResponse($fileName, $content);
     }
-	
-	protected function _sendUploadResponse($fileName, $content, $contentType='application/octet-stream')
-    {
+
+    protected function _sendUploadResponse($fileName, $content, $contentType = 'application/octet-stream') {
         $response = $this->getResponse();
-        $response->setHeader('HTTP/1.1 200 OK','');
+        $response->setHeader('HTTP/1.1 200 OK', '');
         $response->setHeader('Pragma', 'public', true);
         $response->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true);
-        $response->setHeader('Content-Disposition', 'attachment; filename='.$fileName);
+        $response->setHeader('Content-Disposition', 'attachment; filename=' . $fileName);
         $response->setHeader('Last-Modified', date('r'));
         $response->setHeader('Accept-Ranges', 'bytes');
         $response->setHeader('Content-Length', strlen($content));
@@ -176,4 +182,14 @@ class Magestore_Affiliateplus_Adminhtml_TransactionController extends Mage_Admin
         $response->sendResponse();
         die;
     }
+
+    /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
+    protected function _isAllowed() {
+        return Mage::getSingleton('admin/session')->isAllowed('affiliateplus/transaction');
+    }
+
 }

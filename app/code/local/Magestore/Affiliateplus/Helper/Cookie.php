@@ -15,7 +15,7 @@ class Magestore_Affiliateplus_Helper_Cookie extends Mage_Core_Helper_Abstract {
         if (Mage::getSingleton('affiliateplus/session')->getTopAffiliateIndentifyCode()) {
             $accountCode=Mage::getSingleton('affiliateplus/session')->getTopAffiliateIndentifyCode();
                $account = Mage::getModel('affiliateplus/account')->setStoreId(Mage::app()->getStore()->getId())->loadByIdentifyCode($accountCode);
-                if ($account->getId() && $account->getStatus() == 1 && $account->getId() != Mage::helper('affiliateplus/account')->getAccount()->getId()) {
+                if ($account && $account->getId() && $account->getStatus() == 1 && (Mage::helper('affiliateplus/account')->getAccount() && $account->getId() != Mage::helper('affiliateplus/account')->getAccount()->getId())) {
                     $info[$accountCode] = array(
                         'index' => 1,
                         'code' => $accountCode,

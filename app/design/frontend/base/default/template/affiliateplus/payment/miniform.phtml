@@ -15,7 +15,7 @@
 
                 
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 input-blance">
-                <input id="request_amount"  name="amount" value="Request amount" class="input-text required-entry form-control input-text required-entry validate-greater-than-zero" type="text" onchange="checkAmountBalance(this);" onfocus="if (this.value == this.defaultValue)
+                <input id="request_amount"  name="amount" value="<?php echo $this->__('Request Amount') ?>" class="input-text required-entry form-control input-text required-entry validate-greater-than-zero" type="text" onchange="checkAmountBalance(this);" onfocus="if (this.value == this.defaultValue)
                                     this.value = '';" onblur="if (this.value == '')
                                                 this.value = this.defaultValue;" />
                 <input type="hidden" id="from_request_page" name="from_request_page" value="1" />

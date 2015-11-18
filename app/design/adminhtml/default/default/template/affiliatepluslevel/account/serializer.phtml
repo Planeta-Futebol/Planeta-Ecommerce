@@ -7,8 +7,8 @@
 </div>
 <?php $_gridJsObject = $this->getGridBlock()->getJsObjectName() ?>
 <script type="text/javascript">
-
-var mapToptier = new MapToptier('<?php echo $this->getUrl('affiliateplusleveladmin/adminhtml_account/changeToptier',array('_secure'=>true)) ?>')
+//Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+var mapToptier = new MapToptier('<?php echo $this->getUrl('adminhtml/affiliatepluslevel_account/changeToptier',array('_secure'=>true)) ?>')
 
 function toptierObjectRowClick(grid, event){
 	var trElement = Event.findElement(event, 'tr');
