@@ -63,17 +63,26 @@ class Magestore_Affiliateplus_Helper_Payment extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function getPaymentOption(){
-    	$allPaymentConfig = Mage::getStoreConfig(self::XML_PAYMENT_METHODS);
-    	$payments = array();
-    	foreach ($allPaymentConfig as $code => $config)
-    		if (isset($config['active']) && $config['active'])
-    			$payments[] = array(
-    				'value'	=> $code,
-    				'label'	=> $config['label'],
-    			);
-    	
-    	return $payments;
+    public function getPaymentOption($id = null) {
+        $allPaymentConfig = Mage::getStoreConfig(self::XML_PAYMENT_METHODS);
+        $payments = array();
+        foreach ($allPaymentConfig as $code => $config)
+//            Changed By Adam to solve the problem 02/05/2015: Tao withdrawal cho Paypal sau day disable phuong thuc Paypal di thi khi vao view withdrawal se nhin thay phuong thuc khac chu ko phai la paypal nua
+//          if (isset($config['active']) && $config['active'])
+            if (!$id) {
+                if (isset($config['active']) && $config['active'])
+                    $payments[] = array(
+                        'value' => $code,
+                        'label' => $config['label'],
+                    );
+            }else {
+                if (isset($config['active']))
+                    $payments[] = array(
+                        'value' => $code,
+                        'label' => $config['label'],
+                    );
+            }
+        return $payments;
     }
     
     public function getAllPaymentOptionArray() {

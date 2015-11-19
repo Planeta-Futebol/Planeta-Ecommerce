@@ -113,7 +113,7 @@
 		
 		
 		$this->addColumn('request_time', array(
-			'header'    => Mage::helper('affiliateplus')->__('Requested Date'),
+			'header'    => Mage::helper('affiliateplus')->__('Date Requested'),
 			'width'     => '180px',
 			'align'     =>'right',
 			'index'     => 'request_time',
@@ -129,7 +129,7 @@
 			'options'   => array(
 				1 =>  Mage::helper('affiliateplus')->__('Pending'),
 				2 =>  Mage::helper('affiliateplus')->__('Processing'),
-				3 =>  Mage::helper('affiliateplus')->__('Completed'),
+				3 =>  Mage::helper('affiliateplus')->__('Complete'),
                                 4 =>  Mage::helper('affiliateplus')->__('Canceled')
 			),
 		));

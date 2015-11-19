@@ -5,7 +5,7 @@ class Magestore_Affiliatepluscoupon_IndexController extends Mage_Core_Controller
 	public function indexAction(){
 		if(!Mage::helper('magenotification')->checkLicenseKeyFrontController($this)){ return; }
 		if (!Mage::helper('affiliatepluscoupon')->isPluginEnabled() || Mage::helper('affiliateplus/account')->accountNotLogin())
-			return $this->_redirect('affiliateplus/account/register');
+			return $this->_redirect('affiliateplus/index/index');
 		
 		$account = Mage::helper('affiliateplus/account')->getAccount();
 		$accountId = $account->getId();

@@ -54,7 +54,6 @@ class Magestore_Affiliateplusprogram_Helper_Data extends Mage_Core_Helper_Abstra
         $categoryCollection = Mage::getResourceModel('affiliateplusprogram/category_collection')
                 ->addFieldToFilter('program_id', $programId)
                 ->addFieldToFilter('store_id', $storeId);
-				
         if ($categoryCollection->getSize() == 0)
             $categoryCollection = Mage::getResourceModel('affiliateplusprogram/category_collection')
                     ->addFieldToFilter('program_id', $programId)
@@ -62,15 +61,12 @@ class Magestore_Affiliateplusprogram_Helper_Data extends Mage_Core_Helper_Abstra
         $categoryIds = array();
         foreach ($categoryCollection as $category)
             $categoryIds[] = $category->getCategoryId();
-			
         if (count($categoryIds)) {
             $productCollection = Mage::getResourceModel('catalog/product_collection');
-		
             $productCollection->getSelect()
                     ->join(
-                            array('c' => $productCollection->getTable('catalog/category_product')), 'e.entity_id = c.product_id', array()
-                    )
-					->where('c.category_id IN (' . implode(',', $categoryIds) . ')')
+                            array('c' => $productCollection->getTable('catalog/category_product_index')), 'e.entity_id = c.product_id', array()
+                    )->where('c.category_id IN (' . implode(',', $categoryIds) . ')')
                     ->group('e.entity_id');
             $productIds = $productCollection->getAllIds();
         }

@@ -3,7 +3,7 @@
     <modules>
         <Magestore_Affiliateplusstatistic>
             <!--Changed By Adam 04/11/2014: accepted by Blanka-->
-            <version>0.4.2</version>
+            <version>0.4.3</version>
         </Magestore_Affiliateplusstatistic>
     </modules>
     <frontend>
@@ -37,7 +37,8 @@
         <!--    	</events>-->
     </frontend>
     <admin>
-        <routers>
+<!--        Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2-->
+<!--        <routers>
             <affiliateplusstatistic>
                 <use>admin</use>
                 <args>
@@ -45,6 +46,15 @@
                     <frontName>affiliateplusstatistic</frontName>
                 </args>
             </affiliateplusstatistic>
+        </routers>-->
+        <routers>
+            <adminhtml> 
+                <args> 
+                    <modules> 
+                        <Magestore_Affiliateplusstatistic after="Mage_Adminhtml">Magestore_Affiliateplusstatistic_Adminhtml</Magestore_Affiliateplusstatistic>
+                    </modules> 
+                </args> 
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>

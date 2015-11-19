@@ -2,11 +2,11 @@
 <config>
     <modules>
         <Magestore_Affiliatepluspayment>
-            <version>0.4.2</version>
+            <version>0.4.3</version>
         </Magestore_Affiliatepluspayment>
     </modules>
     <frontend>
-         <routers>
+        <routers>
             <affiliatepluspayment>
                 <use>standard</use>
                 <args>
@@ -22,33 +22,33 @@
                 </affiliatepluspayment>
             </updates>
         </layout>
-    	<events>
-    		<affiliateplus_request_payment_action_offline>
-				<observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>requestPaymentActionOffline</method>
-					</affiliatepluspayment>
-				</observers>
-			</affiliateplus_request_payment_action_offline>
-    		<affiliateplus_request_payment_action_bank>
-				<observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>requestPaymentActionBank</method>
-					</affiliatepluspayment>
-				</observers>
-			</affiliateplus_request_payment_action_bank>
+        <events>
+            <affiliateplus_request_payment_action_offline>
+                <observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>requestPaymentActionOffline</method>
+                    </affiliatepluspayment>
+                </observers>
+            </affiliateplus_request_payment_action_offline>
+            <affiliateplus_request_payment_action_bank>
+                <observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>requestPaymentActionBank</method>
+                    </affiliatepluspayment>
+                </observers>
+            </affiliateplus_request_payment_action_bank>
             <affiliateplus_request_payment_action_moneybooker>
                 <observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>requestPaymentActionMoneybooker</method>
-					</affiliatepluspayment>
-				</observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>requestPaymentActionMoneybooker</method>
+                    </affiliatepluspayment>
+                </observers>
             </affiliateplus_request_payment_action_moneybooker>
             <!-- Magic 28/11/2012 -->
             <controller_action_postdispatch_affiliateplus_account_editPost>
@@ -70,94 +70,94 @@
                 </observers>
             </affiliateplus_payment_prepare_data>
             <!--End -->
-    	</events>
-		<translate>
-        	<modules>
-        		<Magestore_Affiliatepluspayment>
-        			<files>
-        				<default>Magestore_Affiliatepluspayment.csv</default>
-        			</files>
-        		</Magestore_Affiliatepluspayment>
-        	</modules>
+        </events>
+        <translate>
+            <modules>
+                <Magestore_Affiliatepluspayment>
+                    <files>
+                        <default>Magestore_Affiliatepluspayment.csv</default>
+                    </files>
+                </Magestore_Affiliatepluspayment>
+            </modules>
         </translate>
     </frontend>
     <adminhtml>
-    	<events>
-    		<affiliateplus_adminhtml_payment_method_form_offline>
-				<observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>paymentMethodFormOffline</method>
-					</affiliatepluspayment>
-				</observers>
-			</affiliateplus_adminhtml_payment_method_form_offline>
-    		<affiliateplus_adminhtml_payment_method_form_bank>
-				<observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>paymentMethodFormBank</method>
-					</affiliatepluspayment>
-				</observers>
-			</affiliateplus_adminhtml_payment_method_form_bank>
+        <events>
+            <affiliateplus_adminhtml_payment_method_form_offline>
+                <observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>paymentMethodFormOffline</method>
+                    </affiliatepluspayment>
+                </observers>
+            </affiliateplus_adminhtml_payment_method_form_offline>
+            <affiliateplus_adminhtml_payment_method_form_bank>
+                <observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>paymentMethodFormBank</method>
+                    </affiliatepluspayment>
+                </observers>
+            </affiliateplus_adminhtml_payment_method_form_bank>
             
             <affiliateplus_adminhtml_payment_method_form_moneybooker>
                 <observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>paymentMethodFormMoneybooker</method>
-					</affiliatepluspayment>
-				</observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>paymentMethodFormMoneybooker</method>
+                    </affiliatepluspayment>
+                </observers>
             </affiliateplus_adminhtml_payment_method_form_moneybooker>
             <affiliateplus_adminhtml_add_account_fieldset>
                 <observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>addMoneybookerEmail</method>
-					</affiliatepluspayment>
-				</observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>addMoneybookerEmail</method>
+                    </affiliatepluspayment>
+                </observers>
             </affiliateplus_adminhtml_add_account_fieldset>
 			
-			<admin_system_config_changed_section_affiliateplus_payment>
-				<observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>checkPaymentMethod</method>
-					</affiliatepluspayment>
-				</observers>
-			</admin_system_config_changed_section_affiliateplus_payment>
+            <admin_system_config_changed_section_affiliateplus_payment>
+                <observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>checkPaymentMethod</method>
+                    </affiliatepluspayment>
+                </observers>
+            </admin_system_config_changed_section_affiliateplus_payment>
             
             <affiliateplus_adminhtml_change_column_payment_grid>
                 <observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>changeColumnPaymentGrid</method>
-					</affiliatepluspayment>
-				</observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>changeColumnPaymentGrid</method>
+                    </affiliatepluspayment>
+                </observers>
             </affiliateplus_adminhtml_change_column_payment_grid>
             <affiliateplus_adminhtml_add_field_payment_form>
                 <observers>
-					<affiliatepluspayment>
-						<type>singleton</type>
-						<class>affiliatepluspayment/observer</class>
-						<method>addFieldPaymentForm</method>
-					</affiliatepluspayment>
-				</observers>
+                    <affiliatepluspayment>
+                        <type>singleton</type>
+                        <class>affiliatepluspayment/observer</class>
+                        <method>addFieldPaymentForm</method>
+                    </affiliatepluspayment>
+                </observers>
             </affiliateplus_adminhtml_add_field_payment_form>
-    	</events>
-		<translate>
-        	<modules>
-        		<Magestore_Affiliatepluspayment>
-        			<files>
-        				<default>Magestore_Affiliatepluspayment.csv</default>
-        			</files>
-        		</Magestore_Affiliatepluspayment>
-        	</modules>
+        </events>
+        <translate>
+            <modules>
+                <Magestore_Affiliatepluspayment>
+                    <files>
+                        <default>Magestore_Affiliatepluspayment.csv</default>
+                    </files>
+                </Magestore_Affiliatepluspayment>
+            </modules>
         </translate>
     </adminhtml>
     <global>
@@ -173,10 +173,10 @@
                         <table>affiliatepluspayment_offline</table>
                     </offline>
                     <bank>
-                    	<table>affiliatepluspayment_bank</table>
+                        <table>affiliatepluspayment_bank</table>
                     </bank>
                     <bankaccount>
-                    	<table>affiliatepluspayment_bankaccount</table>
+                        <table>affiliatepluspayment_bankaccount</table>
                     </bankaccount>
                     <moneybooker>
                         <table>affiliatepluspayment_moneybooker</table>
@@ -235,32 +235,32 @@
                 <default_method>bank</default_method>
             </payment>
         </affiliateplus>
-    	<affiliateplus_payment>
-			<paypal>
-    			<active>1</active>
-				<label>PayPal Payment</label>
+        <affiliateplus_payment>
+            <paypal>
+                <active>1</active>
+                <label>PayPal Payment</label>
                 <require_authentication>1</require_authentication>
                 <use_for_recurring>1</use_for_recurring>
-				<!--<model>affiliateplus/payment/paypal</model>-->
+                <!--<model>affiliateplus/payment/paypal</model>-->
                 <helper>affiliatepluspayment/paypal</helper>
                 <user_mechant_email_default>1</user_mechant_email_default>
-    		</paypal>
-    		<offline>
-    			<active>1</active>
-				<label>Offline Payment</label>
+            </paypal>
+            <offline>
+                <active>1</active>
+                <label>Offline Payment</label>
                 <require_authentication>0</require_authentication>
-				<model>affiliatepluspayment/offline</model>
-				<!--<fee_type>percentage</fee_type>
-				<fee_value>0</fee_value>-->
-    		</offline>
-    		<bank>
-    			<active>1</active>
-				<label>Bank Transfer Payment</label>
+                <model>affiliatepluspayment/offline</model>
+                <!--<fee_type>percentage</fee_type>
+                <fee_value>0</fee_value>-->
+            </offline>
+            <bank>
+                <active>1</active>
+                <label>Bank Transfer Payment</label>
                 <require_authentication>0</require_authentication>
-				<model>affiliatepluspayment/bank</model>
-				<!--<fee_type>percentage</fee_type>
-				<fee_value>0</fee_value>-->
-    		</bank>
+                <model>affiliatepluspayment/bank</model>
+                <!--<fee_type>percentage</fee_type>
+                <fee_value>0</fee_value>-->
+            </bank>
             <moneybooker>
                 <active>1</active>
                 <label>Moneybooker Payment</label>
@@ -279,12 +279,12 @@
                 <amount_value>10</amount_value>
                 <max_account>0</max_account>
                 <admin_email>1</admin_email>
-<!--                <email_address></email_address>-->
+                <!--                <email_address></email_address>-->
                 <admin_template>affiliateplus_payment_recurring_admin_template</admin_template>
                 <account_email>1</account_email>
                 <account_template>affiliateplus_payment_recurring_account_template</account_template>
             </recurring>
-    	</affiliateplus_payment>
+        </affiliateplus_payment>
     </default>
     <crontab>
         <jobs>

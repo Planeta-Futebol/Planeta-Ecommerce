@@ -5,7 +5,7 @@ class Magestore_Affiliatepluscoupon_Block_Adminhtml_Account_Renderer_Program ext
 	public function render(Varien_Object $row){
 		if ($row->getProgramId()){
 			return sprintf("<a href='%s' title='%s'>%s</a>"
-				,$this->getUrl('affiliateplusprogramadmin/adminhtml_program/edit',array('id' => $row->getProgramId()))
+				,$this->getUrl('adminhtml/affiliateplusprogram_program/edit',array('id' => $row->getProgramId())) 		//Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
 				,$this->__('View Program')
 				,$row->getProgramName()
 			);

@@ -3,7 +3,7 @@
     <modules>
         <Magestore_Affiliatepluslevel>
             <!--Changed By Adam 04/11/2014: accepted by Blanka-->
-            <version>0.4.2</version>
+            <version>0.4.3</version>
         </Magestore_Affiliatepluslevel>
     </modules>
     <frontend>
@@ -75,7 +75,8 @@
         </translate>
     </frontend>
     <admin>
-        <routers>
+<!--        Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2-->
+<!--        <routers>
             <affiliateplusleveladmin>
                 <use>admin</use>
                 <args>
@@ -83,6 +84,15 @@
                     <frontName>affiliateplusleveladmin</frontName>
                 </args>
             </affiliateplusleveladmin>
+        </routers>-->
+        <routers>
+            <adminhtml> 
+                <args> 
+                    <modules> 
+                        <Magestore_Affiliatepluslevel after="Mage_Adminhtml">Magestore_Affiliatepluslevel_Adminhtml</Magestore_Affiliatepluslevel>
+                    </modules> 
+                </args> 
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>

@@ -32,7 +32,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
 
         $orderJoinCondition = array(
                 $orderTableAliasName . '.entity_id = order_items.order_id',
-                $adapter->quoteInto("{$orderTableAliasName}.state = ?", Mage_Sales_Model_Order::STATE_PROCESSING),
+                $adapter->quoteInto("{$orderTableAliasName}.state = ?", Mage_Sales_Model_Order::STATE_COMPLETE),
 
         );
 
@@ -56,11 +56,11 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         'sku' => 'order_items.sku',
                         'type_id' => 'order_items.product_type',
                         'shipping_address_id' => 'order.shipping_address_id',
-                        'unic_price' => 'order.grand_total',
+                        'unic_price' => 'order_items.price',
                 ))
                 ->columns(array(
                         'qty_ordered' => new Zend_Db_Expr("SUM(order_items.qty_ordered)"),
-                        'total_sold' => new Zend_Db_Expr("(grand_total * SUM(order_items.qty_ordered))")
+                        'total_sold' => new Zend_Db_Expr("(order_items.price * SUM(order_items.qty_ordered))")
                 ))
                 ->joinInner(
                         array('order' => $this->getTable('sales/order')),

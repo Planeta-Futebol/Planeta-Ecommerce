@@ -45,19 +45,10 @@ class Magestore_Affiliateplus_Block_Sales_Standard extends Mage_Core_Block_Templ
         $grid = $this->getLayout()->createBlock('affiliateplus/grid', 'sales_grid');
 
         // prepare column
-
-        // $grid->addColumn('id', array(
-        //     'header' => $this->__('No.'),
-        //     'align' => 'left',
-        //     'render' => 'getNoNumber',
-        // ));
-
-        $grid->addColumn('customer', array(
-            'header' => 'Nome do Cliente',
-            'index' => 'customer_id',
+        $grid->addColumn('id', array(
+            'header' => $this->__('No.'),
             'align' => 'left',
-            'render' => 'getFrontendCustomerName',
-            'searchable'    => true,
+            'render' => 'getNoNumber',
         ));
 
         $grid->addColumn('created_time', array(
@@ -69,21 +60,14 @@ class Magestore_Affiliateplus_Block_Sales_Standard extends Mage_Core_Block_Templ
             'searchable'    => true,
         ));
 
-        $grid->addColumn('status', array(
-            'header' => $this->__('Status'),
+        $grid->addColumn('order_item_names', array(
+            'header' => $this->__('Products Name'),
+            'index' => 'order_item_names',
             'align' => 'left',
-            'index' => 'status',
-            'width' => '95px',
-            'type' => 'options',
-            'options' => array(
-                1 => $this->__('Completed'),
-                2 => $this->__('Pending'),
-                3 => $this->__('Canceled'),
-                4 => $this->__('On Hold'),
-            ),
+            'render' => 'getFrontendProductHtmls',
             'searchable'    => true,
         ));
-        
+
         $grid->addColumn('total_amount', array(
             'header' => $this->__('Total Amount'),
             'align' => 'left',
@@ -106,7 +90,21 @@ class Magestore_Affiliateplus_Block_Sales_Standard extends Mage_Core_Block_Templ
             'grid' => $grid,
         ));
 
-      
+        $grid->addColumn('status', array(
+            'header' => $this->__('Status'),
+            'align' => 'left',
+            'index' => 'status',
+            'width' => '95px',
+            'type' => 'options',
+            'options' => array(
+                1 => $this->__('Complete'),
+                2 => $this->__('Pending'),
+                3 => $this->__('Canceled'),
+                4 => $this->__('On Hold'),
+            ),
+            'searchable'    => true,
+        ));
+
         $this->setChild('sales_grid', $grid);
         return $this;
     }
@@ -117,10 +115,6 @@ class Magestore_Affiliateplus_Block_Sales_Standard extends Mage_Core_Block_Templ
 
     public function getFrontendProductHtmls($row) {
         return Mage::helper('affiliateplus')->getFrontendProductHtmls($row->getData('order_item_ids'));
-    }
-
-    public function getFrontendCustomerName($row) {
-        return Mage::helper('affiliateplus')->getFrontendCustomerName($row->getData('customer_id'));
     }
 
     public function getCommissionPlus($row) {

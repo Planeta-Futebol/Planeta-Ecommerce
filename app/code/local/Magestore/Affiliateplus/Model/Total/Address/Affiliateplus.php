@@ -20,6 +20,9 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
         if (!Mage::helper('affiliateplus')->isAffiliateModuleEnabled())
             return $this;
 
+        // Changed By Adam 07/10/2015: Fixed issue calculate discount when purchase recurring product
+        if($address->getSubtotal() == 0) return $this;
+        
         /* Changed By Adam: 06/11/2014: Fix loi hidden tax */
         $quote = $address->getQuote();
         $applyTaxAfterDiscount = (bool) Mage::getStoreConfig(
@@ -189,8 +192,11 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
                                     if (Mage::helper('tax')->priceIncludesTax()) {
                                         $rate = $this->getItemRateOnQuote($address, $child->getProduct(), $store);
                                         if ($rate > 0) {
-                                            $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
-                                            $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
+//                                            Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                            $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $child->getBaseTaxableAmount(), $rate));
+                                            $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $child->getTaxableAmount(), $rate));
+//                                            $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
+//                                            $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
                                         }
                                     }
                                 }
@@ -217,8 +223,11 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
                                 if (Mage::helper('tax')->priceIncludesTax()) {
                                     $rate = $this->getItemRateOnQuote($address, $item->getProduct(), $store);
                                     if ($rate > 0) {
-                                        $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
-                                        $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
+//                                        Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                        $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $item->getBaseTaxableAmount(), $rate));
+                                        $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $item->getTaxableAmount(), $rate));
+//                                        $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
+//                                        $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
                                     }
                                 }
                             }
@@ -265,8 +274,11 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
                                 if (Mage::helper('tax')->priceIncludesTax()) {
                                     $rate = $this->getItemRateOnQuote($address, $child->getProduct(), $store);
                                     if ($rate > 0) {
-                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
-                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
+//                                        Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $child->getBaseTaxableAmount(), $rate));
+                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $child->getTaxableAmount(), $rate));
+//                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
+//                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
                                     }
                                 }
                             }
@@ -295,8 +307,11 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
                             if (Mage::helper('tax')->priceIncludesTax()) {
                                 $rate = $this->getItemRateOnQuote($address, $item->getProduct(), $store);
                                 if ($rate > 0) {
-                                    $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
-                                    $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
+//                                    Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                    $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $item->getBaseTaxableAmount(), $rate));
+                                    $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $item->getTaxableAmount(), $rate));
+//                                    $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
+//                                    $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
                                 }
                             }
                         }
@@ -317,6 +332,7 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
                         if (in_array($item->getId(), $discountedItems) && !Mage::helper('affiliateplus')->isAdmin()) {
                             continue;
                         }
+                        $itemBaseDiscount = 0;  // Changed By Adam to fix the problem of calculate discount
                         if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                             foreach ($item->getChildren() as $child) {
                                 /* hainh add this for calculating discount base on incl or excl tax price 22-04-2014 */
@@ -343,8 +359,12 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
                                 if (Mage::helper('tax')->priceIncludesTax()) {
                                     $rate = $this->getItemRateOnQuote($address, $child->getProduct(), $store);
                                     if ($rate > 0) {
-                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
-                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
+//                                        Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $child->getBaseTaxableAmount(), $rate));
+                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $child->getTaxableAmount(), $rate));
+//                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
+//                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
+                                        
                                     }
                                 }
                             }
@@ -372,8 +392,11 @@ class Magestore_Affiliateplus_Model_Total_Address_Affiliateplus extends Mage_Sal
                             if (Mage::helper('tax')->priceIncludesTax()) {
                                 $rate = $this->getItemRateOnQuote($address, $item->getProduct(), $store);
                                 if ($rate > 0) {
-                                    $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
-                                    $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
+//                                    Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                    $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $item->getBaseTaxableAmount(), $rate));
+                                    $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $item->getTaxableAmount(), $rate));
+//                                    $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
+//                                    $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
                                 }
                             }
                         }

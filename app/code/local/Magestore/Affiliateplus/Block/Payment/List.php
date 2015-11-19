@@ -43,7 +43,7 @@ class Magestore_Affiliateplus_Block_Payment_List extends Mage_Core_Block_Templat
         ));
 
         $grid->addColumn('request_time', array(
-            'header' => $this->__('Requested Date'),
+            'header' => $this->__('Date Requested'),
             'index' => 'request_time',
             'type' => 'date',
             'format' => 'medium',
@@ -89,7 +89,7 @@ class Magestore_Affiliateplus_Block_Payment_List extends Mage_Core_Block_Templat
             'options' => array(
                 1 => $this->__('Pending'),
                 2 => $this->__('Processing'),
-                3 => $this->__('Completed'),
+                3 => $this->__('Complete'),
                 4 => $this->__('Canceled'),
             ),
             'width' => '95px',

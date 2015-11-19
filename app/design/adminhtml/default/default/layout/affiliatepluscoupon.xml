@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <affiliatepluscouponadmin_adminhtml_account_coupons>
+<!--    Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2-->
+    <adminhtml_affiliatepluscoupon_account_coupons>
         <block type="core/text_list" name="root">
             <block type="affiliatepluscoupon/adminhtml_account_edit_tab_coupon" name="account.tabs.coupon" />
             <block type="adminhtml/widget_grid_serializer" name="related_grid_serializer">
@@ -15,24 +16,24 @@
                 </action>
             </block>
         </block>
-    </affiliatepluscouponadmin_adminhtml_account_coupons>
-    <affiliatepluscouponadmin_adminhtml_account_couponsgrid>
+    </adminhtml_affiliatepluscoupon_account_coupons>
+    <adminhtml_affiliatepluscoupon_account_couponsgrid>
         <block type="core/text_list" name="root">
             <block type="affiliatepluscoupon/adminhtml_account_edit_tab_coupon" name="account.tabs.coupon" />
         </block>
-    </affiliatepluscouponadmin_adminhtml_account_couponsgrid>
+    </adminhtml_affiliatepluscoupon_account_couponsgrid>
 	
-    <affiliatepluscouponadmin_adminhtml_transaction_index>
+    <adminhtml_affiliatepluscoupon_transaction_index>
         <reference name="content">
             <block type="affiliatepluscoupon/adminhtml_transaction" name="transaction" />
         </reference>
-    </affiliatepluscouponadmin_adminhtml_transaction_index>
+    </adminhtml_affiliatepluscoupon_transaction_index>
 	
-    <affiliatepluscouponadmin_adminhtml_link_index>
+    <adminhtml_affiliatepluscoupon_link_index>
         <reference name="content">
             <block type="affiliatepluscoupon/adminhtml_link" name="transaction" />
         </reference>
-    </affiliatepluscouponadmin_adminhtml_link_index>
+    </adminhtml_affiliatepluscoupon_link_index>
         
     <!--hainh  23-07-2014 -->
     <adminhtml_sales_order_create_index>

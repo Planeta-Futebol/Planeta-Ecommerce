@@ -1,8 +1,8 @@
 =========================================================
 Software License Information
 ----------------------------
-
-
+No. of License: 008853
+License Serial: PVRH-CO8FLR-TZ9TCBUP
 Product Name: Affiliate Plus Platinum 
 License Type: Commercial for one Magento installation
 SKU: affiliateplus-platinum

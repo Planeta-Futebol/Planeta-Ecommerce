@@ -26,7 +26,7 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                     <p>
                         <strong>Hello {{htmlescape var=$payment.getAccountName()}}</strong>,<br/>
                         Your balance has reached the withdrawal threshold and we conducted withdrawal for you.
-                        Please login to check your withdrawal at <a href="{{store url='affiliateplus/index/listPayment'}}" style="color:#1E7EC8;">View Withdrawals</a><br>
+                        Please login to check your withdrawal at <a href="{{store url='affiliateplus/index/payments'}}" style="color:#1E7EC8;">View Withdrawals</a><br>
 						If you have any questions about your balance please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span> Monday - Friday, 8am - 5pm PST.
                     </p>
                     <p>Your withdrawal confirmation is below. Thank you for your participation.</p>

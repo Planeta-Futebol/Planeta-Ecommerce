@@ -379,15 +379,7 @@ button {
     width: 100%;
     float: left;
 }
-@media screen and (max-width: 1050px) {
-    //width: 50% !important; 
-}
-@media screen and (max-width: 979px) {
-    // width: 60% !important; 
-}
-@media screen and (max-width: 768px) {
-    //width: 80% !important; 
-}
+
 /*=============Checkout-affiliate=============*/
 .img-reload {
     width: 30px;
@@ -468,7 +460,7 @@ button {
     margin-left: 15px;
     margin-bottom: 10px;
 }
-.affiliate-page .actions{
+.affiliate-page .aff-main-content .actions{
     padding-left: 20px;
     padding-bottom: 20px;
 }
@@ -514,7 +506,7 @@ signup_affiliate_account_form{
     /*    max-width:100%;*/
 
 }
-.affiliate-page a:active,.affiliate-page a:focus, .affiliate-page a:hover {
+.affiliate-page  a:active,.affiliate-page a:focus, .affiliate-page a:hover {
     outline: none;
 }
 .affiliate-page .btn:focus,
@@ -685,4 +677,17 @@ textarea.widgets-code, textarea#affiliate-email-content{
     margin: 0 0 10px 0;
     float: left;
     width: 100%;
+}
+
+
+/*Changed By Adam 02/05/2015: fix loi CSS cho dob, tax, gender*/
+.form-group .customer-dob{width:100%; float:left;}
+.form-group .dob-month{width:25%; float:left; padding-right:10px;}
+.form-group .dob-day{width:25%; float:left; padding-right:10px;}
+.form-group .dob-year{width:50%; float:left;} 
+.form-group .dob-month .input-text{border-radius:4px; height:34px;}
+.form-group .dob-day .input-text{border-radius:4px; height:34px;} 
+.form-group .dob-year .input-text{border-radius:4px; height:34px;}
+.affiliateplus-account-login .account-login .f-right{
+    float:right;
 }

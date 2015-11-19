@@ -32,7 +32,7 @@ class Magestore_Affiliatepluspayment_Block_Confirm extends Mage_Core_Block_Templ
     	return array(
 			1	=> $this->__('Pending'),
 			2	=> $this->__('Processing'),
-			3	=> $this->__('Completed'),
+			3	=> $this->__('Complete'),
 		);
     }
     

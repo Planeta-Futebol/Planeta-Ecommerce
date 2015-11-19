@@ -318,8 +318,8 @@ class Franchise_Stock_Model_Dashboard
     }
 
     /**
-     * Returns the five largest comições generators for a range of days, if
-     * $intervalDays is omitdo returns the five largest comições generators,
+     * Returns the five largest commissions generators for a range of days, if
+     * $intervalDays is omitted returns the five largest comições generators,
      *
      * @param null $intervalDays
      * @return array
@@ -331,23 +331,24 @@ class Franchise_Stock_Model_Dashboard
         $collection = Mage::getModel('affiliateplus/transaction')->getCollection();
         $collection->addFieldToFilter('account_id', array('in' => $existedAccount->getId()));
 
-        if ( !is_null($intervalDays)) {
+        if ( !is_null($intervalDays) ) {
             $collection->getSelect()->where("created_time BETWEEN date(NOW()) AND DATE_SUB(date(NOW()), INTERVAL $intervalDays DAY)");
         }
 
         $collection->getSelect()
+                ->columns(array('commission' => 'SUM(commission)'))
+                ->group('customer_id')
                 ->order('commission DESC')
                 ->limit(5);
 
         $arrFullCommission = array();
-        $key = 0;
         foreach ($collection as $commissions) {
             $commission = $commissions->getCommission();
             $customer = Mage::getModel('customer/customer')->load($commissions->getCustomer_id());
 
             $fullName = $customer->getData('firstname') . " " . $customer->getData('lastname');
 
-            $arrFullCommission[$key] = array(
+            $arrFullCommission[] = array(
                     'commission' => $commission,
                     'name' => $fullName
             );

@@ -38,6 +38,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                     <input type="password" placeholder="<?php echo $this->__('Password') ?>" name="login[password]" class="form-control input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
                 </div>
                 <p class="required" ><?php echo $this->__('* Required Fields') ?></p>
+                <a href="<?php echo $this->getUrl('customer/account/forgotpassword/'); ?>" class="f-right"><?php echo $this->__('Forgot Your Password?') ?></a>
                 <button type="submit" title="<?php echo $this->__('Login') ?>" class="button button-config"  name="send" id="send2">
                     <span>
                         <span><?php echo $this->__('Login') ?></span>
@@ -48,3 +49,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 </div>
 </div>
 </div>
+<!--Changed By Adam 26/06/2015 fix issue: Doesn't verify require field before submit-->
+<script type="text/javascript">
+    var loginAffiliateAccountForm = new VarienForm('login-form', true);
+</script>

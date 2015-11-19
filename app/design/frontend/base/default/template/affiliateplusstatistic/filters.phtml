@@ -181,7 +181,7 @@ if ($check_responsvie) {
                 <div class="<?php echo $class_name_col; ?>">
                     <label for="status" ><?php echo $this->__(''); ?></label>
                     <select id="sales_report_order_statuses" name="order_statuses[]" size="10" class="form-control" multiple="multiple">
-                        <option value="1"><?php echo $this->__('Completed') ?></option>
+                        <option value="1"><?php echo $this->__('Complete') ?></option>
                         <option value="2"><?php echo $this->__('Pending') ?></option>
                         <option value="3"><?php echo $this->__('Canceled') ?></option>
                     </select>
@@ -263,7 +263,7 @@ if ($check_responsvie) {
         }
         if (status.length)
             status = status.substr(0, status.length - 1);
-        var url = '<?php echo $this->getUrl('affiliateplusstatistic/statistic/report'); ?>' + '?report_type=' + report_type + '&group_by=' + group_by + '&period=' + period;
+        var url = '<?php echo $this->getUrl('affiliateplusstatisticfrontend/statistic/report'); ?>' + '?report_type=' + report_type + '&group_by=' + group_by + '&period=' + period;
         if (date_from)
             url += '&date_from=' + date_from;
         if (date_to)
@@ -290,11 +290,9 @@ if ($check_responsvie) {
 //    }
     function exportFile(report_type, group_by, period) {
         var type = $('export-type').value;
-        alert(type);
         var date_from = $('date_from').value;
         var date_to = $('date_to').value;
         var select_status = $('status').value;
-        alert(select_status);
         var status = '';
         var j = 0;
         if (select_status == 2) {
@@ -309,9 +307,9 @@ if ($check_responsvie) {
             status = status.substr(0, status.length - 1);
         var url = '';
         if (type == 1)
-            url = '<?php echo $this->getUrl('affiliateplusstatistic/statistic/exportSalesCsv'); ?>' + '?report_type=' + report_type + '&group_by=' + group_by + '&period=' + period;
+            url = '<?php echo $this->getUrl('affiliateplusstatisticfrontend/statistic/exportSalesCsv'); ?>' + '?report_type=' + report_type + '&group_by=' + group_by + '&period=' + period;
         else
-            url = '<?php echo $this->getUrl('affiliateplusstatistic/statistic/exportXml'); ?>' + '?report_type=' + report_type + '&group_by=' + group_by + '&period=' + period;
+            url = '<?php echo $this->getUrl('affiliateplusstatisticfrontend/statistic/exportXml'); ?>' + '?report_type=' + report_type + '&group_by=' + group_by + '&period=' + period;
         if (date_from)
             url += '&date_from=' + date_from;
         if (date_to)

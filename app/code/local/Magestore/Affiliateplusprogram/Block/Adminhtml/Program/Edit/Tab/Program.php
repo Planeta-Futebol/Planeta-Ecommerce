@@ -73,7 +73,7 @@ class Magestore_Affiliateplusprogram_Block_Adminhtml_Program_Edit_Tab_Program ex
       ));
       
       $this->addColumn('program_created_date', array(
-          'header'    => Mage::helper('affiliateplusprogram')->__('Created Date'),
+          'header'    => Mage::helper('affiliateplusprogram')->__('Date Created'),
           'align'     => 'left',
           'type'      => 'date',
           'index'     => 'created_date',
@@ -98,19 +98,21 @@ class Magestore_Affiliateplusprogram_Block_Adminhtml_Program_Edit_Tab_Program ex
 		));
     }
     
-    public function getRowUrl($row){
-		return $this->getUrl('affiliateplusprogramadmin/adminhtml_program/edit', array(
-			'id' 	=> $row->getId(),
-			'store'	=>$this->getRequest()->getParam('store')
-		));
-	}
-	
-	public function getGridUrl(){
-        return $this->getUrl('affiliateplusprogramadmin/adminhtml_program/programGrid',array(
-        	'_current'	=>true,
-        	'id'		=>$this->getRequest()->getParam('id'),
-        	'store'		=>$this->getRequest()->getParam('store')
-    	));
+    public function getRowUrl($row) {
+        //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+        return $this->getUrl('adminhtml/affiliateplusprogram_program/edit', array(
+                    'id' => $row->getId(),
+                    'store' => $this->getRequest()->getParam('store')
+        ));
+    }
+
+    public function getGridUrl() {
+        //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+        return $this->getUrl('adminhtml/affiliateplusprogram_program/programGrid', array(
+                    '_current' => true,
+                    'id' => $this->getRequest()->getParam('id'),
+                    'store' => $this->getRequest()->getParam('store')
+        ));
     }
     
     protected function _getSelectedPrograms(){

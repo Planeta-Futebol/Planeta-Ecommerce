@@ -103,7 +103,8 @@ class Magestore_Affiliateplusstatistic_Block_Grids_Affiliates extends Mage_Admin
     }
     
     public function getRowUrl($row){
-    	return $this->getUrl('affiliateplusadmin/adminhtml_account/edit',array(
+        //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+    	return $this->getUrl('adminhtml/affiliateplus_account/edit',array(
     		'id' => $row->getId(),
     		'store' => $this->getRequest()->getParam('store')
     	));
