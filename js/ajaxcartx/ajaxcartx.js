@@ -2433,6 +2433,7 @@ Ajaxcartx.prototype = {
 				//disable all buttons, inputs, links etc.
 				jQueryAC('#ac-popup-top-bkg').show();
 
+				addToCartUrl = this.refactorUrlAddTocart(addToCartUrl, productId);
 				jQueryAC('#'+formId).ajaxSubmit({ 
 			        url:  addToCartUrl,      
 			        type: 'post',
@@ -2518,7 +2519,27 @@ Ajaxcartx.prototype = {
 			    }); 
 			}
 		}
-	},	
+	},
+
+	/**
+	 * Corrects the url that has Id wrong for configurable products.
+	 *
+	 * @param url - Wrong url
+	 * @param productId - Correct Id product
+	 * @returns {string}
+	 */
+	refactorUrlAddTocart: function(url, productId){
+		var spliter = 'product/';
+		var arrPartialRefactorUrl = url.split('product/');
+		var arrLastPartUrl = arrPartialRefactorUrl[1].split('/');
+		var refactedProductId = "";
+
+		for(i = 1; i < arrLastPartUrl.length - 1; i++){
+			refactedProductId += arrLastPartUrl[i]+'/';
+		}
+
+		return arrPartialRefactorUrl[0] + spliter + productId + '/' + refactedProductId;
+	},
 	
 	//update cart sidebar block
 	updateCart: function(response){
