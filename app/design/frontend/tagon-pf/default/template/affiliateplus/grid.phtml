@@ -137,7 +137,7 @@
                       </div>
                     </div>
                   <?php else: ?>
-                      <input class="form-control" type="text" name="<?php echo $id ?>" id="<?php echo $this->getNameInLayout() . '-' . $id ?>"  value="<?php echo $this->getFilterValue($id) ?>" />
+                      <input class="form-control" type="text" name="<?php echo 'name_user' ?>" id="<?php echo $this->getNameInLayout() . '-' . 'name_user' ?>"  value="<?php echo $this->getFilterValue('name_user') ?>" />
                   <?php endif ?>
                 <?php endif ?>
             <?php endforeach ?>
@@ -151,9 +151,11 @@
             </tr>
           <?php endif ?>
           <tr <?php if ($this->getData('add_searchable_row')): ?>class="affiliateplus-grid-title"<?php endif ?>>
-            <?php foreach ($columns as $id => $column): ?>
-              <th><?php echo $column['header'] ?></th>
-            <?php endforeach ?>
+              <th>No.</th>
+              <th>Data</th>
+              <th>Cliente</th>
+              <th>Valor total</th>
+              <th>Comissão</th>
           </tr>
           <tr class="total">
             <td colspan="5">
@@ -167,49 +169,11 @@
                 <?php foreach ($collection as $row): ?>
                     <?php if ($row->getIsContinueNextRow()) continue; ?>
                     <tr>
-                        <?php foreach ($columns as $id => $column): ?>
-                            <td>
-                                <?php if (isset($column['render']) && $column['render']): ?>
-                                    <?php echo $this->fetchRender($column['render'], $row) ?>
-                                <?php else: ?>
-                                    <?php $type = isset($column['type']) ? $column['type'] : '' ?>
-                                    <?php switch ($type): case 'action': ?>
-                                            <?php $action = $column['action'] ?>
-                                            <a href="<?php echo $this->getUrl($action['url'], array($action['name'] => $row->getData($action['field']))) ?>" title="<?php echo $action['label'] ?>"><?php echo $action['label'] ?></a>
-                                            <?php
-                                            break;
-                                        case 'options':
-                                            ?>
-                                            <?php echo $column['options'][$row->getData($column['index'])] ?>
-                                            <?php
-                                            break;
-                                        case 'date':
-                                            ?>
-                                            <?php echo $this->formatDate($row->getData($column['index']), $column['format'], false) ?>
-                                            <?php
-                                            break;
-                                        case 'datetime':
-                                            ?>
-                                            <?php echo $this->formatDate($row->getData($column['index']), $column['format'], true) ?>
-                                            <?php
-                                            break;
-                                        case 'price':
-                                            ?>
-                                            <?php echo Mage::app()->getStore()->formatPrice($row->getData($column['index'])) ?>
-                                            <?php
-                                            break;
-                                        case 'baseprice':
-                                            ?>
-                                            <?php echo Mage::helper('core')->currency($row->getData($column['index'])) ?>
-                                            <?php
-                                            break;
-                                        default:
-                                            ?>
-                                            <?php echo $row->getData($column['index']) ?>
-                                    <?php endswitch ?>
-                                <?php endif ?>
-                            </td>
-                        <?php endforeach ?>
+                        <td><?php echo "#{$row['order_number']}"; ?></td>
+                        <td><?php echo $this->formatDate($row['created_time']); ?></td>
+                        <td><?php echo $row['full_name']; ?></td>
+                        <td><?php echo Mage::helper('core')->currency($row['total_amount']); ?></td>
+                        <td><?php echo Mage::helper('core')->currency($row['commission']); ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php else: ?>
@@ -223,5 +187,6 @@
             <?php endif ?>
         </tbody>
     </table>
+    <style>.price{width: 133px !important;} .form-control{padding: 0 5px !important;}</style>
 </div>
 <?php echo $this->getPagerHtml() ?>
