@@ -36,6 +36,10 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
 
         );
 
+        $couponJoinCondition = array(
+            $orderTableAliasName . '.affiliateplus_coupon = c.coupon_code'
+        );
+
         $productJoinCondition = array(
                 'e.entity_id = order_items.product_id',
                 $adapter->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
@@ -55,8 +59,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         'order_increment_id' => 'order.increment_id',
                         'sku' => 'order_items.sku',
                         'type_id' => 'order_items.product_type',
-                        'shipping_address_id' => 'order.shipping_address_id',
-                        'unic_price' => 'order_items.price',
+                        'shipping_address_id' => 'order.shipping_address_id'
                 ))
                 ->columns(array(
                         'qty_ordered' => new Zend_Db_Expr("SUM(order_items.qty_ordered)"),
@@ -66,6 +69,18 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         array('order' => $this->getTable('sales/order')),
                         implode(' AND ', $orderJoinCondition),
                         array()
+                )
+                ->joinLeft(
+                    array('c' => 'affiliateplus_coupon'),
+                    implode($couponJoinCondition),
+                    array()
+                )
+                ->joinLeft(
+                    array('pro' => 'affiliateplusprogram'),
+                    'c.program_id = pro.program_id',
+                    array(
+                        'discount_amount' => new Zend_Db_Expr("((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100))")
+                    )
                 );
 
         if(!is_null($this->filters['report_district']) && (int) $this->filters['report_district'] != 0){

@@ -92,10 +92,10 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         ));
 
         $this->addColumn('unic_price', array(
-                'header' => Mage::helper('reportneworders')->__('Valor Unitario'),
+                'header' => Mage::helper('reportneworders')->__('Desconto'),
                 'align' => 'left',
                 'sortable' => true,
-                'index' => 'unic_price'
+                'index' => 'discount_amount'
         ));
 
         $this->addColumn('total_sold', array(
