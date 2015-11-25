@@ -125,6 +125,7 @@ SELECT_TYPE_STATES;
 
 
 $fullTotal = 0;
+$fullDiscountValue = 0;
 
 ?>
 <?php if($this->getCollection()): ?>
@@ -258,6 +259,7 @@ $fullTotal = 0;
                             <td rowspan="<?php echo $rows + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0) ?>"><?php echo $_index ?></td>
 
                             <?php $subTotalValue = 0; ?>
+                            <?php $subDiscountValue = 0; ?>
 
                             <?php $i=0;foreach ($report as $_subIndex=>$_subItem): ?>
                                 <?php if($i>0): ?>
@@ -276,9 +278,9 @@ $fullTotal = 0;
 
                                             $subTotalValue += $_html;
 
-
                                             echo Mage::helper('core')->currency($_html);
                                         }elseif( ($j + 1) == $numColumns ){
+                                            $subDiscountValue += $_html;
                                             echo Mage::helper('core')->currency($_html);
                                         }else{
                                             echo ($_html != '' ? $_html : '&nbsp;');
@@ -306,6 +308,9 @@ $fullTotal = 0;
                                         if($j == $numColumnsSubTotal){
                                             $fullTotal += $subTotalValue;
                                             echo Mage::helper('core')->currency($subTotalValue);
+                                        }elseif( ($j + 1) == $numColumns ){
+                                            $fullDiscountValue += $subDiscountValue;
+                                            echo Mage::helper('core')->currency($subDiscountValue);
                                         }
                                         ?>
                                     </td>
@@ -330,6 +335,8 @@ $fullTotal = 0;
                                     <?php
                                     if($j == $numColumnsSubTotal){
                                         echo Mage::helper('core')->currency($fullTotal);
+                                    }elseif( ($j + 1) == $numColumns ){
+                                        echo Mage::helper('core')->currency($fullDiscountValue);
                                     }
                                     ?>
                                 </td>
