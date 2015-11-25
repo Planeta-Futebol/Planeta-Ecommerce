@@ -104,8 +104,8 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                                 'size_label' => 'av.value'
                         ))
                 ->where('parent_item_id IS NULL')
+                ->order('qty_ordered DESC')
                 ->group("DATE_FORMAT(`e`.`created_at`,'%m-%d-%Y')");
-
         return $this;
     }
 
@@ -161,10 +161,6 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
         $itemId = $this->_getItemId($item);
 
         if ( !is_null($itemId)) {
-            if (isset($this->_items[$itemId])) {
-                // Unnecessary exception - http://www.magentocommerce.com/boards/viewthread/10634/P0/
-                //throw new Exception('Item ('.get_class($item).') with the same id "'.$item->getId().'" already exist');
-            }
             $this->_items[$itemId] = $item;
         } else {
             $this->_items[] = $item;
