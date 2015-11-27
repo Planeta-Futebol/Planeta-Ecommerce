@@ -1,9 +1,22 @@
 <?php
+
+/**
+ * Class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid
+ */
 class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
+    /**
+     * Values for filters submitted by the form.
+     *
+     * @var array
+     */
     private $filterData = array();
 
+    /**
+     * Starts standards values and calling default constructor parent class.
+     *
+     */
     public function __construct() {
         parent::__construct();
         $this->setId('reportnewordersGrid');
@@ -13,6 +26,11 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         $this->setSubReportSize(false);
     }
 
+    /**
+     * Sets the collection of data to be used in the report.
+     *
+     * @return $this
+     */
     protected function _prepareCollection() {
         parent::_prepareCollection();
         // Get the data collection from the model
@@ -31,6 +49,13 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         return $this;
     }
 
+    /**
+     * Prepare the columns system to display the data.
+     *
+     *
+     * @return $this|void
+     * @throws Exception
+     */
     protected function _prepareColumns() {
         // Add columns to the grid
         $this->addColumn('sku', array(
@@ -119,6 +144,13 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         return $this->getCollection()->getReport($from, $to);
     }
 
+    /**
+     * Retrieve the values informed the form, if a key is informed
+     * retrieves the key value, if not, retrieves all valore as an array.
+     *
+     * @param null $key
+     * @return array
+     */
     private function getFilterData( $key = null )
     {
         $filter = $this->getParam($this->getVarNameFilter(), null);
