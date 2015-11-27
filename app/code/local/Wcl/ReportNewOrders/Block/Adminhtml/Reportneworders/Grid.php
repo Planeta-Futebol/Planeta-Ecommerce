@@ -91,11 +91,24 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
                 'index' => 'qty_ordered'
         ));
 
-        $this->addColumn('unic_price', array(
+        $this->addColumn('discount_amount', array(
                 'header' => Mage::helper('reportneworders')->__('Desconto'),
                 'align' => 'left',
                 'sortable' => true,
                 'index' => 'discount_amount'
+        ));
+        $this->addColumn('qty_refunded', array(
+                'header'    => Mage::helper('reportneworders')->__('Quantidade devolvida'),
+                'align'     =>'right',
+                'sortable'  => false,
+                'type'      =>'number',
+                'index'     => 'qty_refunded'
+        ));
+        $this->addColumn('amount_refunded', array(
+                'header'   => Mage::helper('reportneworders')->__('Valor devolvido'),
+                'align'    => 'left',
+                'sortable' => true,
+                'index'    => 'amount_refunded'
         ));
 
         $this->addColumn('total_sold', array(

@@ -33,7 +33,6 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
         $orderJoinCondition = array(
                 $orderTableAliasName . '.entity_id = order_items.order_id',
                 $adapter->quoteInto("{$orderTableAliasName}.state = ?", Mage_Sales_Model_Order::STATE_COMPLETE),
-
         );
 
         $couponJoinCondition = array(
@@ -59,6 +58,8 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         'order_increment_id' => 'order.increment_id',
                         'sku' => 'order_items.sku',
                         'type_id' => 'order_items.product_type',
+                        'qty_refunded' => 'order_items.qty_refunded',
+                        'amount_refunded' => 'order_items.amount_refunded',
                         'shipping_address_id' => 'order.shipping_address_id'
                 ))
                 ->columns(array(
