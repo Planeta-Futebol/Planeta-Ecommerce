@@ -10,9 +10,9 @@ class Wcl_ReportNewOrders_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @return array
      */
-    public function getFilters()
+    public function getFilters($key = null)
     {
-        return $this->filters;
+        return (is_null($key)) ? $this->filters : $this->filters[$key];
     }
 
     /**
