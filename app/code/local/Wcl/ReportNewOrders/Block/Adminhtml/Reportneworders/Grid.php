@@ -1,7 +1,22 @@
 <?php
+
+/**
+ * Class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid
+ */
 class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
+    /**
+     * Values for filters submitted by the form.
+     *
+     * @var array
+     */
+    private $filterData = array();
+
+    /**
+     * Starts standards values and calling default constructor parent class.
+     *
+     */
     public function __construct() {
         parent::__construct();
         $this->setId('reportnewordersGrid');
@@ -11,10 +26,133 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         $this->setSubReportSize(false);
     }
 
+    /**
+     * Sets the collection of data to be used in the report.
+     *
+     * @return $this
+     */
     protected function _prepareCollection() {
         parent::_prepareCollection();
         // Get the data collection from the model
 
+        /** @var Wcl_ReportNewOrders_Helper_Data $helper */
+        $helper = Mage::helper('reportneworders');
+
+        $helper->setFilters($this->_filters);
+
+        if(!$this->getFilterData('report_type_salesman') > 0){
+            $this->getCollection()->initReport('reportneworders/reportneworders');
+        }else{
+            $this->getCollection()->initReport('reportneworders/reportfranchiseesorders');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Prepare the columns system to display the data.
+     *
+     *
+     * @return $this|void
+     * @throws Exception
+     */
+    protected function _prepareColumns() {
+        // Add columns to the grid
+        $this->addColumn('sku', array(
+                'header' => Mage::helper('reportneworders')->__('SKU'),
+                'align' => 'left',
+                'sortable' => true,
+                'index' => 'sku',
+        ));
+
+        $this->addColumn('order_items_name', array(
+                'header' => Mage::helper('reportneworders')->__('Item Name'),
+                'align' => 'left',
+                'sortable' => false,
+                'index' => 'order_items_name'
+        ));
+
+        $this->addColumn('qty_ordered', array(
+                'header'    =>Mage::helper('reports')->__('Quantity Ordered'),
+                'align'     =>'right',
+                'sortable' => false,
+                'type'      =>'number',
+                'index' => 'qty_ordered'
+        ));
+
+        if(!$this->getFilterData('report_type_salesman') > 0) {
+            $this->addColumn('discount_amount', array(
+                'header' => Mage::helper('reportneworders')->__('Desconto'),
+                'align' => 'left',
+                'sortable' => true,
+                'index' => 'discount_amount'
+            ));
+
+            $this->addColumn('qty_refunded', array(
+                'header' => Mage::helper('reportneworders')->__('Quantidade devolvida'),
+                'align' => 'right',
+                'sortable' => false,
+                'type' => 'number',
+                'index' => 'qty_refunded'
+            ));
+            $this->addColumn('amount_refunded', array(
+                'header' => Mage::helper('reportneworders')->__('Valor devolvido'),
+                'align' => 'left',
+                'sortable' => true,
+                'index' => 'amount_refunded'
+            ));
+        }else{
+            $this->addColumn('unic_price', array(
+                'header' => Mage::helper('reportneworders')->__('Valor unitario'),
+                'align' => 'left',
+                'sortable' => true,
+                'index' => 'unic_price'
+            ));
+        }
+
+        $this->addColumn('total_sold', array(
+                'header' => Mage::helper('reportneworders')->__('Valor total'),
+                'align' => 'left',
+                'sortable' => true,
+                'index' => 'total_sold'
+        ));
+
+        $this->addExportType('*/*/exportCsv', Mage::helper('reportneworders')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('reportneworders')->__('XML'));
+
+        return parent::_prepareColumns();
+    }
+
+    public function getRowUrl($row) {
+        return false;
+    }
+
+    public function getReport($from, $to) {
+
+        if ($from == '') {
+            $from = $this->getFilter('report_from');
+        }
+        if ($to == '') {
+            $to = $this->getFilter('report_to');
+        }
+
+        $totalObj = Mage::getModel('reports/totals');
+        $totals = $totalObj->countTotals($this, $from, $to);
+        $this->setTotals($totals);
+        $this->addGrandTotals($totals);
+
+        return $this->getCollection()->getReport($from, $to);
+    }
+
+    /**
+     * Retrieve the values informed the form, if a key is informed
+     * retrieves the key value, if not, retrieves all valore as an array.
+     *
+     * @param null $key
+     * @return array
+     */
+    private function getFilterData( $key = null )
+    {
         $filter = $this->getParam($this->getVarNameFilter(), null);
 
         if (is_null($filter)) {
@@ -52,83 +190,6 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
             $this->_setFilterValues($this->_defaultFilter);
         }
 
-        /** @var Wcl_ReportNewOrders_Helper_Data $helper */
-        $helper = Mage::helper('reportneworders');
-
-        $helper->setFilters($this->_filters);
-
-        if(!$data['report_type_salesman'] > 0){
-            $this->getCollection()->initReport('reportneworders/reportneworders');
-        }else{
-            $this->getCollection()->initReport('reportneworders/reportfranchiseesorders');
-        }
-
-
-        return $this;
-    }
-
-    protected function _prepareColumns() {
-        // Add columns to the grid
-        $this->addColumn('sku', array(
-                'header' => Mage::helper('reportneworders')->__('SKU'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'sku',
-        ));
-
-        $this->addColumn('order_items_name', array(
-                'header' => Mage::helper('reportneworders')->__('Item Name'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'order_items_name'
-        ));
-
-        $this->addColumn('qty_ordered', array(
-                'header'    =>Mage::helper('reports')->__('Quantity Ordered'),
-                'align'     =>'right',
-                'sortable' => false,
-                'type'      =>'number',
-                'index' => 'qty_ordered'
-        ));
-
-        $this->addColumn('unic_price', array(
-                'header' => Mage::helper('reportneworders')->__('Valor Unitario'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'unic_price'
-        ));
-
-        $this->addColumn('total_sold', array(
-                'header' => Mage::helper('reportneworders')->__('Valor total'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_sold'
-        ));
-
-        $this->addExportType('*/*/exportCsv', Mage::helper('reportneworders')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('reportneworders')->__('XML'));
-
-        return parent::_prepareColumns();
-    }
-
-    public function getRowUrl($row) {
-        return false;
-    }
-
-    public function getReport($from, $to) {
-
-        if ($from == '') {
-            $from = $this->getFilter('report_from');
-        }
-        if ($to == '') {
-            $to = $this->getFilter('report_to');
-        }
-
-        $totalObj = Mage::getModel('reports/totals');
-        $totals = $totalObj->countTotals($this, $from, $to);
-        $this->setTotals($totals);
-        $this->addGrandTotals($totals);
-
-        return $this->getCollection()->getReport($from, $to);
+        return (is_null($key)) ? $data : $data[$key];
     }
 }
