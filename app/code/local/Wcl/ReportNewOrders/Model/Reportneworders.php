@@ -79,9 +79,33 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                 ->joinLeft(
                     array('pro' => 'affiliateplusprogram'),
                     'c.program_id = pro.program_id',
+                    array("((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100))")
+
+                )
+                ->joinLeft(
+                    array('usage_coupon' => 'salesrule_coupon_usage'),
+                   "{$orderTableAliasName}.customer_id = usage_coupon.customer_id",
+                    array()
+                )
+                ->joinLeft(
+                    array('coupon' => 'salesrule_coupon'),
+                    "coupon.coupon_id = usage_coupon.coupon_id",
+                    array()
+                )
+                ->joinLeft(
+                    array('rule' => 'salesrule'),
+                    "rule.rule_id = coupon.rule_id",
                     array(
-                        'discount_amount' => new Zend_Db_Expr("((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100))")
+                        'discount_amount' => new Zend_Db_Expr("
+                            IF(coupon.rule_id IS NULL,
+                                ((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100)),
+                                ((order_items.price * SUM(order_items.qty_ordered)) * (rule.discount_amount / 100))
+                            )"
+                        ),
+                        'amount_discount_coupon' => 'discount_amount',
+                        'status_dicount' => "IF(coupon.rule_id IS NOT NULL,'Coupon Store', 'Coupon Affiliate' )"
                     )
+
                 );
 
         if(!is_null($this->filters['report_district']) && (int) $this->filters['report_district'] != 0){
@@ -121,7 +145,8 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         ))
                 ->where('parent_item_id IS NULL')
                 ->order('qty_ordered DESC')
-                ->group("DATE_FORMAT(`e`.`created_at`,'%m-%d-%Y')");
+                ->group("DATE_FORMAT(`e`.`created_at`,'%m-%d-%Y'), usage_coupon.coupon_id");
+
         return $this;
     }
 
