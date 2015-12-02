@@ -37,6 +37,22 @@ class Magestore_Affiliateplus_Block_Grid extends Mage_Core_Block_Template
 	public function getColumns(){
 		return $this->_columns;
 	}
+
+    /**
+     * functions in mysql to join parts of
+     * the name and return the full name.
+     *
+     * @var string
+     */
+    protected $fullNameConditionMysql = <<< 'CONCAT'
+        CONCAT(IF(at_firstname.value IS NOT NULL AND at_firstname.value != '',
+            CONCAT(LTRIM(RTRIM(at_firstname.value)), ' '),
+            ''),
+            IF(at_middlename.value IS NOT NULL AND at_middlename.value != '',
+            CONCAT(LTRIM(RTRIM(at_middlename.value)), ' '),
+            ''),
+            LTRIM(RTRIM(at_lastname.value)))
+CONCAT;
 	
     /**
      * 
@@ -79,7 +95,14 @@ class Magestore_Affiliateplus_Block_Grid extends Mage_Core_Block_Template
                 }
             }
         }
-		return $this;
+
+        $collection = $this->showByUserName($this->_collection);
+
+        if($filterValue = $this->getFilterValue('name_user')){
+            $this->findByNameUser($collection, $filterValue);
+        }
+
+        return $this;
 	}
     
     public function getFilterValue($columnId = null, $offset = '') {
@@ -176,4 +199,95 @@ class Magestore_Affiliateplus_Block_Grid extends Mage_Core_Block_Template
     	
     	return $parentBlock->$parentFunction($row);
     }
+
+
+    /**
+     * Retrieves the name in current collection, middle name, last
+     * name of the users that are in the collection.
+     *
+     * @param $collection
+     * @return $collection
+     */
+    private function showByUserName( $collection )
+    {
+
+        $select = $collection->getSelect();
+
+        /**
+         * Alias for the main tlable in collection.
+         *
+         * @var string $tableToJoin
+         * */
+        $tableToJoin = 'main_table';
+
+        $tableCustomerVarchar = 'customer_entity_varchar';
+
+        $firstNameTableAlias  = 'at_firstname';
+        $middleNameTableAlias = 'at_middlename';
+        $lastNameTableAlias   = 'at_lastname';
+
+        /**
+         * Join condition for retrieves first name user.
+         *
+         * @var array $firstNameJoinCondition
+         * */
+        $firstNameJoinCondition = array(
+            "({$firstNameTableAlias}.entity_id = {$tableToJoin}.customer_id)
+             AND ({$firstNameTableAlias}.attribute_id = 5)",
+        );
+
+        /**
+         * Join condition for retrieves middle name user.
+         *
+         * @var array $middleNameJoinCondition
+         * */
+        $middleNameJoinCondition = array(
+            "({$middleNameTableAlias}.entity_id = {$tableToJoin}.customer_id)
+             AND ({$middleNameTableAlias}.attribute_id = 6)",
+        );
+
+        /**
+         * Join condition for retrieves last name user.
+         *
+         * @var array $lastNameJoinCondition
+         * */
+        $lastNameJoinCondition = array(
+            "({$lastNameTableAlias}.entity_id = {$tableToJoin}.customer_id)
+             AND ({$lastNameTableAlias}.attribute_id = 7)",
+        );
+
+        $select->joinLeft(
+            array($firstNameTableAlias => $tableCustomerVarchar),
+            implode($firstNameJoinCondition),
+             array('first_name' => "{$firstNameTableAlias}.value")
+        )->joinLeft(
+            array($middleNameTableAlias => $tableCustomerVarchar),
+            implode($middleNameJoinCondition),
+            array('middle_name' => "{$middleNameTableAlias}.value")
+        )->joinLeft(
+            array($lastNameTableAlias => $tableCustomerVarchar),
+            implode($lastNameJoinCondition),
+            array('last_name' => "{$lastNameTableAlias}.value")
+        )->columns(array(
+            'full_name' => $this->fullNameConditionMysql
+        ));
+
+        return $collection;
+
+    }
+
+
+    /**
+     * Filter by user name using a like clause.
+     *
+     * @param $collection
+     * @param $value
+     */
+    private function findByNameUser( $collection, $value )
+    {
+        $select = $collection->getSelect();
+        $select->where("{$this->fullNameConditionMysql} like '%{$value}%'");
+
+    }
+
 }
