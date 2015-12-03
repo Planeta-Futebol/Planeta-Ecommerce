@@ -4,7 +4,7 @@
  * Set default configuratinos of grid layout container.
  *
  * @category   Reports
- * @package    Reports_BillingCustomer_Block_Adminhtml_BillingCustomer
+ * @package    Reports_BillingCustomer
  * @author     Ronildo dos Santos
  */
 class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer extends Mage_Adminhtml_Block_Widget_Grid_Container
