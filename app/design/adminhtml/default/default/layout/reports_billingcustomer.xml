@@ -4,13 +4,13 @@
 
         <adminhtml_report_statistics_index>
             <reference name="content">
-                <block type="adminhtml/report_refresh_statistics" template="reports/billing/customer/report/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
+                <block type="adminhtml/report_refresh_statistics" template="reports/billing/customer/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
             </reference>
         </adminhtml_report_statistics_index>
 
 
         <reference name="content">
-            <block type="billingcustomer/adminhtml_billingcustomer" name="product.report.grid.container" template="reports/billing/customer/report/grid/container.phtml">
+            <block type="billingcustomer/adminhtml_billingcustomer" name="product.report.grid.container" template="reports/billing/customer/grid/container.phtml">
 
             </block>
         </reference>
