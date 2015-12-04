@@ -27,4 +27,4 @@ Thumbs.db
 !var/app/
 
 /.idea/*
-/app/etc/local.xml
+app/etc/local.xml
