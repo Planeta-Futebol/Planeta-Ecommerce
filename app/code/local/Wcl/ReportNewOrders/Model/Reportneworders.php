@@ -79,7 +79,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                 ->joinLeft(
                     array('pro' => 'affiliateplusprogram'),
                     'c.program_id = pro.program_id',
-                    array("((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100))")
+                    array()
 
                 )
                 ->joinLeft(

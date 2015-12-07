@@ -58,11 +58,11 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
      */
     protected function _prepareColumns() {
 
-        $this->addColumn('custome_name', array(
+        $this->addColumn('full_name_cutomer', array(
             'header'   => Mage::helper('billingcustomer')->__('Nome do Cliente'),
             'align'    => 'left',
             'sortable' => false,
-            'index'    => 'custome_name'
+            'index'    => 'full_name_cutomer'
         ));
 
         $this->addColumn('state', array(
@@ -76,7 +76,7 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             'header'   => Mage::helper('billingcustomer')->__('Nome do Representante'),
             'align'    => 'left',
             'sortable' => false,
-            'index'    => 'state'
+            'index'    => 'representative_name'
         ));
 
         $this->addColumn('qty_order', array(
@@ -84,7 +84,7 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             'align'     => 'right',
             'sortable'  => false,
             'type'      => 'number',
-            'index'     => 'qty_order'
+            'index'     => 'qty_order',
         ));
 
         $this->addColumn('amount_refunded', array(
