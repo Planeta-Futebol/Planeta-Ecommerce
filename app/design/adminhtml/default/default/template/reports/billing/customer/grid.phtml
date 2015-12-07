@@ -151,18 +151,16 @@ $numColumns = sizeof($this->getColumns());
                     <?php endforeach; ?>
                     </tr>
                 <?php endforeach; ?>
-                <?php if($this->getCountTotals() && $rows > 0 && $this->getSubtotalVisibility()): ?>
                 <tr>
                     <?php $j=0;foreach ($this->getColumns() as $_column): ?>
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?> subtotal">
                             <?php echo ($j==1)?$this->getSubtotalText():$_column->getRowField($this->getTotals()) ?>
                         </td>
+                        <?php if($j==1): ?>
+                            <td> </td>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </tr>
-                <?php endif; ?>
-            <?php else: ?>
-                <td><?php echo $_index ?></td>
-                <td colspan="<?php echo $numColumns ?>" class="empty-text <?php echo $this->getEmptyTextClass() ?> last"><?php echo $this->getEmptyText() ?></td>
             <?php endif; ?>
             </tr>
         <?php endforeach; ?>
@@ -172,7 +170,7 @@ $numColumns = sizeof($this->getColumns());
             </tr>
         <?php endif; ?>
                 </tbody>
-                <?php if ($this->getCountTotals() && $this->getCollection()->getSize()): ?>
+                <?php if (1)://$this->getCountTotals() && $this->getCollection()->getSize()): ?>
                     <tfoot>
                     <tr><th><?php echo $this->getTotalText() ?></th>
                         <?php $j=0;foreach ($this->getColumns() as $_column): ?>

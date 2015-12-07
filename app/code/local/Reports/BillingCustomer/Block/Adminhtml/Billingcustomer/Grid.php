@@ -30,6 +30,13 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
         $this->setSubReportSize(false);
     }
 
+    public function getTotals()
+    {
+        /** @var Reports_BillingCustomer_Helper_Data $helper */
+        $helper = Mage::helper('billingcustomer');
+
+        return $helper->getTotals();
+    }
 
     /**
      * Sets the collection of data to be used in the report.
@@ -172,4 +179,6 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
 
         return (is_null($key)) ? $data : $data[$key];
     }
+
+
 }
