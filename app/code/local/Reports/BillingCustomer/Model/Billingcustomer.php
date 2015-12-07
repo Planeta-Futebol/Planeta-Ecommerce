@@ -67,7 +67,16 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
 
         $select->from(array('order_items' => $this->getTable('sales/order_item')))
             ->columns(array(
-                'full_name_cutomer' => "CONCAT({$orderTableAliasName}.customer_firstname, ' ', {$orderTableAliasName}.customer_lastname)"
+                'full_name_cutomer' => "CONCAT({$orderTableAliasName}.customer_firstname, ' ', {$orderTableAliasName}.customer_lastname)",
+                'qty_order' => 'count(distinct order_id)',
+                'total_sold' => '(
+                    SELECT sum(grand_total) FROM sales_flat_order as order_sold
+                    where order_sold.customer_id = order.customer_id
+                )',
+                'total_amount_refunded' => '(
+                    SELECT IF(sum(total_refunded) IS NOT NULL, sum(total_refunded), 0) FROM sales_flat_order as order_refunded
+                    where order_refunded.customer_id = order.customer_id
+                )'
             ))
             ->joinInner(
                 array('order' => $this->getTable('sales/order')),
@@ -98,29 +107,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 array('pro' => 'affiliateplusprogram'),
                 'c.program_id = pro.program_id',
                 array()
-            )
-            ->joinLeft(
-                array('usage_coupon' => 'salesrule_coupon_usage'),
-                "{$orderTableAliasName}.customer_id = usage_coupon.customer_id",
-                array()
-            )
-            ->joinLeft(
-                array('coupon' => 'salesrule_coupon'),
-                "coupon.coupon_id = usage_coupon.coupon_id",
-                array()
-            )
-            ->joinLeft(
-                array('rule' => 'salesrule'),
-                "rule.rule_id = coupon.rule_id",
-                array(
-                    'discount_amount' => new Zend_Db_Expr("
-                            IF(coupon.rule_id IS NULL,
-                                ((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100)),
-                                ((order_items.price * SUM(order_items.qty_ordered)) * (rule.discount_amount / 100))
-                            )"
-                    ),
-                )
-            );
+            )->group('order.customer_id');
 
         Mage::log((string) $select, null, 'billingcustomer');
 

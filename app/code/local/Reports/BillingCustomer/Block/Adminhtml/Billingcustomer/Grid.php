@@ -87,11 +87,11 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             'index'     => 'qty_order',
         ));
 
-        $this->addColumn('amount_refunded', array(
+        $this->addColumn('total_amount_refunded', array(
             'header'    => Mage::helper('billingcustomer')->__('Valor devolvido'),
             'align'     => 'left',
             'sortable'  => true,
-            'index'     => 'amount_refunded'
+            'index'     => 'total_amount_refunded'
         ));
 
         $this->addColumn('total_sold', array(
