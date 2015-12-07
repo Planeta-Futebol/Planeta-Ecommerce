@@ -38,20 +38,29 @@ class Magestore_AffiliateplusReferFriend_Block_Product_List
     public function getLoadedProductCollection()
     {
 
-        $visibility = array(
-            Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-            Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
-        );
+        $currentUrl = Mage::helper('core/url')->getCurrentUrl();
+        $url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+        $path = $url->getPath();
 
-        $_productCollection = Mage::getModel('catalog/product')->getCollection();
-        $_productCollection->addAttributeToSelect('*')
-            ->addFieldToFilter('visibility', $visibility) //showing just products visible in catalog or both search and catalog
-            ->addFinalPrice()
-            ->addAttributeToSort('created_at', 'desc') //in case we would like to sort products by price
-            ->getSelect()
-            ->limit(30);
+        if($path == '/novidades'){
 
-        return $_productCollection;
+            $visibility = array(
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
+            );
+
+            $_productCollection = Mage::getModel('catalog/product')->getCollection();
+            $_productCollection->addAttributeToSelect('*')
+                ->addFieldToFilter('visibility', $visibility)//showing just products visible in catalog or both search and catalog
+                ->addFinalPrice()
+                ->addAttributeToSort('created_at', 'desc')//in case we would like to sort products by price
+                ->getSelect()
+                ->limit(30);
+
+            return $_productCollection;
+        }else{
+            return parent::getLoadedProductCollection();
+        }
     }
 
 }
