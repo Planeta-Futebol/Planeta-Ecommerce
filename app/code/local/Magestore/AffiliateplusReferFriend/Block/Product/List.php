@@ -42,7 +42,7 @@ class Magestore_AffiliateplusReferFriend_Block_Product_List
         $url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
         $path = $url->getPath();
 
-        if($path == '/novidades'){
+        if($path == '/pf/novidades'){
 
             $visibility = array(
                 Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
@@ -62,5 +62,4 @@ class Magestore_AffiliateplusReferFriend_Block_Product_List
             return parent::getLoadedProductCollection();
         }
     }
-
 }
