@@ -47,8 +47,6 @@ class Magestore_AffiliateplusReferFriend_Block_Product_List
             $select = $this->_productCollection->getSelect()
                 ->reset(Zend_Db_Select::WHERE)
                 ->reset(Zend_Db_Select::LIMIT_COUNT)
-                ->reset(Zend_Db_Select::ORDER)
-                ->order('created_at DESC')
                 ->limit(30);
 
             $this->_productCollection->clear();
