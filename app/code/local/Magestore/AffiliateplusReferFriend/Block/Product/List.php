@@ -42,24 +42,18 @@ class Magestore_AffiliateplusReferFriend_Block_Product_List
         $url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
         $path = $url->getPath();
 
-        if($path == '/pf/novidades'){
+        if($path == '/novidades'){
 
-            $visibility = array(
-                Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-                Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
-            );
-
-            $_productCollection = Mage::getModel('catalog/product')->getCollection();
-            $_productCollection->addAttributeToSelect('*')
-                ->addFieldToFilter('visibility', $visibility)//showing just products visible in catalog or both search and catalog
-                ->addFinalPrice()
-                ->addAttributeToSort('created_at', 'desc')//in case we would like to sort products by price
-                ->getSelect()
+            $select = $this->_productCollection->getSelect()
+                ->reset(Zend_Db_Select::WHERE)
+                ->reset(Zend_Db_Select::LIMIT_COUNT)
+                ->reset(Zend_Db_Select::ORDER)
+                ->order('created_at DESC')
                 ->limit(30);
 
-            return $_productCollection;
-        }else{
-            return parent::getLoadedProductCollection();
+            $this->_productCollection->clear();
+
         }
+            return $this->_getProductCollection();
     }
 }
