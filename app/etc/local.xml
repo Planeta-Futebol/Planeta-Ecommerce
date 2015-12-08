@@ -40,10 +40,10 @@
             </db>
             <default_setup>
                 <connection>
-                    <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[root]]></username>
-                    <password><![CDATA[root]]></password>
-                    <dbname><![CDATA[planeta-futebol]]></dbname>
+                    <host><![CDATA[pf-database.cgcm1yv4pkwj.us-east-1.rds.amazonaws.com]]></host>
+                    <username><![CDATA[Pfutebol]]></username>
+                    <password><![CDATA[Pfutebol2014]]></password>
+                    <dbname><![CDATA[pfutebol_magento]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
