@@ -10,9 +10,9 @@
 class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * @var array
+     * @var Varien_Object
      */
-    private $filters = array();
+    private $filters = null;
 
     /**
      * @var Mage_Reports_Model_Resource_Product_Collection
@@ -38,19 +38,19 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieves all filters values subimited by form.
      *
-     * @return array
+     * @return Varien_Object
      */
-    public function getFilters($key = null)
+    public function getFilters( $key = null )
     {
-        return (is_null($key)) ? $this->filters : $this->filters[$key];
+        return (is_null($key)) ? $this->filters : $this->filters->getData($key);
     }
 
     /**
-     * Define an array filters to be used by report.
+     * Define filters to be used by report.
      *
-     * @param array $filters
+     * @param Varien_Object $filters
      */
-    public function setFilters( array $filters )
+    public function setFilters( Varien_Object $filters )
     {
         $this->filters = $filters;
     }

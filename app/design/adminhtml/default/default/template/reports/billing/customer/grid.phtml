@@ -68,6 +68,10 @@ $numColumns = sizeof($this->getColumns());
                                 <div><?php echo $this->__('To') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="period_date_to" name="report_to" value="<?php echo $this->getFilter('report_to') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" title="<?php echo $this->__('Select Date') ?>" id="period_date_to_trig" alt="<?php echo $this->__('Select Date') ?>" class="v-middle"/>&nbsp;&nbsp;</div>
                                 <div id="period_date_from_advaice"></div>
                             </div>
+                            <div class="f-left">
+                                <label for="representative">Representante: </label>
+                                <input type="text" id="representative" name="representative" value="<?php echo $this->getFiltersData('representative'); ?>"/>
+                            </div>
 
                             <div class="f-left">
                                 <?php echo $this->__('Show By') ?>:
@@ -146,7 +150,12 @@ $numColumns = sizeof($this->getColumns());
                     <?php $i++; ?>
                     <?php $j=0;foreach ($this->getColumns() as $_column): ?>
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
-                            <?php echo (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;') ?>
+                            <?php
+
+                                $value = (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;');
+                                echo ($j > 4 ) ? Mage::helper('core')->currency($value) : $value;
+
+                             ?>
                         </td>
                     <?php endforeach; ?>
                     </tr>
@@ -154,7 +163,10 @@ $numColumns = sizeof($this->getColumns());
                 <tr>
                     <?php $j=0;foreach ($this->getColumns() as $_column): ?>
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?> subtotal">
-                            <?php echo ($j==1)?$this->getSubtotalText():$_column->getRowField($this->getTotals()) ?>
+                            <?php
+                                $value = ($j==1) ? $this->getSubtotalText():$_column->getRowField($this->getTotals());
+                                echo ($j > 4 ) ? Mage::helper('core')->currency($value) : $value;
+                             ?>
                         </td>
                         <?php if($j==1): ?>
                             <td> </td>
@@ -171,12 +183,15 @@ $numColumns = sizeof($this->getColumns());
         <?php endif; ?>
                 </tbody>
                 <?php if ($this->getCollection()->getSize()): ?>
-
-
                     <tfoot>
                     <tr><th><?php echo $this->getTotalText() ?></th>
                         <?php $j=0;foreach ($this->getColumns() as $_column): ?>
-                            <th class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>"><?php echo $_column->getRowField($this->getGrandTotals()) ?></th>
+                            <th class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
+                                <?php
+                                    $value = $_column->getRowField($this->getGrandTotals());
+                                    echo ($j > 4 ) ? Mage::helper('core')->currency($value) : $value;
+                                ?>
+                            </th>
                         <?php endforeach; ?>
                     </tr>
                     </tfoot>

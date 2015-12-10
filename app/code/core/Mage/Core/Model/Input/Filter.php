@@ -273,7 +273,7 @@ class Mage_Core_Model_Input_Filter implements Zend_Filter_Interface
     }
 
     /**
-     * Try to create Magento helper for filtration based on $filterData. Return false on failure
+     * Try to create Magento helper for filtration based on $filtersData. Return false on failure
      *
      * @param $filterData
      * @return bool|Mage_Core_Helper_Abstract
@@ -295,7 +295,7 @@ class Mage_Core_Model_Input_Filter implements Zend_Filter_Interface
     }
 
     /**
-     * Try to create Zend filter based on $filterData. Return false on failure
+     * Try to create Zend filter based on $filtersData. Return false on failure
      *
      * @param $filterData
      * @return bool|Zend_Filter_Interface

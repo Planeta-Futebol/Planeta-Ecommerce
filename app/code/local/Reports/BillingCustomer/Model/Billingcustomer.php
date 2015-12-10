@@ -14,7 +14,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
      *
      * @var array
      */
-    private $filters = array();
+    private $filters = null;
 
 
     public function __construct()

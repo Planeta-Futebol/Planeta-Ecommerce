@@ -13,9 +13,9 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
     /**
      * Values for filters submitted by the form.
      *
-     * @var array
+     * @var Varien_Object
      */
-    private $filterData = array();
+    private $filtersData = null;
 
     /**
      * Starts standards values and calling default constructor parent class.
@@ -30,24 +30,26 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
         $this->setSubReportSize(false);
     }
 
+    /**
+     * @return Varien_Object
+     */
     public function getTotals()
     {
         /** @var Reports_BillingCustomer_Helper_Data $helper */
         $helper = Mage::helper('billingcustomer');
-
         return $helper->getTotals();
     }
 
+    /**
+     * @return Varien_Object
+     */
     public function getGrandTotals()
     {
-
 
         /** @var Reports_BillingCustomer_Helper_Data $helper */
         $helper = Mage::helper('billingcustomer');
 
         $subTotals = $helper->getSubTotals();
-
-
 
         $totals = new Varien_Object();
         $fields = array(
@@ -68,7 +70,21 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
     }
 
     /**
-     * Sets the collection of data to be used in the report.
+     *
+     *
+     *
+     * @param  $key string
+     *
+     * @return Varien_Object
+     */
+    public function getFiltersData( $key = null )
+    {
+        return (!is_null($this->filtersData)) ? $this->filtersData->getData($key) : null;
+    }
+
+    /**
+     * Sets the collection of data to be used in the report and get param data
+     * to use in filter collection.
      *
      * @return $this
      */
@@ -79,7 +95,11 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
         /** @var Reports_BillingCustomer_Helper_Data $helper */
         $helper = Mage::helper('billingcustomer');
 
-        $helper->setFilters($this->_filters);
+        $paramData = $this->getParamData();
+
+        $this->filtersData = $paramData;
+
+        $helper->setFilters($paramData);
 
         $this->getCollection()->initReport('billingcustomer/billingcustomer');
 
@@ -144,10 +164,19 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
     }
 
 
+    /**
+     * @param $row
+     * @return bool
+     */
     public function getRowUrl($row) {
         return false;
     }
 
+    /**
+     * @param $from
+     * @param $to
+     * @return mixed
+     */
     public function getReport($from, $to) {
 
         if ($from == '') {
@@ -166,13 +195,11 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
     }
 
     /**
-     * Retrieve the values informed the form, if a key is informed
-     * retrieves the key value, if not, retrieves all valore as an array.
+     * Retrieve the values informed the form.
      *
-     * @param null $key
-     * @return array
+     * @return Varien_Object
      */
-    private function getFilterData( $key = null )
+    private function getParamData()
     {
         $data = array();
 
@@ -206,8 +233,7 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             $this->_setFilterValues($this->_defaultFilter);
         }
 
-        return (is_null($key)) ? $data : $data[$key];
+        $filters = new Varien_Object();
+        return $filters->setData($data);
     }
-
-
 }
