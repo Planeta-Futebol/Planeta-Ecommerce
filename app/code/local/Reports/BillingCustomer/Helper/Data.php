@@ -9,6 +9,9 @@
  */
 class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * @var array
+     */
     private $filters = array();
 
     /**
@@ -16,10 +19,21 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     private $collection;
 
+    private $key = 0;
+
     /**
-     * @var Varien_Object
+     * @var array
      */
-    private $subTotals;
+    private $subTotals = array();
+
+    /**
+     * @return array
+     */
+    public function getSubTotals()
+
+    {
+        return $this->subTotals;
+    }
 
     /**
      * Retrieves all filters values subimited by form.
@@ -41,6 +55,9 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
         $this->filters = $filters;
     }
 
+    /**
+     * @return Varien_Object
+     */
     public function getTotals()
     {
 
@@ -55,11 +72,12 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
                 $fields[$field]+=$item->getData($field);
             }
         }
-        //First column in the grid
-        $fields['period']='Totals';
+
         $totals->setData($fields);
 
-        $this->subTotals = clone $totals;
+        if($this->key++%5 == 0) {
+            $this->subTotals[] = $fields;
+        }
         return $totals;
     }
 
@@ -69,13 +87,5 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
     public function setCollection($collection)
     {
         $this->collection = $collection;
-    }
-
-    /**
-     * @return Varien_Object
-     */
-    public function getSubTotals()
-    {
-        return $this->subTotals;
     }
 }

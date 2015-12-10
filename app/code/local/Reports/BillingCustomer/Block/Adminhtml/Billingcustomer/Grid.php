@@ -38,6 +38,35 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
         return $helper->getTotals();
     }
 
+    public function getGrandTotals()
+    {
+
+
+        /** @var Reports_BillingCustomer_Helper_Data $helper */
+        $helper = Mage::helper('billingcustomer');
+
+        $subTotals = $helper->getSubTotals();
+
+
+
+        $totals = new Varien_Object();
+        $fields = array(
+            'qty_order' => 0, //actual column index, see _prepareColumns()
+            'total_amount_refunded' => 0,
+            'total_sold' => 0,
+        );
+
+        foreach ($subTotals as $item) {
+            foreach($fields as $field=>$value){
+                $fields[$field]+=$item[$field];
+            }
+        }
+
+        $totals->setData($fields);
+
+        return $totals;
+    }
+
     /**
      * Sets the collection of data to be used in the report.
      *

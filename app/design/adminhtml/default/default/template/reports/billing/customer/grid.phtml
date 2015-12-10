@@ -170,7 +170,9 @@ $numColumns = sizeof($this->getColumns());
             </tr>
         <?php endif; ?>
                 </tbody>
-                <?php if (1)://$this->getCountTotals() && $this->getCollection()->getSize()): ?>
+                <?php if ($this->getCollection()->getSize()): ?>
+
+
                     <tfoot>
                     <tr><th><?php echo $this->getTotalText() ?></th>
                         <?php $j=0;foreach ($this->getColumns() as $_column): ?>
