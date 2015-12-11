@@ -115,6 +115,12 @@ CONCAT;
             $this->findByNameUser($collection, $filterValue);
         }
 
+        $collection->getSelect()->columns(
+            array(
+                'total_amount' => new Zend_Db_Expr("total_amount + discount")
+            )
+        );
+
         return $this;
 	}
     
