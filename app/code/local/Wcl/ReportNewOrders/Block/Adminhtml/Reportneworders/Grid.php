@@ -38,7 +38,7 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         /** @var Wcl_ReportNewOrders_Helper_Data $helper */
         $helper = Mage::helper('reportneworders');
 
-        $helper->setFilters($this->_filters);
+        $helper->setFilters($this->getFilterData());
 
         if(!$this->getFilterData('report_type_salesman') > 0){
             $this->getCollection()->initReport('reportneworders/reportneworders');
@@ -168,7 +168,7 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
     private function getFilterData( $key = null )
     {
         $filter = $this->getParam($this->getVarNameFilter(), null);
-
+        $data = array();
         if (is_null($filter)) {
             $filter = $this->_defaultFilter;
         }
