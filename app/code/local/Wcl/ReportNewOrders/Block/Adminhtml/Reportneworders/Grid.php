@@ -38,7 +38,7 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         /** @var Wcl_ReportNewOrders_Helper_Data $helper */
         $helper = Mage::helper('reportneworders');
 
-        $helper->setFilters($this->_filters);
+        $helper->setFilters($this->getFilterData());
 
         if(!$this->getFilterData('report_type_salesman') > 0){
             $this->getCollection()->initReport('reportneworders/reportneworders');
@@ -58,6 +58,13 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
      */
     protected function _prepareColumns() {
         // Add columns to the grid
+        $this->addColumn('order_increment_id', array(
+                'header' => Mage::helper('reportneworders')->__('Número do Pedido'),
+                'align' => 'left',
+                'sortable' => true,
+                'index' => 'order_increment_id',
+        ));
+
         $this->addColumn('sku', array(
                 'header' => Mage::helper('reportneworders')->__('SKU'),
                 'align' => 'left',
@@ -66,7 +73,7 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         ));
 
         $this->addColumn('order_items_name', array(
-                'header' => Mage::helper('reportneworders')->__('Item Name'),
+                'header' => Mage::helper('reportneworders')->__('Nome do Produto'),
                 'align' => 'left',
                 'sortable' => false,
                 'index' => 'order_items_name'
@@ -111,10 +118,17 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         }
 
         $this->addColumn('total_sold', array(
-                'header' => Mage::helper('reportneworders')->__('Valor total'),
+                'header' => Mage::helper('reportneworders')->__('Valor Bruto de Venda'),
                 'align' => 'left',
                 'sortable' => true,
                 'index' => 'total_sold'
+        ));
+
+        $this->addColumn('total_liquid', array(
+                'header' => Mage::helper('reportneworders')->__('Valor Recebido'),
+                'align' => 'left',
+                'sortable' => true,
+                'index' => 'total_liquid'
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('reportneworders')->__('CSV'));
@@ -154,7 +168,7 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
     private function getFilterData( $key = null )
     {
         $filter = $this->getParam($this->getVarNameFilter(), null);
-
+        $data = array();
         if (is_null($filter)) {
             $filter = $this->_defaultFilter;
         }

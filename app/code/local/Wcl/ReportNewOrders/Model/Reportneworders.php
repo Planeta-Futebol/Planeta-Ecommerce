@@ -52,60 +52,39 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
         $select = $this->getSelect()->reset();
 
         $select->from(
-                array('order_items' => $this->getTable('sales/order_item')),
-                array(
-                        'order_items_name' => 'order_items.name',
-                        'order_increment_id' => 'order.increment_id',
-                        'sku' => 'order_items.sku',
-                        'type_id' => 'order_items.product_type',
-                        'qty_refunded' => 'order_items.qty_refunded',
-                        'amount_refunded' => 'order_items.amount_refunded',
-                        'shipping_address_id' => 'order.shipping_address_id'
-                ))
+            array('order_items' => $this->getTable('sales/order_item')),
+            array()
+        )
                 ->columns(array(
-                        'qty_ordered' => new Zend_Db_Expr("SUM(order_items.qty_ordered)"),
-                        'total_sold' => new Zend_Db_Expr("(order_items.price * SUM(order_items.qty_ordered))")
+                    'type_id'             => 'order_items.product_type',
+                    'order_items_name'    => 'order_items.name',
+                    'order_increment_id'  => 'order.increment_id',
+                    'sku'                 => 'order_items.sku',
+                    'qty_ordered'         => 'order_items.qty_ordered',
+                    'qty_refunded'        => 'order_items.qty_refunded',
+                    'amount_refunded'     => new Zend_Db_Expr(
+                        'order_items.amount_refunded - (
+                            (order_items.discount_refunded) +
+                            (
+                                (order_items.affiliateplus_amount / (order_items.row_total - order_items.discount_amount)
+                            ) * (order_items.amount_refunded - order_items.discount_refunded))
+                        )'
+                    ),
+                    'shipping_address_id' => 'order.shipping_address_id',
+                    'total_sold'          => 'order_items.row_total',
+                    'discount_amount_store'        => 'order_items.discount_amount',
+                    'discount_amount_affiliatplus' => 'order_items.affiliateplus_amount',
+                    'discount_amount' => new Zend_Db_Expr(
+                        "(`order_items`.`discount_amount` + `order_items`.`affiliateplus_amount`)"
+                    ),
+                    'total_liquid'    =>  new Zend_Db_Expr(
+                        "`order_items`.`row_total` - (`order_items`.`discount_amount` + `order_items`.`affiliateplus_amount`)"
+                    )
                 ))
                 ->joinInner(
                         array('order' => $this->getTable('sales/order')),
                         implode(' AND ', $orderJoinCondition),
                         array()
-                )
-                ->joinLeft(
-                    array('c' => 'affiliateplus_coupon'),
-                    implode($couponJoinCondition),
-                    array()
-                )
-                ->joinLeft(
-                    array('pro' => 'affiliateplusprogram'),
-                    'c.program_id = pro.program_id',
-                    array("((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100))")
-
-                )
-                ->joinLeft(
-                    array('usage_coupon' => 'salesrule_coupon_usage'),
-                   "{$orderTableAliasName}.customer_id = usage_coupon.customer_id",
-                    array()
-                )
-                ->joinLeft(
-                    array('coupon' => 'salesrule_coupon'),
-                    "coupon.coupon_id = usage_coupon.coupon_id",
-                    array()
-                )
-                ->joinLeft(
-                    array('rule' => 'salesrule'),
-                    "rule.rule_id = coupon.rule_id",
-                    array(
-                        'discount_amount' => new Zend_Db_Expr("
-                            IF(coupon.rule_id IS NULL,
-                                ((order_items.price * SUM(order_items.qty_ordered)) * (pro.discount / 100)),
-                                ((order_items.price * SUM(order_items.qty_ordered)) * (rule.discount_amount / 100))
-                            )"
-                        ),
-                        'amount_discount_coupon' => 'discount_amount',
-                        'status_dicount' => "IF(coupon.rule_id IS NOT NULL,'Coupon Store', 'Coupon Affiliate' )"
-                    )
-
                 );
 
         if(!is_null($this->filters['report_district']) && (int) $this->filters['report_district'] != 0){
@@ -131,7 +110,6 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
         }
 
         $select->joinLeft(
-
                         array('p' => $productTableName),
                         'p.sku = order_items.sku',
                         array(
@@ -145,7 +123,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         ))
                 ->where('parent_item_id IS NULL')
                 ->order('qty_ordered DESC')
-                ->group("DATE_FORMAT(`e`.`created_at`,'%m-%d-%Y'), usage_coupon.coupon_id");
+                ->group("DATE_FORMAT(`e`.`created_at`,'%m-%d-%Y'), order_items.sku");
 
         return $this;
     }

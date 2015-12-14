@@ -125,6 +125,7 @@ SELECT_TYPE_STATES;
 
 
 $fullTotalAmount = 0;
+$fullTotalAmountLiquid = 0;
 $fullDiscountValue = 0;
 $fullQtyRefunded = 0;
 $fullAmountRefunded = 0;
@@ -262,6 +263,7 @@ $fullTotalOrdered = 0;
                             <td rowspan="<?php echo $rows + ($this->getCountTotals() && $this->getSubtotalVisibility()?1:0) ?>"><?php echo $_index ?></td>
 
                             <?php $subTotalValue = 0; ?>
+                            <?php $subTotalValueLiquid = 0; ?>
                             <?php $subDiscountValue = 0; ?>
                             <?php $subQtyRefunded = 0; ?>
                             <?php $subAmountRefunded = 0; ?>
@@ -283,18 +285,21 @@ $fullTotalOrdered = 0;
 
                                             if ($j == $numColumns) {
 
-                                                $subTotalValue += $_html;
+                                                $subTotalValueLiquid += $_html;
                                                 echo Mage::helper('core')->currency($_html);
                                             } elseif (($j + 1) == $numColumns) {
+                                                $subTotalValue += $_html;
+                                                echo Mage::helper('core')->currency($_html);;
+                                            } elseif (($j + 2) == $numColumns) {
                                                 $subAmountRefunded += $_html;
                                                 echo Mage::helper('core')->currency($_html);
-                                            } elseif (($j + 2) == $numColumns) {
+                                            } elseif (($j + 3) == $numColumns) {
                                                 $subQtyRefunded += $_html;
                                                 echo($_html != '' ? $_html : '&nbsp;');
-                                            } elseif (($j + 3) == $numColumns) {
+                                            } elseif (($j + 4) == $numColumns) {
                                                 $subDiscountValue += $_html;
                                                 echo Mage::helper('core')->currency($_html);
-                                            } elseif (($j + 4) == $numColumns) {
+                                            } elseif (($j + 5) == $numColumns) {
                                                 $subTotalOrdered += $_html;
                                                 echo($_html != '' ? $_html : '&nbsp;');
                                             } else {
@@ -331,19 +336,23 @@ $fullTotalOrdered = 0;
                                         <?php
                                         if(!$helper->getFilters('report_type_salesman') > 0) {
                                             if ($j == $numColumnsSubTotal) {
-                                                $fullTotalAmount += $subTotalValue;
-                                                echo Mage::helper('core')->currency($subTotalValue - $subAmountRefunded - $subDiscountValue);
+                                                $fullTotalAmountLiquid += $subTotalValueLiquid;
+                                                echo Mage::helper('core')->currency($subTotalValueLiquid);
                                             } elseif (($j + 1) == $numColumns) {
+                                                $fullTotalAmount += $subTotalValue;
+                                                echo Mage::helper('core')->currency($subTotalValue);
+                                            } elseif (($j + 2) == $numColumns) {
                                                 $fullAmountRefunded += $subAmountRefunded;
                                                 echo Mage::helper('core')->currency($subAmountRefunded);
-                                            } elseif (($j + 2) == $numColumns) {
-                                                $fullQtyRefunded += $subQtyRefunded;
-                                                echo($subQtyRefunded != '' ? $subQtyRefunded : '&nbsp;');
                                             } elseif (($j + 3) == $numColumns) {
+                                                $fullQtyRefunded += $subQtyRefunded;
+                                                echo $subQtyRefunded;
+                                            } elseif (($j + 4) == $numColumns) {
                                                 $fullDiscountValue += $subDiscountValue;
                                                 echo Mage::helper('core')->currency($subDiscountValue);
-                                            } elseif (($j + 4) == $numColumns) {
+                                            } elseif (($j + 5) == $numColumns) {
                                                 $fullTotalOrdered += $subTotalOrdered;
+                                                echo  $subTotalOrdered;
                                             }
                                         }else{
                                             if($j == $numColumnsSubTotal){
@@ -374,14 +383,16 @@ $fullTotalOrdered = 0;
                                     <?php
                                         if(!$helper->getFilters('report_type_salesman') > 0) {
                                             if($j == $numColumnsSubTotal){
-                                                echo Mage::helper('core')->currency($fullTotalAmount - $fullAmountRefunded - $fullDiscountValue);
+                                                echo Mage::helper('core')->currency($fullTotalAmountLiquid);
                                             }elseif( ($j + 1) == $numColumns ){
-                                                echo Mage::helper('core')->currency($fullAmountRefunded);
+                                                echo Mage::helper('core')->currency($fullTotalAmount);
                                             }elseif( ($j + 2) == $numColumns ){
-                                                echo ($fullQtyRefunded != '' ? $fullQtyRefunded : '&nbsp;');
+                                                echo Mage::helper('core')->currency($fullAmountRefunded);
                                             }elseif( ($j + 3) == $numColumns ){
-                                                echo Mage::helper('core')->currency($fullDiscountValue);
+                                                echo $fullQtyRefunded;
                                             }elseif( ($j + 4) == $numColumns ){
+                                                echo Mage::helper('core')->currency($fullDiscountValue);
+                                            }elseif( ($j + 5) == $numColumns ){
                                                 echo ($fullTotalOrdered != '' ? $fullTotalOrdered : '&nbsp;');
                                             }
                                         }else {
