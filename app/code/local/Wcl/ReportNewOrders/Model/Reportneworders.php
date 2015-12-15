@@ -63,11 +63,11 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                     'qty_ordered'         => 'order_items.qty_ordered',
                     'qty_refunded'        => 'order_items.qty_refunded',
                     'amount_refunded'     => new Zend_Db_Expr(
-                        'order_items.amount_refunded - (
-                            (order_items.discount_refunded) +
+                        'COALESCE(order_items.amount_refunded, 0) - (
+                            (COALESCE(order_items.discount_refunded, 0)) +
                             (
-                                (order_items.affiliateplus_amount / (order_items.row_total - order_items.discount_amount)
-                            ) * (order_items.amount_refunded - order_items.discount_refunded))
+                                (COALESCE(order_items.affiliateplus_amount, 0) / (order_items.row_total - COALESCE(order_items.discount_amount, 0))
+                            ) * (COALESCE(order_items.amount_refunded, 0) - COALESCE(order_items.discount_refunded, 0)))
                         )'
                     ),
                     'shipping_address_id' => 'order.shipping_address_id',
@@ -75,10 +75,10 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                     'discount_amount_store'        => 'order_items.discount_amount',
                     'discount_amount_affiliatplus' => 'order_items.affiliateplus_amount',
                     'discount_amount' => new Zend_Db_Expr(
-                        "(`order_items`.`discount_amount` + `order_items`.`affiliateplus_amount`)"
+                        "(COALESCE(`order_items`.`discount_amount`, 0) + COALESCE(`order_items`.`affiliateplus_amount`, 0))"
                     ),
                     'total_liquid'    =>  new Zend_Db_Expr(
-                        "`order_items`.`row_total` - (`order_items`.`discount_amount` + `order_items`.`affiliateplus_amount`)"
+                        "`order_items`.`row_total` - (COALESCE(`order_items`.`discount_amount`, 0) + COALESCE(`order_items`.`affiliateplus_amount`, 0))"
                     )
                 ))
                 ->joinInner(
