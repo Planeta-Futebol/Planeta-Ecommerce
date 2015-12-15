@@ -125,7 +125,7 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
         ));
 
         $this->addColumn('total_liquid', array(
-                'header' => Mage::helper('reportneworders')->__('Valor Recebido'),
+                'header' => Mage::helper('reportneworders')->__('Valor Recebido (- Frete)'),
                 'align' => 'left',
                 'sortable' => true,
                 'index' => 'total_liquid'
