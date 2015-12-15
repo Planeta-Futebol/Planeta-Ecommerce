@@ -1,0 +1,17 @@
+{2015/12/11 00:55:56} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '613',
+  'SenderEmail' => 'davidoliver21@hotmail.com',
+)) - begin 
+{2015/12/11 00:55:58} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '613',
+  'SenderEmail' => 'davidoliver21@hotmail.com',
+)) - end {1}35D72BA783833E5EE4481F9AF89A9077 
+{2015/12/13 15:31:56} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=D66CC2-EA7808780875-A334B35FA7E7-28F8E2) - begin 
+{2015/12/13 15:31:58} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=D66CC2-EA7808780875-A334B35FA7E7-28F8E2) - end Transaction: array (
+  'code' => '67609943-F710-49BF-8934-2F747809B28E',
+  'email' => 'davidoliver21@hotmail.com',
+  'date' => '2015-12-10T22:55:37.000-02:00',
+  'reference' => '613',
+  'status' => '3',
+  'itemsCount' => 6,
+)) 
