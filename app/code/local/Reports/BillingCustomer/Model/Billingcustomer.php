@@ -78,6 +78,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 'date_customer_register' => 'customer.created_at',
                 'group_cutomer'          => 'c_group.customer_group_code',
                 'full_name_cutomer'      => "CONCAT({$orderTableAliasName}.customer_firstname, ' ', {$orderTableAliasName}.customer_lastname)",
+                'customer_email'         => 'order.customer_email',
                 'affiliateplus_coupon'   => 'IF(order.affiliateplus_coupon IS NOT NULL, order.affiliateplus_coupon, "Não Possui Código de Afiliado")',
 
                 'qty_products_sold'      => "(

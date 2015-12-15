@@ -122,7 +122,7 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
          * This validation is because the method is being called once every column gride,
          * thus accumulating wrong values for the grand total of calculation.
          */
-        if($this->key++%14 == 0) {
+        if($this->key++ % sizeof($this->getColumns()) == 0) {
             $this->subTotals[] = $fields;
         }
 
@@ -179,6 +179,13 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
                 'align' => 'left',
                 'sortable' => false,
                 'index' => 'full_name_cutomer'
+            ));
+
+            $this->addColumn('customer_email', array(
+                'header' => Mage::helper('billingcustomer')->__('E-mail do Cliente'),
+                'align' => 'left',
+                'sortable' => false,
+                'index' => 'customer_email'
             ));
 
             $this->addColumn('group_cutomer', array(
