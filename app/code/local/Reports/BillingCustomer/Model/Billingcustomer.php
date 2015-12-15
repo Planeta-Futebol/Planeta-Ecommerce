@@ -40,7 +40,6 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
 
         $orderJoinCondition = array(
             $orderTableAliasName . '.entity_id = order_items.order_id',
-            $adapter->quoteInto("{$orderTableAliasName}.state = ?", Mage_Sales_Model_Order::STATE_COMPLETE),
         );
 
         $productJoinCondition = array(
@@ -142,7 +141,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
             ))
             ->joinInner(
                 array('order' => $this->getTable('sales/order')),
-                implode(' AND ', $orderJoinCondition),
+                implode($orderJoinCondition),
                 array()
             )->joinInner(
                 array('customer' => 'customer_entity'),
