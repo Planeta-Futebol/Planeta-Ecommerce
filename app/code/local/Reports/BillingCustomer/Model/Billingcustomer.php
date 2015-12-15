@@ -141,7 +141,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
             ))
             ->joinInner(
                 array('order' => $this->getTable('sales/order')),
-                implode($orderJoinCondition),
+                implode(' AND ', $orderJoinCondition),
                 array()
             )->joinInner(
                 array('customer' => 'customer_entity'),
