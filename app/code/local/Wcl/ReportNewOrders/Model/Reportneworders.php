@@ -35,10 +35,6 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                 $adapter->quoteInto("{$orderTableAliasName}.state = ?", Mage_Sales_Model_Order::STATE_COMPLETE),
         );
 
-        $couponJoinCondition = array(
-            $orderTableAliasName . '.affiliateplus_coupon = c.coupon_code'
-        );
-
         $productJoinCondition = array(
                 'e.entity_id = order_items.product_id',
                 $adapter->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())

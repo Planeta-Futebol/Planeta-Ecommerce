@@ -23,15 +23,19 @@
         <menu>
             <report>
                 <children>
-                    <reportneworders translate="title" module="reportneworders">
-                        <!-- This is the name to be displayed in the admin panel under Reports -->
-                        <title>Faturamento x Periodo</title>
-                        <!--
-                        Specify the controller and location, using the router (defined above),
-                        followed by the controller.
-                        I.e.  Wcl_Reportneworders_controllers_Adminhtml_ReportnewordersController.php -->
-                        <action>reportneworders/adminhtml_reportneworders</action>
-                    </reportneworders>
+                    <billing>
+                        <children>
+                            <reportneworders translate="title" module="reportneworders">
+                                <!-- This is the name to be displayed in the admin panel under Reports -->
+                                <title>Periodo</title>
+                                <!--
+                                Specify the controller and location, using the router (defined above),
+                                followed by the controller.
+                                I.e.  Wcl_Reportneworders_controllers_Adminhtml_ReportnewordersController.php -->
+                                <action>reportneworders/adminhtml_reportneworders</action>
+                            </reportneworders>
+                        </children>
+                    </billing>
                 </children>
             </report>
         </menu>
