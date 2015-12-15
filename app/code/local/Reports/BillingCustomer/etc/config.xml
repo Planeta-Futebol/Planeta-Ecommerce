@@ -25,11 +25,11 @@
                 <children>
                     <billing>
                         <!-- This is the name to be displayed in the admin panel under Reports -->
-                        <title>Faturamento</title>
+                        <title>Faturamento/Vendas</title>
                         <children>
                             <billingcustomer translate="title" module="billingcustomer">
                                 <!-- This is the name to be displayed in the admin panel under Reports -->
-                                <title>Cliente</title>
+                                <title>Pedidos</title>
                                 <!--
                                 Specify the controller and location, using the router (defined above),
                                 followed by the controller.

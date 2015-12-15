@@ -17,7 +17,7 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer extends Mage_Admin
 
         $this->_controller = 'adminhtml_billingcustomer';
         $this->_blockGroup = 'billingcustomer';
-        $this->_headerText = Mage::helper('billingcustomer')->__('Faturamento por Cliente');
+        $this->_headerText = Mage::helper('billingcustomer')->__('Relatório de Pedidos');
         parent::__construct();
         $this->_removeButton('add');
 

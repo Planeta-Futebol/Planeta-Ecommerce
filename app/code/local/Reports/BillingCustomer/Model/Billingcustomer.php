@@ -95,12 +95,19 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 )",
 
                 'qty_order_closed'      => "(
-                    SELECT COUNT(*) FROM sales_flat_order as sales_closed
-                    where status='closed' and sales_closed.customer_id = order.customer_id
+                    SELECT COUNT(total_refunded) FROM sales_flat_order as sales_closed
+                    where sales_closed.customer_id = order.customer_id
                         and {$betweenDateSalesOrderClosed}
                 )",
 
                 'total_sold'            => "(
+                    SELECT SUM(grand_total) FROM sales_flat_order as sales_amount
+                    where sales_amount.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderAmount}
+
+                )",
+
+                'total_invoiced'            => "(
                     SELECT SUM(grand_total) FROM sales_flat_order as sales_amount
                     where sales_amount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderAmount}
@@ -120,7 +127,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 )",
 
                 'dicount_amount'       => "(
-                    SELECT (SUM(discount_amount) + (SUM(affiliateplus_discount)*-1))FROM sales_flat_order as sales_discount
+                    SELECT (SUM(discount_amount) + (SUM(affiliateplus_discount))) * -1 FROM sales_flat_order as sales_discount
                     where sales_discount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderDiscount}
 

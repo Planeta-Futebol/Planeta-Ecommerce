@@ -59,28 +59,119 @@ $numColumns = sizeof($this->getColumns());
                 <tr>
                     <?php if($this->getDateFilterVisibility()): ?>
                         <td class="a-left filter">
-                            <div class="f-left">
-                                <div><?php echo $this->__('From') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="period_date_from" name="report_from" value="<?php echo $this->getFilter('report_from') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" title="<?php echo $this->__('Select Date') ?>" id="period_date_from_trig" alt="<?php echo $this->__('Select Date') ?>" class="v-middle"/>&nbsp;&nbsp;</div>
-                                <div id="period_date_from_advaice"></div>
-                            </div>
-
-                            <div class="f-left">
-                                <div><?php echo $this->__('To') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="period_date_to" name="report_to" value="<?php echo $this->getFilter('report_to') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" title="<?php echo $this->__('Select Date') ?>" id="period_date_to_trig" alt="<?php echo $this->__('Select Date') ?>" class="v-middle"/>&nbsp;&nbsp;</div>
-                                <div id="period_date_from_advaice"></div>
-                            </div>
+                            <!--
                             <div class="f-left">
                                 <label for="representative">Representante: </label>
-                                <input type="text" id="representative" name="representative" value="<?php echo $this->getFiltersData('representative'); ?>"/>
+                                <input type="text" id="representative" name="representative" value="<php echo $this->getFiltersData('representative'); ?>"/>
                             </div>
 
-                            <div class="f-left">
-                                <?php echo $this->__('Show By') ?>:
-                                <select name="report_period" id="report_period" style="width:6em;">
-                                    <?php foreach ($this->getPeriods() as $_value=>$_label): ?>
-                                        <option value="<?php echo $_value ?>" <?php if($this->getFilter('report_period')==$_value): ?> selected<?php endif; ?>><?php echo $_label ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <?php echo $this->getRefreshButtonHtml() ?>
+                            -->
+                            <div class="fieldset " id="sales_report_base_fieldset">
+                                <div class="hor-scroll">
+                                    <table cellspacing="0" class="form-list">
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="2" class="hidden"><input id="sales_report_store_ids" name="store_ids" value="" type="hidden"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="sales_report_report_type">Coincidir Período Para</label></td>
+                                            <td class="value">
+                                                <select id="sales_report_report_type" name="report_type" class=" select">
+                                                    <option value="created_at_order">Data Criação do Pedido</option>
+                                                    <option value="updated_at_order">Data de Atualização de Pedido</option>
+                                                </select>
+                                                <p class="note" id="note_report_type"><span>Relatório Data de Pedido Atualizada em tempo real, não é necessário atualizar as estatísticas.</span></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="sales_report_period_type">Período</label></td>
+                                            <td class="value">
+                                                <?php echo $this->__('Show By') ?>:
+                                                <select name="report_period" id="report_period" style="width:6em;">
+                                                    <?php foreach ($this->getPeriods() as $_value=>$_label): ?>
+                                                        <option value="<?php echo $_value ?>" <?php if($this->getFilter('report_period')==$_value): ?> selected<?php endif; ?>><?php echo $_label ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="sales_report_from">De <span class="required">*</span></label></td>
+                                            <td class="value">
+                                                <div class="f-left">
+                                                    <div><?php echo $this->__('From') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="period_date_from" name="report_from" value="<?php echo $this->getFilter('report_from') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" title="<?php echo $this->__('Select Date') ?>" id="period_date_from_trig" alt="<?php echo $this->__('Select Date') ?>" class="v-middle"/>&nbsp;&nbsp;</div>
+                                                    <div id="period_date_from_advaice"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="sales_report_to">Para <span class="required">*</span></label></td>
+                                            <td class="value">
+                                                <div class="f-left">
+                                                    <div><?php echo $this->__('To') ?>:&nbsp;<input class="input-text no-changes required-entry" type="text" id="period_date_to" name="report_to" value="<?php echo $this->getFilter('report_to') ?>" style="width:5em" /> <img src="<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>" title="<?php echo $this->__('Select Date') ?>" id="period_date_to_trig" alt="<?php echo $this->__('Select Date') ?>" class="v-middle"/>&nbsp;&nbsp;</div>
+                                                    <div id="period_date_from_advaice"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <!--<td class="label"><label for="sales_report_show_order_statuses">Situação do Pedido</label></td>
+                                            <td class="value">
+                                                <select id="sales_report_show_order_statuses" name="show_order_statuses" class=" select">
+                                                    <option value="0" selected="selected">Qualquer</option>
+                                                    <option value="1">Especificado</option>
+                                                </select>
+                                                <p class="note" id="note_show_order_statuses"><span>Aplicar para Qualquer Status de Pedido Selecionado</span></p>
+                                            </td> -->
+                                        </tr>
+                                        <tr style="display: none;">
+                                            <td class="label"></td>
+                                            <td class="value">
+                                                <select id="sales_report_order_statuses" name="order_statuses[]" size="10" class=" select multiselect" multiple="multiple" disabled="">
+                                                    <option value="canceled">Cancelado</option>
+                                                    <option value="closed">Fechado</option>
+                                                    <option value="complete">Completo</option>
+                                                    <option value="fraud">Suspeita de Fraude</option>
+                                                    <option value="holded">Segurado</option>
+                                                    <option value="payment_review">Análise de Pagamento</option>
+                                                    <option value="paypal_canceled_reversal">Reversão Cancelada do PayPal</option>
+                                                    <option value="paypal_reversed">Reversão do PayPal</option>
+                                                    <option value="processing">Processando</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="sales_report_show_empty_rows">Linhas Em Branco</label></td>
+                                            <td class="value">
+                                                <select id="sales_report_show_empty_rows" name="show_empty_rows" title="Linhas Em Branco" class=" select">
+                                                    <option value="1">Sim</option>
+                                                    <option value="0" selected="selected">Não</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="sales_report_show_actual_columns">Exibir Valores Atuais</label></td>
+                                            <td class="value">
+                                                <select id="sales_report_show_actual_columns" name="show_actual_columns" class=" select">
+                                                    <option value="1">Sim</option>
+                                                    <option value="0" selected="selected">Não</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label for="export_csv">Expandir relatório para exportação em CSV:</label>
+                                            </td>
+                                            <td>&nbsp;<input id="export_csv" name="export_csv" value="1" type="checkbox"
+                                                    <?php echo ($this->getFiltersData("export_csv")) ? "checked" : null ?>/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;Exibir relatório:</td>
+                                            <td>
+                                                <div style="float: right"><?php echo $this->getRefreshButtonHtml(); ?></div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <script type="text/javascript">
                                 <!--
@@ -153,7 +244,7 @@ $numColumns = sizeof($this->getColumns());
                             <?php
 
                                 $value = (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;');
-                                echo ($j > 10 ) ? Mage::helper('core')->currency($value) : $value;
+                                echo ($j > 10 || (!$this->getFiltersData("export_csv") && $j > 2) ) ? Mage::helper('core')->currency($value) : $value;
 
                              ?>
                         </td>
@@ -165,7 +256,7 @@ $numColumns = sizeof($this->getColumns());
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?> subtotal">
                             <?php
                                 $value = ($j==1) ? $this->getSubtotalText():$_column->getRowField($this->getTotals());
-                                echo ($j > 10 ) ? Mage::helper('core')->currency($value) : $value;
+                                echo ($j > 10 || (!$this->getFiltersData("export_csv") && $j > 2)  ) ? Mage::helper('core')->currency($value) : $value;
                              ?>
                         </td>
                         <?php if($j==1): ?>
@@ -189,7 +280,7 @@ $numColumns = sizeof($this->getColumns());
                             <th class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
                                 <?php
                                     $value = $_column->getRowField($this->getGrandTotals());
-                                    echo ($j > 10 ) ? Mage::helper('core')->currency($value) : $value;
+                                    echo ($j > 10  || (!$this->getFiltersData("export_csv") && $j > 2)  ) ? Mage::helper('core')->currency($value) : $value;
                                 ?>
                             </th>
                         <?php endforeach; ?>

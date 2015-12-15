@@ -63,9 +63,15 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
 
         $totals = new Varien_Object();
         $fields = array(
-            'qty_order' => 0, //actual column index, see _prepareColumns()
-            'total_amount_refunded' => 0,
+            'qty_products_sold' => 0, //actual column index, see _prepareColumns()
+            'qty_order' => 0,
+            'qty_order_canceled' => 0,
+            'qty_order_closed' => 0,
             'total_sold' => 0,
+            'total_order_canceled' => 0,
+            'total_amount_refunded' => 0,
+            'dicount_amount' => 0,
+            'shipping_amount' => 0
         );
         foreach ($this->collection as $item) {
             foreach($fields as $field=>$value){
