@@ -63,26 +63,89 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
             $orderJoinCondition[] = $this->_prepareBetweenSql($fieldName, $from, $to);
         }
 
+        $betweenDateSalesOrderItem       = $this->_prepareBetweenSql('sales_order_item' . '.created_at', $from, $to);
+        $betweenDateSalesOrderCanceled   = $this->_prepareBetweenSql('sales_canceled' . '.created_at', $from, $to);
+        $betweenDateSalesOrderClosed     = $this->_prepareBetweenSql('sales_closed' . '.created_at', $from, $to);
+        $betweenDateSalesOrderAmount     = $this->_prepareBetweenSql('sales_amount' . '.created_at', $from, $to);
+        $betweenDateSalesOrderRefunded   = $this->_prepareBetweenSql('sales_refunded' . '.created_at', $from, $to);
+        $betweenDateSalesOrderDiscount   = $this->_prepareBetweenSql('sales_discount' . '.created_at', $from, $to);
+        $betweenDateSalesOrderShipping   = $this->_prepareBetweenSql('sales_shipping' . '.created_at', $from, $to);
+
         $select = $this->getSelect()->reset();
 
-        $select->from(array('order_items' => $this->getTable('sales/order_item')))
+        $select->from(array('order_items' => $this->getTable('sales/order_item')), array())
             ->columns(array(
-                'full_name_cutomer' => "CONCAT({$orderTableAliasName}.customer_firstname, ' ', {$orderTableAliasName}.customer_lastname)",
-                'qty_order' => 'count(distinct order_id)',
-                'total_sold' => '(
-                    SELECT sum(grand_total) FROM sales_flat_order as order_sold
-                    where order_sold.customer_id = order.customer_id
-                )',
-                'total_amount_refunded' => '(
-                    SELECT IF(sum(total_refunded) IS NOT NULL, sum(total_refunded), 0) FROM sales_flat_order as order_refunded
-                    where order_refunded.customer_id = order.customer_id
-                )'
+                'date_customer_register' => 'customer.created_at',
+                'group_cutomer'          => 'c_group.customer_group_code',
+                'full_name_cutomer'      => "CONCAT({$orderTableAliasName}.customer_firstname, ' ', {$orderTableAliasName}.customer_lastname)",
+                'affiliateplus_coupon'   => 'IF(order.affiliateplus_coupon IS NOT NULL, order.affiliateplus_coupon, "Não Possui Código de Afiliado")',
+
+                'qty_products_sold'      => "(
+                    SELECT SUM(total_item_count) FROM sales_flat_order as sales_order_item
+                    where sales_order_item.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderItem}
+                )",
+
+                'qty_order'              => 'count(distinct order_id)',
+
+                'qty_order_canceled'     => "(
+                    SELECT COUNT(*) FROM sales_flat_order as sales_canceled
+                    where status='canceled' and sales_canceled.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderCanceled}
+                )",
+
+                'qty_order_closed'      => "(
+                    SELECT COUNT(*) FROM sales_flat_order as sales_closed
+                    where status='closed' and sales_closed.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderClosed}
+                )",
+
+                'total_sold'            => "(
+                    SELECT SUM(grand_total) FROM sales_flat_order as sales_amount
+                    where sales_amount.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderAmount}
+
+                )",
+
+                'total_order_canceled'  => "(
+                    SELECT SUM(total_canceled) FROM sales_flat_order as sales_canceled
+                    where status='canceled'
+                        and sales_canceled.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderCanceled}
+                )",
+                'total_amount_refunded' => "(
+                	SELECT SUM(total_refunded) FROM sales_flat_order as sales_refunded
+                    where sales_refunded.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderRefunded}
+                )",
+
+                'dicount_amount'       => "(
+                    SELECT (SUM(discount_amount) + (SUM(affiliateplus_discount)*-1))FROM sales_flat_order as sales_discount
+                    where sales_discount.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderDiscount}
+
+                )",
+
+                'shipping_amount'      => "(
+                    SELECT SUM(shipping_amount) FROM sales_flat_order as sales_shipping
+                    where sales_shipping.customer_id = order.customer_id
+                        and {$betweenDateSalesOrderShipping}
+                )"
             ))
             ->joinInner(
                 array('order' => $this->getTable('sales/order')),
                 implode(' AND ', $orderJoinCondition),
                 array()
-            )->joinLeft(
+            )->joinInner(
+                array('customer' => 'customer_entity'),
+                'order.customer_id = customer.entity_id',
+                array()
+            )->joinInner(
+                array('c_group' => 'customer_group'),
+                'customer.group_id = c_group.customer_group_id',
+                array()
+            )
+            ->joinLeft(
                 array('e' => $this->getProductEntityTableName()),
                 implode(' AND ', $productJoinCondition),
                 array(

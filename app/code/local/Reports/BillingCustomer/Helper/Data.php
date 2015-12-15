@@ -75,7 +75,7 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
 
         $totals->setData($fields);
 
-        if($this->key++%5 == 0) {
+        if($this->key++%14 == 0) {
             $this->subTotals[] = $fields;
         }
         return $totals;

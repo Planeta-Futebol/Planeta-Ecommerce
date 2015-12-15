@@ -153,7 +153,7 @@ $numColumns = sizeof($this->getColumns());
                             <?php
 
                                 $value = (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;');
-                                echo ($j > 4 ) ? Mage::helper('core')->currency($value) : $value;
+                                echo ($j > 10 ) ? Mage::helper('core')->currency($value) : $value;
 
                              ?>
                         </td>
@@ -165,7 +165,7 @@ $numColumns = sizeof($this->getColumns());
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?> subtotal">
                             <?php
                                 $value = ($j==1) ? $this->getSubtotalText():$_column->getRowField($this->getTotals());
-                                echo ($j > 4 ) ? Mage::helper('core')->currency($value) : $value;
+                                echo ($j > 10 ) ? Mage::helper('core')->currency($value) : $value;
                              ?>
                         </td>
                         <?php if($j==1): ?>
@@ -189,7 +189,7 @@ $numColumns = sizeof($this->getColumns());
                             <th class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
                                 <?php
                                     $value = $_column->getRowField($this->getGrandTotals());
-                                    echo ($j > 4 ) ? Mage::helper('core')->currency($value) : $value;
+                                    echo ($j > 10 ) ? Mage::helper('core')->currency($value) : $value;
                                 ?>
                             </th>
                         <?php endforeach; ?>

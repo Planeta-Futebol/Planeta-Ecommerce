@@ -114,11 +114,31 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
      */
     protected function _prepareColumns() {
 
+        $this->addColumn('date_customer_register', array(
+            'header'   => Mage::helper('billingcustomer')->__('Data do Cadastro'),
+            'align'    => 'left',
+            'sortable' => false,
+            'index'    => 'date_customer_register'
+        ));
         $this->addColumn('full_name_cutomer', array(
             'header'   => Mage::helper('billingcustomer')->__('Nome do Cliente'),
             'align'    => 'left',
             'sortable' => false,
             'index'    => 'full_name_cutomer'
+        ));
+
+        $this->addColumn('group_cutomer', array(
+            'header'   => Mage::helper('billingcustomer')->__('Grupo do Cliente'),
+            'align'    => 'left',
+            'sortable' => false,
+            'index'    => 'group_cutomer'
+        ));
+
+        $this->addColumn('affiliateplus_coupon', array(
+            'header'   => Mage::helper('billingcustomer')->__('Código de Afiliado'),
+            'align'    => 'left',
+            'sortable' => false,
+            'index'    => 'affiliateplus_coupon'
         ));
 
         $this->addColumn('state', array(
@@ -135,6 +155,14 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             'index'    => 'representative_name'
         ));
 
+        $this->addColumn('qty_products_sold', array(
+            'header'    => Mage::helper('billingcustomer')->__('Produtos Vendidos'),
+            'align'     => 'right',
+            'sortable'  => false,
+            'type'      => 'number',
+            'index'     => 'qty_products_sold',
+        ));
+
         $this->addColumn('qty_order', array(
             'header'    => Mage::helper('billingcustomer')->__('Quantidade de Pedidos'),
             'align'     => 'right',
@@ -143,18 +171,55 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             'index'     => 'qty_order',
         ));
 
+        $this->addColumn('qty_order_canceled', array(
+            'header'    => Mage::helper('billingcustomer')->__('Pedidos Cancelados'),
+            'align'     => 'right',
+            'sortable'  => false,
+            'type'      => 'number',
+            'index'     => 'qty_order_canceled',
+        ));
+
+        $this->addColumn('qty_order_closed', array(
+            'header'    => Mage::helper('billingcustomer')->__('Pedidos Devolvidos/Fechados'),
+            'align'     => 'right',
+            'sortable'  => false,
+            'type'      => 'number',
+            'index'     => 'qty_order_closed',
+        ));
+
+        $this->addColumn('total_sold', array(
+            'header'    => Mage::helper('billingcustomer')->__('Total dos Pedidos'),
+            'align'     => 'left',
+            'sortable'  => true,
+            'index'     => 'total_sold'
+        ));
+
+        $this->addColumn('total_order_canceled', array(
+            'header'    => Mage::helper('billingcustomer')->__('Total dos Pedidos Cancelados'),
+            'align'     => 'left',
+            'sortable'  => true,
+            'index'     => 'total_order_canceled'
+        ));
+
         $this->addColumn('total_amount_refunded', array(
-            'header'    => Mage::helper('billingcustomer')->__('Valor devolvido'),
+            'header'    => Mage::helper('billingcustomer')->__('Total Devoluções'),
             'align'     => 'left',
             'sortable'  => true,
             'index'     => 'total_amount_refunded'
         ));
 
-        $this->addColumn('total_sold', array(
-            'header'    => Mage::helper('billingcustomer')->__('Valor de Compras'),
+        $this->addColumn('dicount_amount', array(
+            'header'    => Mage::helper('billingcustomer')->__('Total Desconto'),
             'align'     => 'left',
             'sortable'  => true,
-            'index'     => 'total_sold'
+            'index'     => 'dicount_amount'
+        ));
+
+        $this->addColumn('shipping_amount', array(
+            'header'    => Mage::helper('billingcustomer')->__('Total Frete'),
+            'align'     => 'left',
+            'sortable'  => true,
+            'index'     => 'shipping_amount'
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('billingcustomer')->__('CSV'));
