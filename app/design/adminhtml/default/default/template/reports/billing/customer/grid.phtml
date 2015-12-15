@@ -208,7 +208,7 @@ $numColumns = sizeof($this->getColumns());
             </table>
         <?php endif; ?>
 
-        <div class="grid">
+        <div class="grid" style="overflow-x: auto">
             <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
                 <col/>
                 <?php foreach ($this->getColumns() as $_column): ?>
@@ -244,7 +244,7 @@ $numColumns = sizeof($this->getColumns());
                             <?php
 
                                 $value = (($_html = $_column->getRowField($_subItem)) != '' ? $_html : '&nbsp;');
-                                echo ($j > 10 || (!$this->getFiltersData("export_csv") && $j > 2) ) ? Mage::helper('core')->currency($value) : $value;
+                                echo ($j > 11 || (!$this->getFiltersData("export_csv") && $j > 2) ) ? Mage::helper('core')->currency($value) : $value;
 
                              ?>
                         </td>
@@ -256,7 +256,7 @@ $numColumns = sizeof($this->getColumns());
                         <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?> subtotal">
                             <?php
                                 $value = ($j==1) ? $this->getSubtotalText():$_column->getRowField($this->getTotals());
-                                echo ($j > 10 || (!$this->getFiltersData("export_csv") && $j > 2)  ) ? Mage::helper('core')->currency($value) : $value;
+                                echo ($j > 11 || (!$this->getFiltersData("export_csv") && $j > 2)  ) ? Mage::helper('core')->currency($value) : $value;
                              ?>
                         </td>
                         <?php if($j==1): ?>
@@ -280,7 +280,7 @@ $numColumns = sizeof($this->getColumns());
                             <th class="<?php echo $_column->getCssProperty() ?> <?php echo ++$j==$numColumns?'last':'' ?>">
                                 <?php
                                     $value = $_column->getRowField($this->getGrandTotals());
-                                    echo ($j > 10  || (!$this->getFiltersData("export_csv") && $j > 2)  ) ? Mage::helper('core')->currency($value) : $value;
+                                    echo ($j > 11  || (!$this->getFiltersData("export_csv") && $j > 2)  ) ? Mage::helper('core')->currency($value) : $value;
                                 ?>
                             </th>
                         <?php endforeach; ?>

@@ -72,7 +72,9 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             'total_order_canceled'  => 0,
             'total_amount_refunded' => 0,
             'dicount_amount'        => 0,
-            'shipping_amount'       => 0
+            'shipping_amount'       => 0,
+            'total_invoiced'        => 0
+
         );
 
         foreach ($subTotals as $item) {
@@ -107,7 +109,8 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
             'total_order_canceled'  => 0,
             'total_amount_refunded' => 0,
             'dicount_amount'        => 0,
-            'shipping_amount'       => 0
+            'shipping_amount'       => 0,
+            'total_invoiced'        => 0
         );
 
         foreach ($helper->getCollection() as $item) {
