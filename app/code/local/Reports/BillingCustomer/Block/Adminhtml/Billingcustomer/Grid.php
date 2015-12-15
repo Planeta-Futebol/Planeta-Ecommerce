@@ -18,6 +18,20 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
     private $filtersData = null;
 
     /**
+     * Array subtotal values
+     *
+     * @var array
+     */
+    private $subTotals = array();
+
+    /**
+     * Key to use the special check made in
+     *
+     * @var int
+     */
+    private $key = 0;
+
+    /**
      * Starts standards values and calling default constructor parent class.
      *
      */
@@ -44,35 +58,21 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
     /**
      * @return Varien_Object
      */
-    public function getTotals()
-    {
-        /** @var Reports_BillingCustomer_Helper_Data $helper */
-        $helper = Mage::helper('billingcustomer');
-        return $helper->getTotals();
-    }
-
-    /**
-     * @return Varien_Object
-     */
     public function getGrandTotals()
     {
-
-        /** @var Reports_BillingCustomer_Helper_Data $helper */
-        $helper = Mage::helper('billingcustomer');
-
-        $subTotals = $helper->getSubTotals();
+        $subTotals = $this->subTotals;
 
         $totals = new Varien_Object();
         $fields = array(
-            'qty_products_sold' => 0, //actual column index, see _prepareColumns()
-            'qty_order' => 0,
-            'qty_order_canceled' => 0,
-            'qty_order_closed' => 0,
-            'total_sold' => 0,
-            'total_order_canceled' => 0,
+            'qty_products_sold'     => 0, //actual column index, see _prepareColumns()
+            'qty_order'             => 0,
+            'qty_order_canceled'    => 0,
+            'qty_order_closed'      => 0,
+            'total_sold'            => 0,
+            'total_order_canceled'  => 0,
             'total_amount_refunded' => 0,
-            'dicount_amount' => 0,
-            'shipping_amount' => 0
+            'dicount_amount'        => 0,
+            'shipping_amount'       => 0
         );
 
         foreach ($subTotals as $item) {
@@ -87,8 +87,50 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
     }
 
     /**
+     * Returns the subtotal for each key informed that exists in the collection.
      *
-     *
+     * @return Varien_Object
+     */
+    public function getTotals()
+    {
+        /** @var Reports_BillingCustomer_Helper_Data $helper */
+        $helper = Mage::helper('billingcustomer');
+
+        $totals = new Varien_Object();
+
+        $fields = array(
+            'qty_products_sold'     => 0, //actual column index, see _prepareColumns()
+            'qty_order'             => 0,
+            'qty_order_canceled'    => 0,
+            'qty_order_closed'      => 0,
+            'total_sold'            => 0,
+            'total_order_canceled'  => 0,
+            'total_amount_refunded' => 0,
+            'dicount_amount'        => 0,
+            'shipping_amount'       => 0
+        );
+
+        foreach ($helper->getCollection() as $item) {
+            foreach($fields as $field=>$value){
+                $fields[$field]+=$item->getData($field);
+            }
+        }
+
+        $totals->setData($fields);
+
+        /*
+         * This validation is because the method is being called once every column gride,
+         * thus accumulating wrong values for the grand total of calculation.
+         */
+        if($this->key++%14 == 0) {
+            $this->subTotals[] = $fields;
+        }
+
+        return $totals;
+    }
+
+    /**
+     * Get a filter value of the parameters passed by the form.
      *
      * @param  $key string
      *
@@ -107,12 +149,12 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer_Grid extends Mage_
      */
     protected function _prepareCollection() {
         parent::_prepareCollection();
-        // Get the data collection from the model
 
         if($this->getFiltersData("export_csv")){
             $this->_exportVisibility = true;
         }
 
+        // Get the data collection from the model
         $this->getCollection()->initReport('billingcustomer/billingcustomer');
 
         return $this;

@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: Ronildo
- * Date: 02/12/15
- * Time: 15:00
+ * @category   Reports
+ * @package    Reports_BillingCustomer
+ * @author     Ronildo dos Santos
  */
 class Reports_BillingCustomer_Block_BillingCustomer extends Mage_Core_Block_Template
 {

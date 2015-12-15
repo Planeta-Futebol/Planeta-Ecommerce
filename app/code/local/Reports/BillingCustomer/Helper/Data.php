@@ -19,25 +19,10 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     private $collection;
 
-    private $key = 0;
-
-    /**
-     * @var array
-     */
-    private $subTotals = array();
-
-    /**
-     * @return array
-     */
-    public function getSubTotals()
-
-    {
-        return $this->subTotals;
-    }
-
     /**
      * Retrieves all filters values subimited by form.
      *
+     * @param $key string
      * @return Varien_Object
      */
     public function getFilters( $key = null )
@@ -56,42 +41,20 @@ class Reports_BillingCustomer_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @return Varien_Object
+     * Define the collection that will be used for calculate subtotal values and grand total values.
+     *
+     * @param Mage_Reports_Model_Resource_Product_Collection $collection
      */
-    public function getTotals()
+    public function setCollection( $collection )
     {
-
-        $totals = new Varien_Object();
-        $fields = array(
-            'qty_products_sold' => 0, //actual column index, see _prepareColumns()
-            'qty_order' => 0,
-            'qty_order_canceled' => 0,
-            'qty_order_closed' => 0,
-            'total_sold' => 0,
-            'total_order_canceled' => 0,
-            'total_amount_refunded' => 0,
-            'dicount_amount' => 0,
-            'shipping_amount' => 0
-        );
-        foreach ($this->collection as $item) {
-            foreach($fields as $field=>$value){
-                $fields[$field]+=$item->getData($field);
-            }
-        }
-
-        $totals->setData($fields);
-
-        if($this->key++%14 == 0) {
-            $this->subTotals[] = $fields;
-        }
-        return $totals;
+        $this->collection = $collection;
     }
 
     /**
-     * @param Mage_Reports_Model_Resource_Product_Collection $collection
+     * @return Mage_Reports_Model_Resource_Product_Collection
      */
-    public function setCollection($collection)
+    public function getCollection()
     {
-        $this->collection = $collection;
+        return $this->collection;
     }
 }
