@@ -29,4 +29,29 @@ class Magestore_AffiliateplusReferFriend_Block_Product_List
         }
         return $html;
     }
+
+    /**
+     * Override the default collection to display the latest products.
+     *
+     * @return object
+     */
+    public function getLoadedProductCollection()
+    {
+
+        $currentUrl = Mage::helper('core/url')->getCurrentUrl();
+        $url = Mage::getSingleton('core/url')->parseUrl($currentUrl);
+        $path = $url->getPath();
+
+        if($path == '/novidades'){
+
+            $select = $this->_productCollection->getSelect()
+                ->reset(Zend_Db_Select::WHERE)
+                ->reset(Zend_Db_Select::LIMIT_COUNT)
+                ->limit(30);
+
+            $this->_productCollection->clear();
+
+        }
+            return $this->_getProductCollection();
+    }
 }

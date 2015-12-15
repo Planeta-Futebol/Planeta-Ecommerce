@@ -98,9 +98,8 @@
         <thead>
             <?php if ($this->getData('add_searchable_row')): ?>
               <tr>
-                <th colspan="5" class="inline">
+                <th colspan="6" class="inline">
                   <?php foreach ($columns as $id => $column): ?>
-                    <?php //echo $id; ?>
                     <?php if (isset($column['searchable'])): ?>
                   
                   <?php $type = isset($column['type']) ? $column['type'] : '' ?>
@@ -137,6 +136,7 @@
                       </div>
                     </div>
                   <?php else: ?>
+                      <label>Cliente: </label>
                       <input class="form-control" type="text" name="<?php echo 'name_user' ?>" id="<?php echo $this->getNameInLayout() . '-' . 'name_user' ?>"  value="<?php echo $this->getFilterValue('name_user') ?>" />
                   <?php endif ?>
                 <?php endif ?>
@@ -156,9 +156,10 @@
               <th>Cliente</th>
               <th>Valor total</th>
               <th>Comissão</th>
+              <th>Status do Pedido</th>
           </tr>
           <tr class="total">
-            <td colspan="5">
+            <td colspan="6">
               <span>Total de Crédito</span>
               <?php echo $this->getLayout()->createBlock('affiliateplus/payment_miniform')->getFormatedBalance(); ?>
             </td>
@@ -174,6 +175,7 @@
                         <td><?php echo $row['full_name']; ?></td>
                         <td><?php echo Mage::helper('core')->currency($row['total_amount']); ?></td>
                         <td><?php echo Mage::helper('core')->currency($row['commission']); ?></td>
+                        <td><?php echo $this->getStatusOrder($row['status']); ?></td>
                     </tr>
                 <?php endforeach ?>
             <?php else: ?>
@@ -187,6 +189,6 @@
             <?php endif ?>
         </tbody>
     </table>
-    <style>.price{width: 133px !important;} .form-control{padding: 0 5px !important;}</style>
+    <style>.price{width: 133px !important;text-align:right;padding-right: 54px;} .form-control{padding: 0 5px !important;}</style>
 </div>
 <?php echo $this->getPagerHtml() ?>
