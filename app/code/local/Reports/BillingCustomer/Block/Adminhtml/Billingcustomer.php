@@ -12,6 +12,7 @@ class Reports_BillingCustomer_Block_Adminhtml_BillingCustomer extends Mage_Admin
     /**
      * Define controller, group blocks and set title report.
      *
+     *
      */
     public function __construct() {
 
