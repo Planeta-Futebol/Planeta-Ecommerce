@@ -53,6 +53,19 @@ class Magestore_Affiliateplus_Block_Grid extends Mage_Core_Block_Template
             ''),
             LTRIM(RTRIM(at_lastname.value)))
 CONCAT;
+
+
+    /**
+     * Description of the status for code status.
+     *
+     * @var array
+     */
+    private $arrStatusOrder = array(
+        1 => "Completo",
+        2 => "Pendente",
+        3 => "Cancelado",
+        4 => "Segurado"
+    );
 	
     /**
      * 
@@ -102,6 +115,12 @@ CONCAT;
             $this->findByNameUser($collection, $filterValue);
         }
 
+        $collection->getSelect()->columns(
+            array(
+                'total_amount' => new Zend_Db_Expr("total_amount + discount")
+            )
+        );
+
         return $this;
 	}
     
@@ -118,6 +137,17 @@ CONCAT;
         } else {
             return $this->getData('filter_value/' . $columnId . $offset);
         }
+    }
+
+    /**
+     * Recover description status for informed key.
+     *
+     * @param $key
+     * @return string
+     */
+    public function getStatusOrder( $key )
+    {
+        return $this->arrStatusOrder[$key];
     }
     
     /**

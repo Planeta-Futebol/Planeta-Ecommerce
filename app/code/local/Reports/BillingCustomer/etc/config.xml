@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Reports_BillingCustomer>
+            <version>1.0.0</version>
+        </Reports_BillingCustomer>
+    </modules>
+    <admin>
+        <routers>
+            <!--
+            Tell router to look in Reports_BillingCustomer
+            when the url /admin/reportneworders is used -->
+            <billingcustomer>
+                <use>admin</use>
+                <args>
+                    <module>Reports_BillingCustomer</module>
+                    <frontName>billingcustomer</frontName>
+                </args>
+            </billingcustomer>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <report>
+                <children>
+                    <billing>
+                        <!-- This is the name to be displayed in the admin panel under Reports -->
+                        <title>Faturamento/Vendas</title>
+                        <children>
+                            <billingcustomer translate="title" module="billingcustomer">
+                                <!-- This is the name to be displayed in the admin panel under Reports -->
+                                <title>Pedidos</title>
+                                <!--
+                                Specify the controller and location, using the router (defined above),
+                                followed by the controller. -->
+                                <action>billingcustomer/adminhtml_billingcustomer</action>
+                            </billingcustomer>
+                        </children>
+                    </billing>
+                </children>
+            </report>
+        </menu>
+        <layout>
+            <updates>
+                <billingcustomer>
+                    <file>reports_billingcustomer.xml</file>
+                </billingcustomer>
+            </updates>
+        </layout>
+    </adminhtml>
+    <global>
+        <models>
+            <billingcustomer>
+                <class>Reports_BillingCustomer_Model</class>
+                <resourceModel>billingcustomer</resourceModel>
+            </billingcustomer>
+        </models>
+        <blocks>
+            <billingcustomer>
+                <class>Reports_BillingCustomer_Block</class>
+            </billingcustomer>
+        </blocks>
+        <helpers>
+            <billingcustomer>
+                <class>Reports_BillingCustomer_Helper</class>
+            </billingcustomer>
+        </helpers>
+        <resources>
+            <billingcustomer_setup>
+                <setup>
+                    <module>Reports_BillingCustomer</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </billingcustomer_setup>
+            <billingcustomer_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </billingcustomer_write>
+            <billingcustomer_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </billingcustomer_read>
+        </resources>
+    </global>
+</config>
