@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config>
+    <menu>
+        <report>
+            <children>
+                <salesroot>
+                    <children>
+                        <sales>
+                            <disabled>1</disabled>
+                        </sales>
+                        <invoiced>
+                            <disabled>1</disabled>
+                        </invoiced>
+                    </children>
+                </salesroot>
+            </children>
+        </report>
+    </menu>
+</config>
