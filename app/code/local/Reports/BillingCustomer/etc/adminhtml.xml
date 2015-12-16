@@ -8,6 +8,9 @@
                         <sales>
                             <disabled>1</disabled>
                         </sales>
+                        <invoiced>
+                            <disabled>1</disabled>
+                        </invoiced>
                     </children>
                 </salesroot>
             </children>
