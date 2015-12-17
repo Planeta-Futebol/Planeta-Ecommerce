@@ -15,3 +15,20 @@
   'status' => '3',
   'itemsCount' => 6,
 )) 
+{2015/12/17 15:58:53} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '637',
+  'SenderEmail' => 'aurilane.procontabil@gmail.com',
+)) - begin 
+{2015/12/17 15:58:54} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '637',
+  'SenderEmail' => 'aurilane.procontabil@gmail.com',
+)) - end {1}DFB53DAA1212471CC4909FB3237CFD5D 
+{2015/12/17 16:02:17} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=F25478-40CCBCCCBC84-7CC4AB4F94F6-283D02) - begin 
+{2015/12/17 16:02:18} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=F25478-40CCBCCCBC84-7CC4AB4F94F6-283D02) - end Transaction: array (
+  'code' => '1843D9F4-F4EF-4A80-86E0-0FC2F1AB88D9',
+  'email' => 'aurilane.procontabil@gmail.com',
+  'date' => '2015-12-17T13:58:22.000-02:00',
+  'reference' => '637',
+  'status' => '1',
+  'itemsCount' => 2,
+)) 
