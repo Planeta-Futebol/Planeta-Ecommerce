@@ -78,7 +78,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 'group_cutomer'          => 'c_group.customer_group_code',
                 'full_name_cutomer'      => "CONCAT({$orderTableAliasName}.customer_firstname, ' ', {$orderTableAliasName}.customer_lastname)",
                 'customer_email'         => 'order.customer_email',
-                'affiliateplus_coupon'   => 'IF(order.affiliateplus_coupon IS NOT NULL, order.affiliateplus_coupon, "Não Possui Código de Afiliado")',
+                'affiliateplus_coupon'   => 'IF(c.coupon_code  IS NOT NULL, c.coupon_code , "Não Possui Código de Afiliado")',
 
                 'qty_products_sold'      => "(
                     SELECT SUM(total_item_count) FROM sales_flat_order as sales_order_item
@@ -86,7 +86,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                         and {$betweenDateSalesOrderItem}
                 )",
 
-                'qty_order'              => 'count(distinct order_id)',
+                'qty_order'              => 'count(distinct `order`.entity_id)',
 
                 'qty_order_canceled'     => "(
                     SELECT COUNT(*) FROM sales_flat_order as sales_canceled
@@ -167,15 +167,15 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 )
             )
             ->joinLeft(
-                array('c' => 'affiliateplus_coupon'),
-                implode($couponJoinCondition),
+                array('aft' => 'affiliateplusprogram_transaction'),
+                'aft.order_id = `order`.entity_id',
                 array(
-                    'representative_name' => 'IF(c.account_name IS NOT NULL, c.account_name, "Não possui representante" )'
+                    'representative_name' => 'IF(aft.account_name IS NOT NULL, aft.account_name, "Não possui representante" )'
                 )
             )
             ->joinLeft(
-                array('pro' => 'affiliateplusprogram'),
-                'c.program_id = pro.program_id',
+                array('c' => 'affiliateplus_coupon'),
+                "aft.account_id = c.account_id AND aft.program_id = c.program_id",
                 array()
             )->group('order.customer_id');
 
