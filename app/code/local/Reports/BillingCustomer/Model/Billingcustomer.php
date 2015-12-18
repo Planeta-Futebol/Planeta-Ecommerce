@@ -101,40 +101,40 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 )",
 
                 'total_sold'            => "(
-                    SELECT SUM(grand_total) FROM sales_flat_order as sales_amount
+                    SELECT SUM(COALESCE(grand_total, 0)) FROM sales_flat_order as sales_amount
                     where sales_amount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderAmount}
 
                 )",
 
                 'total_invoiced'            => "(
-                    SELECT SUM(grand_total) FROM sales_flat_order as sales_amount
+                    SELECT SUM(COALESCE(grand_total, 0)) FROM sales_flat_order as sales_amount
                     where sales_amount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderAmount}
 
                 )",
 
                 'total_order_canceled'  => "(
-                    SELECT SUM(total_canceled) FROM sales_flat_order as sales_canceled
+                    SELECT SUM(COALESCE(total_canceled, 0)) FROM sales_flat_order as sales_canceled
                     where status='canceled'
                         and sales_canceled.customer_id = order.customer_id
                         and {$betweenDateSalesOrderCanceled}
                 )",
                 'total_amount_refunded' => "(
-                	SELECT SUM(total_refunded) FROM sales_flat_order as sales_refunded
+                	SELECT SUM(COALESCE(total_refunded, 0)) FROM sales_flat_order as sales_refunded
                     where sales_refunded.customer_id = order.customer_id
                         and {$betweenDateSalesOrderRefunded}
                 )",
 
                 'dicount_amount'       => "(
-                    SELECT (SUM(discount_amount) + (SUM(affiliateplus_discount))) * -1 FROM sales_flat_order as sales_discount
+                    SELECT (SUM(COALESCE(discount_amount, 0)) + (SUM(COALESCE(affiliateplus_discount,0)))) * -1 FROM sales_flat_order as sales_discount
                     where sales_discount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderDiscount}
 
                 )",
 
                 'shipping_amount'      => "(
-                    SELECT SUM(shipping_amount) FROM sales_flat_order as sales_shipping
+                    SELECT SUM(COALESCE(shipping_amount, 0)) FROM sales_flat_order as sales_shipping
                     where sales_shipping.customer_id = order.customer_id
                         and {$betweenDateSalesOrderShipping}
                 )"
