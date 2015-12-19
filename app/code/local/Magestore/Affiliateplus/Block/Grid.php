@@ -119,7 +119,7 @@ CONCAT;
             array(
                 'total_amount' => new Zend_Db_Expr("total_amount + discount")
             )
-        );
+        )->group("order_id");
 
         return $this;
 	}
