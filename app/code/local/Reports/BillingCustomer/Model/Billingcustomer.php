@@ -74,6 +74,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
 
         $select->from(array('order_items' => $this->getTable('sales/order_item')), array())
             ->columns(array(
+                'order_id' => 'order.entity_id',
                 'date_customer_register' => 'customer.created_at',
                 'group_cutomer'          => 'c_group.customer_group_code',
                 'full_name_cutomer'      => "CONCAT({$orderTableAliasName}.customer_firstname, ' ', {$orderTableAliasName}.customer_lastname)",
