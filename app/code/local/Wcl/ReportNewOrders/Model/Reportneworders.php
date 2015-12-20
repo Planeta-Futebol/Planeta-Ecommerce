@@ -119,7 +119,8 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         ))
                 ->where('parent_item_id IS NULL')
                 ->order('qty_ordered DESC')
-                ->group("order_items.sku, order.increment_id");
+                ->group("order_items.sku")
+                ->group("order.increment_id");
 
         Mage::log((string) $select, null, "relatorioperiodo");
 
