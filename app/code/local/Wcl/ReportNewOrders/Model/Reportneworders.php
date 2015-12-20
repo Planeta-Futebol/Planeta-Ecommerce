@@ -62,8 +62,8 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         'COALESCE(order_items.amount_refunded, 0) - (
                             (COALESCE(order_items.discount_refunded, 0)) +
                             (
-                                (COALESCE(order_items.affiliateplus_amount, 0) / (COALESCE(order_items.row_total, 0) - COALESCE(order_items.discount_amount, 0))
-                            ) * (order_items.amount_refunded - order_items.discount_refunded))
+                                (COALESCE(order_items.affiliateplus_amount, 0) / (order_items.row_total - COALESCE(order_items.discount_amount, 0))
+                            ) * (COALESCE(order_items.amount_refunded, 0) - COALESCE(order_items.discount_refunded, 0)))
                         )'
                     ),
                     'shipping_address_id' => 'order.shipping_address_id',
