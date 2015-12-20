@@ -67,14 +67,14 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                         )'
                     ),
                     'shipping_address_id' => 'order.shipping_address_id',
-                    'total_sold'          => 'order_items.row_total',
-                    'discount_amount_store'        => 'order_items.discount_amount',
-                    'discount_amount_affiliatplus' => 'order_items.affiliateplus_amount',
+                    'total_sold'          => 'COALESCE(order_items.row_total, 0)',
+                    'discount_amount_store'        => 'COALESCE(order_items.discount_amount, 0)',
+                    'discount_amount_affiliatplus' => 'COALESCE(order_items.affiliateplus_amount, 0)',
                     'discount_amount' => new Zend_Db_Expr(
                         "(COALESCE(`order_items`.`discount_amount`, 0) + COALESCE(`order_items`.`affiliateplus_amount`, 0))"
                     ),
                     'total_liquid'    =>  new Zend_Db_Expr(
-                        "`order_items`.`row_total` - (COALESCE(`order_items`.`discount_amount`, 0) + COALESCE(`order_items`.`affiliateplus_amount`, 0))"
+                        "COALESCE(`order_items`.`row_total`, 0) - (COALESCE(`order_items`.`discount_amount`, 0) + COALESCE(`order_items`.`affiliateplus_amount`, 0))"
                     )
                 ))
                 ->joinInner(
@@ -120,6 +120,8 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                 ->where('parent_item_id IS NULL')
                 ->order('qty_ordered DESC')
                 ->group("DATE_FORMAT(`e`.`created_at`,'%m-%d-%Y'), order_items.sku");
+
+        Mage::log((string) $select, null, "relatorioperiodo");
 
         return $this;
     }
