@@ -121,6 +121,8 @@ CONCAT;
             )
         )->group("order_id");
 
+        Mage::log((string) $collection->getSelect(), null, "relaotiocomissao");
+
         return $this;
 	}
     
