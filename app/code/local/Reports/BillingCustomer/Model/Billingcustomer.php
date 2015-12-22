@@ -36,11 +36,18 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
     public function getReportData( $from = '', $to = '' )
     {
         $adapter = $this->getConnection();
+
+        $statusOrderCompleted = Mage_Sales_Model_Order::STATE_COMPLETE;
+        $statusOrderCanceled  = Mage_Sales_Model_Order::STATE_CANCELED;
+        $statusOrderClosed    = Mage_Sales_Model_Order::STATE_CLOSED;
+
         $orderTableAliasName = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition = array(
             $orderTableAliasName . '.entity_id = order_items.order_id',
         );
+
+
 
         $productJoinCondition = array(
             'e.entity_id = order_items.product_id',
@@ -85,6 +92,11 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                     SELECT SUM(total_item_count) FROM sales_flat_order as sales_order_item
                     where sales_order_item.customer_id = order.customer_id
                         and {$betweenDateSalesOrderItem}
+                        and (
+                            sales_order_item.state = '{$statusOrderCompleted}' OR
+                            sales_order_item.state = '{$statusOrderCanceled}' OR
+                            sales_order_item.state = '{$statusOrderClosed}'
+                        )
                 )",
 
                 'qty_order'              => 'count(distinct `order`.entity_id)',
@@ -99,12 +111,22 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                     SELECT COUNT(total_refunded) FROM sales_flat_order as sales_closed
                     where sales_closed.customer_id = order.customer_id
                         and {$betweenDateSalesOrderClosed}
+                        and (
+                            sales_closed.state = '{$statusOrderCompleted}' OR
+                            sales_closed.state = '{$statusOrderCanceled}' OR
+                            sales_closed.state = '{$statusOrderClosed}'
+                        )
                 )",
 
                 'total_sold'            => "(
                     SELECT SUM(COALESCE(grand_total, 0)) FROM sales_flat_order as sales_amount
                     where sales_amount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderAmount}
+                        and (
+                            sales_amount.state = '{$statusOrderCompleted}' OR
+                            sales_amount.state = '{$statusOrderCanceled}' OR
+                            sales_amount.state = '{$statusOrderClosed}'
+                        )
 
                 )",
 
@@ -112,6 +134,11 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                     SELECT SUM(COALESCE(grand_total, 0)) FROM sales_flat_order as sales_amount
                     where sales_amount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderAmount}
+                        and (
+                            sales_amount.state = '{$statusOrderCompleted}' OR
+                            sales_amount.state = '{$statusOrderCanceled}' OR
+                            sales_amount.state = '{$statusOrderClosed}'
+                        )
 
                 )",
 
@@ -125,12 +152,22 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 	SELECT SUM(COALESCE(total_refunded, 0)) FROM sales_flat_order as sales_refunded
                     where sales_refunded.customer_id = order.customer_id
                         and {$betweenDateSalesOrderRefunded}
+                        and (
+                            sales_refunded.state = '{$statusOrderCompleted}' OR
+                            sales_refunded.state = '{$statusOrderCanceled}' OR
+                            sales_refunded.state = '{$statusOrderClosed}'
+                        )
                 )",
 
                 'dicount_amount'       => "(
                     SELECT (SUM(COALESCE(discount_amount, 0)) + (SUM(COALESCE(affiliateplus_discount,0)))) * -1 FROM sales_flat_order as sales_discount
                     where sales_discount.customer_id = order.customer_id
                         and {$betweenDateSalesOrderDiscount}
+                        and (
+                            sales_discount.state = '{$statusOrderCompleted}' OR
+                            sales_discount.state = '{$statusOrderCanceled}' OR
+                            sales_discount.state = '{$statusOrderClosed}'
+                        )
 
                 )",
 
@@ -138,6 +175,11 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                     SELECT SUM(COALESCE(shipping_amount, 0)) FROM sales_flat_order as sales_shipping
                     where sales_shipping.customer_id = order.customer_id
                         and {$betweenDateSalesOrderShipping}
+                        and (
+                            sales_shipping.state = '{$statusOrderCompleted}' OR
+                            sales_shipping.state = '{$statusOrderCanceled}' OR
+                            sales_shipping.state = '{$statusOrderClosed}'
+                        )
                 )"
             ))
             ->joinInner(
@@ -178,7 +220,13 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 array('c' => 'affiliateplus_coupon'),
                 "aft.account_id = c.account_id AND aft.program_id = c.program_id",
                 array()
-            )->group('order.customer_id');
+            )->where("
+                {$orderTableAliasName}.state = '{$statusOrderCompleted}' OR
+                {$orderTableAliasName}.state = '{$statusOrderCanceled}' OR
+                {$orderTableAliasName}.state = '{$statusOrderClosed}'
+            ")
+
+            ->group('order.customer_id');
 
         Mage::log((string) $select, null, 'billingcustomer');
 
