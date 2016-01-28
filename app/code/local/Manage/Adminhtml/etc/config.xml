@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Manage_Adminhtml>
+            <version>1.0</version>
+        </Manage_Adminhtml>
+    </modules>
+    <global>
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_create_search_grid>Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid</sales_order_create_search_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+    </global>
+</config>

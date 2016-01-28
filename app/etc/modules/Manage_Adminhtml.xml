@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Manage_Adminhtml>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Manage_Adminhtml>
+    </modules>
+</config>
