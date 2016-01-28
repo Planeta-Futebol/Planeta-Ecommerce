@@ -10,7 +10,11 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Mage::getBaseUrl('js') ?>calendar/calendar-win2k-1.css"  />
 <?php endif ?>
 
-<?php $collection = $this->getCollection() ?>
+<?php $collection = $this->getCollection();
+Mage::log((string) $collection->getSelect(), null, "relatorio");
+
+
+ ?>
 <?php $columns = $this->getColumns() ?>
 
 <?php if ($this->getData('add_searchable_row')): ?>

@@ -32,3 +32,116 @@
   'status' => '1',
   'itemsCount' => 2,
 )) 
+{2015/12/18 19:42:07} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '644',
+  'SenderEmail' => 'Destakmodas2@ig.com.br',
+)) - begin 
+{2015/12/18 19:42:08} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '644',
+  'SenderEmail' => 'Destakmodas2@ig.com.br',
+)) - end {1}941939E8B5B5B9D444F3FFB68374C6C9 
+{2015/12/21 09:50:31} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '648',
+  'SenderEmail' => 'joacir.casarural@hotmail.com',
+)) - begin 
+{2015/12/21 09:50:33} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '648',
+  'SenderEmail' => 'joacir.casarural@hotmail.com',
+)) - end {1}F8E87401C4C4B19EE4F2EFA0D05BB06B 
+{2015/12/21 09:52:44} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=F6FF15-FF1F951F95C0-E8842CCF8F92-72B13A) - begin 
+{2015/12/21 09:52:46} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=F6FF15-FF1F951F95C0-E8842CCF8F92-72B13A) - end Transaction: array (
+  'code' => 'A6A8D75C-A180-4B28-84FA-D59BB21AC153',
+  'email' => 'joacir.casarural@hotmail.com',
+  'date' => '2015-12-21T07:49:55.000-02:00',
+  'reference' => '648',
+  'status' => '3',
+  'itemsCount' => 1,
+)) 
+{2015/12/22 00:52:38} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '655',
+  'SenderEmail' => 'poh_alfonzo@hotmail.com',
+)) - begin 
+{2015/12/22 00:52:39} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '655',
+  'SenderEmail' => 'poh_alfonzo@hotmail.com',
+)) - end {1}DC2C6D43D4D4C96BB4ED5F8CFEB7BE5A 
+{2015/12/22 00:55:54} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=D10052-6AAB32AB32C3-45545EBF8FF4-ECB0D7) - begin 
+{2015/12/22 00:55:55} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=D10052-6AAB32AB32C3-45545EBF8FF4-ECB0D7) - end Transaction: array (
+  'code' => '062E87BC-2C31-4EEA-BB95-39126221066D',
+  'email' => 'poh_alfonzo@hotmail.com',
+  'date' => '2015-12-21T22:52:22.000-02:00',
+  'reference' => '655',
+  'status' => '3',
+  'itemsCount' => 1,
+)) 
+{2015/12/22 13:06:20} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '656',
+  'SenderEmail' => 'felipe_zanaga@hotmail.com',
+)) - begin 
+{2015/12/22 13:06:22} [Info] PagSeguroPaymentService.Register(PagSeguroPaymentRequest: array (
+  'Reference' => '656',
+  'SenderEmail' => 'felipe_zanaga@hotmail.com',
+)) - end {1}96A831DC3333BD6994F0EFB36D6E0C7E 
+{2015/12/22 13:07:23} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=806E48-6ED2D3D2D363-6444521FB6AA-AE0AC9) - begin 
+{2015/12/22 13:07:24} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=806E48-6ED2D3D2D363-6444521FB6AA-AE0AC9) - end Transaction: array (
+  'code' => '7EEC2BAD-5B28-4C40-9C3C-045B084F628B',
+  'email' => 'felipe_zanaga@hotmail.com',
+  'date' => '2015-12-22T11:05:42.000-02:00',
+  'reference' => '656',
+  'status' => '1',
+  'itemsCount' => 3,
+)) 
+{2015/12/23 06:21:41} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=67795C-A3FD73FD7305-999463DFB48E-21CD1C) - begin 
+{2015/12/23 06:21:42} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=67795C-A3FD73FD7305-999463DFB48E-21CD1C) - end Transaction: array (
+  'code' => '7EEC2BAD-5B28-4C40-9C3C-045B084F628B',
+  'email' => 'felipe_zanaga@hotmail.com',
+  'date' => '2015-12-22T11:05:42.000-02:00',
+  'reference' => '656',
+  'status' => '3',
+  'itemsCount' => 3,
+)) 
+{2015/12/27 15:38:23} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=6BD7CB-ED5702570295-5FF4C1EF8E28-97555D) - begin 
+{2015/12/27 15:38:25} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=6BD7CB-ED5702570295-5FF4C1EF8E28-97555D) - end Transaction: array (
+  'code' => '67609943-F710-49BF-8934-2F747809B28E',
+  'email' => 'davidoliver21@hotmail.com',
+  'date' => '2015-12-10T22:55:37.000-02:00',
+  'reference' => '613',
+  'status' => '4',
+  'itemsCount' => 6,
+)) 
+{2016/01/01 09:52:04} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=09B857-D41BB51BB571-0DD41F2FB72E-74B5A8) - begin 
+{2016/01/01 09:52:05} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=09B857-D41BB51BB571-0DD41F2FB72E-74B5A8) - end Transaction: array (
+  'code' => '1843D9F4-F4EF-4A80-86E0-0FC2F1AB88D9',
+  'email' => 'aurilane.procontabil@gmail.com',
+  'date' => '2015-12-17T13:58:22.000-02:00',
+  'reference' => '637',
+  'status' => '7',
+  'itemsCount' => 2,
+)) 
+{2016/01/04 09:58:12} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=A4F172-E555845584C9-EBB45A8FBA3A-7A96D9) - begin 
+{2016/01/04 09:58:13} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=A4F172-E555845584C9-EBB45A8FBA3A-7A96D9) - end Transaction: array (
+  'code' => 'A6A8D75C-A180-4B28-84FA-D59BB21AC153',
+  'email' => 'joacir.casarural@hotmail.com',
+  'date' => '2015-12-21T07:49:55.000-02:00',
+  'reference' => '648',
+  'status' => '4',
+  'itemsCount' => 1,
+)) 
+{2016/01/05 00:58:30} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=E083E9-52A704A7048E-CBB4FC4F8150-030988) - begin 
+{2016/01/05 00:58:32} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=E083E9-52A704A7048E-CBB4FC4F8150-030988) - end Transaction: array (
+  'code' => '062E87BC-2C31-4EEA-BB95-39126221066D',
+  'email' => 'poh_alfonzo@hotmail.com',
+  'date' => '2015-12-21T22:52:22.000-02:00',
+  'reference' => '655',
+  'status' => '4',
+  'itemsCount' => 1,
+)) 
+{2016/01/06 06:28:34} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=503C1D-064EF54EF593-08841C0FAF04-2A314F) - begin 
+{2016/01/06 06:28:36} [Info] PagSeguroNotificationService.CheckTransaction(notificationCode=503C1D-064EF54EF593-08841C0FAF04-2A314F) - end Transaction: array (
+  'code' => '7EEC2BAD-5B28-4C40-9C3C-045B084F628B',
+  'email' => 'felipe_zanaga@hotmail.com',
+  'date' => '2015-12-22T11:05:42.000-02:00',
+  'reference' => '656',
+  'status' => '4',
+  'itemsCount' => 3,
+)) 
