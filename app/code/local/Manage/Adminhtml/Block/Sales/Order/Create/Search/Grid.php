@@ -20,31 +20,14 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
         $this->setId('manage_adminhtml_block_sales_order_create_search_grid');
     }
 
-    /**
-     * Prepare collection to be displayed in the grid
-     *
-     * @return Mage_Adminhtml_Block_Widget_Grid
-     */
-    protected function _prepareCollection()
-    {
-
-        parent::_prepareCollection();
-
+    public function setCollection($collection){
         $group_id = Mage::getSingleton('adminhtml/session_quote')->getCustomer()->getGroup_id();
 
         //prevente error in mysql query
         $group_id = (is_null($group_id)) ? 0 : $group_id;
 
-        $attributes = Mage::getSingleton('catalog/config')->getProductAttributes();
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getModel('catalog/product')->getCollection();
-
         $collection
-            ->setStore($this->getStore())
-            ->addAttributeToSelect($attributes)
-            ->addAttributeToSelect('sku')
             ->addExpressionAttributeToSelect('neq_sku', 'SUBSTRING({{sku}}, 1, 2)', 'sku')
-            ->addStoreFilter()
             ->addAttributeToFilter('type_id', array(
                 'neq' => 'configurable'
             ))
@@ -53,20 +36,16 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
             ));
 
         // Recover price of affiliate group
-        $collection->getSelect()
+        $s = $collection->getSelect()
             ->joinLeft(
                 array('c' => 'catalog_product_entity_group_price'),
                 "e.entity_id = c.entity_id and c.customer_group_id = {$group_id}",
                 array(
-                    'special_price' => 'COALESCE(c.value, 10)'
+                    'affiliate_value' => 'c.value'
                 )
             );
 
-        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($collection);
-
-        $this->setCollection($collection);
-
-        return Mage_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        parent::setCollection($collection);
     }
 
 
@@ -107,14 +86,14 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
             'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_price',
         ));
 
-        $this->addColumn('special_price', array(
+        $this->addColumn('affiliate_value', array(
             'header'    => Mage::helper('sales')->__('Preço de Afiliado'),
             'column_css_class' => 'price',
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
-            'index'     => 'special_price',
+            'index'     => 'affiliate_value',
             'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_price',
         ));
 
