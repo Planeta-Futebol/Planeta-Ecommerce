@@ -9,7 +9,7 @@
  *
  * @category   Manage
  * @package    Manage_Adminhtml
- * @author     Ronildo dos Santos - Tagon8 Developer Team
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
  */
 class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid
 {
@@ -71,7 +71,10 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
             'header'    => Mage::helper('sales')->__('Imagem do produto'),
             'filter'    => false,
             'sortable'  => false,
+            'align'     => 'center',
             'index'     => 'entity_id',
+
+            // set renderer for show image product by id.
             'renderer'  => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Image'
         ));
         $this->addColumn('name', array(
