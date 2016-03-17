@@ -41,9 +41,17 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
                 array('c' => 'catalog_product_entity_group_price'),
                 "e.entity_id = c.entity_id and c.customer_group_id = {$group_id}",
                 array(
-                    'affiliate_value' => 'c.value'
+                    'affiliate_value' => 'COALESCE(c.value, 0)'
+                )
+            )->join(
+                array('s' => 'cataloginventory_stock_item'),
+                "e.entity_id = s.item_id and s.qty > 0",
+                array(
+                    'quantity' => 'FORMAT(s.qty, 0)'
                 )
             );
+
+        Mage::log( (String) $s, null, 'produtos');
 
         parent::setCollection($collection);
     }
@@ -60,10 +68,11 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
         Mage_Adminhtml_Block_Widget_Grid::_prepareColumns();
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
-            'sortable'  => true,
-            'width'     => '60',
-            'index'     => 'entity_id'
+            'header'    => Mage::helper('sales')->__('Imagem do produto'),
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'entity_id',
+            'renderer'  => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Image'
         ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('sales')->__('Product Name'),
@@ -95,6 +104,14 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
             'index'     => 'affiliate_value',
             'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_price',
+        ));
+
+        $this->addColumn('quantity', array(
+            'filter'    => false,
+            'sortable'  => false,
+            'header'    => Mage::helper('sales')->__('Quantidade'),
+            'index'     => 'quantity',
+            'align'     => 'center',
         ));
 
         $this->addColumn('in_products', array(
