@@ -36,7 +36,7 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
             ));
 
         // Recover price of affiliate group
-        $s = $collection->getSelect()
+        $collection->getSelect()
             ->joinLeft(
                 array('c' => 'catalog_product_entity_group_price'),
                 "e.entity_id = c.entity_id and c.customer_group_id = {$group_id}",
@@ -50,8 +50,6 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
                     'quantity' => 'FORMAT(s.qty, 0)'
                 )
             );
-
-        Mage::log( (String) $s, null, 'produtos');
 
         parent::setCollection($collection);
     }
