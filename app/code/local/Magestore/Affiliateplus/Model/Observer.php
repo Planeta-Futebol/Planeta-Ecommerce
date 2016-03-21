@@ -1154,22 +1154,44 @@ class Magestore_Affiliateplus_Model_Observer {
         }
         if ($couponCode && $isEnableCouponPlugin) {
             $affiliateInfo = Mage::helper('affiliateplus/cookie')->getAffiliateInfo();
-            foreach ($affiliateInfo as $info)
-                if ($info['account']) {
-                    $account = $info['account'];
-                    break;
+
+            if(count($affiliateInfo) > 0) {
+
+                //this block code are returning null objects.
+                foreach ($affiliateInfo as $info)
+                    if ($info['account']) {
+                        $account = $info['account'];
+                        break;
+                    }
+                if ($account->getUsingCoupon()) {
+                    $program = $account->getUsingProgram();
+                    if ($program) {
+                        $programId = $program->getId();
+                        $programName = $program->getName();
+                    } else {
+                        $programId = 0;
+                        $programName = 'Affiliate Program';
+                    }
                 }
-            if ($account->getUsingCoupon()) {
-                $program = $account->getUsingProgram();
-                if ($program) {
-                    $programId = $program->getId();
-                    $programName = $program->getName();
-                } else {
-                    $programId = 0;
-                    $programName = 'Affiliate Program';
-                }
+            }else{
+                //prevent null objects
+                $collection = Mage::getModel('affiliateplus/account')->getCollection();
+                $collection->getSelect()
+                    ->join(
+                        array('s' => 'affiliateplus_coupon'),
+                        "main_table.account_id = s.account_id and s.coupon_code = '{$couponCode}'"
+                    );
+
+                $collection->load();
+                $accountObj = $collection->getFirstItem();
+
+                $programId    = $accountObj->getProgramId();
+                $programName  = $accountObj->getProgramName();
+                $account      = Mage::getModel('affiliateplus/account')->loadByIdentifyCode($accountObj->getIdentifyCode());
+
             }
         }
+
         if (!$account)
             return $this;
         // Log affiliate tracking referal - only when has sales

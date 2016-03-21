@@ -28,3 +28,5 @@ Thumbs.db
 
 /.idea/*
 
+app/etc/modules/Cerebrum_Telencephalon.xml
+app/etc/local.xml
