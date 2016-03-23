@@ -6,11 +6,19 @@
         </Manage_Redirect>
     </modules>
     <global>
+
         <models>
             <redirect>
                 <class>Manage_Redirect_Model</class>
             </redirect>
         </models>
+
+        <helpers>
+            <redirect>
+                <class>Manage_Redirect_Helper</class>
+            </redirect>
+        </helpers>
+
         <events>
             <admin_session_user_login_success>
                 <observers>
@@ -22,4 +30,18 @@
             </admin_session_user_login_success>
         </events>
     </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <use>admin</use>
+                <args>
+                    <modules>
+                        <manage_redirect before="Mage_Adminhtml">Manage_Redirect</manage_redirect>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
 </config>
