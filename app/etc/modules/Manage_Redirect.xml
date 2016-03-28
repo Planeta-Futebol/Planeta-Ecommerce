@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Manage_Redirect>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Manage_Redirect>
+    </modules>
+</config>

@@ -73,6 +73,21 @@ endif; ?>
 
     <div class="order-address" id="<?php echo $_fieldsContainerId ?>">
         <div class="content">
+            <?php
+
+            $form = $this->getForm();
+            $fieldset = $form->getElement('main');
+            $fieldset->removeField('ie');
+            $fieldset->removeField('rg');
+            $fieldset->removeField('tipopessoa');
+            $fieldset->removeField('vat_id');
+            $fieldset->removeField('prefix');
+            $fieldset->removeField('middlename');
+            $fieldset->removeField('suffix');
+            $fieldset->removeField('company');
+
+            ?>
+
             <?php echo $this->getForm()->toHtml() ?>
         </div>
         <div class="order-save-in-address-book">
