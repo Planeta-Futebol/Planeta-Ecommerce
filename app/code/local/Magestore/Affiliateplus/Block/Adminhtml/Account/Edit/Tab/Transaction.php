@@ -26,10 +26,18 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
         if ($storeId = $this->getRequest()->getParam('store'))
             $collection->addFieldToFilter('store_id', $storeId);
 
-        $collection->getSelect()
+        $select = $collection->getSelect()
                 ->columns(array('customer_email' => 'if (main_table.customer_email="", "N/A", main_table.customer_email)'))
                 ->columns(array('order_number' => 'if (main_table.order_number="", "N/A", main_table.order_number)'))
                 ->columns(array('order_item_names' => 'if (main_table.order_item_names IS NULL, "N/A", main_table.order_item_names)'))
+                ->join(
+                     array('sl' => 'sales_flat_order_address'),
+                     'sl.entity_id = main_table.order_id',
+                     array(
+                         'fullname' => "CONCAT(sl.firstname, ' ', sl.lastname)",
+                         'region'   => 'sl.region',
+                         'city'     => 'sl.city'
+                     ))
         ;
 
         $this->setCollection($collection);
@@ -61,6 +69,25 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
             'renderer' => 'affiliateplus/adminhtml_transaction_renderer_customer',
         ));
 
+        $this->addColumn($prefix . 'fullname', array(
+            'header' => Mage::helper('affiliateplus')->__('Nome Completo'),
+            'align' => 'right',
+            'index' => 'fullname',
+            'filter' => false
+        ));
+
+        $this->addColumn($prefix . 'city', array(
+            'header' => Mage::helper('affiliateplus')->__('Cidade'),
+            'align' => 'right',
+            'index' => 'city',
+        ));
+
+        $this->addColumn($prefix . 'region', array(
+            'header' => Mage::helper('affiliateplus')->__('Estado'),
+            'align' => 'right',
+            'index' => 'region',
+        ));
+
         $this->addColumn($prefix . 'order_number', array(
             'header' => Mage::helper('affiliateplus')->__('Order'),
             'width' => '150px',
@@ -68,14 +95,6 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
             'index' => 'order_number',
             'filter_index' => 'if (main_table.order_number="", "N/A", main_table.order_number)',
             'renderer' => 'affiliateplus/adminhtml_transaction_renderer_order',
-        ));
-
-        $this->addColumn($prefix . 'order_item_names', array(
-            'header' => Mage::helper('affiliateplus')->__('Product Name'),
-            'align' => 'left',
-            'index' => 'order_item_names',
-            'filter_index' => 'if (main_table.order_item_names IS NULL, "N/A", main_table.order_item_names)',
-            'renderer' => 'affiliateplus/adminhtml_transaction_renderer_product',
         ));
 
         $this->addColumn($prefix . 'total_amount', array(
