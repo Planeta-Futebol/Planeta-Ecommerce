@@ -19,12 +19,20 @@ class Magestore_Affiliateplus_Block_Adminhtml_Transaction_Grid extends Mage_Admi
 		//event to join other table
 		Mage::dispatchEvent('affiliateplus_adminhtml_join_transaction_other_table', array('collection' => $collection));
                 /*Changed By Adam: 08/10/2014: fix loi ko show commission cua payperclick, payperlead*/
-//		$collection ->getSelect()
-//                    ->columns(array('customer_email'=>'if (main_table.customer_email="", "N/A", main_table.customer_email)'))
-//                    ->columns(array('order_number'=>'if (main_table.order_number IS NULL OR main_table.order_number="", "N/A", main_table.order_number)'))
-//                    ->columns(array('order_item_names'=>'if (main_table.order_item_names IS NULL, "N/A", main_table.order_item_names)'))
-//                ;
-        //Zend_Debug::dump($collection->getSelect()->__toString());
+		$collection ->getSelect()
+                    ->columns(array('customer_email'=>'if (main_table.customer_email="", "N/A", main_table.customer_email)'))
+                    ->columns(array('order_number'=>'if (main_table.order_number IS NULL OR main_table.order_number="", "N/A", main_table.order_number)'))
+                    ->columns(array('order_item_names'=>'if (main_table.order_item_names IS NULL, "N/A", main_table.order_item_names)'))
+					->join(
+						array('sl' => 'sales_flat_order_address'),
+						'sl.entity_id = main_table.order_id',
+						array(
+							'fullname' => "CONCAT(sl.firstname, ' ', sl.lastname)",
+							'region'   => 'sl.region',
+							'city'     => 'sl.city'
+						))
+		;
+
 		$this->setCollection($collection);
 		return parent::_prepareCollection();
 	}
@@ -39,18 +47,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Transaction_Grid extends Mage_Admi
 			'width'     => '50px',
 			'index'     => 'transaction_id',
 		));
-	
-		
-		
-		$this->addColumn('order_item_names', array(
-			'header'    => Mage::helper('affiliateplus')->__('Product Name'),
-			'align'     =>'left',
-			'index'     => 'order_item_names',
-            'filter_index'  =>  'if (main_table.order_item_names IS NULL, "N/A", main_table.order_item_names)',
-			'renderer'  => 'affiliateplus/adminhtml_transaction_renderer_product',
-		));
-	
-	
+
 		$this->addColumn('account_email', array(
 			'header'    => Mage::helper('affiliateplus')->__('Affiliate Email'),
 			'width'     => '150px',
@@ -66,7 +63,28 @@ class Magestore_Affiliateplus_Block_Adminhtml_Transaction_Grid extends Mage_Admi
             'filter_index'  =>  'if (main_table.customer_email="", "NA", main_table.customer_email)',
 			'renderer'  => 'affiliateplus/adminhtml_transaction_renderer_customer',
 		));
-	
+
+
+		$this->addColumn('fullname', array(
+			'header' => Mage::helper('affiliateplus')->__('Nome Completo'),
+			'align' => 'right',
+			'index' => 'fullname',
+			'filter' => false
+		));
+
+		$this->addColumn('city', array(
+			'header' => Mage::helper('affiliateplus')->__('Cidade'),
+			'align' => 'right',
+			'index' => 'city',
+		));
+
+		$this->addColumn('region', array(
+			'header' => Mage::helper('affiliateplus')->__('Estado'),
+			'align' => 'right',
+			'index' => 'region',
+		));
+
+
 		$this->addColumn('order_number', array(
 			'header'    => Mage::helper('affiliateplus')->__('Order ID'),
 			'width'     => '150px',
@@ -127,34 +145,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Transaction_Grid extends Mage_Admi
                 4 => Mage::helper('affiliateplus')->__('On Hold'),
 			),
 		));
-		
-		$this->addColumn('store_id', array(
-			'header'    => Mage::helper('affiliateplus')->__('Store view'),
-			'align'     =>'left',
-			'index'     =>'store_id',
-			'type'      =>'store',
-			'store_view'=>true,
-		));
-	
-		$this->addColumn('action',
-			array(
-				'header'    =>  Mage::helper('affiliateplus')->__('Action'),
-				'width'     => '100',
-				'type'      => 'action',
-				'getter'    => 'getId',
-				'actions'   => array(
-					array(
-						'caption'   => Mage::helper('affiliateplus')->__('View'),
-						'url'       => array('base'=> '*/*/view'),
-						'field'     => 'id'
-					)
-				),
-				'filter'    => false,
-				'sortable'  => false,
-				'index'     => 'stores',
-				'is_system' => true,
-		));
-	
+
 		//$this->addExportType('*/*/exportCsv', Mage::helper('affiliateplus')->__('CSV'));
 		//$this->addExportType('*/*/exportXml', Mage::helper('affiliateplus')->__('XML'));
 		
