@@ -32,12 +32,12 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
                 ->columns(array('order_item_names' => 'if (main_table.order_item_names IS NULL, "N/A", main_table.order_item_names)'))
                 ->join(
                      array('sl' => 'sales_flat_order_address'),
-                     'sl.entity_id = main_table.order_id',
+                     'sl.parent_id = main_table.order_id',
                      array(
                          'fullname' => "CONCAT(sl.firstname, ' ', sl.lastname)",
                          'region'   => 'sl.region',
                          'city'     => 'sl.city'
-                     ))
+                     ))->group('order_id')
         ;
 
         $this->setCollection($collection);
@@ -52,14 +52,15 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
 
         $currencyCode = Mage::app()->getStore()->getBaseCurrency()->getCode();
         $prefix = 'transaction_grid_';
-        $this->addColumn($prefix . 'transaction_id', array(
-            'header' => Mage::helper('affiliateplus')->__('ID'),
-            'sortable' => true,
-            'width' => 60,
-            'index' => 'transaction_id',
-            'filter_index' => 'main_table.transaction_id',
-        ));
 
+        $this->addColumn($prefix . 'order_number', array(
+            'header' => Mage::helper('affiliateplus')->__('Order'),
+            'width' => '150px',
+            'align' => 'right',
+            'index' => 'order_number',
+            'filter_index' => 'if (main_table.order_number="", "N/A", main_table.order_number)',
+            'renderer' => 'affiliateplus/adminhtml_transaction_renderer_order',
+        ));
         $this->addColumn($prefix . 'customer_email', array(
             'header' => Mage::helper('affiliateplus')->__('Customer Email'),
             'width' => '150px',
@@ -86,15 +87,6 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
             'header' => Mage::helper('affiliateplus')->__('Estado'),
             'align' => 'right',
             'index' => 'region',
-        ));
-
-        $this->addColumn($prefix . 'order_number', array(
-            'header' => Mage::helper('affiliateplus')->__('Order'),
-            'width' => '150px',
-            'align' => 'right',
-            'index' => 'order_number',
-            'filter_index' => 'if (main_table.order_number="", "N/A", main_table.order_number)',
-            'renderer' => 'affiliateplus/adminhtml_transaction_renderer_order',
         ));
 
         $this->addColumn($prefix . 'total_amount', array(
