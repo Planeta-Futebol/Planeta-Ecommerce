@@ -25,12 +25,12 @@ class Magestore_Affiliateplus_Block_Adminhtml_Transaction_Grid extends Mage_Admi
                     ->columns(array('order_item_names'=>'if (main_table.order_item_names IS NULL, "N/A", main_table.order_item_names)'))
 					->join(
 						array('sl' => 'sales_flat_order_address'),
-						'sl.entity_id = main_table.order_id',
+						'sl.parent_id = main_table.order_id',
 						array(
 							'fullname' => "CONCAT(sl.firstname, ' ', sl.lastname)",
 							'region'   => 'sl.region',
 							'city'     => 'sl.city'
-						))
+						))->group('order_id')
 		;
 
 		$this->setCollection($collection);
