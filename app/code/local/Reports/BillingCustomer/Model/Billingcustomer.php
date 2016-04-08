@@ -210,7 +210,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
                 )
             )
             ->joinLeft(
-                array('aft' => 'affiliateplusprogram_transaction'),
+                array('aft' => 'affiliateplus_transaction'),
                 'aft.order_id = `order`.entity_id',
                 array(
                     'representative_name' => 'IF(aft.account_name IS NOT NULL, aft.account_name, "Não possui representante" )'
