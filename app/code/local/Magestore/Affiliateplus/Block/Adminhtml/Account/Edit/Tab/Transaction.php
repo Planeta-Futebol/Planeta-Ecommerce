@@ -37,7 +37,24 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
                          'fullname' => "CONCAT(sl.firstname, ' ', sl.lastname)",
                          'region'   => 'sl.region',
                          'city'     => 'sl.city'
-                     ))->group('order_id')
+                     )
+                )
+                ->join(
+                    array('so' => 'sales_flat_order'),
+                    'so.entity_id = main_table.order_id',
+                    array(
+                        'total_refunded' => 'COALESCE(so.total_refunded, 0)',
+                        'total_order' =>  new Zend_Db_Expr('COALESCE(total_amount, 0) - COALESCE(so.total_refunded, 0)')
+                    )
+                )
+                ->joinLeft(
+                    array('afp' => 'affiliateplusprogram'),
+                    'afp.program_id = main_table.program_id',
+                    array(
+                        'commission' => new Zend_Db_Expr('main_table.commission - COALESCE((afp.commission / 100) * total_refunded, 0)')
+                    )
+                )
+            ->group('order_id')
         ;
 
         $this->setCollection($collection);
@@ -96,6 +113,17 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
             'index' => 'total_amount',
             'type' => 'price',
             'currency_code' => $currencyCode,
+        ));
+
+
+        $this->addColumn($prefix . 'total_order', array(
+            'header' => Mage::helper('affiliateplus')->__('Total do pedido'),
+            'width' => '150px',
+            'align' => 'right',
+            'index' => 'total_order',
+            'type' => 'price',
+            'currency_code' => $currencyCode,
+            'filter' => false
         ));
 
         $this->addColumn($prefix . 'commission', array(
