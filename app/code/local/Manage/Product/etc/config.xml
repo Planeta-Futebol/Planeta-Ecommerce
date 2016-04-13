@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Manage_Product>
+            <version>1.0.0</version>
+        </Manage_Product>
+    </modules>
+    <global>
+        <models>
+            <product>
+                <class>Manage_Product_Model</class>
+            </product>
+        </models>
+
+        <helpers>
+            <product>
+                <class>Manage_Product_Helper</class>
+            </product>
+        </helpers>
+
+        <events>
+            <catalog_product_save_commit_after>
+                <observers>
+                    <product>
+                        <class>product/observer</class>
+                        <method>setProductPriceByConfigurable</method>
+                    </product>
+                </observers>
+            </catalog_product_save_commit_after>
+        </events>
+    </global>
+</config>
