@@ -10,6 +10,7 @@
             <adminhtml>
                 <rewrite>
                     <sales_order_create_search_grid>Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid</sales_order_create_search_grid>
+                    <customer_grid>Manage_Adminhtml_Block_Customer_Grid</customer_grid>
                 </rewrite>
             </adminhtml>
         </blocks>
