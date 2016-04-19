@@ -14,5 +14,32 @@
                 </rewrite>
             </adminhtml>
         </blocks>
+
+        <models>
+            <manage_adminhtml>
+                <class>Manage_Adminhtml_Model</class>
+            </manage_adminhtml>
+        </models>
+
+        <events>
+            <adminhtml_block_html_before>
+                <observers>
+                    <manage_adminhtml>
+                        <class>manage_adminhtml/observer</class>
+                        <method>getCustomerGrid</method>
+                    </manage_adminhtml>
+                </observers>
+            </adminhtml_block_html_before>
+
+            <eav_collection_abstract_load_before>
+                <observers>
+                    <manage_adminhtml>
+                    <class>manage_adminhtml/observer</class>
+                    <method>beforeCollectionLoad</method>
+                </manage_adminhtml>
+            </observers>
+        </eav_collection_abstract_load_before>
+        </events>
+
     </global>
 </config>
