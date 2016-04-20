@@ -1,8 +1,21 @@
 <?php
-
+/**
+ * This Observer listens core abstract events.
+ *
+ * @category   Manage
+ * @package    Manage_Adminhtml
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
+ */
 class Manage_Adminhtml_Model_Observer
 {
-    public function getCustomerGrid( $observer )
+    /**
+     * This methode are litening adminhtml_block_html_before
+     * to remove fields thate was added for others blocks.
+     * This methode adds new fields in Customer Grid.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function getCustomerGrid( Varien_Event_Observer $observer )
     {
         $block = $observer->getEvent()->getBlock();
 
@@ -13,8 +26,6 @@ class Manage_Adminhtml_Model_Observer
             $block->removeColumn('dob');
             $block->removeColumn('age');
             $block->removeColumn('billing_postcode');
-
-            //billing_city
 
             $block->addColumn( 'account_name', array(
                     'header'    => Mage::helper('customer')->__('Nome do Representante'),
@@ -64,17 +75,21 @@ class Manage_Adminhtml_Model_Observer
         }
     }
 
-    public function beforeCollectionLoad( $observer )
+    /**
+     * This methode are litening eav_collection_abstract_load_before
+     * and get Mage_Customer_Model_Resource_Customer_Collection to join affiliateplus_transaction table.
+     * This information is used for show new fields in Customer Grid.
+     * 
+     * @param Varien_Event_Observer $observer
+     */
+    public function beforeCustomerCollectionLoad( Varien_Event_Observer $observer )
     {
         $collection = $observer->getCollection();
         if (!isset($collection)) {
             return;
         }
 
-        /**
-         * Mage_Customer_Model_Resource_Customer_Collection
-         */
-        if ($collection instanceof Mage_Customer_Model_Resource_Customer_Collection) {
+        if ( $collection instanceof Mage_Customer_Model_Resource_Customer_Collection ) {
             /* @var $collection Mage_Customer_Model_Resource_Customer_Collection */
             $collection->getSelect()
                 ->columns(
@@ -91,7 +106,9 @@ class Manage_Adminhtml_Model_Observer
 
                         'media_purchases' => '(
                             SELECT
-                                ((timestampdiff(day, e.created_at, NOW()))/30) * sum(grand_total)
+	                            IF(timestampdiff(day, e.created_at, NOW())/30 >= 1,
+	                            ( sum(grand_total) / (( timestampdiff(day, e.created_at, NOW()))/30)),
+	                             sum(grand_total))
                             FROM sales_flat_order
                             WHERE customer_id = e.entity_id
                         )',
