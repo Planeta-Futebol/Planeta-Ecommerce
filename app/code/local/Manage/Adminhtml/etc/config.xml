@@ -34,7 +34,7 @@
                 <observers>
                     <manage_adminhtml>
                     <class>manage_adminhtml/observer</class>
-                    <method>beforeCollectionLoad</method>
+                    <method>beforeCustomerCollectionLoad</method>
                 </manage_adminhtml>
             </observers>
         </eav_collection_abstract_load_before>

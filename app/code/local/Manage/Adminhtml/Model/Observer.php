@@ -14,8 +14,6 @@ class Manage_Adminhtml_Model_Observer
             $block->removeColumn('age');
             $block->removeColumn('billing_postcode');
 
-            //billing_city
-
             $block->addColumn( 'account_name', array(
                     'header'    => Mage::helper('customer')->__('Nome do Representante'),
                     'filter'    => false,
@@ -64,7 +62,7 @@ class Manage_Adminhtml_Model_Observer
         }
     }
 
-    public function beforeCollectionLoad( $observer )
+    public function beforeCustomerCollectionLoad( $observer )
     {
         $collection = $observer->getCollection();
         if (!isset($collection)) {
@@ -91,7 +89,9 @@ class Manage_Adminhtml_Model_Observer
 
                         'media_purchases' => '(
                             SELECT
-                                ((timestampdiff(day, e.created_at, NOW()))/30) * sum(grand_total)
+	                            IF(timestampdiff(day, e.created_at, NOW())/30 >= 1,
+	                            ( sum(grand_total) / (( timestampdiff(day, e.created_at, NOW()))/30)),
+	                             sum(grand_total))
                             FROM sales_flat_order
                             WHERE customer_id = e.entity_id
                         )',
