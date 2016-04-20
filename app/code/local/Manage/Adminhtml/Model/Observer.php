@@ -1,8 +1,21 @@
 <?php
-
+/**
+ * This Observer listens core abstract events.
+ *
+ * @category   Manage
+ * @package    Manage_Adminhtml
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
+ */
 class Manage_Adminhtml_Model_Observer
 {
-    public function getCustomerGrid( $observer )
+    /**
+     * This methode are litening adminhtml_block_html_before
+     * to remove fields thate was added for others blocks.
+     * This methode adds new fields in Customer Grid.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function getCustomerGrid( Varien_Event_Observer $observer )
     {
         $block = $observer->getEvent()->getBlock();
 
@@ -62,17 +75,21 @@ class Manage_Adminhtml_Model_Observer
         }
     }
 
-    public function beforeCustomerCollectionLoad( $observer )
+    /**
+     * This methode are litening eav_collection_abstract_load_before
+     * and get Mage_Customer_Model_Resource_Customer_Collection to join affiliateplus_transaction table.
+     * This information is used for show new fields in Customer Grid.
+     * 
+     * @param Varien_Event_Observer $observer
+     */
+    public function beforeCustomerCollectionLoad( Varien_Event_Observer $observer )
     {
         $collection = $observer->getCollection();
         if (!isset($collection)) {
             return;
         }
 
-        /**
-         * Mage_Customer_Model_Resource_Customer_Collection
-         */
-        if ($collection instanceof Mage_Customer_Model_Resource_Customer_Collection) {
+        if ( $collection instanceof Mage_Customer_Model_Resource_Customer_Collection ) {
             /* @var $collection Mage_Customer_Model_Resource_Customer_Collection */
             $collection->getSelect()
                 ->columns(
