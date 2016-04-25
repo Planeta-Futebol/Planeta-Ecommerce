@@ -72,6 +72,37 @@ class Manage_Adminhtml_Model_Observer
                 'index'     => 'last_purchases'
             ]);
 
+            $block->addColumn('credit_limit',[
+                'header'    => Mage::helper('customer')->__('Limite de Crédito'),
+                'width'     => '100',
+                'filter'    => false,
+                'renderer'  => 'manage_adminhtml_block_widget_grid_column_renderer_money',
+                'index'     => 'credit_limit'
+            ]);
+
+            $block->addColumn('open_value',[
+                'header'    => Mage::helper('customer')->__('Valor em Aberto'),
+                'width'     => '100',
+                'filter'    => false,
+                'renderer'  => 'manage_adminhtml_block_widget_grid_column_renderer_money',
+                'index'     => 'open_value'
+            ]);
+
+            $block->addColumn('has_stande',[
+                'header'    => Mage::helper('customer')->__('Tem Stande'),
+                'width'     => '100',
+                'filter'    => false,
+                'index'     => 'has_stande'
+            ]);
+
+
+            $block->addColumn('payment_range',[
+                'header'    => Mage::helper('customer')->__('Intervalo de Pagamentos'),
+                'width'     => '100',
+                'filter'    => false,
+                'index'     => 'payment_range'
+            ]);
+
         }
     }
 
@@ -79,7 +110,7 @@ class Manage_Adminhtml_Model_Observer
      * This methode are litening eav_collection_abstract_load_before
      * and get Mage_Customer_Model_Resource_Customer_Collection to join affiliateplus_transaction table.
      * This information is used for show new fields in Customer Grid.
-     * 
+     *
      * @param Varien_Event_Observer $observer
      */
     public function beforeCustomerCollectionLoad( Varien_Event_Observer $observer )
@@ -120,6 +151,8 @@ class Manage_Adminhtml_Model_Observer
                             ORDER BY created_at DESC
                             LIMIT 1
                         )',
+
+                        'has_stande' => 'IF((COALESCE(at_has_stande.value, 0) = 0), "Não", "Sim")'
                     ]
                 )
                 ->joinLeft(
