@@ -152,14 +152,15 @@ class Manage_Adminhtml_Model_Observer
                             LIMIT 1
                         )',
 
+                        'account_name' => '(
+                            SELECT TRIM(account_name) FROM affiliateplus_transaction
+                            WHERE customer_id = e.entity_id
+                            LIMIT 1
+                        )',
+
                         'has_stande' => 'IF((COALESCE(at_has_stande.value, 0) = 0), "Não", "Sim")'
                     ]
-                )
-                ->joinLeft(
-                    [ 'aft' => 'affiliateplus_transaction'],
-                    'aft.customer_id = e.entity_id',
-                    ['account_name']
-                )->group('e.entity_id');
+                );
         }
     }
 }
