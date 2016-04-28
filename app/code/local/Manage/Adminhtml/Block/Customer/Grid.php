@@ -35,7 +35,7 @@ class Manage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_G
             ->columns(
                 [
                     'total_purchases' => '(
-                            SELECT SUM(grand_total) - ((sum(discount_amount) - sum(total_refunded)) * -1 ) FROM sales_flat_order
+                            SELECT SUM(COALESCE(grand_total,  0)) - ((sum(COALESCE(discount_amount, 0)) - sum(COALESCE(total_refunded, 0))) * -1 ) FROM sales_flat_order
                             WHERE customer_id = e.entity_id
                                   and status = "complete"
                         )',
@@ -50,10 +50,10 @@ class Manage_Adminhtml_Block_Customer_Grid extends Mage_Adminhtml_Block_Widget_G
                             SELECT
 	                            IF(timestampdiff(day, e.created_at, NOW())/30 >= 1,
 	                            ( (
-	                            SUM(grand_total) - ((sum(discount_amount) - sum(total_refunded)) * -1 )
+	                            SUM(COALESCE(grand_total, 0)) - ((sum(COALESCE(discount_amount, 0)) - sum(COALESCE(total_refunded, 0))) * -1 )
 	                            ) / (( timestampdiff(day, e.created_at, NOW()))/30)),
 	                             (
-	                             SUM(grand_total) - ((sum(discount_amount) - sum(total_refunded)) * -1 )
+	                             SUM(COALESCE(grand_total, 0)) - ((sum(COALESCE(discount_amount, 0)) - sum(COALESCE(total_refunded, 0))) * -1 )
 	                             ))
                             FROM sales_flat_order
                             WHERE customer_id = e.entity_id
