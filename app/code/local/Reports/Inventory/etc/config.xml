@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Reports_Inventory>
+            <version>1.0.0</version>
+        </Reports_Inventory>
+    </modules>
+
+    <admin>
+        <routers>
+            <inventory>
+                <use>admin</use>
+                <args>
+                    <module>Reports_Inventory</module>
+                    <frontName>inventory</frontName>
+                </args>
+            </inventory>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <menu>
+            <report>
+                <children>
+                    <inventory>
+                        <!-- This is the name to be displayed in the admin panel under Reports -->
+                        <title>Inventário</title>
+                        <children>
+                            <inventory translate="title" module="inventory">
+                                <!-- This is the name to be displayed in the admin panel under Reports -->
+                                <title>Estoque</title>
+                                <!--
+                                Specify the controller and location, using the router (defined above),
+                                followed by the controller. -->
+                                <!--<action>reports/adminhtml_inventory</action>-->
+                                <action>inventory/adminhtml_inventory</action>
+
+                            </inventory>
+                        </children>
+                    </inventory>
+                </children>
+            </report>
+        </menu>
+
+        <layout>
+            <updates>
+                <inventory>
+                    <file>reports_inventory.xml</file>
+                </inventory>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <global>
+
+        <models>
+            <inventory>
+                <class>Reports_Inventory_Model</class>
+                <resourceModel>inventory</resourceModel>
+            </inventory>
+        </models>
+
+        <blocks>
+            <inventory>
+                <class>Reports_Inventory_Block</class>
+            </inventory>
+        </blocks>
+
+        <helpers>
+            <inventory>
+                <class>Reports_Inventory_Helper</class>
+            </inventory>
+        </helpers>
+
+        <resources>
+            <inventory_setup>
+                <setup>
+                    <module>Reports_Inventory</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </inventory_setup>
+            <inventory_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </inventory_write>
+            <inventory_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </inventory_read>
+        </resources>
+    </global>
+</config>

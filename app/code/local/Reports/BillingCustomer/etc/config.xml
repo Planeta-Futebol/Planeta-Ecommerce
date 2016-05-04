@@ -5,6 +5,7 @@
             <version>1.0.0</version>
         </Reports_BillingCustomer>
     </modules>
+
     <admin>
         <routers>
             <!--
@@ -19,8 +20,8 @@
             </billingcustomer>
         </routers>
     </admin>
-    <adminhtml>
 
+    <adminhtml>
         <menu>
             <report>
                 <children>
@@ -49,6 +50,7 @@
             </updates>
         </layout>
     </adminhtml>
+
     <global>
         <models>
             <billingcustomer>
