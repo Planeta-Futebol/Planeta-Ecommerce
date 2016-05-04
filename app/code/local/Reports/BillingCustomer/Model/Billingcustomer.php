@@ -228,8 +228,6 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
 
             ->group('order.customer_id');
 
-        Mage::log((string) $select, null, 'billingcustomer');
-
         /** @var Reports_BillingCustomer_Helper_Data $helper */
         $helper = Mage::helper('billingcustomer');
         $helper->setCollection($this);
