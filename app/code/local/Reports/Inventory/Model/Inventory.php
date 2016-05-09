@@ -36,6 +36,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
      */
     public function getReportData( $from = '', $to = '' )
     {
+
         $adapter = $this->getConnection();
 
         $statusOrderCompleted = Mage_Sales_Model_Order::STATE_COMPLETE;
@@ -46,23 +47,6 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
 
         $orderJoinCondition = array(
             $orderTableAliasName . '.entity_id = order_items.order_id',
-        );
-
-
-
-        $productJoinCondition = array(
-            'e.entity_id = order_items.product_id',
-            $adapter->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
-        );
-
-        $salesAddressTableAlias = $adapter->quoteIdentifier('salesAddress');
-
-        $salesAddressJoinCondition = array(
-            $orderTableAliasName . ".customer_id = {$salesAddressTableAlias}.customer_id",
-        );
-
-        $couponJoinCondition = array(
-            $orderTableAliasName . '.affiliateplus_coupon = c.coupon_code'
         );
 
         if ($from != '' && $to != '') {

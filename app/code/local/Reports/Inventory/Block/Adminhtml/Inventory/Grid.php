@@ -18,24 +18,11 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
     private $filtersData = null;
 
     /**
-     * Array subtotal values
-     *
-     * @var array
-     */
-    private $subTotals = array();
-
-    /**
-     * Key to use the special check made in
-     *
-     * @var int
-     */
-    private $key = 0;
-
-    /**
      * Starts standards values and calling default constructor parent class.
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->setId('inventoryGrid');
         $this->setDefaultSort('created_at');
@@ -43,9 +30,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
         $this->setSaveParametersInSession(true);
         $this->setSubReportSize(false);
 
-        $this->_exportVisibility = false;
-
-        /** @var Reports_BillingCustomer_Helper_Data $helper */
+        /** @var Reports_Inventory_Helper_Data $helper */
         $helper = Mage::helper('inventory');
 
         $paramData = $this->getParamData();
@@ -56,90 +41,13 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
     }
 
     /**
-     * @return Varien_Object
-     */
-    public function getGrandTotals()
-    {
-        $subTotals = $this->subTotals;
-
-        $totals = new Varien_Object();
-        $fields = array(
-            'qty_products_sold'     => 0, //actual column index, see _prepareColumns()
-            'qty_order'             => 0,
-            'qty_order_canceled'    => 0,
-            'qty_order_closed'      => 0,
-            'total_sold'            => 0,
-            'total_order_canceled'  => 0,
-            'total_amount_refunded' => 0,
-            'dicount_amount'        => 0,
-            'shipping_amount'       => 0,
-            'total_invoiced'        => 0
-
-        );
-
-        foreach ($subTotals as $item) {
-            foreach($fields as $field=>$value){
-                $fields[$field]+=$item[$field];
-            }
-        }
-
-        $totals->setData($fields);
-
-        return $totals;
-    }
-
-    /**
-     * Returns the subtotal for each key informed that exists in the collection.
-     *
-     * @return Varien_Object
-     */
-    public function getTotals()
-    {
-        /** @var Reports_BillingCustomer_Helper_Data $helper */
-        $helper = Mage::helper('billingcustomer');
-
-        $totals = new Varien_Object();
-
-        $fields = array(
-            'qty_products_sold'     => 0, //actual column index, see _prepareColumns()
-            'qty_order'             => 0,
-            'qty_order_canceled'    => 0,
-            'qty_order_closed'      => 0,
-            'total_sold'            => 0,
-            'total_order_canceled'  => 0,
-            'total_amount_refunded' => 0,
-            'dicount_amount'        => 0,
-            'shipping_amount'       => 0,
-            'total_invoiced'        => 0
-        );
-
-        foreach ($helper->getCollection() as $item) {
-            foreach($fields as $field=>$value){
-                $fields[$field]+=$item->getData($field);
-            }
-        }
-
-        $totals->setData($fields);
-
-        /*
-         * This validation is because the method is being called once every column gride,
-         * thus accumulating wrong values for the grand total of calculation.
-         */
-        if($this->key++ % sizeof($this->getColumns()) == 0) {
-            $this->subTotals[] = $fields;
-        }
-
-        return $totals;
-    }
-
-    /**
      * Get a filter value of the parameters passed by the form.
      *
      * @param  $key string
      *
      * @return Varien_Object
      */
-    public function getFiltersData( $key = null )
+    public function getFiltersData($key = null)
     {
         return (!is_null($this->filtersData)) ? $this->filtersData->getData($key) : null;
     }
@@ -150,12 +58,9 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
      *
      * @return $this
      */
-    protected function _prepareCollection() {
+    protected function _prepareCollection()
+    {
         parent::_prepareCollection();
-
-        if($this->getFiltersData("export_csv")){
-            $this->_exportVisibility = true;
-        }
 
         // Get the data collection from the model
         $this->getCollection()->initReport('inventory/inventory');
@@ -169,204 +74,142 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
      * @return $this|void
      * @throws Exception
      */
-    protected function _prepareColumns() {
-        if($this->getFiltersData("export_csv")) {
-            $this->addColumn('date_customer_register', array(
-                'header' => Mage::helper('billingcustomer')->__('Data do Cadastro'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'date_customer_register'
-            ));
-            $this->addColumn('full_name_cutomer', array(
-                'header' => Mage::helper('billingcustomer')->__('Nome do Cliente'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'full_name_cutomer'
-            ));
+    protected function _prepareColumns()
+    {
+        $this->addColumn('product_register', array(
+            'header' => Mage::helper('inventory')->__('Data de Cadastro'),
+            'align' => 'left',
+            'sortable' => false,
+            'index' => 'product_register'
+        ));
 
-            $this->addColumn('customer_email', array(
-                'header' => Mage::helper('billingcustomer')->__('E-mail do Cliente'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'customer_email'
-            ));
+        $this->addColumn('sku', array(
+            'header' => Mage::helper('inventory')->__('SKU'),
+            'align' => 'left',
+            'sortable' => false,
+            'index' => 'sku'
+        ));
 
-            $this->addColumn('group_cutomer', array(
-                'header' => Mage::helper('billingcustomer')->__('Grupo do Cliente'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'group_cutomer'
-            ));
+        $this->addColumn('gender', array(
+            'header' => Mage::helper('inventory')->__('Gênero'),
+            'align' => 'left',
+            'sortable' => false,
+            'index' => 'gender'
+        ));
 
-            $this->addColumn('affiliateplus_coupon', array(
-                'header' => Mage::helper('billingcustomer')->__('Código de Afiliado'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'affiliateplus_coupon'
-            ));
+        $this->addColumn('category', array(
+            'header' => Mage::helper('inventory')->__('Categoria'),
+            'align' => 'left',
+            'sortable' => false,
+            'index' => 'category'
+        ));
 
-            $this->addColumn('state', array(
-                'header' => Mage::helper('billingcustomer')->__('Estado'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'state'
-            ));
+        $this->addColumn('style', array(
+            'header' => Mage::helper('inventory')->__('Estilo'),
+            'align' => 'left',
+            'sortable' => false,
+            'index' => 'style'
+        ));
 
-            $this->addColumn('representative_name', array(
-                'header' => Mage::helper('billingcustomer')->__('Nome do Representante'),
-                'align' => 'left',
-                'sortable' => false,
-                'index' => 'representative_name'
-            ));
+        $this->addColumn('product_name', array(
+            'header' => Mage::helper('inventory')->__('Nome do Produto'),
+            'align' => 'left',
+            'sortable' => false,
+            'index' => 'product_name'
+        ));
 
-            $this->addColumn('qty_products_sold', array(
-                'header' => Mage::helper('billingcustomer')->__('Produtos Vendidos'),
-                'align' => 'right',
-                'sortable' => false,
-                'type' => 'number',
-                'index' => 'qty_products_sold',
-            ));
+        $this->addColumn('size_p', array(
+            'header' => Mage::helper('inventory')->__('P'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'size_p',
+        ));
 
-            $this->addColumn('qty_order', array(
-                'header' => Mage::helper('billingcustomer')->__('Quantidade de Pedidos'),
-                'align' => 'right',
-                'sortable' => false,
-                'type' => 'number',
-                'index' => 'qty_order',
-            ));
+        $this->addColumn('size_M', array(
+            'header' => Mage::helper('inventory')->__('M'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'size_M',
+        ));
 
-            $this->addColumn('qty_order_canceled', array(
-                'header' => Mage::helper('billingcustomer')->__('Pedidos Cancelados'),
-                'align' => 'right',
-                'sortable' => false,
-                'type' => 'number',
-                'index' => 'qty_order_canceled',
-            ));
+        $this->addColumn('size_G', array(
+            'header' => Mage::helper('inventory')->__('G'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'size_G',
+        ));
 
-            $this->addColumn('qty_order_closed', array(
-                'header' => Mage::helper('billingcustomer')->__('Pedidos Devolvidos/Fechados'),
-                'align' => 'right',
-                'sortable' => false,
-                'type' => 'number',
-                'index' => 'qty_order_closed',
-            ));
+        $this->addColumn('size_EXG', array(
+            'header' => Mage::helper('inventory')->__('EXG'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'size_EXG',
+        ));
 
-            $this->addColumn('total_sold', array(
-                'header' => Mage::helper('billingcustomer')->__('Total dos Pedidos'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_sold'
-            ));
+        $this->addColumn('size_EXGG', array(
+            'header' => Mage::helper('inventory')->__('EXGG'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'size_EXGG',
+        ));
 
-            $this->addColumn('total_order_canceled', array(
-                'header' => Mage::helper('billingcustomer')->__('Total dos Pedidos Cancelados'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_order_canceled'
-            ));
+        $this->addColumn('cost', array(
+            'header' => Mage::helper('inventory')->__('Custo'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'size_EXGG',
+        ));
 
-            $this->addColumn('total_amount_refunded', array(
-                'header' => Mage::helper('billingcustomer')->__('Total Devoluções'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_amount_refunded'
-            ));
+        $this->addColumn('affiliate_tradicional', array(
+            'header' => Mage::helper('inventory')->__('Tradicional'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'affiliate_tradicional',
+        ));
 
-            $this->addColumn('dicount_amount', array(
-                'header' => Mage::helper('billingcustomer')->__('Total Desconto'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'dicount_amount'
-            ));
+        $this->addColumn('affiliate_key', array(
+            'header' => Mage::helper('inventory')->__('Key'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'affiliate_key',
+        ));
 
-            $this->addColumn('shipping_amount', array(
-                'header' => Mage::helper('billingcustomer')->__('Total Frete'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'shipping_amount'
-            ));
-        }else{
+        $this->addColumn('affiliate_morden', array(
+            'header' => Mage::helper('inventory')->__('Morden'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'affiliate_morden',
+        ));
 
-            $this->addColumn('qty_order', array(
-                'header' => Mage::helper('billingcustomer')->__('Pedidos'),
-                'align' => 'right',
-                'sortable' => false,
-                'type' => 'number',
-                'index' => 'qty_order',
-            ));
+        $this->addColumn('affiliate_retail', array(
+            'header' => Mage::helper('inventory')->__('Varejo'),
+            'align' => 'right',
+            'sortable' => false,
+            'type' => 'number',
+            'index' => 'affiliate_retail',
+        ));
 
-            $this->addColumn('qty_products_sold', array(
-                'header' => Mage::helper('billingcustomer')->__('Produtos Vendidos'),
-                'align' => 'right',
-                'sortable' => false,
-                'type' => 'number',
-                'index' => 'qty_products_sold',
-            ));
-
-            $this->addColumn('total_sold', array(
-                'header' => Mage::helper('billingcustomer')->__('Total de Vendas'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_sold'
-            ));
-
-            $this->addColumn('total_invoiced', array(
-                'header' => Mage::helper('billingcustomer')->__('Total Faturado'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_invoiced'
-            ));
-
-            $this->addColumn('total_amount_refunded', array(
-                'header' => Mage::helper('billingcustomer')->__('Devolvido'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_amount_refunded'
-            ));
-
-            $this->addColumn('sales_tax', array(
-                'header' => Mage::helper('billingcustomer')->__('Imposto de Vendas'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'sales_tax'
-            ));
-
-
-            $this->addColumn('shipping_amount', array(
-                'header' => Mage::helper('billingcustomer')->__('Frete de Vendas'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'shipping_amount'
-            ));
-
-
-            $this->addColumn('dicount_amount', array(
-                'header' => Mage::helper('billingcustomer')->__('Disconto de Vendas'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'dicount_amount'
-            ));
-
-            $this->addColumn('total_order_canceled', array(
-                'header' => Mage::helper('billingcustomer')->__('Cancelados'),
-                'align' => 'left',
-                'sortable' => true,
-                'index' => 'total_order_canceled'
-            ));
-        }
-
-        $this->addExportType('*/*/exportCsv', Mage::helper('billingcustomer')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('billingcustomer')->__('XML'));
+        $this->addExportType('*/*/exportCsv', Mage::helper('inventory')->__('CSV'));
+        $this->addExportType('*/*/exportXml', Mage::helper('inventory')->__('XML'));
 
         return parent::_prepareColumns();
     }
-
 
     /**
      * @param $row
      * @return bool
      */
-    public function getRowUrl($row) {
+    public function getRowUrl($row)
+    {
         return false;
     }
 
@@ -375,7 +218,8 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
      * @param $to
      * @return mixed
      */
-    public function getReport($from, $to) {
+    public function getReport($from, $to)
+    {
 
         if ($from == '') {
             $from = $this->getFilter('report_from');
@@ -414,7 +258,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
 
             if (!isset($data['report_from'])) {
                 // getting all reports from 2001 year
-                $date = new Zend_Date(mktime(0,0,0,1,1,2001));
+                $date = new Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
                 $data['report_from'] = $date->toString($this->getLocale()->getDateFormat('short'));
             }
 
@@ -427,7 +271,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             $this->_setFilterValues($data);
         } else if ($filter && is_array($filter)) {
             $this->_setFilterValues($filter);
-        } else if(0 !== sizeof($this->_defaultFilter)) {
+        } else if (0 !== sizeof($this->_defaultFilter)) {
             $this->_setFilterValues($this->_defaultFilter);
         }
 
