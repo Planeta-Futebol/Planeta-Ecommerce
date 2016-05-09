@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Manages calls urls, the parent class.
+ *
+ * @category   Reports
+ * @package    Reports_BillingCustomer
+ * @author     Ronildo dos Santos
+ */
 class Reports_Inventory_Adminhtml_InventoryController extends Mage_Adminhtml_Controller_Action
 {
     protected function _initAction() {
@@ -14,7 +21,7 @@ class Reports_Inventory_Adminhtml_InventoryController extends Mage_Adminhtml_Con
 
     public function exportCsvAction() {
         // Specify filename for exported CSV file
-        $fileName = 'inventory.csv';
+        $fileName = 'billing_customer.csv';
         $content = $this->getLayout()->createBlock('inventory/adminhtml_inventory_grid')
             ->getCsv();
         $this->_sendUploadResponse($fileName, $content);
@@ -22,7 +29,7 @@ class Reports_Inventory_Adminhtml_InventoryController extends Mage_Adminhtml_Con
 
     public function exportXmlAction() {
         // Specify filename for exported XML file
-        $fileName = 'inventory.xml';
+        $fileName = 'billing_customer.xml';
         $content = $this->getLayout()->createBlock('inventory/adminhtml_inventory_grid')
             ->getXml();
         $this->_sendUploadResponse($fileName, $content);
@@ -42,4 +49,5 @@ class Reports_Inventory_Adminhtml_InventoryController extends Mage_Adminhtml_Con
         $response->sendResponse();
         die;
     }
+
 }

@@ -8,6 +8,9 @@
 
     <admin>
         <routers>
+            <!--
+            Tell router to look in Reports_BillingCustomer
+            when the url /admin/reportneworders is used -->
             <inventory>
                 <use>admin</use>
                 <args>
@@ -32,16 +35,13 @@
                                 <!--
                                 Specify the controller and location, using the router (defined above),
                                 followed by the controller. -->
-                                <!--<action>reports/adminhtml_inventory</action>-->
                                 <action>inventory/adminhtml_inventory</action>
-
                             </inventory>
                         </children>
                     </inventory>
                 </children>
             </report>
         </menu>
-
         <layout>
             <updates>
                 <inventory>
@@ -52,26 +52,22 @@
     </adminhtml>
 
     <global>
-
         <models>
             <inventory>
                 <class>Reports_Inventory_Model</class>
                 <resourceModel>inventory</resourceModel>
             </inventory>
         </models>
-
         <blocks>
             <inventory>
                 <class>Reports_Inventory_Block</class>
             </inventory>
         </blocks>
-
         <helpers>
             <inventory>
                 <class>Reports_Inventory_Helper</class>
             </inventory>
         </helpers>
-
         <resources>
             <inventory_setup>
                 <setup>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+    <inventory_adminhtml_inventory_index>
+
+        <adminhtml_report_statistics_index>
+            <reference name="content">
+                <block type="adminhtml/report_refresh_statistics" template="report/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
+            </reference>
+        </adminhtml_report_statistics_index>
+
+
+        <reference name="content">
+            <block type="inventory/adminhtml_inventory"
+                   name="product.report.grid.container"
+                   template="report/grid/container.phtml" />
+
+        </reference>
+    </inventory_adminhtml_inventory_index>
+</layout>

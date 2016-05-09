@@ -1,8 +1,19 @@
 <?php
 
+/**
+ * Set default configuratinos of grid layout container.
+ *
+ * @category   Reports
+ * @package    Reports_BillingCustomer
+ * @author     Ronildo dos Santos
+ */
 class Reports_Inventory_Block_Adminhtml_Inventory extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-
+    /**
+     * Define controller, group blocks and set title report.
+     *
+     *
+     */
     public function __construct() {
 
         $this->_controller = 'adminhtml_inventory';
@@ -13,6 +24,10 @@ class Reports_Inventory_Block_Adminhtml_Inventory extends Mage_Adminhtml_Block_W
 
     }
 
+    /**
+     * Define a new file .phtml layout for grid system of the report.
+     *
+     */
     protected function _prepareLayout()
     {
         $this->setChild( 'grid',
@@ -21,4 +36,5 @@ class Reports_Inventory_Block_Adminhtml_Inventory extends Mage_Adminhtml_Block_W
         );
 
     }
+
 }
