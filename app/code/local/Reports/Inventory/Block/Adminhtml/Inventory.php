@@ -32,7 +32,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory extends Mage_Adminhtml_Block_W
     {
         $this->setChild( 'grid',
             $this->getLayout()->createBlock( $this->_blockGroup.'/' . $this->_controller . '_grid',
-                $this->_controller . '.grid')->setSaveParametersInSession(true)//->setTemplate('reports/billing/customer/grid.phtml')
+                $this->_controller . '.grid')->setSaveParametersInSession(true)->setTemplate('reports/inventory/grid.phtml')
         );
 
     }

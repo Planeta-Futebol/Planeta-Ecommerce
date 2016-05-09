@@ -4,7 +4,7 @@
 
         <adminhtml_report_statistics_index>
             <reference name="content">
-                <block type="adminhtml/report_refresh_statistics" template="report/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
+                <block type="adminhtml/report_refresh_statistics" template="reports/inventory/refresh/statistics.phtml" name="sales.report.refreshstatistics" />
             </reference>
         </adminhtml_report_statistics_index>
 
@@ -12,7 +12,7 @@
         <reference name="content">
             <block type="inventory/adminhtml_inventory"
                    name="product.report.grid.container"
-                   template="report/grid/container.phtml" />
+                   template="reports/inventory/grid/container.phtml" />
 
         </reference>
     </inventory_adminhtml_inventory_index>
