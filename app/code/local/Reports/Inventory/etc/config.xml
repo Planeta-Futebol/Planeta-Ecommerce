@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <config>
     <modules>
-        <Reports_BillingCustomer>
+        <Reports_Inventory>
             <version>1.0.0</version>
-        </Reports_BillingCustomer>
+        </Reports_Inventory>
     </modules>
 
     <admin>
@@ -11,13 +11,13 @@
             <!--
             Tell router to look in Reports_BillingCustomer
             when the url /admin/reportneworders is used -->
-            <billingcustomer>
+            <inventory>
                 <use>admin</use>
                 <args>
-                    <module>Reports_BillingCustomer</module>
-                    <frontName>billingcustomer</frontName>
+                    <module>Reports_Inventory</module>
+                    <frontName>inventory</frontName>
                 </args>
-            </billingcustomer>
+            </inventory>
         </routers>
     </admin>
 
@@ -25,68 +25,68 @@
         <menu>
             <report>
                 <children>
-                    <billing>
+                    <inventory>
                         <!-- This is the name to be displayed in the admin panel under Reports -->
-                        <title>Faturamento/Vendas</title>
+                        <title>Inventário</title>
                         <children>
-                            <billingcustomer translate="title" module="billingcustomer">
+                            <inventory translate="title" module="inventory">
                                 <!-- This is the name to be displayed in the admin panel under Reports -->
-                                <title>Pedidos</title>
+                                <title>Estoque</title>
                                 <!--
                                 Specify the controller and location, using the router (defined above),
                                 followed by the controller. -->
-                                <action>billingcustomer/adminhtml_billingcustomer</action>
-                            </billingcustomer>
+                                <action>inventory/adminhtml_inventory</action>
+                            </inventory>
                         </children>
-                    </billing>
+                    </inventory>
                 </children>
             </report>
         </menu>
         <layout>
             <updates>
-                <billingcustomer>
-                    <file>reports_billingcustomer.xml</file>
-                </billingcustomer>
+                <inventory>
+                    <file>reports_inventory.xml</file>
+                </inventory>
             </updates>
         </layout>
     </adminhtml>
 
     <global>
         <models>
-            <billingcustomer>
-                <class>Reports_BillingCustomer_Model</class>
-                <resourceModel>billingcustomer</resourceModel>
-            </billingcustomer>
+            <inventory>
+                <class>Reports_Inventory_Model</class>
+                <resourceModel>inventory</resourceModel>
+            </inventory>
         </models>
         <blocks>
-            <billingcustomer>
-                <class>Reports_BillingCustomer_Block</class>
-            </billingcustomer>
+            <inventory>
+                <class>Reports_Inventory_Block</class>
+            </inventory>
         </blocks>
         <helpers>
-            <billingcustomer>
-                <class>Reports_BillingCustomer_Helper</class>
-            </billingcustomer>
+            <inventory>
+                <class>Reports_Inventory_Helper</class>
+            </inventory>
         </helpers>
         <resources>
-            <billingcustomer_setup>
+            <inventory_setup>
                 <setup>
-                    <module>Reports_BillingCustomer</module>
+                    <module>Reports_Inventory</module>
                 </setup>
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </billingcustomer_setup>
-            <billingcustomer_write>
+            </inventory_setup>
+            <inventory_write>
                 <connection>
                     <use>core_write</use>
                 </connection>
-            </billingcustomer_write>
-            <billingcustomer_read>
+            </inventory_write>
+            <inventory_read>
                 <connection>
                     <use>core_read</use>
                 </connection>
-            </billingcustomer_read>
+            </inventory_read>
         </resources>
     </global>
 </config>

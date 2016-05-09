@@ -7,7 +7,7 @@
  * @package    Reports_BillingCustomer
  * @author     Ronildo dos Santos
  */
-class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_Mysql4_Product_Ordered_Collection
+class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Product_Ordered_Collection
 {
     /**
      * Save value filters.
@@ -19,10 +19,11 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
 
     public function __construct()
     {
+
         parent::__construct();
 
         /** @var Reports_BillingCustomer_Helper_Data $helper */
-        $helper = Mage::helper('billingcustomer');
+        $helper = Mage::helper('inventory');
         $this->filters = $helper->getFilters();
     }
 
@@ -35,6 +36,7 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
      */
     public function getReportData( $from = '', $to = '' )
     {
+
         $adapter = $this->getConnection();
 
         $statusOrderCompleted = Mage_Sales_Model_Order::STATE_COMPLETE;
@@ -45,23 +47,6 @@ class Reports_BillingCustomer_Model_Billingcustomer extends Mage_Reports_Model_M
 
         $orderJoinCondition = array(
             $orderTableAliasName . '.entity_id = order_items.order_id',
-        );
-
-
-
-        $productJoinCondition = array(
-            'e.entity_id = order_items.product_id',
-            $adapter->quoteInto('e.entity_type_id = ?', $this->getProductEntityTypeId())
-        );
-
-        $salesAddressTableAlias = $adapter->quoteIdentifier('salesAddress');
-
-        $salesAddressJoinCondition = array(
-            $orderTableAliasName . ".customer_id = {$salesAddressTableAlias}.customer_id",
-        );
-
-        $couponJoinCondition = array(
-            $orderTableAliasName . '.affiliateplus_coupon = c.coupon_code'
         );
 
         if ($from != '' && $to != '') {
