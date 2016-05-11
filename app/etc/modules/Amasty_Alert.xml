@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2016 Amasty (https://www.amasty.com)
+ * @package Amasty_Alert
+ */
+-->
+<!--
+    Copyright (c) 2010 Amasty (http://www.amasty.com) 
+-->
+<config>
+    <modules>
+        <Amasty_Alert>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Amasty_Alert>
+    </modules>
+</config>

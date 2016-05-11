@@ -8,7 +8,7 @@
  * @package    Reports_BillingCustomer
  * @author     Ronildo dos Santos
  */
-class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Block_Report_Grid
+class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Values for filters submitted by the form.
@@ -28,7 +28,6 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
-        $this->setSubReportSize(false);
 
         /** @var Reports_Inventory_Helper_Data $helper */
         $helper = Mage::helper('inventory');
@@ -60,12 +59,9 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
      */
     protected function _prepareCollection()
     {
-        parent::_prepareCollection();
+        $this->setCollection(Mage::getModel('inventory/inventory')->getReportData());
 
-        // Get the data collection from the model
-        $this->getCollection()->initReport('inventory/inventory');
-
-        return $this;
+        return parent::_prepareCollection();
     }
 
     /**
@@ -80,6 +76,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'header' => Mage::helper('inventory')->__('Data de Cadastro'),
             'align' => 'left',
             'sortable' => false,
+            'filter' => false,
             'index' => 'product_register'
         ));
 
@@ -87,6 +84,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'header' => Mage::helper('inventory')->__('SKU'),
             'align' => 'left',
             'sortable' => false,
+            'filter' => false,
             'index' => 'sku'
         ));
 
@@ -94,42 +92,55 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'header' => Mage::helper('inventory')->__('Gênero'),
             'align' => 'left',
             'sortable' => false,
-            'index' => 'gender'
+            'filter' => false,
+            'index' => 'gender',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+
+
         ));
 
         $this->addColumn('category', array(
             'header' => Mage::helper('inventory')->__('Categoria'),
             'align' => 'left',
             'sortable' => false,
-            'index' => 'category'
+            'filter' => false,
+            'index' => 'category',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+
         ));
 
         $this->addColumn('style', array(
             'header' => Mage::helper('inventory')->__('Estilo'),
             'align' => 'left',
             'sortable' => false,
-            'index' => 'style'
+            'filter' => false,
+            'index' => 'style',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+
         ));
 
         $this->addColumn('product_name', array(
             'header' => Mage::helper('inventory')->__('Nome do Produto'),
             'align' => 'left',
             'sortable' => false,
+            'filter' => false,
             'index' => 'product_name'
         ));
 
-        $this->addColumn('size_p', array(
+        $this->addColumn('size_P', array(
             'header' => Mage::helper('inventory')->__('P'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
-            'index' => 'size_p',
+            'index' => 'size_P',
         ));
 
         $this->addColumn('size_M', array(
             'header' => Mage::helper('inventory')->__('M'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
             'index' => 'size_M',
         ));
@@ -138,6 +149,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'header' => Mage::helper('inventory')->__('G'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
             'index' => 'size_G',
         ));
@@ -146,6 +158,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'header' => Mage::helper('inventory')->__('EXG'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
             'index' => 'size_EXG',
         ));
@@ -154,6 +167,7 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'header' => Mage::helper('inventory')->__('EXGG'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
             'index' => 'size_EXGG',
         ));
@@ -162,41 +176,55 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'header' => Mage::helper('inventory')->__('Custo'),
             'align' => 'right',
             'sortable' => false,
-            'type' => 'number',
-            'index' => 'size_EXGG',
+            'filter' => false,
+            'index' => 'cost',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
         ));
 
         $this->addColumn('affiliate_tradicional', array(
             'header' => Mage::helper('inventory')->__('Tradicional'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
             'index' => 'affiliate_tradicional',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_SpecialPrice'
+
         ));
 
         $this->addColumn('affiliate_key', array(
-            'header' => Mage::helper('inventory')->__('Key'),
+            'header' => Mage::helper('inventory')->__('Key Account'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
             'index' => 'affiliate_key',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_SpecialPrice'
+
         ));
 
-        $this->addColumn('affiliate_morden', array(
-            'header' => Mage::helper('inventory')->__('Morden'),
+        $this->addColumn('affiliate_modern', array(
+            'header' => Mage::helper('inventory')->__('Modern'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
-            'index' => 'affiliate_morden',
+            'index' => 'affiliate_modern',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_SpecialPrice'
+
         ));
 
         $this->addColumn('affiliate_retail', array(
             'header' => Mage::helper('inventory')->__('Varejo'),
             'align' => 'right',
             'sortable' => false,
+            'filter' => false,
             'type' => 'number',
             'index' => 'affiliate_retail',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Money'
         ));
+
+
 
         $this->addExportType('*/*/exportCsv', Mage::helper('inventory')->__('CSV'));
         $this->addExportType('*/*/exportXml', Mage::helper('inventory')->__('XML'));
@@ -210,30 +238,8 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
      */
     public function getRowUrl($row)
     {
-        return false;
-    }
-
-    /**
-     * @param $from
-     * @param $to
-     * @return mixed
-     */
-    public function getReport($from, $to)
-    {
-
-        if ($from == '') {
-            $from = $this->getFilter('report_from');
-        }
-        if ($to == '') {
-            $to = $this->getFilter('report_to');
-        }
-
-        $totalObj = Mage::getModel('reports/totals');
-        $totals = $totalObj->countTotals($this, $from, $to);
-        $this->setTotals($totals);
-        $this->addGrandTotals($totals);
-
-        return $this->getCollection()->getReport($from, $to);
+        return false;//$this->getUrl('adminhtml/catalog_product/edit', array('id' => $row->getProductId()));
+//        return $this->getUrl('adminhtml/catalog_product/edit', array('id' => $row->getProductId()));
     }
 
     /**
@@ -255,18 +261,6 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             $data = array();
             $filter = base64_decode($filter);
             parse_str(urldecode($filter), $data);
-
-            if (!isset($data['report_from'])) {
-                // getting all reports from 2001 year
-                $date = new Zend_Date(mktime(0, 0, 0, 1, 1, 2001));
-                $data['report_from'] = $date->toString($this->getLocale()->getDateFormat('short'));
-            }
-
-            if (!isset($data['report_to'])) {
-                // getting all reports from 2001 year
-                $date = new Zend_Date();
-                $data['report_to'] = $date->toString($this->getLocale()->getDateFormat('short'));
-            }
 
             $this->_setFilterValues($data);
         } else if ($filter && is_array($filter)) {
