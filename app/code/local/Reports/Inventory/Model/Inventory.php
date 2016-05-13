@@ -58,6 +58,14 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         WHERE c.sku = CONCAT(e.sku, "-G")
                     )
                 ',
+                'size_GG' => '
+                    (
+                        SELECT st.qty FROM cataloginventory_stock_item st
+                        INNER JOIN catalog_product_flat_1 c
+                        ON st.product_id = c.entity_id
+                        WHERE c.sku = CONCAT(e.sku, "-GG")
+                    )
+                ',
                 'size_EXG' => '
                     (
                         SELECT st.qty FROM cataloginventory_stock_item st
@@ -81,7 +89,8 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                 'cost' => 'CONCAT(e.entity_id, "-cost")',
                 'style' => 'CONCAT(e.entity_id, "-style")',
                 'gender' => 'CONCAT(e.entity_id, "-genero")',
-                'category' => 'CONCAT(e.entity_id, "-categoria")'
+                'category' => 'CONCAT(e.entity_id, "-categoria")',
+                'clothing' => 'CONCAT(e.entity_id, "-vestuario")'
             ])->join(
                 ['e' => 'catalog_product_flat_1'],
                 'e.entity_id = stock_item.product_id',

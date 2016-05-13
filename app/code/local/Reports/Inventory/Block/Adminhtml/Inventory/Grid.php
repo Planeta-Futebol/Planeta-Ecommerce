@@ -109,6 +109,16 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
 
         ));
 
+        $this->addColumn('clothing', array(
+            'header' => Mage::helper('inventory')->__('Vestuário'),
+            'align' => 'left',
+            'sortable' => false,
+            'filter' => false,
+            'index' => 'clothing',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+
+        ));
+
         $this->addColumn('style', array(
             'header' => Mage::helper('inventory')->__('Estilo'),
             'align' => 'left',
@@ -152,6 +162,15 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'filter' => false,
             'type' => 'number',
             'index' => 'size_G',
+        ));
+
+        $this->addColumn('size_GG', array(
+            'header' => Mage::helper('inventory')->__('GG'),
+            'align' => 'right',
+            'sortable' => false,
+            'filter' => false,
+            'type' => 'number',
+            'index' => 'size_GG',
         ));
 
         $this->addColumn('size_EXG', array(

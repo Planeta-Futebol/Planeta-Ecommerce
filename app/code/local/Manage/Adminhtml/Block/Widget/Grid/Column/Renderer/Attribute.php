@@ -17,6 +17,16 @@ class Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute
         $attibuteCode = $value[1];
         $product = Mage::getModel('catalog/product')->load($productId);
 
-        return $product->getResource()->getAttribute($attibuteCode)->getFrontend()->getValue($product);
+        $attibuteValue = $product->getResource()->getAttribute($attibuteCode)->getFrontend()->getValue($product);
+
+        if(is_numeric($attibuteValue)){
+            return Mage::getModel('directory/currency')->format(
+                $attibuteValue,
+                array('display'=>Zend_Currency::NO_SYMBOL),
+                false
+            );
+        }
+        
+        return $attibuteValue;
     }
 }
