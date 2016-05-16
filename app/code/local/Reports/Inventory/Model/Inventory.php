@@ -2,10 +2,12 @@
 
 /**
  * This class provide a collection data for be showing in report front-end.
+ * This data collection is the report of inventory of shirts and T-shirts mainly,
+ * but includes the filter every product that is configurable.
  *
  * @category   Reports
- * @package    Reports_BillingCustomer
- * @author     Ronildo dos Santos
+ * @package    Reports_Inventory
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
  */
 class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Product_Collection
 {
@@ -22,11 +24,16 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
 
         parent::__construct();
 
-        /** @var Reports_BillingCustomer_Helper_Data $helper */
         $helper = Mage::helper('inventory');
         $this->filters = $helper->getFilters();
     }
 
+    /**
+     * This method is called to mount the report of stock, filtering attributes of the product,
+     * and selecting mostly configurable products.
+     *
+     * @return $this
+     */
     public function getReportData()
     {
 
@@ -82,13 +89,13 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         WHERE c.sku = CONCAT(e.sku, "-EXGG")
                     )
                 ',
-                'affiliate_retail' => 'e.price',
+                'affiliate_retail'      => 'e.price',
                 'affiliate_tradicional' => 'CONCAT(e.entity_id, "-traditional trade")',
-                'affiliate_key' => 'CONCAT(e.entity_id, "-Key Account")',
-                'affiliate_modern' => 'CONCAT(e.entity_id, "-Mordern Trade")',
-                'cost' => 'CONCAT(e.entity_id, "-cost")',
-                'style' => 'CONCAT(e.entity_id, "-style")',
-                'gender' => 'CONCAT(e.entity_id, "-genero")',
+                'affiliate_key'         => 'CONCAT(e.entity_id, "-Key Account")',
+                'affiliate_modern'      => 'CONCAT(e.entity_id, "-Mordern Trade")',
+                'cost'     => 'CONCAT(e.entity_id, "-cost")',
+                'style'    => 'CONCAT(e.entity_id, "-style")',
+                'gender'   => 'CONCAT(e.entity_id, "-genero")',
                 'category' => 'CONCAT(e.entity_id, "-categoria")',
                 'clothing' => 'CONCAT(e.entity_id, "-vestuario")'
             ])->join(
@@ -100,27 +107,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                     'sku' => 'e.sku'
                 ]
             )->where('e.type_id = "configurable"')
-            ->order('e.created_at DESC')
-        ;
-        return $this;
-    }
-
-
-    /**
-     * Adding item to item array
-     *
-     * @param   Varien_Object $item
-     * @return  Varien_Data_Collection
-     */
-    public function addItem( Varien_Object $item )
-    {
-        $itemId = $this->_getItemId($item);
-
-        if ( !is_null($itemId)) {
-            $this->_items[$itemId] = $item;
-        } else {
-            $this->_items[] = $item;
-        }
+            ->order('e.created_at DESC');
         return $this;
     }
 }

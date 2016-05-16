@@ -4,8 +4,8 @@
  * Manages calls urls, the parent class.
  *
  * @category   Reports
- * @package    Reports_BillingCustomer
- * @author     Ronildo dos Santos
+ * @package    Reports_Inventory
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
  */
 class Reports_Inventory_Adminhtml_InventoryController extends Mage_Adminhtml_Controller_Action
 {

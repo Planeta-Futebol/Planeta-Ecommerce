@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Return the price defined in group_price
  *
  * @category   Manage
  * @package    Manage_Adminhtml
