@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Return the value attribut seted in product.
  *
  * @category   Manage
  * @package    Manage_Adminhtml

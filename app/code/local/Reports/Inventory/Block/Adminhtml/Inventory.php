@@ -4,14 +4,13 @@
  * Set default configuratinos of grid layout container.
  *
  * @category   Reports
- * @package    Reports_BillingCustomer
- * @author     Ronildo dos Santos
+ * @package    Reports_Inventory
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
  */
 class Reports_Inventory_Block_Adminhtml_Inventory extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Define controller, group blocks and set title report.
-     *
      *
      */
     public function __construct() {

@@ -5,8 +5,8 @@
  * collection that will be used to recover data.
  *
  * @category   Reports
- * @package    Reports_BillingCustomer
- * @author     Ronildo dos Santos
+ * @package    Reports_Inventory
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
  */
 class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {

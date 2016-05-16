@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This class provide some methods for help in build reports billing customer
+ * This class provide some methods for help in build reports.
  *
  * @category   Reports
- * @package    Reports_BillingCustomer
- * @author     Ronildo dos Santos
+ * @package    Reports_Inventory
+ * @author     Ronildo dos Santos - Planeta Futebol Developer Team
  */
 class Reports_Inventory_Helper_Data extends Mage_Core_Helper_Abstract
 {

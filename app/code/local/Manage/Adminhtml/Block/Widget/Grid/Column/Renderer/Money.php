@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Return formatting currency
  *
  * @category   Manage
  * @package    Manage_Adminhtml
@@ -15,7 +16,7 @@ class Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Money
 
         $price = Mage::getModel('directory/currency')->format(
             $value,
-            array('display'=>Zend_Currency::NO_SYMBOL),
+            array('display' => Zend_Currency::NO_SYMBOL),
             false
         );
 
