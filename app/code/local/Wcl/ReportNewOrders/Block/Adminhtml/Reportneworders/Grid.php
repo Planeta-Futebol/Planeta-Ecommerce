@@ -58,6 +58,20 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
      */
     protected function _prepareColumns() {
         // Add columns to the grid
+        $this->addColumn('customer_type', array(
+            'header' => Mage::helper('reportneworders')->__('Tipo Cliente'),
+            'align' => 'left',
+            'sortable' => true,
+            'index' => 'customer_type',
+        ));
+
+        $this->addColumn('customer_state', array(
+            'header' => Mage::helper('reportneworders')->__('Estado'),
+            'align' => 'left',
+            'sortable' => true,
+            'index' => 'customer_state',
+        ));
+
         $this->addColumn('order_increment_id', array(
                 'header' => Mage::helper('reportneworders')->__('Número do Pedido'),
                 'align' => 'left',
@@ -72,11 +86,62 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
                 'index' => 'sku',
         ));
 
+        $this->addColumn('product_size', array(
+            'header' => Mage::helper('reportneworders')->__('Tamanho'),
+            'align' => 'left',
+            'sortable' => true,
+            'index' => 'product_size',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+        ));
+
+        $this->addColumn('product_gender', array(
+            'header' => Mage::helper('reportneworders')->__('Gênero'),
+            'align' => 'left',
+            'sortable' => true,
+            'index' => 'product_gender',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+        ));
+
+        $this->addColumn('product_category', array(
+            'header' => Mage::helper('reportneworders')->__('Categoria'),
+            'align' => 'left',
+            'sortable' => true,
+            'index' => 'product_category',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+        ));
+
+        $this->addColumn('product_clothing', array(
+            'header' => Mage::helper('reportneworders')->__('Vestuário'),
+            'align' => 'left',
+            'sortable' => true,
+            'index' => 'product_clothing',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+        ));
+
+        $this->addColumn('product_style', array(
+            'header' => Mage::helper('reportneworders')->__('Estilo'),
+            'align' => 'left',
+            'sortable' => true,
+            'index' => 'product_style',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+        ));
+
+
         $this->addColumn('order_items_name', array(
                 'header' => Mage::helper('reportneworders')->__('Nome do Produto'),
                 'align' => 'left',
                 'sortable' => false,
                 'index' => 'order_items_name'
+        ));
+
+        $this->addColumn('product_cost', array(
+                'header'    =>Mage::helper('reports')->__('Custo'),
+                'align'     =>'right',
+                'sortable' => false,
+                'type'      =>'number',
+                'index' => 'product_cost',
+            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
+
         ));
 
         $this->addColumn('qty_ordered', array(
