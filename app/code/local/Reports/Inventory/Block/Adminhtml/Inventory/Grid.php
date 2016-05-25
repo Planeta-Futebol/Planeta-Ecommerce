@@ -95,8 +95,6 @@ class Reports_Inventory_Block_Adminhtml_Inventory_Grid extends Mage_Adminhtml_Bl
             'filter' => false,
             'index' => 'gender',
             'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
-
-
         ));
 
         $this->addColumn('category', array(
