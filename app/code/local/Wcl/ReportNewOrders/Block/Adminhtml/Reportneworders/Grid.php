@@ -91,7 +91,6 @@ class Wcl_ReportNewOrders_Block_Adminhtml_ReportNewOrders_Grid extends Mage_Admi
             'align' => 'left',
             'sortable' => true,
             'index' => 'product_size',
-            'renderer' => 'Manage_Adminhtml_Block_Widget_Grid_Column_Renderer_Attribute'
         ));
 
         $this->addColumn('product_gender', array(

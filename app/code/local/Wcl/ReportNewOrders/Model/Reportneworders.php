@@ -120,7 +120,7 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
                 'product_gender' => 'CONCAT(e.entity_id, "-genero")',
                 'product_category' => 'CONCAT(e.entity_id, "-categoria")',
                 'product_clothing' => 'CONCAT(e.entity_id, "-vestuario")',
-                'product_size' => 'CONCAT(e.entity_id, "-tamanho_camisetas")'
+
             ));
 
 
@@ -137,7 +137,9 @@ class Wcl_ReportNewOrders_Model_Reportneworders extends Mage_Reports_Model_Mysql
             array('p' => $productTableName),
             'p.sku = order_items.sku',
             array(
-                'size' => 'COALESCE(p.attribute_set_id, p.attribute_set_id, p.attribute_set_id)'
+                'size' => 'COALESCE(p.attribute_set_id, p.attribute_set_id, p.attribute_set_id)',
+                'product_size' => 'SUBSTRING_INDEX(SUBSTRING_INDEX(p.sku, "-", 3), "-", -1)'
+
             ))
             ->joinLeft(
                 array('av' => 'eav_attribute_option_value'),
