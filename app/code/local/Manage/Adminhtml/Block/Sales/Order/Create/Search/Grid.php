@@ -105,6 +105,8 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
             'index'     => 'affiliate_value',
             'renderer'  => 'adminhtml/sales_order_create_search_grid_renderer_price',
+            'filter'    => false,
+            'sortable'  => false,
         ));
 
         $this->addColumn('quantity', array(
