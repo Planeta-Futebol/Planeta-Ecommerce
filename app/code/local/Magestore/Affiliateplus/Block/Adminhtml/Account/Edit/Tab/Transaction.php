@@ -44,17 +44,13 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
                     'so.entity_id = main_table.order_id',
                     array(
                         'total_refunded' => 'COALESCE(so.total_refunded, 0)',
-                        'total_order' =>  new Zend_Db_Expr('COALESCE(total_amount, 0) - COALESCE(so.total_refunded, 0)')
+                        'total_order' =>  new Zend_Db_Expr('COALESCE(total_amount, 0) - COALESCE(so.total_refunded, 0)'),
+                        'updated_at'  => 'so.updated_at'
                     )
+
                 )
-                ->joinLeft(
-                    array('afp' => 'affiliateplusprogram'),
-                    'afp.program_id = main_table.program_id',
-                    array(
-                        'commission' => new Zend_Db_Expr('main_table.commission - COALESCE((afp.commission / 100) * total_refunded, 0)')
-                    )
-                )
-            ->group('order_id')
+            ->group('transaction_id')
+            ->where('main_table.status <> 2')
         ;
 
         $this->setCollection($collection);
@@ -148,11 +144,11 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
         //add event to add more column 
         Mage::dispatchEvent('affiliateplus_adminhtml_add_column_account_transaction_grid', array('grid' => $this));
 
-        $this->addColumn($prefix . 'created_time', array(
-            'header' => Mage::helper('affiliateplus')->__('Date Created'),
+        $this->addColumn($prefix . 'updated_at', array(
+            'header' => Mage::helper('affiliateplus')->__('Date Updated'),
             'width' => '150px',
             'align' => 'right',
-            'index' => 'created_time',
+            'index' => 'updated_at',
             'type' => 'date'
         ));
 
@@ -164,7 +160,6 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Transaction exten
             'type' => 'options',
             'options' => array(
                 1 => Mage::helper('affiliateplus')->__('Complete'),
-                2 => Mage::helper('affiliateplus')->__('Pending'),
                 3 => Mage::helper('affiliateplus')->__('Canceled'),
                 4 => Mage::helper('affiliateplus')->__('On Hold')
             ),
