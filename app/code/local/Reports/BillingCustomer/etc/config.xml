@@ -42,6 +42,39 @@
                 </children>
             </report>
         </menu>
+
+
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <billing>
+                                    <!-- This is the name to be displayed in the admin panel under Reports -->
+                                    <title>Faturamento/Vendas</title>
+                                    <children >
+                                        <billingcustomer translate="title" module="billingcustomer">
+                                            <!-- This is the name to be displayed in the admin panel under Reports -->
+                                            <title>Pedidos</title>
+                                            <!--
+                                            Specify the controller and location, using the router (defined above),
+                                            followed by the controller. -->
+                                            <action>billingcustomer/adminhtml_billingcustomer</action>
+                                        </billingcustomer>
+                                    </children>
+                                </billing>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+
+
         <layout>
             <updates>
                 <billingcustomer>

@@ -42,6 +42,39 @@
                 </children>
             </report>
         </menu>
+
+
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <inventory>
+                                    <!-- This is the name to be displayed in the admin panel under Reports -->
+                                    <title>Inventário</title>
+                                    <children>
+                                        <inventory translate="title" module="inventory">
+                                            <!-- This is the name to be displayed in the admin panel under Reports -->
+                                            <title>Estoque</title>
+                                            <!--
+                                            Specify the controller and location, using the router (defined above),
+                                            followed by the controller. -->
+                                            <action>inventory/adminhtml_inventory</action>
+                                        </inventory>
+                                    </children>
+                                </inventory>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+
+
         <layout>
             <updates>
                 <inventory>
