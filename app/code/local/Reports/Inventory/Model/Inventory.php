@@ -113,6 +113,8 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                 ]
             )->where('e.type_id = "configurable"')
             ->order('e.created_at DESC');
+
+        echo (string) $select->getSelect();
         return $this;
     }
 }
