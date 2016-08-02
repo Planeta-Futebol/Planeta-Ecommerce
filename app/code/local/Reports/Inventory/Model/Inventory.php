@@ -83,7 +83,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         INNER JOIN catalog_product_flat_1 c
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-EXG")
-                        OR c. = CONCAT(e.sku, "-10 anos")
+                        OR c.sku = CONCAT(e.sku, "-10 anos")
                     )
                 ',
                 'size_EXGG' => '
@@ -114,7 +114,6 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
             )->where('e.type_id = "configurable"')
             ->order('e.created_at DESC');
 
-        echo (string) $select->getSelect();
         return $this;
     }
 }
