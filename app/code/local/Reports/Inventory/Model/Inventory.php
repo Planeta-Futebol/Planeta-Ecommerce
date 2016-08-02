@@ -43,42 +43,47 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
             ->columns([
                 'size_P' => '
                     (
-                        SELECT st.qty FROM cataloginventory_stock_item st
+                        SELECT sum(st.qty) FROM cataloginventory_stock_item st
                         INNER JOIN catalog_product_flat_1 c
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-P")
+                        OR c.sku = CONCAT(e.sku, "-2 anos")
                     )
                 ',
                 'size_M' => '
                     (
-                        SELECT st.qty FROM cataloginventory_stock_item st
+                        SELECT sum(st.qty) FROM cataloginventory_stock_item st
                         INNER JOIN catalog_product_flat_1 c
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-M")
+                        OR c.sku = CONCAT(e.sku, "-4 anos")
                     )
                 ',
                 'size_G' => '
                     (
-                        SELECT st.qty FROM cataloginventory_stock_item st
+                        SELECT sum(st.qty) FROM cataloginventory_stock_item st
                         INNER JOIN catalog_product_flat_1 c
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-G")
+                        OR c.sku = CONCAT(e.sku, "-6 anos")
                     )
                 ',
                 'size_GG' => '
                     (
-                        SELECT st.qty FROM cataloginventory_stock_item st
+                        SELECT sum(st.qty) FROM cataloginventory_stock_item st
                         INNER JOIN catalog_product_flat_1 c
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-GG")
+                        OR c.sku = CONCAT(e.sku, "-8 anos")
                     )
                 ',
                 'size_EXG' => '
                     (
-                        SELECT st.qty FROM cataloginventory_stock_item st
+                        SELECT (st.qty) FROM cataloginventory_stock_item st
                         INNER JOIN catalog_product_flat_1 c
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-EXG")
+                        OR c. = CONCAT(e.sku, "-10 anos")
                     )
                 ',
                 'size_EXGG' => '
