@@ -61,10 +61,35 @@ if (!file_exists($mageFilename)) {
     exit;
 }
 
-if (file_exists($maintenanceFile)) {
+$path = explode('/', $_SERVER["REQUEST_URI"]);
+
+$allowedPaths = [
+    'admin',
+    'inventory',
+    'reportneworders',
+    'billingcustomer',
+    'api'
+];
+
+if (file_exists($maintenanceFile)
+    && !recursive_array_search($allowedPaths, $path)) {
     include_once dirname(__FILE__) . '/errors/503.php';
     exit;
 }
+
+function recursive_array_search($needles,$haystack) {
+    foreach ($needles as $needle) {
+
+        foreach ($haystack as $key => $value) {
+            $current_key = $key;
+            if ($needle === $value OR (is_array($value) && recursive_array_search($needle, $value))) {
+                return $current_key;
+            }
+        }
+    }
+    return false;
+};
+
 
 require_once $mageFilename;
 
