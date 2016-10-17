@@ -48,6 +48,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-P")
                         OR c.sku = CONCAT(e.sku, "-2 anos")
+                        OR c.sku = CONCAT(e.sku, "-38")
                     )
                 ',
                 'size_M' => '
@@ -57,6 +58,8 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-M")
                         OR c.sku = CONCAT(e.sku, "-4 anos")
+                        OR c.sku = CONCAT(e.sku, "-40")
+
                     )
                 ',
                 'size_G' => '
@@ -66,6 +69,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-G")
                         OR c.sku = CONCAT(e.sku, "-6 anos")
+                        OR c.sku = CONCAT(e.sku, "-42")
                     )
                 ',
                 'size_GG' => '
@@ -75,6 +79,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-GG")
                         OR c.sku = CONCAT(e.sku, "-8 anos")
+                        OR c.sku = CONCAT(e.sku, "-44")
                     )
                 ',
                 'size_EXG' => '
@@ -84,6 +89,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-EXG")
                         OR c.sku = CONCAT(e.sku, "-10 anos")
+                        OR c.sku = CONCAT(e.sku, "-46")
                     )
                 ',
                 'size_EXGG' => '
@@ -92,6 +98,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         INNER JOIN catalog_product_flat_1 c
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-EXGG")
+                        OR c.sku = CONCAT(e.sku, "-48")
                     )
                 ',
                 'affiliate_retail'      => 'e.price',
