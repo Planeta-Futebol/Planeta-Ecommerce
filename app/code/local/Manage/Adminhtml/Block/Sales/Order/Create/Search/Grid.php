@@ -3,7 +3,7 @@
 /**
  * Adminhtml sales order create search products block.
  *
- * This class overwrite the main class in the product list in a new purchase order made by adimin.
+ * This class overwrite the main class in the product list in a new purchase order made by admin.
  * It is used to remove the products that have collection "fr" in the sku.
  * It is used to display the franchisee group values if the User are a franchisee.
  *
@@ -45,7 +45,7 @@ class Manage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminht
                 )
             )->join(
                 array('s' => 'cataloginventory_stock_item'),
-                "e.entity_id = s.item_id and s.qty > 0",
+                "e.entity_id = s.product_id and s.qty > 0",
                 array(
                     'quantity' => 'FORMAT(s.qty, 0)'
                 )
