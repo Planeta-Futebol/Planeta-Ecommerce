@@ -48,6 +48,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-P")
                         OR c.sku = CONCAT(e.sku, "-2 anos")
+                        OR c.sku = CONCAT(e.sku, "-12 anos")
                         OR c.sku = CONCAT(e.sku, "-38")
                     )
                 ',
@@ -58,6 +59,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-M")
                         OR c.sku = CONCAT(e.sku, "-4 anos")
+                        OR c.sku = CONCAT(e.sku, "-14 anos")
                         OR c.sku = CONCAT(e.sku, "-40")
 
                     )
@@ -69,6 +71,7 @@ class Reports_Inventory_Model_Inventory extends Mage_Reports_Model_Mysql4_Produc
                         ON st.product_id = c.entity_id
                         WHERE c.sku = CONCAT(e.sku, "-G")
                         OR c.sku = CONCAT(e.sku, "-6 anos")
+                        OR c.sku = CONCAT(e.sku, "-16 anos")
                         OR c.sku = CONCAT(e.sku, "-42")
                     )
                 ',
